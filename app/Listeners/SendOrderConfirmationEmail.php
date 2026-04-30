@@ -1,0 +1,66 @@
+<?php
+
+namespace App\Listeners;
+
+use App\Events\OrderCreated;
+use App\Mail\OrderConfirmationMail;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Throwable;
+
+class SendOrderConfirmationEmail implements ShouldQueue
+{
+    use InteractsWithQueue;
+
+    /** Queue only after the originating DB transaction commits. */
+    public bool $afterCommit = true;
+
+    public int $tries   = 3;
+    public array $backoff = [10, 30, 60];
+    public int $timeout = 30;
+
+    public function handle(OrderCreated $event): void
+    {
+        $order = $event->order;
+
+        // Only send if the customer provided an email address at checkout.
+        if (!$order->customer_email) {
+            Log::info('SendOrderConfirmationEmail skipped: missing customer email', [
+                'order_id' => $order->id,
+                'order_number' => $order->order_number,
+            ]);
+            return;
+        }
+
+        try {
+            // Ensure relationships are loaded so the template renders without N+1 queries.
+            $order->loadMissing(['items', 'shippingAddress']);
+
+            $fromAddress = env('NOREPLY_MAIL_FROM_ADDRESS', 'no-reply@bionic.garden');
+            $fromName    = env('NOREPLY_MAIL_FROM_NAME', config('app.name') . ' Orders');
+
+            Mail::mailer('noreply')
+                ->to($order->customer_email)
+                ->send(
+                    (new OrderConfirmationMail($order))
+                        ->from($fromAddress, $fromName)
+                );
+        } catch (Throwable $e) {
+            Log::error('SendOrderConfirmationEmail failed', [
+                'order_id' => $order->id,
+                'order_number' => $order->order_number,
+                'customer_email' => $order->customer_email,
+                'error' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    public function failed(Throwable $exception): void
+    {
+        Log::error('SendOrderConfirmationEmail: failed permanently', [
+            'error' => $exception->getMessage(),
+        ]);
+    }
+}
