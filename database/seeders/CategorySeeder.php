@@ -11,16 +11,11 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         $categories = [
-            ['name' => 'Honey', 'description' => 'Pure and natural honey from various sources', 'image' => 'categories/honey.gif'],
-            ['name' => 'Dates', 'description' => 'Premium quality dates from around the world', 'image' => 'categories/dates.gif'],
-            ['name' => 'Oils', 'description' => 'Cold-pressed and organic cooking oils', 'image' => 'categories/oils.gif'],
-            ['name' => 'Seeds', 'description' => 'Nutritious seeds for healthy living', 'image' => 'categories/seeds.gif'],
-            ['name' => 'Nuts', 'description' => 'Fresh and roasted nuts', 'image' => 'categories/nuts.gif'],
-            ['name' => 'Ghee', 'description' => 'Pure desi ghee and clarified butter', 'image' => 'categories/ghee.gif'],
-            ['name' => 'Dry Fruits', 'description' => 'Premium quality dry fruits', 'image' => 'categories/dry_fruits.gif'],
-            ['name' => 'Spices', 'description' => 'Organic and pure spices', 'image' => 'categories/spices.gif'],
-            ['name' => 'Salts', 'description' => 'Natural and mineral-rich salts', 'image' => 'categories/salts.gif'],
-            ['name' => 'Sweeteners', 'description' => 'Natural traditional sweeteners', 'image' => 'categories/sweeteners.gif'],
+            ['name' => 'Honey', 'description' => 'Pure and natural honey from the Sundarbans and beyond', 'image' => 'categories/honey.gif'],
+            ['name' => 'Ghee', 'description' => 'Pure cow milk ghee prepared using traditional methods', 'image' => 'categories/ghee.gif'],
+            ['name' => 'Pickles', 'description' => 'Authentic hand-crafted meat and fish pickles', 'image' => 'categories/pickles.gif'],
+            ['name' => 'Dry Fish', 'description' => 'Premium sun-dried fish sourced from the coastal regions', 'image' => 'categories/dry_fish.gif'],
+            ['name' => 'Fruits', 'description' => 'Seasonal premium fruits direct from the orchards', 'image' => 'categories/fruits.gif'],
         ];
 
         foreach ($categories as $index => $catData) {

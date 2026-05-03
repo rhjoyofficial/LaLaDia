@@ -170,11 +170,11 @@
 
                         <div class="flex-1 flex items-center">
                             <h4 class="text-sm font-bold text-brown leading-tight">
-                                Egyptian Medjool <br> Large Dates
+                                Premium Himsagar <br> Mango (হিমসাগর)
                             </h4>
                         </div>
 
-                        <a href="{{ route('product.show', 'egyptian-medjool') }}"
+                        <a href="{{ route('product.show', 'himsagar-mango-himsagr-am') }}"
                             class="w-9 h-9 rounded-full bg-cream flex items-center justify-center transition-all duration-300 group-hover:bg-primary group-hover:text-white cursor-pointer shadow-sm">
                             <svg class="w-5 h-5 group-hover:text-white" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg" fill="currentColor">
@@ -186,8 +186,8 @@
 
                     {{-- take middle right --}}
                     <div class="relative w-36 h-36 md:shrink-0 flex items-center">
-                        <img src="{{ asset('assets/images/dates.png') }}" alt="Dates"
-                            class="w-full h-full aspect-square object-contain transform group-hover:scale-110 group-hover:-rotate-6 transition-all duration-500"
+                        <img src="{{ asset('assets/images/mango.png') }}" alt="Mango"
+                            class="rounded w-full h-full aspect-square object-contain transform group-hover:scale-110 group-hover:-rotate-6 transition-all duration-500"
                             lazy="loading">
                     </div>
 

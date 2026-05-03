@@ -11,7 +11,7 @@
         {{-- LEFT: Logo --}}
         <a href="{{ route('home') }}" class="shrink-0 flex items-center gap-2.5 group">
             <img src="{{ asset('assets/images/laladia-logo.png') }}" alt="{{ config('app.name', 'LaLaDia') }}"
-                class="h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                class="h-9 md:h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
             <span class="hidden items-center font-heading font-bold text-xl tracking-tight"
                 style="color: var(--color-primary);">
@@ -380,4 +380,3 @@
     </script>
 
 </header>
-
