@@ -4,10 +4,10 @@
 @section('meta_description', $landing->meta_description ?? $product->short_description)
 
 @section('content')
-    <section class="bg-[#f0f5f1] min-h-screen" x-data="productLanding()" x-init="init()">
+    <section class="bg-ivory min-h-screen" x-data="productLanding()" x-init="init()">
 
         {{-- Hero Section --}}
-        <div class="relative bg-linear-to-br from-green-900 via-green-800 to-green-700 text-white overflow-hidden">
+        <div class="relative bg-linear-to-br from-brand via-brown to-gold-antique text-white overflow-hidden">
             <div class="max-w-7xl mx-auto px-4 py-12 md:py-20">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
                     {{-- Product Image --}}
@@ -27,20 +27,20 @@
                             {{ $landing->title ?? $product->name }}
                         </h1>
                         @if ($product->short_description)
-                            <p class="text-green-100 text-lg mb-6">{{ $product->short_description }}</p>
+                            <p class="text-cream text-lg mb-6">{{ $product->short_description }}</p>
                         @endif
 
                         {{-- Variant Selector --}}
                         @if ($product->variants->count() > 1)
                             <div class="mb-6">
-                                <label class="block text-sm font-semibold text-green-200 mb-2">Select Variant</label>
+                                <label class="block text-sm font-semibold text-champagne mb-2">Select Variant</label>
                                 <div class="flex flex-wrap gap-3">
                                     @foreach ($product->variants as $variant)
                                         <button type="button"
                                             @click="selectVariant({{ $variant->id }}, {{ $variant->price }}, @json($variant->tierPrices->map(fn($t) => ['min_qty' => $t->min_qty, 'price' => $t->price])->values()))"
                                             :class="selectedVariantId === {{ $variant->id }} ?
-                                                'bg-white text-green-800 ring-2 ring-white' :
-                                                'bg-green-700/50 text-white hover:bg-green-600/50'"
+                                                'bg-white text-gold-antique ring-2 ring-white' :
+                                                'bg-gold-antique/50 text-white hover:bg-primary/50'"
                                             class="px-4 py-2 rounded-xl text-sm font-semibold transition-all">
                                             {{ $variant->name ?? $variant->sku }}
                                             &mdash; <span
@@ -64,15 +64,15 @@
 
                         {{-- Quantity --}}
                         <div class="mb-6">
-                            <label class="block text-sm font-semibold text-green-200 mb-2">Quantity</label>
+                            <label class="block text-sm font-semibold text-champagne mb-2">Quantity</label>
                             <div class="flex items-center gap-3">
                                 <button @click="changeQty(-1)" type="button"
-                                    class="w-10 h-10 rounded-full bg-green-700/50 hover:bg-green-600/50 flex items-center justify-center text-white text-xl font-bold transition-all">
+                                    class="w-10 h-10 rounded-full bg-gold-antique/50 hover:bg-primary/50 flex items-center justify-center text-white text-xl font-bold transition-all">
                                     &minus;
                                 </button>
                                 <span class="text-2xl font-bold w-12 text-center" x-text="quantity"></span>
                                 <button @click="changeQty(1)" type="button"
-                                    class="w-10 h-10 rounded-full bg-green-700/50 hover:bg-green-600/50 flex items-center justify-center text-white text-xl font-bold transition-all">
+                                    class="w-10 h-10 rounded-full bg-gold-antique/50 hover:bg-primary/50 flex items-center justify-center text-white text-xl font-bold transition-all">
                                     +
                                 </button>
                             </div>
@@ -83,15 +83,15 @@
                             <span class="text-3xl font-bold font-bengali"
                                 x-text="'৳' + (effectivePrice() * quantity).toFixed(0)"></span>
                             <span x-show="effectivePrice() < unitPrice"
-                                class="text-green-300 text-base line-through font-bengali"
+                                class="text-gold-warm text-base line-through font-bengali"
                                 x-text="'৳' + (unitPrice * quantity).toFixed(0)"></span>
-                            <span class="text-green-200 text-sm" x-show="quantity > 1"
+                            <span class="text-champagne text-sm" x-show="quantity > 1"
                                 x-text="'(' + quantity + ' × ৳' + effectivePrice().toFixed(0) + ' each)'"></span>
                         </div>
 
                         {{-- Scroll to checkout CTA --}}
                         <a href="#landingCheckout"
-                            class="mt-6 inline-flex items-center gap-2 bg-white text-green-800 px-8 py-3 rounded-full font-bold text-base hover:bg-green-50 transition-all shadow-lg">
+                            class="mt-6 inline-flex items-center gap-2 bg-white text-gold-antique px-8 py-3 rounded-full font-bold text-base hover:bg-ivory transition-all shadow-lg">
                             Order Now
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -106,7 +106,7 @@
         {{-- Content Section (from CMS) --}}
         @if ($landing->content)
             <div class="max-w-4xl mx-auto px-4 py-12">
-                <div class="prose prose-green max-w-none bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+                <div class="prose prose-green max-w-none bg-white rounded-2xl shadow-sm border border-champagne p-8">
                     {!! $landing->content !!}
                 </div>
             </div>
@@ -172,3 +172,13 @@
         }];
     </script>
 @endsection
+
+
+
+
+
+
+
+
+
+

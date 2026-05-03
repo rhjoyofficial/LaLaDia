@@ -3,19 +3,19 @@
 @section('title', 'Order Confirmed - Invoice')
 
 @section('content')
-    <section class="bg-[#f0f5f1] min-h-screen py-10 px-4 font-bengali">
+    <section class="bg-ivory min-h-screen py-10 px-4 font-bengali">
         <div class="w-full max-w-4xl mx-auto">
 
             {{-- Top Success Message (Hidden on Print/PDF) --}}
             <div class="text-center mb-8 no-print">
                 <div
-                    class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary mb-4 shadow-lg shadow-green-900/20">
+                    class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary mb-4 shadow-lg shadow-primary/20">
                     <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
                     </svg>
                 </div>
                 <h1 class="text-3xl font-bold text-primary font-bengali mb-2">অভিনন্দন!</h1>
-                <p class="text-gray-700 font-bengali text-lg">আপনার অর্ডারটি সফলভাবে সম্পূর্ণ হয়েছে। ধন্যবাদ আমাদের সাথে
+                <p class="text-brown font-bengali text-lg">আপনার অর্ডারটি সফলভাবে সম্পূর্ণ হয়েছে। ধন্যবাদ আমাদের সাথে
                     কেনাকাটা করার জন্য।</p>
             </div>
 
@@ -33,21 +33,21 @@
 
             {{-- INVOICE CONTAINER (This is what gets converted to PDF & Printed) --}}
             <div id="invoice-content"
-                class="bg-white p-8 md:p-12 rounded-xl shadow-lg border border-gray-100 print-container relative overflow-hidden">
+                class="bg-white p-8 md:p-12 rounded-xl shadow-lg border border-champagne print-container relative overflow-hidden">
 
                 {{-- Decorative Top Border --}}
                 <div class="absolute top-0 left-0 w-full h-2 bg-linear-to-r from-primary to-secondary"></div>
 
                 {{-- Header Section --}}
                 <div
-                    class="flex flex-col md:flex-row justify-between items-start md:items-center border-b-2 border-gray-100 pb-6 mb-8 gap-6">
+                    class="flex flex-col md:flex-row justify-between items-start md:items-center border-b-2 border-champagne pb-6 mb-8 gap-6">
                     <div>
                         <a href="/" class="shrink-0 block mb-2">
                             <img src="{{ asset('assets/images/bionic-logo.png') }}" class="w-32 object-contain"
                                 alt="Bionic Logo">
                         </a>
-                        <div class="text-sm text-gray-600 space-y-0.5">
-                            <p class="font-medium text-gray-800">Bionic Garden</p>
+                        <div class="text-sm text-muted space-y-0.5">
+                            <p class="font-medium text-brown">Bionic Garden</p>
                             <p>65, Feroza Garden, Shahid Smriti Sarak</p>
                             <p>Barguna-8700</p>
                             <p>Phone: +8801334943785</p>
@@ -56,8 +56,8 @@
                     </div>
                     <div class="text-left md:text-right">
                         <h2 class="text-4xl font-black uppercase tracking-widest text-primary mb-1">Invoice</h2>
-                        <p class="text-lg font-semibold text-gray-700">#{{ $order->order_number }}</p>
-                        <p class="text-sm text-gray-500 mt-1">Date:
+                        <p class="text-lg font-semibold text-brown">#{{ $order->order_number }}</p>
+                        <p class="text-sm text-muted mt-1">Date:
                             {{ $order->created_at ? $order->created_at->format('M d, Y') : date('M d, Y') }}</p>
                     </div>
                 </div>
@@ -65,18 +65,18 @@
                 {{-- Addresses Section --}}
                 <div class="flex flex-col md:flex-row justify-between items-start mb-8 gap-8">
                     {{-- Billed/Shipped To --}}
-                    <div class="w-full md:w-1/2 bg-gray-50 p-4 rounded-lg border border-gray-100">
+                    <div class="w-full md:w-1/2 bg-cream p-4 rounded-lg border border-champagne">
                         <h4 class="text-xs font-bold text-secondary uppercase tracking-wider mb-2">Shipping Details</h4>
                         @if ($order->shippingAddress)
-                            <div class="text-sm text-gray-800 space-y-1">
+                            <div class="text-sm text-brown space-y-1">
                                 <p class="font-bold text-base text-primary">{{ $order->shippingAddress->customer_name }}
                                 </p>
-                                <p class="flex items-center gap-2"><svg class="w-4 h-4 text-gray-400" fill="none"
+                                <p class="flex items-center gap-2"><svg class="w-4 h-4 text-taupe" fill="none"
                                         stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                                     </svg> {{ $order->shippingAddress->customer_phone }}</p>
-                                <p class="flex items-start gap-2 mt-1"><svg class="w-4 h-4 text-gray-400 shrink-0 mt-0.5"
+                                <p class="flex items-start gap-2 mt-1"><svg class="w-4 h-4 text-taupe shrink-0 mt-0.5"
                                         fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -91,26 +91,26 @@
 
                     {{-- Order Status Box --}}
                     <div class="w-full md:w-1/3 space-y-3">
-                        <div class="flex justify-between border-b border-gray-100 pb-2">
-                            <span class="text-sm text-gray-500 font-medium">Payment Method:</span>
+                        <div class="flex justify-between border-b border-champagne pb-2">
+                            <span class="text-sm text-muted font-medium">Payment Method:</span>
                             <span
-                                class="text-sm font-bold text-gray-800">{{ $order->payment_method === 'cod' ? 'Cash on Delivery' : ucfirst($order->payment_method) }}</span>
+                                class="text-sm font-bold text-brown">{{ $order->payment_method === 'cod' ? 'Cash on Delivery' : ucfirst($order->payment_method) }}</span>
                         </div>
-                        <div class="flex justify-between border-b border-gray-100 pb-2">
-                            <span class="text-sm text-gray-500 font-medium">Payment Status:</span>
+                        <div class="flex justify-between border-b border-champagne pb-2">
+                            <span class="text-sm text-muted font-medium">Payment Status:</span>
                             <span
                                 class="text-sm font-bold {{ $order->payment_status === 'paid' ? 'text-primary' : 'text-amber-600' }} uppercase">{{ $order->payment_status ?? 'Pending' }}</span>
                         </div>
                         <div class="flex justify-between">
-                            <span class="text-sm text-gray-500 font-medium">Order Status:</span>
+                            <span class="text-sm text-muted font-medium">Order Status:</span>
                             <span
-                                class="text-sm font-bold text-gray-800 capitalize">{{ str_replace('_', ' ', $order->status ?? 'order placed') }}</span>
+                                class="text-sm font-bold text-brown capitalize">{{ str_replace('_', ' ', $order->status ?? 'order placed') }}</span>
                         </div>
                     </div>
                 </div>
 
                 {{-- Items Table --}}
-                <div class="overflow-hidden border border-gray-200 rounded-lg mb-6">
+                <div class="overflow-hidden border border-champagne rounded-lg mb-6">
                     <table class="w-full text-sm text-left">
                         <thead class="bg-secondary text-white">
                             <tr>
@@ -124,28 +124,28 @@
                         </thead>
                         <tbody class="divide-y divide-gray-200">
                             @forelse ($order->items as $index => $item)
-                                <tr class="hover:bg-gray-50">
-                                    <td class="py-3 px-4 text-center text-gray-600">{{ $index + 1 }}</td>
+                                <tr class="hover:bg-cream">
+                                    <td class="py-3 px-4 text-center text-muted">{{ $index + 1 }}</td>
                                     <td class="py-3 px-4">
-                                        <p class="font-bold text-gray-800 font-bengali">
+                                        <p class="font-bold text-brown font-bengali">
                                             {{ $item->combo_name_snapshot ?: $item->product_name_snapshot }}</p>
-                                        <p class="text-xs text-gray-500 mt-0.5">SKU: {{ $item->sku ?? 'N/A' }}</p>
+                                        <p class="text-xs text-muted mt-0.5">SKU: {{ $item->sku ?? 'N/A' }}</p>
                                     </td>
                                     <td class="py-3 px-4 text-center font-medium">{{ $item->quantity }}</td>
-                                    <td class="py-3 px-4 text-right text-gray-600">
+                                    <td class="py-3 px-4 text-right text-muted">
                                         {{ number_format(($item->total_price + ($item->discount ?? 0)) / $item->quantity, 2) }}
                                         ৳
                                     </td>
                                     <td class="py-3 px-4 text-right text-amber-600">
                                         {{ $item->discount > 0 ? '-' . number_format($item->discount, 2) . ' ৳' : '-' }}
                                     </td>
-                                    <td class="py-3 px-4 text-right font-bold text-gray-800">
+                                    <td class="py-3 px-4 text-right font-bold text-brown">
                                         {{ number_format($item->total_price, 2) }} ৳
                                     </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="6" class="py-6 text-center text-gray-500 italic">No items found in this
+                                    <td colspan="6" class="py-6 text-center text-muted italic">No items found in this
                                         order.</td>
                                 </tr>
                             @endforelse
@@ -157,9 +157,9 @@
                 <div class="flex flex-col md:flex-row justify-between items-end gap-6 mt-6">
 
                     {{-- Amount in Words --}}
-                    <div class="w-full md:w-1/2 bg-gray-50/50 p-4 rounded-lg border border-gray-100">
+                    <div class="w-full md:w-1/2 bg-cream/50 p-4 rounded-lg border border-champagne">
                         <p class="text-xs font-bold text-secondary uppercase tracking-wide mb-1">Amount in Words:</p>
-                        <p class="text-sm text-gray-700 italic font-medium">
+                        <p class="text-sm text-brown italic font-medium">
                             {{ $order->amount_in_words ?? 'N/A' }}
                         </p>
                     </div>
@@ -167,11 +167,11 @@
                     {{-- Calculation Table --}}
                     <div class="w-full md:w-1/3">
                         <div class="space-y-3 text-sm">
-                            <div class="flex justify-between text-gray-600">
+                            <div class="flex justify-between text-muted">
                                 <span>Subtotal</span>
                                 <span class="font-medium">{{ number_format($order->subtotal, 2) }} ৳</span>
                             </div>
-                            <div class="flex justify-between text-gray-600">
+                            <div class="flex justify-between text-muted">
                                 <span>Shipping Fee</span>
                                 <span
                                     class="font-medium">{{ $order->shipping_cost == 0 ? 'Free' : number_format($order->shipping_cost, 2) . ' ৳' }}</span>
@@ -182,8 +182,8 @@
                                     <span class="font-medium">-{{ number_format($order->discount_total, 2) }} ৳</span>
                                 </div>
                             @endif
-                            <div class="flex justify-between items-center pt-3 border-t-2 border-gray-200">
-                                <span class="font-bold text-gray-800 text-base">Grand Total</span>
+                            <div class="flex justify-between items-center pt-3 border-t-2 border-champagne">
+                                <span class="font-bold text-brown text-base">Grand Total</span>
                                 <span class="font-black text-xl text-primary">{{ number_format($order->grand_total, 2) }}
                                     ৳</span>
                             </div>
@@ -192,9 +192,9 @@
                 </div>
 
                 {{-- Footer Message --}}
-                <div class="mt-12 pt-6 border-t border-gray-100 text-center">
+                <div class="mt-12 pt-6 border-t border-champagne text-center">
                     <p class="text-sm font-medium text-secondary">Thank you for your business!</p>
-                    <p class="text-xs text-gray-400 mt-1">If you have any questions about this invoice, please contact
+                    <p class="text-xs text-taupe mt-1">If you have any questions about this invoice, please contact
                         care@bionic.garden</p>
                 </div>
 
@@ -212,7 +212,7 @@
                 </a>
                 @auth
                     <a href="{{ route('customer.orders') }}"
-                        class="flex items-center justify-center gap-2 border-2 border-primary text-primary px-8 py-3 rounded-full font-bold text-sm hover:bg-[#f0f5f1] transition-all">
+                        class="flex items-center justify-center gap-2 border-2 border-primary text-primary px-8 py-3 rounded-full font-bold text-sm hover:bg-ivory transition-all">
                         My Orders
                     </a>
                 @endauth
@@ -323,3 +323,13 @@
         </script>
     @endpush
 @endsection
+
+
+
+
+
+
+
+
+
+

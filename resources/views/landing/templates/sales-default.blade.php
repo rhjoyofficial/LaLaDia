@@ -4,10 +4,10 @@
 @section('meta_description', $landing->meta_description ?? 'Special offers on premium products')
 
 @section('content')
-    <section class="bg-[#f0f5f1] min-h-screen" x-data="salesLanding()" x-init="init()">
+    <section class="bg-ivory min-h-screen" x-data="salesLanding()" x-init="init()">
 
         {{-- Hero Section --}}
-        <div class="relative bg-linear-to-br from-green-900 via-green-800 to-green-700 text-white overflow-hidden">
+        <div class="relative bg-linear-to-br from-brand via-brown to-gold-antique text-white overflow-hidden">
             <div class="max-w-7xl mx-auto px-4 py-12 md:py-20 text-center">
                 @if ($landing->hero_image)
                     <img src="{{ asset('storage/' . $landing->hero_image) }}" alt="{{ $landing->title }}"
@@ -15,7 +15,7 @@
                 @endif
                 <h1 class="text-3xl md:text-5xl font-bold mb-4">{{ $landing->title }}</h1>
                 @if ($landing->content)
-                    <p class="text-green-100 text-lg max-w-2xl mx-auto">{{ Str::limit(strip_tags($landing->content), 200) }}
+                    <p class="text-cream text-lg max-w-2xl mx-auto">{{ Str::limit(strip_tags($landing->content), 200) }}
                     </p>
                 @endif
             </div>
@@ -38,12 +38,12 @@
                         $tierPrices = $isVariant ? $item->variant->tierPrices ?? collect() : collect();
                     @endphp
 
-                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden transition-all hover:shadow-md"
-                        :class="isSelected('{{ $itemKey }}') ? 'ring-2 ring-green-500' : ''">
+                    <div class="bg-white rounded-2xl shadow-sm border border-champagne overflow-hidden transition-all hover:shadow-md"
+                        :class="isSelected('{{ $itemKey }}') ? 'ring-2 ring-primary' : ''">
 
                         {{-- Image --}}
                         @if ($image)
-                            <div class="aspect-square bg-gray-50 flex items-center justify-center p-4">
+                            <div class="aspect-square bg-cream flex items-center justify-center p-4">
                                 <img src="{{ asset('storage/' . $image) }}" alt="{{ $label }}"
                                     class="max-h-full max-w-full object-contain">
                             </div>
@@ -51,8 +51,8 @@
 
                         <div class="p-5">
                             {{-- Title & Price --}}
-                            <h3 class="font-bold text-gray-800 mb-1">{{ $label }}</h3>
-                            <p class="text-lg font-bold text-green-800 font-bengali mb-1">
+                            <h3 class="font-bold text-brown mb-1">{{ $label }}</h3>
+                            <p class="text-lg font-bold text-gold-antique font-bengali mb-1">
                                 &#2547;{{ number_format($price, 0) }}
                             </p>
 
@@ -61,7 +61,7 @@
                                 <div class="flex flex-wrap gap-1 mb-3">
                                     @foreach ($tierPrices->sortBy('min_qty') as $tier)
                                         <span
-                                            class="text-[10px] bg-green-50 text-green-700 border border-green-200 rounded-full px-2 py-0.5 font-semibold">
+                                            class="text-[10px] bg-ivory text-gold-antique border border-sand rounded-full px-2 py-0.5 font-semibold">
                                             {{ $tier->min_qty }}+&nbsp;&rarr;&nbsp;&#2547;{{ number_format($tier->price, 0) }}
                                         </span>
                                     @endforeach
@@ -76,18 +76,18 @@
                                     <input type="checkbox" :checked="isSelected('{{ $itemKey }}')"
                                         @change="toggleItem('{{ $itemKey }}', {{ $isVariant ? $item->product_variant_id : 'null' }}, {{ !$isVariant ? $item->combo_id : 'null' }})"
                                         class="w-5 h-5 rounded accent-green-700">
-                                    <span class="text-sm font-semibold text-gray-600">Select</span>
+                                    <span class="text-sm font-semibold text-muted">Select</span>
                                 </label>
 
                                 <div x-show="isSelected('{{ $itemKey }}')" class="flex items-center gap-2">
                                     <button @click="changeItemQty('{{ $itemKey }}', -1)" type="button"
-                                        class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-600 font-bold transition-all">
+                                        class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-muted font-bold transition-all">
                                         &minus;
                                     </button>
-                                    <span class="w-8 text-center font-bold text-gray-800"
+                                    <span class="w-8 text-center font-bold text-brown"
                                         x-text="getQty('{{ $itemKey }}')"></span>
                                     <button @click="changeItemQty('{{ $itemKey }}', 1)" type="button"
-                                        class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-600 font-bold transition-all">
+                                        class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-muted font-bold transition-all">
                                         +
                                     </button>
                                 </div>
@@ -99,13 +99,13 @@
 
             {{-- Selected Items Summary --}}
             <div x-show="Object.keys(selected).length > 0"
-                class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 mb-8">
-                <h3 class="font-bold text-gray-800 mb-3">
+                class="bg-white rounded-2xl shadow-sm border border-champagne p-5 mb-8">
+                <h3 class="font-bold text-brown mb-3">
                     Selected Items (<span x-text="Object.keys(selected).length"></span>)
                 </h3>
                 <div class="space-y-2">
                     <template x-for="(item, key) in selected" :key="key">
-                        <div class="flex justify-between items-center text-sm text-gray-600 py-1 border-b border-gray-50">
+                        <div class="flex justify-between items-center text-sm text-muted py-1 border-b border-gray-50">
                             <span x-text="item.label"></span>
                             <span class="font-semibold" x-text="'x' + item.quantity"></span>
                         </div>
@@ -225,3 +225,13 @@
                 })->values());
     </script>
 @endsection
+
+
+
+
+
+
+
+
+
+

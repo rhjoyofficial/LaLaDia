@@ -3,48 +3,185 @@
 
 [x-cloak] { display: none !important; }
 
-/* ---------------------------
-   Theme
---------------------------- */
-
-@theme {
-    --font-sans: "DM Sans", ui-sans-serif, system-ui;
-    --font-inter: "Inter", ui-sans-serif, system-ui;
-    --font-heading: "Plus Jakarta Sans", sans-serif;
-    --font-bengali: "Noto Sans Bengali", sans-serif;
-
-    --max-width-8xl: 88rem;
-    --max-width-9xl: 96rem;
-
-    --color-brand: #0f172a;
-    --color-primary: #1d6327;
-    --color-secondary: #2d6a4f;
-}
-
-/* ---------------------------
-   Custom Utilities
---------------------------- */
+/* =========================================
+DESIGN TOKENS (RAW COLORS - DO NOT USE DIRECTLY)
+========================================= */
 
 :root {
-    --primary: #1d6327;
-    --secondary: #2d6a4f;
+/* GOLD SCALE */
+--gold-50:  #FDF6E3;
+--gold-100: #F5EDD8;
+--gold-200: #E8D9B0;
+--gold-300: #F5D97A;
+--gold-400: #D4A843;
+--gold-500: #B8963C;
+--gold-600: #9A7A2F;
+--gold-700: #7A5E1E;
+
+
+/* NEUTRAL (LUXURY LIGHT SYSTEM) */
+--ivory:      #FDFAF4;
+--cream:      #F5EDD8;
+--champagne:  #EDE0C4;
+--sand:       #E8D9B0;
+
+/* TEXT */
+--ink:    #1A1209;
+--brown:  #3D2E14;
+--muted:  #6B5A3A;
+--taupe:  #9E8A6A;
+--disabled: #C4B49A;
+
+/* STATUS */
+--danger: #ef4444;
+
+
 }
 
-.bg-primary {
-    background-color: var(--primary);
+/* =========================================
+SEMANTIC TOKENS (USE THESE IN UI)
+========================================= */
+
+:root {
+/* BRAND */
+--color-primary: var(--gold-500);
+--color-primary-rgb: 184, 150, 60;
+--color-primary-hover: var(--gold-600);
+--color-accent: var(--gold-400);
+
+
+/* BACKGROUND */
+--color-bg: var(--ivory);
+--color-bg-rgb: 253, 250, 244;
+--color-bg-soft: var(--cream);
+--color-surface: #ffffff;
+
+/* TEXT */
+--color-text: var(--ink);
+--color-text-secondary: var(--brown);
+--color-text-muted: var(--muted);
+--color-text-placeholder: var(--taupe);
+
+/* BORDER */
+--color-border: var(--champagne);
+--color-border-soft: var(--sand);
+
+/* STATE */
+--color-disabled: var(--disabled);
+--color-danger: var(--danger);
+
+
 }
 
-.text-primary {
-    color: var(--primary);
+/* =========================================
+THEME (TAILWIND INTEGRATION)
+========================================= */
+
+@theme {
+--font-sans: "Inter", "Noto Sans Bengali", ui-sans-serif, system-ui;
+--font-heading: "Plus Jakarta Sans", sans-serif;
+
+
+--color-primary: var(--color-primary);
+--color-secondary: var(--color-primary-hover);
+--color-brand: var(--color-text);
+
+--color-ivory: var(--color-bg);
+--color-cream: var(--color-bg-soft);
+--color-champagne: var(--color-border);
+--color-sand: var(--color-border-soft);
+
+--color-ink: var(--color-text);
+--color-brown: var(--color-text-secondary);
+--color-muted: var(--color-text-muted);
+--color-taupe: var(--color-text-placeholder);
+
+
 }
 
-.border-primary {
-    border-color: var(--primary);
+/* =========================================
+BASE STYLES
+========================================= */
+
+@layer base {
+body {
+@apply font-sans;
+background: var(--color-bg);
+color: var(--color-text);
 }
 
-.bg-primary-light {
-    background-color: rgba(29, 99, 39, 0.1);
+
+h1, h2, h3, h4, h5, h6 {
+    @apply font-heading font-semibold tracking-tight;
+    color: var(--color-text);
 }
+
+
+}
+
+/* =========================================
+GLOBAL COMPONENT UTILITIES
+========================================= */
+
+/* BUTTONS */
+.btn-primary {
+background: var(--color-primary);
+color: white;
+border-radius: 12px;
+transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+background: var(--color-primary-hover);
+}
+
+.btn-outline {
+border: 1px solid var(--color-primary);
+color: var(--color-primary);
+background: transparent;
+}
+
+.btn-outline:hover {
+background: var(--color-primary);
+color: white;
+}
+
+/* CARDS */
+.card {
+background: var(--color-surface);
+border: 1px solid var(--color-border);
+border-radius: 16px;
+}
+
+/* INPUT */
+.input {
+background: var(--color-surface);
+border: 1px solid var(--color-border);
+color: var(--color-text);
+}
+
+/* BADGE */
+.badge-primary {
+background: var(--color-primary);
+color: white;
+}
+
+/* =========================================
+HELPERS
+========================================= */
+
+.bg-primary-soft {
+background: rgba(184, 150, 60, 0.1);
+}
+
+.text-muted {
+color: var(--color-text-muted);
+}
+
+.border-soft {
+border-color: var(--color-border-soft);
+}
+
 
 /* ---------------------------
    Base
@@ -52,7 +189,7 @@
 
 @layer base {
     body {
-        @apply font-sans text-slate-900 bg-slate-50;
+        @apply font-sans text-brand bg-ivory;
     }
 
     h1,
@@ -119,7 +256,7 @@
     width: 100%;
     border-radius: 16px;
     overflow: hidden;
-    background: #f3f4f6;
+    background: var(--color-cream);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -156,7 +293,7 @@
 }
 
 .cert-card {
-    @apply w-24 h-24 md:w-32 md:h-32 shrink-0 rounded-2xl border border-slate-100 bg-white shadow-sm hover:shadow-xl hover:scale-105 transition cursor-pointer overflow-hidden;
+    @apply w-24 h-24 md:w-32 md:h-32 shrink-0 rounded-2xl border border-champagne bg-white shadow-sm hover:shadow-xl hover:scale-105 transition cursor-pointer overflow-hidden;
 }
 
 .cert-canvas {
@@ -168,11 +305,11 @@
 }
 
 .animated-border-line {
-    stroke: #06b6d4; /* Tailwind Cyan-500 */
+    stroke: #E8D9B0; /* Sand Gold */
     stroke-dasharray: 80 40;
     stroke-width: 2px;
     fill: none;
-    filter: drop-shadow(0 0 2px rgba(6, 182, 212, 0.5));
+    filter: drop-shadow(0 0 2px rgba(232, 217, 176, 0.5));
     animation: svgAnimation 4s linear infinite;
 }
 
@@ -188,9 +325,9 @@
 /* Hover & Focus States */
 .variantSelect:focus ~ svg .animated-border-line,
 .group:hover .animated-border-line {
-    stroke: #22d3ee;
+    stroke: #F5D97A; /* Light Gold */
     stroke-width: 3px;
-    filter: drop-shadow(0 0 5px rgba(34, 211, 238, 0.8));
+    filter: drop-shadow(0 0 5px rgba(245, 217, 122, 0.8));
     transition:
         stroke 0.3s ease,
         stroke-width 0.3s ease;
@@ -207,7 +344,7 @@
 }
 
 .skeleton-line {
-    background: linear-gradient(90deg, #efefef 25%, #e4e4e4 50%, #efefef 75%);
+    background: linear-gradient(90deg, var(--color-cream) 25%, var(--color-champagne) 50%, var(--color-cream) 75%);
     background-size: 600px 100%;
     animation: shimmer 1.5s infinite;
     border-radius: 6px;
@@ -255,7 +392,7 @@
     position: fixed;
     z-index: 9999;
     pointer-events: none;
-    filter: drop-shadow(0 2px 6px rgba(29, 99, 39, 0.55));
+    filter: drop-shadow(0 2px 6px rgba(184, 150, 60, 0.55));
     transition:
         left 1.1s cubic-bezier(0.25, 0.46, 0.45, 0.94),
         top 1.1s cubic-bezier(0.25, 0.46, 0.45, 0.94),
@@ -319,7 +456,7 @@
     transform: translateY(-50%);
     width: 100%;
     height: 4px;
-    background: #e5e7eb;
+    background: #EDE0C4;
     border-radius: 9999px;
 }
 
@@ -362,7 +499,7 @@
 }
 
 .catalog-range-wrapper .range-input::-webkit-slider-thumb:hover {
-    box-shadow: 0 0 0 6px rgba(29, 99, 39, 0.15);
+    box-shadow: 0 0 0 6px rgba(184, 150, 60, 0.15);
     transform: scale(1.1);
 }
 
@@ -380,7 +517,7 @@
 }
 
 .catalog-range-wrapper .range-input::-moz-range-thumb:hover {
-    box-shadow: 0 0 0 6px rgba(29, 99, 39, 0.15);
+    box-shadow: 0 0 0 6px rgba(184, 150, 60, 0.15);
 }
 
 /* ---------------------------
@@ -390,3 +527,79 @@
     transition: transform 0.3s ease;
 }
 
+
+
+/* ---------------------------
+   Global Luxury Animations
+--------------------------- */
+
+.luxury-fire-bg {
+    background: linear-gradient(120deg, var(--color-gold-royal), var(--color-gold-deep), var(--color-gold-warm), var(--color-gold-royal));
+    background-size: 300% 300%;
+    animation: waveMove 4s ease-in-out infinite;
+    position: relative;
+}
+
+.luxury-fire-bg::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 20% 50%, rgba(212, 168, 67, 0.4), transparent 50%),
+                radial-gradient(circle at 80% 50%, rgba(154, 122, 47, 0.3), transparent 50%);
+    mix-blend-mode: overlay;
+    animation: pulseGlow 2s infinite alternate;
+}
+
+@keyframes waveMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes pulseGlow {
+    0% { opacity: 0.6; transform: scale(1); }
+    100% { opacity: 1; transform: scale(1.05); }
+}
+
+.star-glow {
+    filter: drop-shadow(0 0 2px rgba(212, 168, 67, 0.4));
+    animation: starPulse 2s infinite ease-in-out;
+}
+
+@keyframes starPulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.8; filter: drop-shadow(0 0 5px rgba(212, 168, 67, 0.8)); }
+}
+
+.animate-soft-pulse {
+    animation: softPulse 2s infinite;
+}
+
+@keyframes softPulse {
+    0% { box-shadow: 0 0 0 0 rgba(184, 150, 60, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(184, 150, 60, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(184, 150, 60, 0); }
+}
+
+.btn-shimmer {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-shimmer::after {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -60%;
+    width: 20%;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(30deg);
+    animation: shimmer-btn 3s infinite;
+}
+
+@keyframes shimmer-btn {
+    0% { left: -60%; }
+    20% { left: 120%; }
+    100% { left: 120%; }
+}

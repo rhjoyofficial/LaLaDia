@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order Update</title>
     <style>
-        body { margin: 0; padding: 0; background: #f0f5f1; font-family: 'Helvetica Neue', Arial, sans-serif; color: #1a1a1a; -webkit-font-smoothing: antialiased; }
+        body { margin: 0; padding: 0; background: #FDFAF4; font-family: 'Helvetica Neue', Arial, sans-serif; color: #1a1a1a; -webkit-font-smoothing: antialiased; }
         .wrapper { max-width: 600px; margin: 32px auto; background: #ffffff; border-radius: 16px; overflow: hidden; border: 1px solid #e5e7eb; }
         .header { background: #1a5c2e; padding: 36px 32px; text-align: center; }
         .header h1 { margin: 0; color: #ffffff; font-size: 24px; font-weight: 700; }
@@ -35,7 +35,7 @@
         .cta { text-align: center; margin: 32px 0 16px; }
         .cta a { display: inline-block; background: #1a5c2e; color: #ffffff !important; text-decoration: none; padding: 14px 36px; border-radius: 999px; font-size: 15px; font-weight: 700; }
         
-        .footer { text-align: center; padding: 24px 32px 32px; font-size: 12px; color: #9ca3af; line-height: 1.6; border-top: 1px solid #f3f4f6; }
+        .footer { text-align: center; padding: 24px 32px 32px; font-size: 12px; color: #9ca3af; line-height: 1.6; border-top: 1px solid #F5EDD8; }
         .footer a { color: #16a34a; text-decoration: none; }
         
         @media only screen and (max-width: 600px) {
@@ -97,3 +97,13 @@
 </div>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+

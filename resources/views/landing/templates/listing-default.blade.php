@@ -4,10 +4,10 @@
 @section('meta_description', $landing->meta_description ?? 'Browse and shop our curated selection')
 
 @section('content')
-    <section class="bg-[#f0f5f1] min-h-screen">
+    <section class="bg-ivory min-h-screen">
 
         {{-- Hero Section --}}
-        <div class="relative bg-linear-to-br from-green-900 via-green-800 to-green-700 text-white overflow-hidden">
+        <div class="relative bg-linear-to-br from-brand via-brown to-gold-antique text-white overflow-hidden">
             <div class="max-w-7xl mx-auto px-4 py-12 md:py-16 text-center">
                 @if ($landing->hero_image)
                     <img src="{{ asset('storage/' . $landing->hero_image) }}" alt="{{ $landing->title }}"
@@ -15,7 +15,7 @@
                 @endif
                 <h1 class="text-3xl md:text-4xl font-bold mb-3">{{ $landing->title }}</h1>
                 @if ($landing->content)
-                    <p class="text-green-100 text-base max-w-2xl mx-auto">
+                    <p class="text-cream text-base max-w-2xl mx-auto">
                         {{ Str::limit(strip_tags($landing->content), 200) }}
                     </p>
                 @endif
@@ -26,7 +26,7 @@
         <div class="max-w-6xl mx-auto px-4 py-12">
 
             @if ($listingItems->isEmpty())
-                <div class="text-center py-16 text-gray-400">
+                <div class="text-center py-16 text-taupe">
                     <svg class="w-12 h-12 mx-auto mb-4 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                             d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
@@ -57,16 +57,16 @@
                             basePrice: {{ $price }},
                             tierPrices: @json($tierPrices->map(fn($t) => ['min_qty' => $t->min_qty, 'price' => $t->price])->values()),
                         })"
-                            class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col hover:shadow-md transition-shadow">
+                            class="bg-white rounded-2xl shadow-sm border border-champagne overflow-hidden flex flex-col hover:shadow-md transition-shadow">
 
                             {{-- Image --}}
                             @if ($image)
-                                <div class="aspect-square bg-gray-50 flex items-center justify-center p-4 shrink-0">
+                                <div class="aspect-square bg-cream flex items-center justify-center p-4 shrink-0">
                                     <img src="{{ asset('storage/' . $image) }}" alt="{{ $name }}"
                                         class="max-h-full max-w-full object-contain">
                                 </div>
                             @else
-                                <div class="aspect-square bg-gray-50 flex items-center justify-center shrink-0">
+                                <div class="aspect-square bg-cream flex items-center justify-center shrink-0">
                                     <svg class="w-12 h-12 text-gray-200" fill="none" stroke="currentColor"
                                         viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
@@ -77,15 +77,15 @@
 
                             <div class="p-4 flex flex-col flex-1">
                                 {{-- Name --}}
-                                <h3 class="font-semibold text-gray-800 text-sm leading-snug mb-2">{{ $name }}</h3>
+                                <h3 class="font-semibold text-brown text-sm leading-snug mb-2">{{ $name }}</h3>
 
                                 {{-- Price + Tier Badges --}}
                                 <div class="mb-3">
                                     <div class="flex items-baseline gap-2">
-                                        <span class="text-lg font-bold text-green-800 font-bengali"
+                                        <span class="text-lg font-bold text-gold-antique font-bengali"
                                             x-text="'৳' + effectivePrice().toFixed(0)"></span>
                                         <span x-show="quantity > 1 && effectivePrice() < basePrice"
-                                            class="text-xs text-gray-400 line-through font-bengali"
+                                            class="text-xs text-taupe line-through font-bengali"
                                             x-text="'৳' + basePrice.toFixed(0)"></span>
                                     </div>
 
@@ -94,7 +94,7 @@
                                         <div class="flex flex-wrap gap-1 mt-1.5">
                                             @foreach ($tierPrices->sortBy('min_qty') as $tier)
                                                 <span
-                                                    class="text-[10px] bg-green-50 text-green-700 border border-green-200 rounded-full px-2 py-0.5 font-semibold">
+                                                    class="text-[10px] bg-ivory text-gold-antique border border-sand rounded-full px-2 py-0.5 font-semibold">
                                                     {{ $tier->min_qty }}+&nbsp;&rarr;&nbsp;&#2547;{{ number_format($tier->price, 0) }}
                                                 </span>
                                             @endforeach
@@ -106,22 +106,22 @@
                                     {{-- Quantity stepper --}}
                                     <div class="flex items-center gap-2">
                                         <button @click="changeQty(-1)" type="button"
-                                            class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-600 font-bold text-sm transition-all">
+                                            class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-muted font-bold text-sm transition-all">
                                             &minus;
                                         </button>
-                                        <span class="w-8 text-center font-bold text-gray-800 text-sm"
+                                        <span class="w-8 text-center font-bold text-brown text-sm"
                                             x-text="quantity"></span>
                                         <button @click="changeQty(1)" type="button"
-                                            class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-600 font-bold text-sm transition-all">
+                                            class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-muted font-bold text-sm transition-all">
                                             +
                                         </button>
-                                        <span class="text-xs text-gray-400 ml-1 font-bengali" x-show="quantity > 1"
+                                        <span class="text-xs text-taupe ml-1 font-bengali" x-show="quantity > 1"
                                             x-text="'৳' + (effectivePrice() * quantity).toFixed(0) + ' total'"></span>
                                     </div>
 
                                     {{-- Add to Cart button --}}
                                     <button @click="addToCart($el)" type="button" :disabled="adding"
-                                        class="w-full bg-green-800 text-white py-2 rounded-xl font-semibold text-sm hover:bg-green-900 transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer">
+                                        class="w-full bg-gold-antique text-white py-2 rounded-xl font-semibold text-sm hover:bg-brand transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer">
                                         <template x-if="adding">
                                             <svg class="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg"
                                                 fill="none" viewBox="0 0 24 24">
@@ -141,7 +141,7 @@
                                     </button>
 
                                     {{-- Added flash --}}
-                                    <p x-show="added" x-transition class="text-center text-xs text-green-600 font-semibold">
+                                    <p x-show="added" x-transition class="text-center text-xs text-primary font-semibold">
                                         ✓ Added to cart!
                                     </p>
                                 </div>
@@ -154,7 +154,7 @@
             {{-- CMS Content (below grid) --}}
             @if ($landing->content && $listingItems->isNotEmpty())
                 <div class="mt-12 max-w-4xl mx-auto">
-                    <div class="prose prose-green max-w-none bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+                    <div class="prose prose-green max-w-none bg-white rounded-2xl shadow-sm border border-champagne p-8">
                         {!! $landing->content !!}
                     </div>
                 </div>
@@ -214,3 +214,13 @@
         }
     </script>
 @endsection
+
+
+
+
+
+
+
+
+
+

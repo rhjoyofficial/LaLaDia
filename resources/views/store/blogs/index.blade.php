@@ -12,10 +12,10 @@
     @endpush
     <!-- Elegant, Light-Themed Cinematic Design -->
     <div
-        class="bg-[#f0f5f1] min-h-screen text-slate-600 font-light overflow-hidden selection:bg-primary/30 shadow-2xl bg-white border-x border-slate-200">
+        class="bg-ivory min-h-screen text-muted font-light overflow-hidden selection:bg-primary/30 shadow-2xl bg-white border-x border-champagne">
 
         <section
-            class="relative h-100 flex items-center justify-center border-b border-slate-200 bg-primary overflow-hidden">
+            class="relative h-100 flex items-center justify-center border-b border-champagne bg-primary overflow-hidden">
             <div class="absolute inset-0 z-0">
                 <img src="https://images.unsplash.com/photo-1490818387583-1baba5e638af?auto=format&fit=crop&q=80&w=2000"
                     class="w-full h-full object-cover opacity-20 scale-105" alt="Blog Background">
@@ -30,7 +30,7 @@
                     {{ $data['title'] }}
                 </h1>
 
-                <p class="text-sm md:text-base text-green-50 max-w-xl mx-auto leading-relaxed font-light line-clamp-3">
+                <p class="text-sm md:text-base text-ivory max-w-xl mx-auto leading-relaxed font-light line-clamp-3">
                     {{ $data['subtitle'] }}
                 </p>
             </div>
@@ -63,21 +63,21 @@
                         </div>
 
                         <div class="pt-8 px-2 flex flex-col">
-                            <div class="flex items-center gap-4 text-[9px] uppercase tracking-[0.2em] text-slate-400 mb-5">
+                            <div class="flex items-center gap-4 text-[9px] uppercase tracking-[0.2em] text-taupe mb-5">
                                 <span
                                     class="flex items-center gap-2 group-hover:text-primary transition-colors cursor-default">
                                     <i class="fa-regular fa-calendar-check text-yellow-500"></i> {{ $post['date'] }}
                                 </span>
-                                <div class="w-px h-3 bg-slate-200"></div>
+                                <div class="w-px h-3 bg-champagne"></div>
                                 <span class="flex items-center gap-2 uppercase font-medium">{{ $post['author'] }}</span>
                             </div>
 
                             <h2
-                                class="text-2xl font-serif text-slate-900 mb-4 line-clamp-2 leading-tight group-hover:text-primary transition-colors duration-300">
+                                class="text-2xl font-serif text-brand mb-4 line-clamp-2 leading-tight group-hover:text-primary transition-colors duration-300">
                                 {{ $post['title'] }}
                             </h2>
 
-                            <p class="text-slate-500 text-sm mb-8 line-clamp-3 leading-relaxed font-light">
+                            <p class="text-muted text-sm mb-8 line-clamp-3 leading-relaxed font-light">
                                 {{ $post['excerpt'] }}
                             </p>
 
@@ -90,7 +90,7 @@
                                             class="absolute -bottom-1 left-0 w-0 h-[1px] bg-primary group-hover/link:w-full transition-all duration-500"></span>
                                     </span>
                                     <div
-                                        class="w-8 h-8 rounded-full border border-slate-100 flex items-center justify-center group-hover/link:bg-primary group-hover/link:text-white transition-all duration-300">
+                                        class="w-8 h-8 rounded-full border border-champagne flex items-center justify-center group-hover/link:bg-primary group-hover/link:text-white transition-all duration-300">
                                         <i class="fa-solid fa-arrow-right-long text-[8px]"></i>
                                     </div>
                                 </a>
@@ -103,3 +103,13 @@
     </div>
 
 @endsection
+
+
+
+
+
+
+
+
+
+

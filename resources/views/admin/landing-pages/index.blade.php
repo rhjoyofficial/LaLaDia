@@ -9,25 +9,25 @@
         {{-- Page Header --}}
         <div class="flex items-center justify-between mb-6">
             <div>
-                <h2 class="text-lg font-bold text-gray-800">Landing Pages</h2>
-                <p class="text-sm text-gray-500 mt-0.5">Manage product, combo, sales, and listing landing pages</p>
+                <h2 class="text-lg font-bold text-brown">Landing Pages</h2>
+                <p class="text-sm text-muted mt-0.5">Manage product, combo, sales, and listing landing pages</p>
             </div>
             @can('product.create')
                 <a href="{{ route('admin.landing-pages.create') }}"
-                    class="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold bg-green-700 text-white rounded-lg hover:bg-green-800 transition cursor-pointer">
+                    class="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold bg-gold-antique text-white rounded-lg hover:bg-gold-antique transition cursor-pointer">
                     <i class="fa-solid fa-plus text-xs"></i> New Landing Page
                 </a>
             @endcan
         </div>
 
         {{-- Filters --}}
-        <div class="bg-white border border-gray-200 rounded-xl p-4 mb-5">
+        <div class="bg-white border border-champagne rounded-xl p-4 mb-5">
             <div class="flex flex-col sm:flex-row gap-3">
                 <input x-model.debounce.300ms="filters.search" @input="fetchPages()" type="text"
                     placeholder="Search by title or slug..."
-                    class="flex-1 rounded-lg border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-300">
+                    class="flex-1 rounded-lg border border-champagne px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold-warm">
                 <select x-model="filters.type" @change="fetchPages()"
-                    class="rounded-lg border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-300">
+                    class="rounded-lg border border-champagne px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold-warm">
                     <option value="">All Types</option>
                     <option value="product">Product</option>
                     <option value="combo">Combo</option>
@@ -35,7 +35,7 @@
                     <option value="listing">Listing</option>
                 </select>
                 <select x-model="filters.is_active" @change="fetchPages()"
-                    class="rounded-lg border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-300">
+                    class="rounded-lg border border-champagne px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold-warm">
                     <option value="">All Status</option>
                     <option value="1">Active</option>
                     <option value="0">Inactive</option>
@@ -44,18 +44,18 @@
         </div>
 
         {{-- Table --}}
-        <div class="bg-white border border-gray-200 rounded-xl overflow-hidden">
+        <div class="bg-white border border-champagne rounded-xl overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="w-full text-sm">
-                    <thead class="bg-gray-50 border-b border-gray-200">
+                    <thead class="bg-cream border-b border-champagne">
                         <tr>
-                            <th class="text-left px-4 py-3 font-semibold text-gray-600">Title</th>
-                            <th class="text-left px-4 py-3 font-semibold text-gray-600">Slug</th>
-                            <th class="text-left px-4 py-3 font-semibold text-gray-600">Type</th>
-                            <th class="text-left px-4 py-3 font-semibold text-gray-600">Linked To</th>
+                            <th class="text-left px-4 py-3 font-semibold text-muted">Title</th>
+                            <th class="text-left px-4 py-3 font-semibold text-muted">Slug</th>
+                            <th class="text-left px-4 py-3 font-semibold text-muted">Type</th>
+                            <th class="text-left px-4 py-3 font-semibold text-muted">Linked To</th>
                             @can('landing-pages.update')
-                                <th class="text-center px-4 py-3 font-semibold text-gray-600">Status</th>
-                                <th class="text-right px-4 py-3 font-semibold text-gray-600">Actions</th>
+                                <th class="text-center px-4 py-3 font-semibold text-muted">Status</th>
+                                <th class="text-right px-4 py-3 font-semibold text-muted">Actions</th>
                             @endcan
 
                         </tr>
@@ -63,24 +63,24 @@
                     <tbody>
                         <template x-if="loading">
                             <tr>
-                                <td colspan="6" class="text-center py-8 text-gray-400">
+                                <td colspan="6" class="text-center py-8 text-taupe">
                                     <i class="fa-solid fa-spinner fa-spin mr-2"></i> Loading...
                                 </td>
                             </tr>
                         </template>
                         <template x-if="!loading && pages.length === 0">
                             <tr>
-                                <td colspan="6" class="text-center py-8 text-gray-400">No landing pages found.</td>
+                                <td colspan="6" class="text-center py-8 text-taupe">No landing pages found.</td>
                             </tr>
                         </template>
                         <template x-for="page in pages" :key="page.id">
-                            <tr class="border-b border-gray-100 hover:bg-gray-50 transition">
+                            <tr class="border-b border-champagne hover:bg-cream transition">
                                 <td class="px-4 py-3">
-                                    <p class="font-semibold text-gray-800" x-text="page.title"></p>
+                                    <p class="font-semibold text-brown" x-text="page.title"></p>
                                 </td>
                                 <td class="px-4 py-3">
                                     <a :href="pageUrl(page)" target="_blank"
-                                        class="text-green-700 hover:underline text-xs font-mono" x-text="page.slug"></a>
+                                        class="text-gold-antique hover:underline text-xs font-mono" x-text="page.slug"></a>
                                 </td>
                                 <td class="px-4 py-3">
                                     <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold"
@@ -92,7 +92,7 @@
                                         }"
                                         x-text="page.type.charAt(0).toUpperCase() + page.type.slice(1)"></span>
                                 </td>
-                                <td class="px-4 py-3 text-gray-600 text-xs">
+                                <td class="px-4 py-3 text-muted text-xs">
                                     <template x-if="page.product">
                                         <span x-text="page.product.name"></span>
                                     </template>
@@ -100,7 +100,7 @@
                                         <span x-text="page.combo.name"></span>
                                     </template>
                                     <template x-if="page.type === 'sales' || page.type === 'listing'">
-                                        <span class="text-gray-400">Multiple items</span>
+                                        <span class="text-taupe">Multiple items</span>
                                     </template>
                                 </td>
                                 @can('landing-pages.update')
@@ -108,7 +108,7 @@
                                         @can('landing-pages.update')
                                             <button @click="toggleActive(page)"
                                                 class="relative inline-flex h-5 w-9 items-center rounded-full transition-colors cursor-pointer"
-                                                :class="page.is_active ? 'bg-green-500' : 'bg-gray-300'">
+                                                :class="page.is_active ? 'bg-ivory0' : 'bg-gray-300'">
                                                 <span
                                                     class="inline-block h-3.5 w-3.5 transform rounded-full bg-white transition-transform shadow"
                                                     :class="page.is_active ? 'translate-x-4' : 'translate-x-0.5'"></span>
@@ -120,7 +120,7 @@
                                         <div class="flex items-center justify-end gap-2">
                                             @can('landing-pages.update')
                                                 <a :href="'/admin/landing-pages/' + page.id + '/edit'"
-                                                    class="text-gray-400 hover:text-green-700 transition">
+                                                    class="text-taupe hover:text-gold-antique transition">
                                                     <i class="fa-solid fa-pen-to-square"></i>
                                                 </a>
                                             @endcan
@@ -142,19 +142,19 @@
 
             {{-- Pagination --}}
             <div x-show="pagination.lastPage > 1"
-                class="flex items-center justify-between px-4 py-3 border-t border-gray-100">
-                <p class="text-xs text-gray-500">
+                class="flex items-center justify-between px-4 py-3 border-t border-champagne">
+                <p class="text-xs text-muted">
                     Showing <span x-text="pagination.from"></span>-<span x-text="pagination.to"></span>
                     of <span x-text="pagination.total"></span>
                 </p>
                 <div class="flex gap-1">
                     <button @click="goToPage(pagination.currentPage - 1)" :disabled="pagination.currentPage <= 1"
-                        class="px-3 py-1 text-xs rounded border border-gray-200 hover:bg-gray-50 disabled:opacity-50 cursor-pointer">
+                        class="px-3 py-1 text-xs rounded border border-champagne hover:bg-cream disabled:opacity-50 cursor-pointer">
                         Prev
                     </button>
                     <button @click="goToPage(pagination.currentPage + 1)"
                         :disabled="pagination.currentPage >= pagination.lastPage"
-                        class="px-3 py-1 text-xs rounded border border-gray-200 hover:bg-gray-50 disabled:opacity-50 cursor-pointer">
+                        class="px-3 py-1 text-xs rounded border border-champagne hover:bg-cream disabled:opacity-50 cursor-pointer">
                         Next
                     </button>
                 </div>
@@ -172,15 +172,15 @@
                 <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center mx-auto mb-4">
                     <i class="fa-solid fa-triangle-exclamation text-red-600"></i>
                 </div>
-                <h3 class="text-base font-bold text-gray-800 mb-1">Delete Page?</h3>
-                <p class="text-sm text-gray-500 mb-1">
+                <h3 class="text-base font-bold text-brown mb-1">Delete Page?</h3>
+                <p class="text-sm text-muted mb-1">
                     You are about to delete: <strong x-text="deleteTarget?.title"></strong>
                 </p>
-                <p class="text-xs text-gray-400 mb-5">This will remove all are related with the page.
+                <p class="text-xs text-taupe mb-5">This will remove all are related with the page.
                 </p>
                 <div class="flex gap-3 justify-center">
                     <button @click="showDeleteModal = false"
-                        class="px-4 py-2 text-sm font-medium border border-gray-200 rounded-lg hover:bg-gray-50 transition cursor-pointer">
+                        class="px-4 py-2 text-sm font-medium border border-champagne rounded-lg hover:bg-cream transition cursor-pointer">
                         Cancel
                     </button>
                     <button @click="deletePage()"
@@ -315,3 +315,13 @@
         </script>
     @endpush
 @endsection
+
+
+
+
+
+
+
+
+
+

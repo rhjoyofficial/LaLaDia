@@ -13,71 +13,71 @@
 --}}
 
 <div id="landingCheckout" x-data="landingCheckout()" x-init="init()"
-    class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8">
+    class="bg-white rounded-2xl shadow-sm border border-champagne p-6 md:p-8">
 
-    <h3 class="text-xl font-bold text-gray-800 mb-6">Complete Your Order</h3>
+    <h3 class="text-xl font-bold text-brown mb-6">Complete Your Order</h3>
 
     {{-- Customer Information --}}
     <div class="space-y-4 mb-6">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-                <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
+                <label class="block text-xs font-semibold text-muted uppercase tracking-wider mb-1.5">
                     Full Name <span class="text-red-400">*</span>
                 </label>
                 <input x-model="form.customer_name" type="text" placeholder="Your full name"
-                    class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-300 focus:border-green-400 transition-all">
+                    class="w-full rounded-xl border border-champagne px-4 py-2.5 text-sm text-brown placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gold-warm focus:border-primary transition-all">
             </div>
             <div>
-                <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
+                <label class="block text-xs font-semibold text-muted uppercase tracking-wider mb-1.5">
                     Phone Number <span class="text-red-400">*</span>
                 </label>
                 <input x-model="form.customer_phone" type="tel" placeholder="01XXXXXXXXX"
-                    class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-300 focus:border-green-400 transition-all">
+                    class="w-full rounded-xl border border-champagne px-4 py-2.5 text-sm text-brown placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gold-warm focus:border-primary transition-all">
             </div>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-                <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
+                <label class="block text-xs font-semibold text-muted uppercase tracking-wider mb-1.5">
                     Email <span class="text-gray-300 font-normal normal-case">(optional)</span>
                 </label>
                 <input x-model="form.customer_email" type="email" placeholder="you@example.com"
-                    class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-300 focus:border-green-400 transition-all">
+                    class="w-full rounded-xl border border-champagne px-4 py-2.5 text-sm text-brown placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gold-warm focus:border-primary transition-all">
             </div>
             <div>
-                <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
+                <label class="block text-xs font-semibold text-muted uppercase tracking-wider mb-1.5">
                     City
                 </label>
                 <input x-model="form.city" type="text" placeholder="Dhaka"
-                    class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-300 focus:border-green-400 transition-all">
+                    class="w-full rounded-xl border border-champagne px-4 py-2.5 text-sm text-brown placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gold-warm focus:border-primary transition-all">
             </div>
         </div>
 
         <div>
-            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
+            <label class="block text-xs font-semibold text-muted uppercase tracking-wider mb-1.5">
                 Delivery Address <span class="text-red-400">*</span>
             </label>
             <textarea x-model="form.address_line" rows="2" placeholder="House no., road, area..."
-                class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-300 focus:border-green-400 transition-all resize-none"></textarea>
+                class="w-full rounded-xl border border-champagne px-4 py-2.5 text-sm text-brown placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gold-warm focus:border-primary transition-all resize-none"></textarea>
         </div>
     </div>
 
     {{-- Delivery Zone --}}
     <div class="mb-6">
-        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
+        <label class="block text-xs font-semibold text-muted uppercase tracking-wider mb-3">
             Delivery Zone <span class="text-red-400">*</span>
         </label>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             @foreach ($zones as $zone)
                 <label class="flex items-center gap-3 p-3 rounded-xl border-2 cursor-pointer transition-all"
                     :class="form.zone_id == {{ $zone->id }} ?
-                        'border-green-600 bg-green-50' :
-                        'border-gray-100 hover:border-green-300'">
+                        'border-primary bg-ivory' :
+                        'border-champagne hover:border-gold-warm'">
                     <input type="radio" name="zone_id" value="{{ $zone->id }}" x-model.number="form.zone_id"
                         @change="refreshPreview()" class="accent-green-700 w-4 h-4 shrink-0">
                     <div>
-                        <p class="font-semibold text-gray-800 text-sm">{{ $zone->name }}</p>
-                        <p class="text-xs text-gray-400">
+                        <p class="font-semibold text-brown text-sm">{{ $zone->name }}</p>
+                        <p class="text-xs text-taupe">
                             Delivery: <span
                                 class="font-bengali">&#2547;{{ number_format($zone->base_charge, 0) }}</span>
                             @if ($zone->free_shipping_threshold)
@@ -93,19 +93,19 @@
 
     {{-- Payment Method --}}
     <div class="mb-6">
-        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
+        <label class="block text-xs font-semibold text-muted uppercase tracking-wider mb-3">
             Payment Method <span class="text-red-400">*</span>
         </label>
         <div class="flex flex-col sm:flex-row gap-3">
             <label class="flex items-center gap-3 p-3 rounded-xl border-2 cursor-pointer transition-all flex-1"
                 :class="form.payment_method === 'cod' ?
-                    'border-green-600 bg-green-50' :
-                    'border-gray-100 hover:border-green-300'">
+                    'border-primary bg-ivory' :
+                    'border-champagne hover:border-gold-warm'">
                 <input type="radio" name="payment_method" value="cod" x-model="form.payment_method"
                     class="accent-green-700 w-4 h-4 shrink-0">
                 <div>
-                    <p class="font-semibold text-gray-800 text-sm">Cash on Delivery</p>
-                    <p class="text-xs text-gray-400">Pay when your order arrives</p>
+                    <p class="font-semibold text-brown text-sm">Cash on Delivery</p>
+                    <p class="text-xs text-taupe">Pay when your order arrives</p>
                 </div>
             </label>
         </div>
@@ -113,58 +113,58 @@
 
     {{-- Coupon Code --}}
     <div class="mb-6">
-        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+        <label class="block text-xs font-semibold text-muted uppercase tracking-wider mb-2">
             Promo Code
         </label>
         <div
-            class="flex items-center bg-gray-50 rounded-xl border border-gray-200 overflow-hidden focus-within:border-green-400 focus-within:ring-2 focus-within:ring-green-100 transition-all">
+            class="flex items-center bg-cream rounded-xl border border-champagne overflow-hidden focus-within:border-primary focus-within:ring-2 focus-within:ring-cream transition-all">
             <input x-model="couponInput" type="text" placeholder="Enter promo code"
-                class="bg-transparent flex-1 text-sm px-3 py-2.5 focus:outline-none text-gray-700 placeholder-gray-400 uppercase tracking-wider"
+                class="bg-transparent flex-1 text-sm px-3 py-2.5 focus:outline-none text-brown placeholder-gray-400 uppercase tracking-wider"
                 autocomplete="off">
             <button @click="applyCoupon()" type="button"
-                class="bg-green-800 text-white px-4 py-2.5 text-sm font-semibold hover:bg-green-900 transition-colors shrink-0">
+                class="bg-gold-antique text-white px-4 py-2.5 text-sm font-semibold hover:bg-brand transition-colors shrink-0">
                 Apply
             </button>
         </div>
-        <p x-show="couponMessage" x-text="couponMessage" :class="couponError ? 'text-red-500' : 'text-green-600'"
+        <p x-show="couponMessage" x-text="couponMessage" :class="couponError ? 'text-red-500' : 'text-primary'"
             class="text-xs mt-2 font-medium"></p>
     </div>
 
     {{-- Order Summary --}}
-    <div class="bg-gray-50 rounded-xl p-5 mb-6 space-y-2.5">
-        <div class="flex justify-between text-sm text-gray-500">
+    <div class="bg-cream rounded-xl p-5 mb-6 space-y-2.5">
+        <div class="flex justify-between text-sm text-muted">
             <span>Subtotal</span>
-            <span class="font-semibold text-gray-800 font-bengali"
+            <span class="font-semibold text-brown font-bengali"
                 x-text="'&#2547;' + pricing.subtotal.toFixed(0)"></span>
         </div>
         <div x-show="pricing.tier_discount > 0" class="flex justify-between text-sm">
-            <span class="text-gray-500">Tier Discount</span>
-            <span class="font-semibold text-green-600 font-bengali"
+            <span class="text-muted">Tier Discount</span>
+            <span class="font-semibold text-primary font-bengali"
                 x-text="'-&#2547;' + pricing.tier_discount.toFixed(0)"></span>
         </div>
         <div x-show="pricing.landing_discount > 0" class="flex justify-between text-sm">
-            <span class="text-gray-500">Special Discount</span>
-            <span class="font-semibold text-green-600 font-bengali"
+            <span class="text-muted">Special Discount</span>
+            <span class="font-semibold text-primary font-bengali"
                 x-text="'-&#2547;' + pricing.landing_discount.toFixed(0)"></span>
         </div>
         <div x-show="pricing.coupon_discount > 0" class="flex justify-between text-sm">
-            <span class="text-gray-500">Coupon (<span x-text="pricing.coupon_code"></span>)</span>
-            <span class="font-semibold text-green-600 font-bengali"
+            <span class="text-muted">Coupon (<span x-text="pricing.coupon_code"></span>)</span>
+            <span class="font-semibold text-primary font-bengali"
                 x-text="'-&#2547;' + pricing.coupon_discount.toFixed(0)"></span>
         </div>
-        <div class="flex justify-between text-sm text-gray-500">
+        <div class="flex justify-between text-sm text-muted">
             <span>
                 Shipping
                 <template x-if="pricing.free_delivery_applied">
-                    <span class="text-green-600 text-xs font-medium ml-1">FREE</span>
+                    <span class="text-primary text-xs font-medium ml-1">FREE</span>
                 </template>
             </span>
-            <span class="font-semibold text-gray-800 font-bengali"
+            <span class="font-semibold text-brown font-bengali"
                 x-text="'&#2547;' + pricing.shipping_cost.toFixed(0)"></span>
         </div>
-        <div class="flex justify-between items-center pt-2 border-t border-gray-200">
-            <span class="font-bold text-gray-800">Total</span>
-            <span class="text-2xl font-bold text-green-800 font-bengali"
+        <div class="flex justify-between items-center pt-2 border-t border-champagne">
+            <span class="font-bold text-brown">Total</span>
+            <span class="text-2xl font-bold text-gold-antique font-bengali"
                 x-text="'&#2547;' + pricing.grand_total.toFixed(0)"></span>
         </div>
     </div>
@@ -175,7 +175,7 @@
 
     {{-- Place Order Button --}}
     <button @click="placeOrder()" type="button" :disabled="submitting || !canSubmit()"
-        class="w-full bg-green-800 text-white py-4 rounded-full font-bold text-base hover:bg-green-900 transition-all shadow-md shadow-green-100 active:scale-[.98] disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer">
+        class="w-full bg-gold-antique text-white py-4 rounded-full font-bold text-base hover:bg-brand transition-all shadow-md shadow-cream active:scale-[.98] disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer">
         <template x-if="submitting">
             <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
                 viewBox="0 0 24 24">
@@ -189,14 +189,14 @@
 
     {{-- Trust signals --}}
     <div class="flex justify-center gap-5 mt-4">
-        <div class="flex items-center text-xs text-gray-400 gap-1">
+        <div class="flex items-center text-xs text-taupe gap-1">
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
             </svg>
             Secure
         </div>
-        <div class="flex items-center text-xs text-gray-400 gap-1">
+        <div class="flex items-center text-xs text-taupe gap-1">
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -350,3 +350,13 @@
         };
     }
 </script>
+
+
+
+
+
+
+
+
+
+

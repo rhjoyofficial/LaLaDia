@@ -9,31 +9,31 @@
     {{-- Page Header --}}
     <div class="flex items-center justify-between mb-6">
         <div>
-            <h2 class="text-lg font-bold text-gray-800">Customers</h2>
-            <p class="text-sm text-gray-500 mt-0.5">Manage registered customers and their accounts</p>
+            <h2 class="text-lg font-bold text-brown">Customers</h2>
+            <p class="text-sm text-muted mt-0.5">Manage registered customers and their accounts</p>
         </div>
         <div class="flex items-center gap-3">
-            <div class="text-sm text-gray-500" x-show="meta.total !== undefined">
+            <div class="text-sm text-muted" x-show="meta.total !== undefined">
                 <span x-text="meta.total + ' customers'"></span>
             </div>
             <button @click="openCreateModal()"
-                class="inline-flex items-center gap-2 px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 transition cursor-pointer">
+                class="inline-flex items-center gap-2 px-4 py-2 bg-primary text-white text-sm font-medium rounded-lg hover:bg-gold-antique transition cursor-pointer">
                 <i class="fa-solid fa-plus"></i> New Customer
             </button>
         </div>
     </div>
 
     {{-- Filters --}}
-    <div class="bg-white border border-gray-200 rounded-xl mb-4 p-4 flex flex-wrap gap-3">
+    <div class="bg-white border border-champagne rounded-xl mb-4 p-4 flex flex-wrap gap-3">
         <div class="relative flex-1 min-w-52">
-            <i class="fa-solid fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+            <i class="fa-solid fa-search absolute left-3 top-1/2 -translate-y-1/2 text-taupe text-xs"></i>
             <input type="text" x-model="search" @input.debounce.400ms="load(1)"
                 placeholder="Name, email, or phone…"
-                class="w-full pl-9 pr-4 py-2 text-sm border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-green-600">
+                class="w-full pl-9 pr-4 py-2 text-sm border border-champagne rounded-lg outline-none focus:ring-2 focus:ring-gold-antique">
         </div>
 
         <select x-model="filterStatus" @change="load(1)"
-            class="border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-600 cursor-pointer">
+            class="border border-champagne rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-gold-antique cursor-pointer">
             <option value="">All Customers</option>
             <option value="active">Active</option>
             <option value="inactive">Inactive</option>
@@ -41,24 +41,24 @@
         </select>
 
         <button @click="clearFilters()" x-show="search || filterStatus"
-            class="text-xs text-gray-500 hover:text-red-600 transition cursor-pointer px-2">
+            class="text-xs text-muted hover:text-red-600 transition cursor-pointer px-2">
             <i class="fa-solid fa-xmark"></i> Clear
         </button>
     </div>
 
     {{-- Table --}}
-    <div class="bg-white border border-gray-200 rounded-xl overflow-hidden">
+    <div class="bg-white border border-champagne rounded-xl overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full text-sm">
-                <thead class="bg-gray-50 border-b border-gray-100">
+                <thead class="bg-cream border-b border-champagne">
                     <tr>
-                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Customer</th>
-                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Phone</th>
-                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Orders</th>
-                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Total Spent</th>
-                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Status</th>
-                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Joined</th>
-                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Actions</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Customer</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Phone</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Orders</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Total Spent</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Status</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Joined</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-50">
@@ -75,59 +75,59 @@
 
                     <template x-if="!loading">
                         <template x-for="c in customers" :key="c.id">
-                            <tr class="hover:bg-gray-50 transition">
+                            <tr class="hover:bg-cream transition">
                                 <td class="px-5 py-3">
                                     <div class="flex items-center gap-3">
-                                        <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-green-700 text-xs font-bold uppercase flex-shrink-0"
+                                        <div class="w-8 h-8 rounded-full bg-cream flex items-center justify-center text-gold-antique text-xs font-bold uppercase flex-shrink-0"
                                             x-text="c.name.charAt(0)">
                                         </div>
                                         <div>
                                             <a :href="`/admin/customers/${c.id}`"
-                                                class="font-medium text-gray-800 text-xs hover:text-green-700 transition"
+                                                class="font-medium text-brown text-xs hover:text-gold-antique transition"
                                                 x-text="c.name">
                                             </a>
-                                            <p class="text-xs text-gray-400" x-text="c.email ?? '—'"></p>
+                                            <p class="text-xs text-taupe" x-text="c.email ?? '—'"></p>
                                         </div>
                                     </div>
                                 </td>
-                                <td class="px-5 py-3 text-xs text-gray-600" x-text="c.phone ?? '—'"></td>
-                                <td class="px-5 py-3 text-xs text-gray-600" x-text="c.orders_count ?? 0"></td>
-                                <td class="px-5 py-3 text-xs font-semibold text-gray-900">
+                                <td class="px-5 py-3 text-xs text-muted" x-text="c.phone ?? '—'"></td>
+                                <td class="px-5 py-3 text-xs text-muted" x-text="c.orders_count ?? 0"></td>
+                                <td class="px-5 py-3 text-xs font-semibold text-brand">
                                     ৳<span x-text="Number(c.orders_sum_grand_total ?? 0).toLocaleString()"></span>
                                 </td>
                                 <td class="px-5 py-3">
                                     <template x-if="c.is_guest">
-                                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600">Guest</span>
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-muted">Guest</span>
                                     </template>
                                     <template x-if="!c.is_guest">
                                         <button @click="toggleActive(c)"
                                             class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium transition cursor-pointer"
-                                            :class="c.is_active ? 'bg-green-100 text-green-800 hover:bg-green-200' : 'bg-red-100 text-red-700 hover:bg-red-200'"
+                                            :class="c.is_active ? 'bg-cream text-gold-antique hover:bg-champagne' : 'bg-red-100 text-red-700 hover:bg-red-200'"
                                             x-text="c.is_active ? 'Active' : 'Inactive'">
                                         </button>
                                     </template>
                                 </td>
-                                <td class="px-5 py-3 text-xs text-gray-400"
+                                <td class="px-5 py-3 text-xs text-taupe"
                                     x-text="c.created_at ? new Date(c.created_at).toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'2-digit'}) : '—'">
                                 </td>
                                 <td class="px-5 py-3">
                                     <div class="flex items-center gap-1">
                                         <a :href="`/admin/customers/${c.id}`"
-                                            class="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded transition"
+                                            class="p-1.5 text-taupe hover:text-blue-600 hover:bg-blue-50 rounded transition"
                                             title="View">
                                             <i class="fa-solid fa-eye text-xs"></i>
                                         </a>
                                         <button @click="openEditModal(c)" title="Edit"
-                                            class="p-1.5 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded transition cursor-pointer">
+                                            class="p-1.5 text-taupe hover:text-indigo-600 hover:bg-indigo-50 rounded transition cursor-pointer">
                                             <i class="fa-solid fa-pencil text-xs"></i>
                                         </button>
                                         <button @click="openPasswordModal(c)" title="Change Password"
-                                            class="p-1.5 text-gray-400 hover:text-amber-600 hover:bg-amber-50 rounded transition cursor-pointer">
+                                            class="p-1.5 text-taupe hover:text-amber-600 hover:bg-amber-50 rounded transition cursor-pointer">
                                             <i class="fa-solid fa-key text-xs"></i>
                                         </button>
                                         <template x-if="!c.is_guest">
                                             <button @click="confirmDelete(c)" title="Delete"
-                                                class="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded transition cursor-pointer">
+                                                class="p-1.5 text-taupe hover:text-red-600 hover:bg-red-50 rounded transition cursor-pointer">
                                                 <i class="fa-solid fa-trash text-xs"></i>
                                             </button>
                                         </template>
@@ -139,7 +139,7 @@
 
                     <template x-if="!loading && customers.length === 0">
                         <tr>
-                            <td colspan="7" class="px-5 py-12 text-center text-gray-400">
+                            <td colspan="7" class="px-5 py-12 text-center text-taupe">
                                 <i class="fa-solid fa-users text-2xl mb-2 block"></i>
                                 No customers found
                             </td>
@@ -151,18 +151,18 @@
         </div>
 
         {{-- Pagination --}}
-        <div class="px-5 py-3 border-t border-gray-100 flex items-center justify-between" x-show="meta.last_page > 1">
-            <p class="text-xs text-gray-500">
+        <div class="px-5 py-3 border-t border-champagne flex items-center justify-between" x-show="meta.last_page > 1">
+            <p class="text-xs text-muted">
                 Page <span x-text="meta.current_page"></span> of <span x-text="meta.last_page"></span>
                 &bull; <span x-text="meta.total"></span> customers
             </p>
             <div class="flex gap-2">
                 <button @click="load(meta.current_page - 1)" :disabled="meta.current_page <= 1"
-                    class="px-3 py-1.5 text-xs font-medium border border-gray-200 rounded-lg disabled:opacity-40 hover:bg-gray-50 transition cursor-pointer disabled:cursor-not-allowed">
+                    class="px-3 py-1.5 text-xs font-medium border border-champagne rounded-lg disabled:opacity-40 hover:bg-cream transition cursor-pointer disabled:cursor-not-allowed">
                     &larr; Prev
                 </button>
                 <button @click="load(meta.current_page + 1)" :disabled="meta.current_page >= meta.last_page"
-                    class="px-3 py-1.5 text-xs font-medium border border-gray-200 rounded-lg disabled:opacity-40 hover:bg-gray-50 transition cursor-pointer disabled:cursor-not-allowed">
+                    class="px-3 py-1.5 text-xs font-medium border border-champagne rounded-lg disabled:opacity-40 hover:bg-cream transition cursor-pointer disabled:cursor-not-allowed">
                     Next &rarr;
                 </button>
             </div>
@@ -173,42 +173,42 @@
     <div x-show="createModal.open" x-transition.opacity
         class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40">
         <div @click.outside="createModal.open = false" class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6">
-            <h3 class="text-base font-semibold text-gray-900 mb-4">Create New Customer</h3>
+            <h3 class="text-base font-semibold text-brand mb-4">Create New Customer</h3>
             <div class="space-y-3">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Full Name <span class="text-red-500">*</span></label>
+                    <label class="block text-sm font-medium text-brown mb-1">Full Name <span class="text-red-500">*</span></label>
                     <input x-model="createModal.name" type="text" placeholder="John Doe"
-                        class="w-full text-sm border rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-600 focus:border-transparent outline-none"
-                        :class="createModal.errors.name ? 'border-red-400' : 'border-gray-200'">
+                        class="w-full text-sm border rounded-lg px-3 py-2 focus:ring-2 focus:ring-gold-antique focus:border-transparent outline-none"
+                        :class="createModal.errors.name ? 'border-red-400' : 'border-champagne'">
                     <p x-show="createModal.errors.name" class="text-xs text-red-500 mt-1" x-text="createModal.errors.name?.[0]"></p>
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Email <span class="text-red-500">*</span></label>
+                    <label class="block text-sm font-medium text-brown mb-1">Email <span class="text-red-500">*</span></label>
                     <input x-model="createModal.email" type="email" placeholder="john@example.com"
-                        class="w-full text-sm border rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-600 focus:border-transparent outline-none"
-                        :class="createModal.errors.email ? 'border-red-400' : 'border-gray-200'">
+                        class="w-full text-sm border rounded-lg px-3 py-2 focus:ring-2 focus:ring-gold-antique focus:border-transparent outline-none"
+                        :class="createModal.errors.email ? 'border-red-400' : 'border-champagne'">
                     <p x-show="createModal.errors.email" class="text-xs text-red-500 mt-1" x-text="createModal.errors.email?.[0]"></p>
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                    <label class="block text-sm font-medium text-brown mb-1">Phone</label>
                     <input x-model="createModal.phone" type="text" placeholder="01XXXXXXXXX"
-                        class="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-600 focus:border-transparent outline-none">
+                        class="w-full text-sm border border-champagne rounded-lg px-3 py-2 focus:ring-2 focus:ring-gold-antique focus:border-transparent outline-none">
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Password <span class="text-red-500">*</span></label>
+                    <label class="block text-sm font-medium text-brown mb-1">Password <span class="text-red-500">*</span></label>
                     <input x-model="createModal.password" type="password" placeholder="Min. 8 characters"
-                        class="w-full text-sm border rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-600 focus:border-transparent outline-none"
-                        :class="createModal.errors.password ? 'border-red-400' : 'border-gray-200'">
+                        class="w-full text-sm border rounded-lg px-3 py-2 focus:ring-2 focus:ring-gold-antique focus:border-transparent outline-none"
+                        :class="createModal.errors.password ? 'border-red-400' : 'border-champagne'">
                     <p x-show="createModal.errors.password" class="text-xs text-red-500 mt-1" x-text="createModal.errors.password?.[0]"></p>
                 </div>
             </div>
             <div class="flex justify-end gap-2 mt-5">
                 <button @click="createModal.open = false"
-                    class="px-4 py-2 text-sm text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition cursor-pointer">
+                    class="px-4 py-2 text-sm text-muted border border-champagne rounded-lg hover:bg-cream transition cursor-pointer">
                     Cancel
                 </button>
                 <button @click="createCustomer()" :disabled="createModal.loading"
-                    class="px-4 py-2 text-sm bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 transition cursor-pointer">
+                    class="px-4 py-2 text-sm bg-primary text-white rounded-lg hover:bg-gold-antique disabled:opacity-50 transition cursor-pointer">
                     <i class="fa-solid mr-1" :class="createModal.loading ? 'fa-circle-notch fa-spin' : 'fa-plus'"></i>
                     <span x-text="createModal.loading ? 'Creating…' : 'Create Customer'"></span>
                 </button>
@@ -220,31 +220,31 @@
     <div x-show="editModal.open" x-transition.opacity
         class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40">
         <div @click.outside="editModal.open = false" class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6">
-            <h3 class="text-base font-semibold text-gray-900 mb-4">Edit Customer</h3>
+            <h3 class="text-base font-semibold text-brand mb-4">Edit Customer</h3>
             <div class="space-y-3">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Full Name <span class="text-red-500">*</span></label>
+                    <label class="block text-sm font-medium text-brown mb-1">Full Name <span class="text-red-500">*</span></label>
                     <input x-model="editModal.name" type="text"
                         class="w-full text-sm border rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none"
-                        :class="editModal.errors.name ? 'border-red-400' : 'border-gray-200'">
+                        :class="editModal.errors.name ? 'border-red-400' : 'border-champagne'">
                     <p x-show="editModal.errors.name" class="text-xs text-red-500 mt-1" x-text="editModal.errors.name?.[0]"></p>
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Email <span class="text-red-500">*</span></label>
+                    <label class="block text-sm font-medium text-brown mb-1">Email <span class="text-red-500">*</span></label>
                     <input x-model="editModal.email" type="email"
                         class="w-full text-sm border rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none"
-                        :class="editModal.errors.email ? 'border-red-400' : 'border-gray-200'">
+                        :class="editModal.errors.email ? 'border-red-400' : 'border-champagne'">
                     <p x-show="editModal.errors.email" class="text-xs text-red-500 mt-1" x-text="editModal.errors.email?.[0]"></p>
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                    <label class="block text-sm font-medium text-brown mb-1">Phone</label>
                     <input x-model="editModal.phone" type="text"
-                        class="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none">
+                        class="w-full text-sm border border-champagne rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none">
                 </div>
             </div>
             <div class="flex justify-end gap-2 mt-5">
                 <button @click="editModal.open = false"
-                    class="px-4 py-2 text-sm text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition cursor-pointer">
+                    class="px-4 py-2 text-sm text-muted border border-champagne rounded-lg hover:bg-cream transition cursor-pointer">
                     Cancel
                 </button>
                 <button @click="updateCustomer()" :disabled="editModal.loading"
@@ -264,27 +264,27 @@
                     <i class="fa-solid fa-key text-amber-600"></i>
                 </div>
                 <div>
-                    <h3 class="text-base font-semibold text-gray-900">Change Password</h3>
-                    <p class="text-xs text-gray-500">For: <span class="font-medium text-gray-700" x-text="passwordModal.customer?.name"></span></p>
+                    <h3 class="text-base font-semibold text-brand">Change Password</h3>
+                    <p class="text-xs text-muted">For: <span class="font-medium text-brown" x-text="passwordModal.customer?.name"></span></p>
                 </div>
             </div>
             <div class="space-y-3">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">New Password <span class="text-red-500">*</span></label>
+                    <label class="block text-sm font-medium text-brown mb-1">New Password <span class="text-red-500">*</span></label>
                     <input x-model="passwordModal.password" type="password" placeholder="Min. 8 characters"
                         class="w-full text-sm border rounded-lg px-3 py-2 focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none"
-                        :class="passwordModal.errors.password ? 'border-red-400' : 'border-gray-200'">
+                        :class="passwordModal.errors.password ? 'border-red-400' : 'border-champagne'">
                     <p x-show="passwordModal.errors.password" class="text-xs text-red-500 mt-1" x-text="passwordModal.errors.password?.[0]"></p>
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Confirm Password <span class="text-red-500">*</span></label>
+                    <label class="block text-sm font-medium text-brown mb-1">Confirm Password <span class="text-red-500">*</span></label>
                     <input x-model="passwordModal.password_confirmation" type="password" placeholder="Repeat new password"
-                        class="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none">
+                        class="w-full text-sm border border-champagne rounded-lg px-3 py-2 focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none">
                 </div>
             </div>
             <div class="flex justify-end gap-2 mt-5">
                 <button @click="passwordModal.open = false"
-                    class="px-4 py-2 text-sm text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition cursor-pointer">
+                    class="px-4 py-2 text-sm text-muted border border-champagne rounded-lg hover:bg-cream transition cursor-pointer">
                     Cancel
                 </button>
                 <button @click="changePassword()" :disabled="passwordModal.loading"
@@ -305,17 +305,17 @@
                     <i class="fa-solid fa-trash text-red-600"></i>
                 </div>
                 <div>
-                    <h3 class="text-base font-semibold text-gray-900">Delete Customer?</h3>
-                    <p class="text-sm text-gray-500 mt-1">
+                    <h3 class="text-base font-semibold text-brand">Delete Customer?</h3>
+                    <p class="text-sm text-muted mt-1">
                         This will permanently remove
-                        <strong class="text-gray-700" x-text="deleteModal.customer?.name"></strong>.
+                        <strong class="text-brown" x-text="deleteModal.customer?.name"></strong>.
                         This cannot be undone.
                     </p>
                 </div>
             </div>
             <div class="flex justify-end gap-2">
                 <button @click="deleteModal.open = false"
-                    class="px-4 py-2 text-sm text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition cursor-pointer">
+                    class="px-4 py-2 text-sm text-muted border border-champagne rounded-lg hover:bg-cream transition cursor-pointer">
                     Cancel
                 </button>
                 <button @click="deleteCustomer()" :disabled="deleteModal.loading"
@@ -556,7 +556,7 @@ function customerList() {
 
         toast(msg, type = 'success') {
             const el = document.createElement('div');
-            el.className = `fixed bottom-5 right-5 z-[9999] px-4 py-3 rounded-lg shadow-lg text-sm font-medium flex items-center gap-2 ${type === 'success' ? 'bg-green-600 text-white' : 'bg-red-600 text-white'}`;
+            el.className = `fixed bottom-5 right-5 z-[9999] px-4 py-3 rounded-lg shadow-lg text-sm font-medium flex items-center gap-2 ${type === 'success' ? 'bg-primary text-white' : 'bg-red-600 text-white'}`;
             el.innerHTML = `<i class="fa-solid ${type === 'success' ? 'fa-circle-check' : 'fa-circle-xmark'}"></i> ${msg}`;
             document.body.appendChild(el);
             setTimeout(() => el.remove(), 3500);
@@ -565,3 +565,13 @@ function customerList() {
 }
 </script>
 @endpush
+
+
+
+
+
+
+
+
+
+

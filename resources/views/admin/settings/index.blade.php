@@ -8,21 +8,21 @@
     {{-- Page Header --}}
     <div class="flex items-center justify-between mb-6">
         <div>
-            <h1 class="text-2xl font-bold text-gray-900">Settings & System Health</h1>
-            <p class="text-sm text-gray-500 mt-0.5">Configure application settings and monitor system status</p>
+            <h1 class="text-2xl font-bold text-brand">Settings & System Health</h1>
+            <p class="text-sm text-muted mt-0.5">Configure application settings and monitor system status</p>
         </div>
     </div>
 
     {{-- Tab Nav --}}
-    <div class="border-b border-gray-200 mb-6">
+    <div class="border-b border-champagne mb-6">
         <nav class="-mb-px flex gap-6">
             <button @click="tab = 'settings'"
-                    :class="tab === 'settings' ? 'border-green-600 text-green-600' : 'border-transparent text-gray-500 hover:text-gray-700'"
+                    :class="tab === 'settings' ? 'border-primary text-primary' : 'border-transparent text-muted hover:text-brown'"
                     class="inline-flex items-center gap-1.5 pb-3 text-sm font-medium border-b-2 transition">
                 <i class="fas fa-sliders text-xs"></i> App Settings
             </button>
             <button @click="tab = 'health'; loadHealth()"
-                    :class="tab === 'health' ? 'border-green-600 text-green-600' : 'border-transparent text-gray-500 hover:text-gray-700'"
+                    :class="tab === 'health' ? 'border-primary text-primary' : 'border-transparent text-muted hover:text-brown'"
                     class="inline-flex items-center gap-1.5 pb-3 text-sm font-medium border-b-2 transition">
                 <i class="fas fa-heart-pulse text-xs"></i> System Health
             </button>
@@ -37,7 +37,7 @@
         {{-- Loading skeleton --}}
         <div x-show="loadingSettings" class="space-y-4">
             <template x-for="i in 4">
-                <div class="bg-white rounded-xl border border-gray-200 p-6 animate-pulse">
+                <div class="bg-white rounded-xl border border-champagne p-6 animate-pulse">
                     <div class="h-4 bg-gray-200 rounded w-32 mb-4"></div>
                     <div class="grid grid-cols-2 gap-4">
                         <div class="h-10 bg-gray-100 rounded"></div>
@@ -51,34 +51,34 @@
         <div x-show="!loadingSettings" class="space-y-6">
 
             {{-- Save All Bar --}}
-            <div class="flex items-center justify-between bg-green-50 border border-green-200 rounded-xl px-5 py-3">
-                <p class="text-sm text-green-800 font-medium">
+            <div class="flex items-center justify-between bg-ivory border border-sand rounded-xl px-5 py-3">
+                <p class="text-sm text-gold-antique font-medium">
                     <i class="fas fa-circle-info mr-1"></i>
                     Changes are saved per group. Mail settings are managed via <code>.env</code>.
                 </p>
                 <button @click="saveAll()"
                         :disabled="saving"
-                        class="inline-flex items-center gap-2 px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 disabled:opacity-50 transition">
+                        class="inline-flex items-center gap-2 px-4 py-2 bg-primary text-white text-sm font-medium rounded-lg hover:bg-gold-antique disabled:opacity-50 transition">
                     <i class="fas fa-floppy-disk"></i>
                     <span x-text="saving ? 'Saving…' : 'Save All'"></span>
                 </button>
             </div>
 
             <template x-for="(group, groupKey) in groups" :key="groupKey">
-                <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+                <div class="bg-white rounded-xl border border-champagne overflow-hidden">
                     {{-- Group Header --}}
-                    <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100 bg-gray-50">
+                    <div class="flex items-center justify-between px-6 py-4 border-b border-champagne bg-cream">
                         <div class="flex items-center gap-2">
-                            <i class="fas text-green-600 text-sm" :class="groupIcons[groupKey] || 'fa-cog'"></i>
-                            <h3 class="text-sm font-semibold text-gray-800 capitalize" x-text="groupLabels[groupKey] || groupKey"></h3>
+                            <i class="fas text-primary text-sm" :class="groupIcons[groupKey] || 'fa-cog'"></i>
+                            <h3 class="text-sm font-semibold text-brown capitalize" x-text="groupLabels[groupKey] || groupKey"></h3>
                             <template x-if="group[0]?.is_readonly">
-                                <span class="ml-2 px-2 py-0.5 bg-gray-200 text-gray-500 text-xs rounded-full">Read-only</span>
+                                <span class="ml-2 px-2 py-0.5 bg-gray-200 text-muted text-xs rounded-full">Read-only</span>
                             </template>
                         </div>
                         <template x-if="!group[0]?.is_readonly">
                             <button @click="saveGroup(groupKey)"
                                     :disabled="saving"
-                                    class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-green-600 text-green-600 text-xs font-medium rounded-lg hover:bg-green-50 disabled:opacity-50 transition">
+                                    class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-primary text-primary text-xs font-medium rounded-lg hover:bg-ivory disabled:opacity-50 transition">
                                 <i class="fas fa-save"></i> Save
                             </button>
                         </template>
@@ -87,18 +87,18 @@
                     <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-5">
                         <template x-for="setting in group" :key="setting.key">
                             <div>
-                                <label class="block text-xs font-medium text-gray-700 mb-1.5" x-text="setting.label"></label>
+                                <label class="block text-xs font-medium text-brown mb-1.5" x-text="setting.label"></label>
                                 {{-- Boolean toggle --}}
                                 <template x-if="setting.type === 'boolean'">
                                     <div class="flex items-center gap-3">
                                         <button @click="if (!setting.is_readonly) setting.value = setting.value == '1' ? '0' : '1'"
-                                                :class="setting.value == '1' ? 'bg-green-600' : 'bg-gray-300'"
+                                                :class="setting.value == '1' ? 'bg-primary' : 'bg-gray-300'"
                                                 :disabled="setting.is_readonly"
                                                 class="relative inline-flex h-6 w-11 items-center rounded-full transition disabled:opacity-60 disabled:cursor-not-allowed">
                                             <span :class="setting.value == '1' ? 'translate-x-6' : 'translate-x-1'"
                                                   class="inline-block h-4 w-4 transform rounded-full bg-white transition"></span>
                                         </button>
-                                        <span class="text-sm text-gray-600" x-text="setting.value == '1' ? 'Enabled' : 'Disabled'"></span>
+                                        <span class="text-sm text-muted" x-text="setting.value == '1' ? 'Enabled' : 'Disabled'"></span>
                                     </div>
                                 </template>
                                 {{-- Integer input --}}
@@ -106,24 +106,24 @@
                                     <input type="number"
                                            x-model="setting.value"
                                            :disabled="setting.is_readonly"
-                                           class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500 disabled:bg-gray-50 disabled:text-gray-500 disabled:cursor-not-allowed">
+                                           class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary disabled:bg-cream disabled:text-muted disabled:cursor-not-allowed">
                                 </template>
                                 {{-- Text area --}}
                                 <template x-if="setting.type === 'text'">
                                     <textarea x-model="setting.value"
                                               :disabled="setting.is_readonly"
                                               rows="3"
-                                              class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500 disabled:bg-gray-50 disabled:text-gray-500 disabled:cursor-not-allowed"></textarea>
+                                              class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary disabled:bg-cream disabled:text-muted disabled:cursor-not-allowed"></textarea>
                                 </template>
                                 {{-- Default: string input --}}
                                 <template x-if="setting.type === 'string'">
                                     <input type="text"
                                            x-model="setting.value"
                                            :disabled="setting.is_readonly"
-                                           class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500 disabled:bg-gray-50 disabled:text-gray-500 disabled:cursor-not-allowed">
+                                           class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary disabled:bg-cream disabled:text-muted disabled:cursor-not-allowed">
                                 </template>
                                 <template x-if="setting.description">
-                                    <p class="mt-1 text-xs text-gray-400" x-text="setting.description"></p>
+                                    <p class="mt-1 text-xs text-taupe" x-text="setting.description"></p>
                                 </template>
                             </div>
                         </template>
@@ -143,26 +143,26 @@
         <div class="flex flex-wrap items-center gap-3 mb-6">
             <button @click="loadHealth()"
                     :disabled="loadingHealth"
-                    class="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-50 disabled:opacity-50 transition">
+                    class="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 text-brown text-sm font-medium rounded-lg hover:bg-cream disabled:opacity-50 transition">
                 <i class="fas fa-arrows-rotate" :class="loadingHealth ? 'animate-spin' : ''"></i>
                 Refresh
             </button>
 
             <button @click="clearCache()"
                     :disabled="actionLoading"
-                    class="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-50 disabled:opacity-50 transition">
+                    class="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 text-brown text-sm font-medium rounded-lg hover:bg-cream disabled:opacity-50 transition">
                 <i class="fas fa-broom"></i>
                 <span x-text="actionLoading === 'cache' ? 'Clearing…' : 'Clear Cache'"></span>
             </button>
 
             <button @click="optimizeApp()"
                     :disabled="actionLoading"
-                    class="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-50 disabled:opacity-50 transition">
+                    class="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 text-brown text-sm font-medium rounded-lg hover:bg-cream disabled:opacity-50 transition">
                 <i class="fas fa-bolt"></i>
                 <span x-text="actionLoading === 'optimize' ? 'Optimizing…' : 'Optimize'"></span>
             </button>
 
-            <div class="ml-auto flex items-center gap-2 text-xs text-gray-400">
+            <div class="ml-auto flex items-center gap-2 text-xs text-taupe">
                 <i class="fas fa-clock"></i>
                 <span x-text="lastRefreshed ? 'Last refreshed: ' + lastRefreshed : 'Not yet loaded'"></span>
             </div>
@@ -171,7 +171,7 @@
         {{-- Overall Status Banner --}}
         <template x-if="health">
             <div :class="{
-                    'bg-green-50 border-green-200 text-green-800': health.overall_status === 'ok',
+                    'bg-ivory border-sand text-gold-antique': health.overall_status === 'ok',
                     'bg-amber-50 border-amber-200 text-amber-800': health.overall_status === 'warning',
                     'bg-red-50 border-red-200 text-red-800':    health.overall_status === 'error'
                  }"
@@ -194,7 +194,7 @@
         {{-- Health Check Cards --}}
         <div x-show="loadingHealth && !health" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
             <template x-for="i in 8">
-                <div class="bg-white rounded-xl border border-gray-200 p-5 animate-pulse">
+                <div class="bg-white rounded-xl border border-champagne p-5 animate-pulse">
                     <div class="h-4 bg-gray-200 rounded w-24 mb-3"></div>
                     <div class="h-3 bg-gray-100 rounded w-full mb-2"></div>
                     <div class="h-3 bg-gray-100 rounded w-3/4"></div>
@@ -206,7 +206,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                 <template x-for="(check, key) in health.checks" :key="key">
                     <div :class="{
-                             'border-green-200 bg-green-50':  check.status === 'ok',
+                             'border-sand bg-ivory':  check.status === 'ok',
                              'border-amber-200 bg-amber-50':  check.status === 'warning',
                              'border-red-200   bg-red-50':    check.status === 'error',
                              'border-blue-200  bg-blue-50':   check.status === 'info'
@@ -216,16 +216,16 @@
                             <div class="flex items-center gap-2">
                                 <i class="fas text-sm"
                                    :class="{
-                                       'fa-circle-check text-green-600':   check.status === 'ok',
+                                       'fa-circle-check text-primary':   check.status === 'ok',
                                        'fa-triangle-exclamation text-amber-600': check.status === 'warning',
                                        'fa-circle-xmark text-red-600':     check.status === 'error',
                                        'fa-circle-info text-blue-600':     check.status === 'info'
                                    }"></i>
-                                <h4 class="text-sm font-semibold text-gray-800 capitalize" x-text="key.replace('_', ' ')"></h4>
+                                <h4 class="text-sm font-semibold text-brown capitalize" x-text="key.replace('_', ' ')"></h4>
                             </div>
                             <span class="text-xs font-medium px-2 py-0.5 rounded-full capitalize"
                                   :class="{
-                                      'bg-green-100 text-green-700': check.status === 'ok',
+                                      'bg-cream text-gold-antique': check.status === 'ok',
                                       'bg-amber-100 text-amber-700': check.status === 'warning',
                                       'bg-red-100 text-red-700':     check.status === 'error',
                                       'bg-blue-100 text-blue-700':   check.status === 'info'
@@ -236,8 +236,8 @@
                             <template x-for="(val, label) in check" :key="label">
                                 <template x-if="label !== 'status'">
                                     <div class="flex justify-between text-xs">
-                                        <dt class="text-gray-500 capitalize" x-text="label.replace(/_/g, ' ')"></dt>
-                                        <dd class="font-medium text-gray-800 truncate max-w-[60%] text-right" x-text="val ?? '—'"></dd>
+                                        <dt class="text-muted capitalize" x-text="label.replace(/_/g, ' ')"></dt>
+                                        <dd class="font-medium text-brown truncate max-w-[60%] text-right" x-text="val ?? '—'"></dd>
                                     </div>
                                 </template>
                             </template>
@@ -249,16 +249,16 @@
 
         {{-- Maintenance Mode Card --}}
         <template x-if="health">
-            <div class="mt-6 bg-white rounded-xl border border-gray-200 overflow-hidden">
-                <div class="px-6 py-4 border-b border-gray-100 bg-gray-50 flex items-center gap-2">
+            <div class="mt-6 bg-white rounded-xl border border-champagne overflow-hidden">
+                <div class="px-6 py-4 border-b border-champagne bg-cream flex items-center gap-2">
                     <i class="fas fa-hard-hat text-amber-500 text-sm"></i>
-                    <h3 class="text-sm font-semibold text-gray-800">Maintenance Mode</h3>
+                    <h3 class="text-sm font-semibold text-brown">Maintenance Mode</h3>
                 </div>
                 <div class="px-6 py-5 flex flex-col sm:flex-row sm:items-center gap-4">
                     <div class="flex-1">
-                        <p class="text-sm text-gray-700 font-medium"
+                        <p class="text-sm text-brown font-medium"
                            x-text="health.checks.app?.maintenance ? 'App is currently in MAINTENANCE MODE' : 'App is live and accepting requests'"></p>
-                        <p class="text-xs text-gray-400 mt-1">
+                        <p class="text-xs text-taupe mt-1">
                             Enabling maintenance mode will return a 503 response to all visitors.
                             A secret bypass token is set in your General settings.
                         </p>
@@ -266,7 +266,7 @@
                     <button @click="toggleMaintenance()"
                             :disabled="actionLoading === 'maintenance'"
                             :class="health.checks.app?.maintenance
-                                ? 'bg-green-600 hover:bg-green-700 text-white'
+                                ? 'bg-primary hover:bg-gold-antique text-white'
                                 : 'bg-amber-500 hover:bg-amber-600 text-white'"
                             class="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium rounded-lg disabled:opacity-50 transition whitespace-nowrap">
                         <i class="fas"
@@ -533,3 +533,13 @@ function settingsApp() {
 }
 </script>
 @endpush
+
+
+
+
+
+
+
+
+
+

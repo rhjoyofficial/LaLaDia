@@ -8,7 +8,7 @@
 
     {{-- Back link --}}
     <div class="mb-5">
-        <a href="/admin/customers" class="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-green-700 transition">
+        <a href="/admin/customers" class="inline-flex items-center gap-1.5 text-sm text-muted hover:text-gold-antique transition">
             <i class="fa-solid fa-arrow-left text-xs"></i> Back to Customers
         </a>
     </div>
@@ -16,8 +16,8 @@
     {{-- Loading --}}
     <template x-if="loading">
         <div class="space-y-4">
-            <div class="h-24 bg-white border border-gray-200 rounded-xl animate-pulse"></div>
-            <div class="h-64 bg-white border border-gray-200 rounded-xl animate-pulse"></div>
+            <div class="h-24 bg-white border border-champagne rounded-xl animate-pulse"></div>
+            <div class="h-64 bg-white border border-champagne rounded-xl animate-pulse"></div>
         </div>
     </template>
 
@@ -25,34 +25,34 @@
         <div class="space-y-5">
 
             {{-- Profile header --}}
-            <div class="bg-white border border-gray-200 rounded-xl p-5 flex flex-col sm:flex-row sm:items-center gap-4">
-                <div class="w-14 h-14 rounded-full bg-green-100 flex items-center justify-center text-green-700 text-xl font-bold uppercase flex-shrink-0"
+            <div class="bg-white border border-champagne rounded-xl p-5 flex flex-col sm:flex-row sm:items-center gap-4">
+                <div class="w-14 h-14 rounded-full bg-cream flex items-center justify-center text-gold-antique text-xl font-bold uppercase flex-shrink-0"
                     x-text="customer.name.charAt(0)">
                 </div>
                 <div class="flex-1">
-                    <h2 class="text-lg font-bold text-gray-900" x-text="customer.name"></h2>
+                    <h2 class="text-lg font-bold text-brand" x-text="customer.name"></h2>
                     <div class="flex flex-wrap items-center gap-x-4 gap-y-1 mt-1">
-                        <span class="text-sm text-gray-500" x-text="customer.email ?? '—'"></span>
-                        <span class="text-sm text-gray-500" x-text="customer.phone"></span>
-                        <span x-show="customer.referral_code" class="text-xs font-mono bg-gray-100 text-gray-600 px-2 py-0.5 rounded">
+                        <span class="text-sm text-muted" x-text="customer.email ?? '—'"></span>
+                        <span class="text-sm text-muted" x-text="customer.phone"></span>
+                        <span x-show="customer.referral_code" class="text-xs font-mono bg-gray-100 text-muted px-2 py-0.5 rounded">
                             REF: <span x-text="customer.referral_code"></span>
                         </span>
                     </div>
                     <div class="flex items-center gap-2 mt-2">
                         <template x-if="customer.is_guest">
-                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600">Guest</span>
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-muted">Guest</span>
                         </template>
                         <template x-if="!customer.is_guest">
                             <button @click="toggleActive()"
                                 class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium transition cursor-pointer"
-                                :class="customer.is_active ? 'bg-green-100 text-green-800 hover:bg-green-200' : 'bg-red-100 text-red-700 hover:bg-red-200'"
+                                :class="customer.is_active ? 'bg-cream text-gold-antique hover:bg-champagne' : 'bg-red-100 text-red-700 hover:bg-red-200'"
                                 x-text="customer.is_active ? 'Active' : 'Inactive'">
                             </button>
                         </template>
-                        <span class="text-xs text-gray-400">
+                        <span class="text-xs text-taupe">
                             Joined <span x-text="customer.created_at ? new Date(customer.created_at).toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'numeric'}) : '—'"></span>
                         </span>
-                        <span class="text-xs text-gray-400" x-show="customer.last_login_at">
+                        <span class="text-xs text-taupe" x-show="customer.last_login_at">
                             &bull; Last login <span x-text="customer.last_login_at ? new Date(customer.last_login_at).toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'2-digit'}) : ''"></span>
                         </span>
                     </div>
@@ -61,22 +61,22 @@
                 {{-- Stats --}}
                 <div class="flex sm:flex-col gap-4 sm:gap-2 sm:items-end">
                     <div class="text-right">
-                        <p class="text-2xl font-bold text-gray-900" x-text="customer.orders_count ?? 0"></p>
-                        <p class="text-xs text-gray-500">Total Orders</p>
+                        <p class="text-2xl font-bold text-brand" x-text="customer.orders_count ?? 0"></p>
+                        <p class="text-xs text-muted">Total Orders</p>
                     </div>
                     <div class="text-right">
-                        <p class="text-2xl font-bold text-green-700">
+                        <p class="text-2xl font-bold text-gold-antique">
                             ৳<span x-text="Number(customer.orders_sum_grand_total ?? 0).toLocaleString()"></span>
                         </p>
-                        <p class="text-xs text-gray-500">Total Spent</p>
+                        <p class="text-xs text-muted">Total Spent</p>
                     </div>
                 </div>
             </div>
 
             {{-- Recent Orders --}}
-            <div class="bg-white border border-gray-200 rounded-xl overflow-hidden">
-                <div class="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
-                    <h3 class="font-semibold text-gray-800 text-sm">Recent Orders</h3>
+            <div class="bg-white border border-champagne rounded-xl overflow-hidden">
+                <div class="px-5 py-4 border-b border-champagne flex items-center justify-between">
+                    <h3 class="font-semibold text-brown text-sm">Recent Orders</h3>
                     <a :href="`/admin/orders?customer_id=${customer.id}`"
                         class="text-xs text-blue-600 hover:text-blue-800 transition">
                         View all &rarr;
@@ -84,7 +84,7 @@
                 </div>
 
                 <template x-if="!customer.recent_orders || customer.recent_orders.length === 0">
-                    <div class="px-5 py-10 text-center text-gray-400 text-sm">
+                    <div class="px-5 py-10 text-center text-taupe text-sm">
                         <i class="fa-solid fa-box text-2xl mb-2 block"></i>
                         No orders yet
                     </div>
@@ -93,30 +93,30 @@
                 <template x-if="customer.recent_orders && customer.recent_orders.length > 0">
                     <div class="overflow-x-auto">
                         <table class="w-full text-sm">
-                            <thead class="bg-gray-50 border-b border-gray-100">
+                            <thead class="bg-cream border-b border-champagne">
                                 <tr>
-                                    <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Order</th>
-                                    <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Items</th>
-                                    <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Total</th>
-                                    <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Status</th>
-                                    <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Payment</th>
-                                    <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Date</th>
+                                    <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Order</th>
+                                    <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Items</th>
+                                    <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Total</th>
+                                    <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Status</th>
+                                    <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Payment</th>
+                                    <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Date</th>
                                     <th class="px-5 py-3"></th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-50">
                                 <template x-for="order in customer.recent_orders" :key="order.id">
-                                    <tr class="hover:bg-gray-50 transition">
+                                    <tr class="hover:bg-cream transition">
                                         <td class="px-5 py-3">
                                             <a :href="`/admin/orders/${order.id}`"
-                                                class="font-mono text-xs font-semibold text-green-700 hover:underline"
+                                                class="font-mono text-xs font-semibold text-gold-antique hover:underline"
                                                 x-text="'#' + order.order_number">
                                             </a>
                                         </td>
-                                        <td class="px-5 py-3 text-xs text-gray-500"
+                                        <td class="px-5 py-3 text-xs text-muted"
                                             x-text="(order.items_count ?? 0) + ' item' + (order.items_count !== 1 ? 's' : '')">
                                         </td>
-                                        <td class="px-5 py-3 text-xs font-semibold text-gray-900">
+                                        <td class="px-5 py-3 text-xs font-semibold text-brand">
                                             ৳<span x-text="Number(order.grand_total).toLocaleString()"></span>
                                         </td>
                                         <td class="px-5 py-3">
@@ -131,7 +131,7 @@
                                                 x-text="order.payment_status">
                                             </span>
                                         </td>
-                                        <td class="px-5 py-3 text-xs text-gray-400"
+                                        <td class="px-5 py-3 text-xs text-taupe"
                                             x-text="order.placed_at ? new Date(order.placed_at).toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'2-digit'}) : '—'">
                                         </td>
                                         <td class="px-5 py-3">
@@ -153,7 +153,7 @@
 
     {{-- Not found --}}
     <template x-if="!loading && !customer">
-        <div class="text-center py-16 text-gray-400">
+        <div class="text-center py-16 text-taupe">
             <i class="fa-solid fa-user-slash text-3xl mb-3 block"></i>
             Customer not found
         </div>
@@ -213,15 +213,15 @@ function customerDetail(customerId) {
                 confirmed:  'bg-blue-100 text-blue-800',
                 processing: 'bg-indigo-100 text-indigo-800',
                 shipped:    'bg-cyan-100 text-cyan-800',
-                delivered:  'bg-green-100 text-green-800',
+                delivered:  'bg-cream text-gold-antique',
                 cancelled:  'bg-red-100 text-red-800',
-                returned:   'bg-gray-100 text-gray-700',
+                returned:   'bg-gray-100 text-brown',
             };
-            return c[s] ?? 'bg-gray-100 text-gray-700';
+            return c[s] ?? 'bg-gray-100 text-brown';
         },
 
         paymentStatusColor(s) {
-            return s === 'paid'   ? 'bg-green-100 text-green-800'
+            return s === 'paid'   ? 'bg-cream text-gold-antique'
                  : s === 'failed' ? 'bg-red-100 text-red-800'
                  : 'bg-yellow-100 text-yellow-800';
         },
@@ -229,3 +229,13 @@ function customerDetail(customerId) {
 }
 </script>
 @endpush
+
+
+
+
+
+
+
+
+
+

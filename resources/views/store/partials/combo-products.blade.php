@@ -1,4 +1,4 @@
-<section class="py-16 px-4 md:px-8 bg-gray-50/50">
+<section class="py-16 px-4 md:px-8 bg-cream/50">
     <div class="max-w-8xl mx-auto">
 
         <div class="flex items-center justify-between gap-6 mb-4 md:mb-8 pb-4">
@@ -6,7 +6,7 @@
                 <h2 class="font-heading text-2xl md:text-4xl font-bold text-brand mb-2 md:mb-4">
                     Exclusive Combo Packs
                 </h2>
-                <p class="text-gray-600 text-center md:text-left font-sans">
+                <p class="text-muted text-center md:text-left font-sans">
                     Save more with our carefully curated organic bundles.
                 </p>
             </div>
@@ -34,3 +34,13 @@
         </div>
     </div>
 </section>
+
+
+
+
+
+
+
+
+
+

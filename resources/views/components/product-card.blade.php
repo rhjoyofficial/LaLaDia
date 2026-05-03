@@ -6,11 +6,11 @@
 @endphp
 
 {{-- Main Card - Named as group/card --}}
-<div class="product-card group/card flex flex-col h-full border border-gray-100 rounded-2xl p-2 md:p-4 transition-all duration-300 hover:shadow-lg hover:border-primary/20 bg-white"
+<div class="product-card group/card flex flex-col h-full border border-champagne rounded-2xl p-2 md:p-4 transition-all duration-300 hover:shadow-lg hover:border-primary/20 bg-white"
     data-variants='@json($frontendVariants)'>
 
     {{-- IMAGE --}}
-    <div class="relative aspect-square overflow-hidden rounded-xl bg-gray-50 mb-4">
+    <div class="relative aspect-square overflow-hidden rounded-xl bg-cream mb-4">
         <img src="{{ $product->image_url }}" alt="{{ $product->name }}"
             loading="lazy"
             class="aspect-square object-cover w-full h-full group-hover/card:scale-105 transition-transform duration-500">
@@ -46,7 +46,7 @@
 
         {{-- TITLE --}}
         <a href="{{ route('product.show', $product->slug) }}"
-            class="text-xs md:text-base font-bengali text-left text-gray-800 font-medium leading-snug line-clamp-2 min-h-8 group-hover/card:text-primary transition-colors truncate-2 hover:underline">
+            class="text-xs md:text-base font-bengali text-left text-brown font-medium leading-snug line-clamp-2 min-h-8 group-hover/card:text-primary transition-colors truncate-2 hover:underline">
             {{ $product->name }}
         </a>
 
@@ -60,7 +60,7 @@
                 </svg>
 
                 <select
-                    class="variantSelect relative z-10 w-full appearance-none bg-gray-50/40 border border-gray-200 hover:bg-white/80 rounded-xl px-4 py-2 text-sm font-medium text-gray-900 font-bengali focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all cursor-pointer">
+                    class="variantSelect relative z-10 w-full appearance-none bg-cream/40 border border-champagne hover:bg-white/80 rounded-xl px-4 py-2 text-sm font-medium text-brand font-bengali focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all cursor-pointer">
                     @foreach ($variants as $v)
                         <option value="{{ $v->id }}" {{ $loop->first ? 'selected' : '' }}>
                             {{ $v->title }} — {{ format_currency($v->final_price) }}
@@ -78,11 +78,11 @@
         @else
             {{-- PRICE (Only shows if there is 1 variant) --}}
             <div class="priceBox flex items-center gap-2 mt-auto mb-2 md:mb-4 font-bengali">
-                <span class="finalPrice text-sm md:text-lg font-bold text-gray-900">
+                <span class="finalPrice text-sm md:text-lg font-bold text-brand">
                     ৳{{ number_format($first?->final_price) }}
                 </span>
                 <span
-                    class="oldPrice text-xs md:text-sm text-gray-400 line-through {{ $first?->discount_percent ? '' : 'hidden' }}">
+                    class="oldPrice text-xs md:text-sm text-taupe line-through {{ $first?->discount_percent ? '' : 'hidden' }}">
                     ৳{{ number_format($first?->price) }}
                 </span>
             </div>
@@ -101,9 +101,19 @@
         {{-- CONTACT BUTTON --}}
         <button
             class="contactBtn {{ $first?->available_stock > 0 ? 'hidden' : '' }}
-            w-full flex items-center justify-center gap-2 px-2.5 py-1.5 md:py-2.5 rounded-lg md:rounded-xl bg-gray-200 text-gray-700 font-semibold transition-all">
+            w-full flex items-center justify-center gap-2 px-2.5 py-1.5 md:py-2.5 rounded-lg md:rounded-xl bg-gray-200 text-brown font-semibold transition-all">
             Contact Us
         </button>
 
     </div>
 </div>
+
+
+
+
+
+
+
+
+
+

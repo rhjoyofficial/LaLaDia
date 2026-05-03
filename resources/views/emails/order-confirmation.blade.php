@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order Confirmed</title>
     <style>
-        body { margin: 0; padding: 0; background: #f0f5f1; font-family: 'Helvetica Neue', Arial, sans-serif; color: #1a1a1a; }
+        body { margin: 0; padding: 0; background: #FDFAF4; font-family: 'Helvetica Neue', Arial, sans-serif; color: #1a1a1a; }
         .wrapper { max-width: 600px; margin: 32px auto; background: #ffffff; border-radius: 16px; overflow: hidden; border: 1px solid #e5e7eb; }
         .header { background: #1a5c2e; padding: 36px 32px; text-align: center; }
         .header h1 { margin: 0; color: #ffffff; font-size: 22px; font-weight: 700; }
@@ -19,7 +19,7 @@
         table.items { width: 100%; border-collapse: collapse; margin-bottom: 24px; }
         table.items th { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #9ca3af; padding: 0 0 8px; text-align: left; border-bottom: 1px solid #e5e7eb; }
         table.items th:last-child, table.items td:last-child { text-align: right; }
-        table.items td { padding: 10px 0; font-size: 13px; color: #374151; border-bottom: 1px solid #f3f4f6; vertical-align: top; }
+        table.items td { padding: 10px 0; font-size: 13px; color: #374151; border-bottom: 1px solid #F5EDD8; vertical-align: top; }
         table.items td .item-name { font-weight: 600; color: #111827; }
         table.items td .item-variant { font-size: 12px; color: #9ca3af; margin-top: 2px; }
         .totals { background: #f9fafb; border-radius: 10px; padding: 14px 16px; margin-bottom: 24px; }
@@ -130,3 +130,13 @@
 </div>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+

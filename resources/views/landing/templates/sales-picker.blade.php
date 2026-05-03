@@ -4,7 +4,7 @@
 @section('meta_description', $landing->meta_description ?? 'বিশেষ অফারে অর্ডার করুন')
 
 @section('content')
-    <section class="min-h-screen bg-gray-50 font-bengali">
+    <section class="min-h-screen bg-cream font-bengali">
 
         {{-- Hero --}}
         <div class="bg-linear-to-br from-red-700 via-red-600 to-rose-500 text-white py-12 md:py-16 text-center px-4">
@@ -28,8 +28,8 @@
                 {{-- LEFT: Product Picker --}}
                 <div class="space-y-5">
                     <div>
-                        <h2 class="text-2xl font-black text-gray-900 mb-1">পণ্য নির্বাচন করুন</h2>
-                        <p class="text-gray-500 text-sm">আপনার পছন্দের পণ্যটি টিক দিন ও পরিমাণ নির্বাচন করুন</p>
+                        <h2 class="text-2xl font-black text-brand mb-1">পণ্য নির্বাচন করুন</h2>
+                        <p class="text-muted text-sm">আপনার পছন্দের পণ্যটি টিক দিন ও পরিমাণ নির্বাচন করুন</p>
                     </div>
 
                     <div class="space-y-3">
@@ -69,7 +69,7 @@
                                 data-item-label="{{ addslashes($label) }}"
                                 data-active-class="border-red-400 ring-2 ring-red-100"
                                 class="bg-white rounded-2xl shadow-sm border transition-all cursor-pointer hover:shadow-md
-                                    {{ $item->is_preselected ? 'border-red-400 ring-2 ring-red-100' : 'border-gray-100 hover:border-red-100' }}">
+                                    {{ $item->is_preselected ? 'border-red-400 ring-2 ring-red-100' : 'border-champagne hover:border-red-100' }}">
 
                                 <div class="flex items-center gap-4 p-4">
 
@@ -102,7 +102,7 @@
 
                                     {{-- Info --}}
                                     <div class="flex-1 min-w-0">
-                                        <h3 class="font-bold text-gray-900 leading-tight text-sm">{{ $label }}</h3>
+                                        <h3 class="font-bold text-brand leading-tight text-sm">{{ $label }}</h3>
                                         <p class="text-red-600 font-black text-base mt-0.5 font-bengali">
                                             ৳{{ number_format($price, 0) }}</p>
                                         @if ($tierPrices->isNotEmpty())
@@ -127,11 +127,11 @@
                                     <div data-lp-qty-control style="{{ $item->is_preselected ? '' : 'display:none' }}"
                                         class="flex items-center gap-1.5 bg-red-50 rounded-xl p-1.5 flex-shrink-0">
                                         <button data-lp-qty-dec="{{ $itemKey }}" type="button"
-                                            class="w-7 h-7 bg-white hover:bg-red-100 hover:text-red-600 rounded-lg font-bold text-gray-600 transition flex items-center justify-center text-sm">
+                                            class="w-7 h-7 bg-white hover:bg-red-100 hover:text-red-600 rounded-lg font-bold text-muted transition flex items-center justify-center text-sm">
                                             &minus;
                                         </button>
                                         <span data-lp-qty-display="{{ $itemKey }}"
-                                            class="w-7 text-center font-black text-gray-800 text-sm">1</span>
+                                            class="w-7 text-center font-black text-brown text-sm">1</span>
                                         <button data-lp-qty-inc="{{ $itemKey }}" type="button"
                                             class="w-7 h-7 bg-red-600 hover:bg-red-700 text-white rounded-lg font-bold transition flex items-center justify-center text-sm">
                                             +
@@ -145,17 +145,17 @@
                     {{-- Selected items list --}}
                     <div data-lp-selected-container
                         style="{{ $salesItems->where('is_preselected', true)->count() > 0 ? '' : 'display:none' }}"
-                        class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 space-y-2">
-                        <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">নির্বাচিত পণ্য</p>
+                        class="bg-white rounded-2xl border border-champagne shadow-sm p-4 space-y-2">
+                        <p class="text-xs font-bold text-taupe uppercase tracking-widest">নির্বাচিত পণ্য</p>
                         <div data-lp-selected-list class="space-y-1"></div>
                     </div>
 
                     {{-- Rules (desktop) --}}
-                    <div class="hidden md:block bg-white rounded-2xl border border-gray-100 shadow-sm p-5 space-y-2.5">
-                        <h4 class="text-sm font-bold text-gray-700 flex items-center gap-2">
+                    <div class="hidden md:block bg-white rounded-2xl border border-champagne shadow-sm p-5 space-y-2.5">
+                        <h4 class="text-sm font-bold text-brown flex items-center gap-2">
                             <i class="fas fa-info-circle text-red-400"></i> অর্ডারের নিয়মাবলী
                         </h4>
-                        <ul class="space-y-2 text-xs text-gray-600">
+                        <ul class="space-y-2 text-xs text-muted">
                             <li class="flex items-start gap-2">
                                 <i class="fas fa-truck text-red-400 mt-0.5 shrink-0"></i>
                                 ক্যাশ অন ডেলিভারি — পণ্য হাতে পেয়ে পরিশোধ করুন।
@@ -173,7 +173,7 @@
                     <div class="bg-white border border-red-100 rounded-3xl p-6 md:p-8 shadow-xl shadow-red-50/50">
 
                         <div class="text-center mb-7">
-                            <h2 class="text-2xl font-bold text-gray-900">অর্ডার কনফার্ম করুন</h2>
+                            <h2 class="text-2xl font-bold text-brand">অর্ডার কনফার্ম করুন</h2>
                             <p class="text-red-600 text-xs italic mt-1.5">সঠিক তথ্য দিয়ে নিচের ফর্মটি পূরণ করুন</p>
                         </div>
 
@@ -181,13 +181,13 @@
 
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <input type="text" name="customer_name" placeholder="আপনার নাম *"
-                                    class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-red-400 focus:ring-2 focus:ring-red-100 outline-none text-sm transition-all">
+                                    class="w-full px-4 py-3 rounded-xl border border-champagne focus:border-red-400 focus:ring-2 focus:ring-red-100 outline-none text-sm transition-all">
                                 <input type="tel" name="customer_phone" placeholder="মোবাইল নম্বর *"
-                                    class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-red-400 focus:ring-2 focus:ring-red-100 outline-none text-sm transition-all">
+                                    class="w-full px-4 py-3 rounded-xl border border-champagne focus:border-red-400 focus:ring-2 focus:ring-red-100 outline-none text-sm transition-all">
                             </div>
 
                             <input type="text" name="address_line" placeholder="পূর্ণ ঠিকানা (বাসা, রোড, এলাকা, জেলা) *"
-                                class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-red-400 focus:ring-2 focus:ring-red-100 outline-none text-sm transition-all">
+                                class="w-full px-4 py-3 rounded-xl border border-champagne focus:border-red-400 focus:ring-2 focus:ring-red-100 outline-none text-sm transition-all">
 
                             {{-- Bulk CTA --}}
                             <div
@@ -206,17 +206,17 @@
 
                             {{-- Delivery Zone --}}
                             <div class="bg-red-50/60 p-4 rounded-2xl border border-red-100">
-                                <p class="text-sm font-bold text-gray-700 mb-3">
+                                <p class="text-sm font-bold text-brown mb-3">
                                     ডেলিভারি এলাকা <span class="text-red-500">*</span>
                                 </p>
                                 <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
                                     @foreach ($zones as $zone)
                                         <label data-lp-zone-label data-active-class="border-red-500 bg-red-50"
-                                            class="flex flex-col items-center p-3 border-2 rounded-xl cursor-pointer text-center transition-all border-gray-200 bg-white hover:border-red-200">
+                                            class="flex flex-col items-center p-3 border-2 rounded-xl cursor-pointer text-center transition-all border-champagne bg-white hover:border-red-200">
                                             <input type="radio" name="zone" value="{{ $zone->id }}"
                                                 data-lp-zone class="hidden">
                                             <span
-                                                class="text-xs font-bold text-gray-800 leading-tight">{{ $zone->name }}</span>
+                                                class="text-xs font-bold text-brown leading-tight">{{ $zone->name }}</span>
                                             <span
                                                 class="text-xs text-red-600 font-bold font-bengali mt-0.5">৳{{ number_format($zone->base_charge, 0) }}</span>
                                         </label>
@@ -225,24 +225,24 @@
                             </div>
 
                             {{-- Order Summary --}}
-                            <div class="p-4 bg-gray-50 rounded-2xl border border-dashed border-gray-200 space-y-2 text-sm">
-                                <div class="flex justify-between text-gray-500">
+                            <div class="p-4 bg-cream rounded-2xl border border-dashed border-champagne space-y-2 text-sm">
+                                <div class="flex justify-between text-muted">
                                     <span>পণ্যের মূল্য</span>
-                                    <span data-lp-display="subtotal" class="font-semibold text-gray-800">—</span>
+                                    <span data-lp-display="subtotal" class="font-semibold text-brown">—</span>
                                 </div>
                                 <div data-lp-display-row="tier-discount" style="display:none"
-                                    class="flex justify-between text-green-600">
+                                    class="flex justify-between text-primary">
                                     <span>বাল্ক ডিসকাউন্ট</span>
                                     <span data-lp-display="tier-discount" class="font-semibold">—</span>
                                 </div>
-                                <div class="flex justify-between text-gray-500">
+                                <div class="flex justify-between text-muted">
                                     <span>ডেলিভারি চার্জ</span>
-                                    <span data-lp-zone-note class="text-gray-400 italic text-xs">এলাকা নির্বাচন করুন</span>
+                                    <span data-lp-zone-note class="text-taupe italic text-xs">এলাকা নির্বাচন করুন</span>
                                     <span data-lp-display="shipping" style="display:none"
-                                        class="font-semibold text-gray-800 font-bengali"></span>
+                                        class="font-semibold text-brown font-bengali"></span>
                                 </div>
-                                <div class="flex justify-between items-center border-t border-gray-200 pt-2">
-                                    <span class="font-black text-gray-800">সর্বমোট</span>
+                                <div class="flex justify-between items-center border-t border-champagne pt-2">
+                                    <span class="font-black text-brown">সর্বমোট</span>
                                     <span data-lp-display="total"
                                         class="text-xl font-black text-red-600 font-bengali">—</span>
                                 </div>
@@ -255,7 +255,7 @@
                             {{-- No items warning --}}
                             <div data-lp-no-items
                                 style="{{ $salesItems->where('is_preselected', true)->count() === 0 ? '' : 'display:none' }}"
-                                class="text-center text-xs text-gray-400 py-1">
+                                class="text-center text-xs text-taupe py-1">
                                 অর্ডার দিতে অন্তত একটি পণ্য নির্বাচন করুন
                             </div>
 
@@ -277,8 +277,8 @@
                             </button>
 
                             {{-- Rules (mobile) --}}
-                            <div class="md:hidden mt-2 pt-4 border-t border-gray-100 space-y-2">
-                                <p class="flex items-start gap-2 text-xs text-gray-500">
+                            <div class="md:hidden mt-2 pt-4 border-t border-champagne space-y-2">
+                                <p class="flex items-start gap-2 text-xs text-muted">
                                     <i class="fas fa-hand-holding-usd text-red-400 mt-0.5 shrink-0"></i>
                                     ক্যাশ অন ডেলিভারি — পণ্য পেয়ে পরিশোধ করুন।
                                 </p>
@@ -292,13 +292,13 @@
             <div data-lp-success-modal style="display:none"
                 class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 px-4">
                 <div class="bg-white p-8 rounded-3xl max-w-sm w-full text-center shadow-2xl border border-red-100">
-                    <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-5">
-                        <svg class="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="w-20 h-20 bg-cream rounded-full flex items-center justify-center mx-auto mb-5">
+                        <svg class="w-10 h-10 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
                         </svg>
                     </div>
-                    <h2 class="text-2xl font-black text-gray-900 mb-2">অর্ডার সফল হয়েছে!</h2>
-                    <p class="text-gray-500 text-sm mb-6">আমাদের প্রতিনিধি শীঘ্রই আপনার সাথে যোগাযোগ করবেন।</p>
+                    <h2 class="text-2xl font-black text-brand mb-2">অর্ডার সফল হয়েছে!</h2>
+                    <p class="text-muted text-sm mb-6">আমাদের প্রতিনিধি শীঘ্রই আপনার সাথে যোগাযোগ করবেন।</p>
                     <button onclick="window.location.href='/'"
                         class="w-full bg-red-600 text-white py-3 rounded-xl font-bold hover:bg-red-700 transition cursor-pointer">
                         ঠিক আছে
@@ -313,3 +313,13 @@
 @push('scripts')
     <script src="{{ asset('js/landing-checkout.js') }}"></script>
 @endpush
+
+
+
+
+
+
+
+
+
+

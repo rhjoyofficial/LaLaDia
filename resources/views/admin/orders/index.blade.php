@@ -9,11 +9,11 @@
     {{-- Page Header --}}
     <div class="flex items-center justify-between mb-6">
         <div>
-            <h2 class="text-lg font-bold text-gray-800">Orders</h2>
-            <p class="text-sm text-gray-500 mt-0.5">Manage and track all customer orders</p>
+            <h2 class="text-lg font-bold text-brown">Orders</h2>
+            <p class="text-sm text-muted mt-0.5">Manage and track all customer orders</p>
         </div>
         <div class="flex items-center gap-3">
-            <span class="text-sm text-gray-500" x-show="meta.total !== undefined" x-text="meta.total + ' orders'"></span>
+            <span class="text-sm text-muted" x-show="meta.total !== undefined" x-text="meta.total + ' orders'"></span>
             @can('order.create')
             <button @click="showImportModal = true"
                class="inline-flex items-center gap-2 px-4 py-2 bg-purple-600 text-white text-sm font-medium rounded-lg hover:bg-purple-700 transition cursor-pointer">
@@ -28,16 +28,16 @@
     </div>
 
     {{-- Filters --}}
-    <div class="bg-white border border-gray-200 rounded-xl mb-4 p-4 flex flex-wrap gap-3">
+    <div class="bg-white border border-champagne rounded-xl mb-4 p-4 flex flex-wrap gap-3">
         <div class="relative flex-1 min-w-52">
-            <i class="fa-solid fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+            <i class="fa-solid fa-search absolute left-3 top-1/2 -translate-y-1/2 text-taupe text-xs"></i>
             <input type="text" x-model="search" @input.debounce.400ms="loadOrders(1)"
                 placeholder="Order #, phone, or name…"
-                class="w-full pl-9 pr-4 py-2 text-sm border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-green-600">
+                class="w-full pl-9 pr-4 py-2 text-sm border border-champagne rounded-lg outline-none focus:ring-2 focus:ring-gold-antique">
         </div>
 
         <select x-model="filterStatus" @change="loadOrders(1)"
-            class="border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-600 cursor-pointer">
+            class="border border-champagne rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-gold-antique cursor-pointer">
             <option value="">All Statuses</option>
             <option value="pending">Pending</option>
             <option value="confirmed">Confirmed</option>
@@ -49,14 +49,14 @@
         </select>
 
         <select x-model="filterPayment" @change="loadOrders(1)"
-            class="border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-600 cursor-pointer">
+            class="border border-champagne rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-gold-antique cursor-pointer">
             <option value="">All Payment</option>
             <option value="cod">COD</option>
             <option value="sslcommerz">SSLCommerz</option>
         </select>
 
         <select x-model="filterPaymentStatus" @change="loadOrders(1)"
-            class="border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-600 cursor-pointer">
+            class="border border-champagne rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-gold-antique cursor-pointer">
             <option value="">All Payment Status</option>
             <option value="unpaid">Unpaid</option>
             <option value="paid">Paid</option>
@@ -65,15 +65,15 @@
 
         <div class="flex gap-2">
             <input type="date" x-model="dateFrom" @change="loadOrders(1)"
-                class="border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-600"
+                class="border border-champagne rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-gold-antique"
                 placeholder="From">
             <input type="date" x-model="dateTo" @change="loadOrders(1)"
-                class="border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-600"
+                class="border border-champagne rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-gold-antique"
                 placeholder="To">
         </div>
 
         <button @click="clearFilters()" x-show="hasFilters"
-            class="text-xs text-gray-500 hover:text-red-600 transition cursor-pointer px-2">
+            class="text-xs text-muted hover:text-red-600 transition cursor-pointer px-2">
             <i class="fa-solid fa-xmark"></i> Clear
         </button>
     </div>
@@ -97,7 +97,7 @@
                 <i class="fas fa-file-export text-xs"></i> Export Data
             </button>
             <button @click="openBulkPathaoModal()"
-                    class="inline-flex items-center gap-1.5 px-4 py-1.5 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 transition cursor-pointer">
+                    class="inline-flex items-center gap-1.5 px-4 py-1.5 bg-primary text-white text-sm font-medium rounded-lg hover:bg-gold-antique transition cursor-pointer">
                 <i class="fas fa-paper-plane text-xs"></i> Send to Pathao
             </button>
         </div>
@@ -106,26 +106,26 @@
     @endcan
 
     {{-- Table --}}
-    <div class="bg-white border border-gray-200 rounded-xl overflow-hidden">
+    <div class="bg-white border border-champagne rounded-xl overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full text-sm">
-                <thead class="bg-gray-50 border-b border-gray-100">
+                <thead class="bg-cream border-b border-champagne">
                     <tr>
                         @can('order.update')
                         <th class="px-3 py-3 w-10">
                             <input type="checkbox" @change="toggleSelectAll($event)" :checked="allSelected"
-                                   class="rounded border-gray-300 text-green-600 focus:ring-green-500 cursor-pointer">
+                                   class="rounded border-gray-300 text-primary focus:ring-primary cursor-pointer">
                         </th>
                         @endcan
-                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Order</th>
-                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Customer</th>
-                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Items</th>
-                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Total</th>
-                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Status</th>
-                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Payment</th>
-                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Courier</th>
-                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Date</th>
-                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase"></th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Order</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Customer</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Items</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Total</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Status</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Payment</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Courier</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Date</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase"></th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-50">
@@ -140,27 +140,27 @@
 
                     <template x-if="!loading">
                         <template x-for="order in orders" :key="order.id">
-                            <tr class="hover:bg-gray-50 transition">
+                            <tr class="hover:bg-cream transition">
                                 @can('order.update')
                                 <td class="px-3 py-3">
                                     <input type="checkbox" :value="order.id"
                                            @change="toggleSelect(order.id)"
                                            :checked="selectedOrders.includes(order.id)"
-                                           class="rounded border-gray-300 text-green-600 focus:ring-green-500 cursor-pointer">
+                                           class="rounded border-gray-300 text-primary focus:ring-primary cursor-pointer">
                                 </td>
                                 @endcan
                                 <td class="px-5 py-3">
                                     <a :href="`/admin/orders/${order.id}`"
-                                        class="font-mono text-xs font-semibold text-green-700 hover:underline"
+                                        class="font-mono text-xs font-semibold text-gold-antique hover:underline"
                                         x-text="'#' + order.order_number">
                                     </a>
                                 </td>
                                 <td class="px-5 py-3">
-                                    <p class="font-medium text-gray-800 text-xs" x-text="order.customer_name"></p>
-                                    <p class="text-xs text-gray-400" x-text="order.customer_phone"></p>
+                                    <p class="font-medium text-brown text-xs" x-text="order.customer_name"></p>
+                                    <p class="text-xs text-taupe" x-text="order.customer_phone"></p>
                                 </td>
-                                <td class="px-5 py-3 text-gray-600 text-xs" x-text="(order.items_count ?? '—') + ' item' + (order.items_count !== 1 ? 's' : '')"></td>
-                                <td class="px-5 py-3 font-semibold text-gray-900 text-xs">
+                                <td class="px-5 py-3 text-muted text-xs" x-text="(order.items_count ?? '—') + ' item' + (order.items_count !== 1 ? 's' : '')"></td>
+                                <td class="px-5 py-3 font-semibold text-brand text-xs">
                                     ৳<span x-text="Number(order.grand_total).toLocaleString()"></span>
                                 </td>
                                 <td class="px-5 py-3">
@@ -171,7 +171,7 @@
                                 </td>
                                 <td class="px-5 py-3">
                                     <div class="flex flex-col gap-0.5">
-                                        <span class="text-xs text-gray-500 uppercase" x-text="order.payment_method"></span>
+                                        <span class="text-xs text-muted uppercase" x-text="order.payment_method"></span>
                                         <span class="inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium capitalize"
                                             :class="paymentStatusColor(order.payment_status)"
                                             x-text="order.payment_status">
@@ -181,17 +181,17 @@
                                 <td class="px-5 py-3">
                                     <template x-if="order.shipments && order.shipments.length > 0">
                                         <div class="flex flex-col gap-0.5">
-                                            <span class="text-xs font-medium text-gray-700" x-text="order.shipments[0].courier_label"></span>
+                                            <span class="text-xs font-medium text-brown" x-text="order.shipments[0].courier_label"></span>
                                             <span class="inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium"
                                                   :class="shipmentStatusColor(order.shipments[0].status)"
                                                   x-text="order.shipments[0].status_label"></span>
                                         </div>
                                     </template>
                                     <template x-if="!order.shipments || order.shipments.length === 0">
-                                        <span class="text-xs text-gray-400">—</span>
+                                        <span class="text-xs text-taupe">—</span>
                                     </template>
                                 </td>
-                                <td class="px-5 py-3 text-xs text-gray-400" x-text="order.placed_at ? new Date(order.placed_at).toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'2-digit'}) : '—'"></td>
+                                <td class="px-5 py-3 text-xs text-taupe" x-text="order.placed_at ? new Date(order.placed_at).toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'2-digit'}) : '—'"></td>
                                 <td class="px-5 py-3">
                                     <a :href="`/admin/orders/${order.id}`"
                                         class="inline-flex items-center gap-1 text-xs text-blue-600 hover:text-blue-800 font-medium transition">
@@ -204,7 +204,7 @@
 
                     <template x-if="!loading && orders.length === 0">
                         <tr>
-                            <td :colspan="canUpdate ? 11 : 10" class="px-5 py-12 text-center text-gray-400">
+                            <td :colspan="canUpdate ? 11 : 10" class="px-5 py-12 text-center text-taupe">
                                 <i class="fa-solid fa-box text-2xl mb-2 block"></i>
                                 No orders found
                             </td>
@@ -216,18 +216,18 @@
         </div>
 
         {{-- Pagination --}}
-        <div class="px-5 py-3 border-t border-gray-100 flex items-center justify-between" x-show="meta.last_page > 1">
-            <p class="text-xs text-gray-500">
+        <div class="px-5 py-3 border-t border-champagne flex items-center justify-between" x-show="meta.last_page > 1">
+            <p class="text-xs text-muted">
                 Page <span x-text="meta.current_page"></span> of <span x-text="meta.last_page"></span>
                 &bull; <span x-text="meta.total"></span> orders
             </p>
             <div class="flex gap-2">
                 <button @click="loadOrders(meta.current_page - 1)" :disabled="meta.current_page <= 1"
-                    class="px-3 py-1.5 text-xs font-medium border border-gray-200 rounded-lg disabled:opacity-40 hover:bg-gray-50 transition cursor-pointer disabled:cursor-not-allowed">
+                    class="px-3 py-1.5 text-xs font-medium border border-champagne rounded-lg disabled:opacity-40 hover:bg-cream transition cursor-pointer disabled:cursor-not-allowed">
                     &larr; Prev
                 </button>
                 <button @click="loadOrders(meta.current_page + 1)" :disabled="meta.current_page >= meta.last_page"
-                    class="px-3 py-1.5 text-xs font-medium border border-gray-200 rounded-lg disabled:opacity-40 hover:bg-gray-50 transition cursor-pointer disabled:cursor-not-allowed">
+                    class="px-3 py-1.5 text-xs font-medium border border-champagne rounded-lg disabled:opacity-40 hover:bg-cream transition cursor-pointer disabled:cursor-not-allowed">
                     Next &rarr;
                 </button>
             </div>
@@ -237,23 +237,23 @@
     {{-- Import Modal --}}
     <div x-show="showImportModal" x-cloak class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm px-4">
         <div @click.away="if(!importing) showImportModal = false" class="bg-white w-full max-w-md rounded-2xl shadow-xl overflow-hidden">
-            <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
-                <h3 class="font-bold text-gray-800">Import Orders</h3>
-                <button @click="if(!importing) showImportModal = false" class="text-gray-400 hover:text-gray-600 cursor-pointer">&times;</button>
+            <div class="px-6 py-4 border-b border-champagne flex items-center justify-between">
+                <h3 class="font-bold text-brown">Import Orders</h3>
+                <button @click="if(!importing) showImportModal = false" class="text-taupe hover:text-muted cursor-pointer">&times;</button>
             </div>
             <div class="p-6">
                 <div class="mb-4">
-                    <p class="text-sm text-gray-600 mb-2">Upload a CSV file containing order data. Ensure you match the required column formats.</p>
+                    <p class="text-sm text-muted mb-2">Upload a CSV file containing order data. Ensure you match the required column formats.</p>
                     <a href="/api/v1/admin/orders/import-template" class="text-xs font-semibold text-blue-600 hover:text-blue-800 underline">
                         <i class="fas fa-download mr-1"></i> Download CSV Template
                     </a>
                 </div>
                 
                 <div class="mb-5">
-                    <input type="file" x-ref="importFileInput" accept=".csv" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100 cursor-pointer">
+                    <input type="file" x-ref="importFileInput" accept=".csv" class="block w-full text-sm text-muted file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100 cursor-pointer">
                 </div>
 
-                <div x-show="importResult" class="mb-4 text-xs p-3 rounded-lg bg-gray-50 border border-gray-200" x-html="importResult"></div>
+                <div x-show="importResult" class="mb-4 text-xs p-3 rounded-lg bg-cream border border-champagne" x-html="importResult"></div>
 
                 <button @click="importOrders" :disabled="importing" class="w-full py-2.5 bg-purple-600 text-white font-medium rounded-xl hover:bg-purple-700 transition disabled:opacity-50 flex justify-center items-center gap-2 cursor-pointer">
                     <i class="fas bg-transparent" :class="importing ? 'fa-spinner fa-spin' : 'fa-upload'"></i>
@@ -270,23 +270,23 @@
         <div class="absolute inset-0 bg-black/50" @click="showBulkPathaoModal = false"></div>
         <div class="relative bg-white rounded-2xl shadow-2xl w-full max-w-xl max-h-[90vh] overflow-y-auto" @click.stop>
 
-            <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+            <div class="px-6 py-4 border-b border-champagne flex items-center justify-between">
                 <div>
-                    <h2 class="text-base font-bold text-gray-800"><i class="fas fa-paper-plane text-green-600 mr-2"></i>Send to Pathao</h2>
-                    <p class="text-xs text-gray-400 mt-0.5">
-                        Order <span class="font-semibold text-gray-600" x-text="bulkQueue[bulkQueueIdx]?.order_number ?? ''"></span>
+                    <h2 class="text-base font-bold text-brown"><i class="fas fa-paper-plane text-primary mr-2"></i>Send to Pathao</h2>
+                    <p class="text-xs text-taupe mt-0.5">
+                        Order <span class="font-semibold text-muted" x-text="bulkQueue[bulkQueueIdx]?.order_number ?? ''"></span>
                         — <span x-text="(bulkQueueIdx + 1) + ' of ' + bulkQueue.length"></span>
                     </p>
                 </div>
-                <button @click="showBulkPathaoModal = false" class="text-gray-400 hover:text-gray-600 cursor-pointer"><i class="fas fa-xmark text-lg"></i></button>
+                <button @click="showBulkPathaoModal = false" class="text-taupe hover:text-muted cursor-pointer"><i class="fas fa-xmark text-lg"></i></button>
             </div>
 
             <div class="p-6 space-y-4">
                 {{-- City --}}
                 <div>
-                    <label class="block text-xs font-semibold text-gray-600 mb-1">City <span class="text-red-500">*</span></label>
+                    <label class="block text-xs font-semibold text-muted mb-1">City <span class="text-red-500">*</span></label>
                     <select x-model="bulkPathao.city_id" @change="loadBulkZones()" :disabled="bulkPathao.loadingCities"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-green-500 focus:outline-none">
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:outline-none">
                         <option value="">-- Select City --</option>
                         <template x-for="c in bulkPathao.cities" :key="c.city_id">
                             <option :value="c.city_id" x-text="c.city_name"></option>
@@ -296,9 +296,9 @@
 
                 {{-- Zone --}}
                 <div>
-                    <label class="block text-xs font-semibold text-gray-600 mb-1">Zone <span class="text-red-500">*</span></label>
+                    <label class="block text-xs font-semibold text-muted mb-1">Zone <span class="text-red-500">*</span></label>
                     <select x-model="bulkPathao.zone_id" @change="loadBulkAreas()" :disabled="!bulkPathao.city_id || bulkPathao.loadingZones"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-green-500 focus:outline-none">
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:outline-none">
                         <option value="">-- Select Zone --</option>
                         <template x-for="z in bulkPathao.zones" :key="z.zone_id">
                             <option :value="z.zone_id" x-text="z.zone_name"></option>
@@ -308,9 +308,9 @@
 
                 {{-- Area --}}
                 <div>
-                    <label class="block text-xs font-semibold text-gray-600 mb-1">Area</label>
+                    <label class="block text-xs font-semibold text-muted mb-1">Area</label>
                     <select x-model="bulkPathao.area_id" :disabled="!bulkPathao.zone_id || bulkPathao.loadingAreas"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-green-500 focus:outline-none">
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:outline-none">
                         <option value="">-- Select Area (optional) --</option>
                         <template x-for="a in bulkPathao.areas" :key="a.area_id">
                             <option :value="a.area_id" x-text="a.area_name"></option>
@@ -320,29 +320,29 @@
 
                 {{-- Address + Phone --}}
                 <div>
-                    <label class="block text-xs font-semibold text-gray-600 mb-1">Shipping Address <span class="text-red-500">*</span></label>
+                    <label class="block text-xs font-semibold text-muted mb-1">Shipping Address <span class="text-red-500">*</span></label>
                     <input type="text" x-model="bulkPathao.shipping_address"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-green-500 focus:outline-none">
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:outline-none">
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-xs font-semibold text-gray-600 mb-1">Shipping Mobile <span class="text-red-500">*</span></label>
+                        <label class="block text-xs font-semibold text-muted mb-1">Shipping Mobile <span class="text-red-500">*</span></label>
                         <input type="text" x-model="bulkPathao.shipping_phone"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-green-500 focus:outline-none">
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:outline-none">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-gray-600 mb-1">Alternative Mobile</label>
+                        <label class="block text-xs font-semibold text-muted mb-1">Alternative Mobile</label>
                         <input type="text" x-model="bulkPathao.alternative_phone"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-green-500 focus:outline-none" placeholder="optional">
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:outline-none" placeholder="optional">
                     </div>
                 </div>
 
                 {{-- Weight --}}
                 <div>
-                    <label class="block text-xs font-semibold text-gray-600 mb-1">Weight (kg) <span class="text-red-500">*</span></label>
+                    <label class="block text-xs font-semibold text-muted mb-1">Weight (kg) <span class="text-red-500">*</span></label>
                     <select x-model="bulkPathao.item_weight"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-green-500 focus:outline-none">
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:outline-none">
                         <option value="0.5">0.5 kg</option>
                         <option value="1">1 kg</option>
                         <option value="1.5">1.5 kg</option>
@@ -355,33 +355,33 @@
 
                 {{-- Note --}}
                 <div>
-                    <label class="block text-xs font-semibold text-gray-600 mb-1">Shipping Note</label>
+                    <label class="block text-xs font-semibold text-muted mb-1">Shipping Note</label>
                     <textarea x-model="bulkPathao.shipping_note" rows="2"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-green-500 focus:outline-none resize-none"></textarea>
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:outline-none resize-none"></textarea>
                 </div>
 
                 {{-- Progress --}}
-                <div x-show="bulkResults.length > 0" class="text-xs space-y-1 max-h-28 overflow-y-auto border border-gray-100 rounded-lg p-2 bg-gray-50">
+                <div x-show="bulkResults.length > 0" class="text-xs space-y-1 max-h-28 overflow-y-auto border border-champagne rounded-lg p-2 bg-cream">
                     <template x-for="(r, i) in bulkResults" :key="i">
-                        <div :class="r.ok ? 'text-green-700' : 'text-red-600'" x-text="r.msg"></div>
+                        <div :class="r.ok ? 'text-gold-antique' : 'text-red-600'" x-text="r.msg"></div>
                     </template>
                 </div>
 
                 <div x-show="bulkPathao.error" x-cloak class="text-xs text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2" x-text="bulkPathao.error"></div>
             </div>
 
-            <div class="px-6 py-4 border-t border-gray-100 flex justify-between gap-3">
+            <div class="px-6 py-4 border-t border-champagne flex justify-between gap-3">
                 <button @click="skipBulkOrder()"
-                    class="px-4 py-2 text-sm text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition cursor-pointer">
+                    class="px-4 py-2 text-sm text-muted bg-gray-100 rounded-lg hover:bg-gray-200 transition cursor-pointer">
                     Skip this order
                 </button>
                 <div class="flex gap-2">
                     <button @click="showBulkPathaoModal = false"
-                        class="px-4 py-2 text-sm text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition cursor-pointer">
+                        class="px-4 py-2 text-sm text-muted bg-gray-100 rounded-lg hover:bg-gray-200 transition cursor-pointer">
                         Close
                     </button>
                     <button @click="submitBulkPathaoOrder()" :disabled="bulkPathao.submitting || !bulkPathao.city_id || !bulkPathao.zone_id"
-                        class="inline-flex items-center gap-2 px-5 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 disabled:opacity-50 transition cursor-pointer">
+                        class="inline-flex items-center gap-2 px-5 py-2 bg-primary text-white text-sm font-medium rounded-lg hover:bg-gold-antique disabled:opacity-50 transition cursor-pointer">
                         <i class="fas" :class="bulkPathao.submitting ? 'fa-spinner fa-spin' : 'fa-paper-plane'"></i>
                         <span x-text="bulkPathao.submitting ? 'Sending…' : (bulkQueueIdx < bulkQueue.length - 1 ? 'Submit & Next' : 'Submit & Finish')" ></span>
                     </button>
@@ -520,7 +520,7 @@ function orderList() {
                 
                 const data = await r.json();
                 if (r.ok) {
-                    let resHtml = `<p class="text-green-600 font-bold mb-1">${data.message}</p>`;
+                    let resHtml = `<p class="text-primary font-bold mb-1">${data.message}</p>`;
                     if (data.data?.errors?.length > 0) {
                         resHtml += `<ul class="text-red-500 list-disc list-inside mt-2 max-h-32 overflow-y-auto">`;
                         data.data.errors.forEach(e => resHtml += `<li>${e}</li>`);
@@ -687,15 +687,15 @@ function orderList() {
                 confirmed: 'bg-blue-100 text-blue-800',
                 processing: 'bg-indigo-100 text-indigo-800',
                 shipped: 'bg-cyan-100 text-cyan-800',
-                delivered: 'bg-green-100 text-green-800',
+                delivered: 'bg-cream text-gold-antique',
                 cancelled: 'bg-red-100 text-red-800',
-                returned: 'bg-gray-100 text-gray-700',
+                returned: 'bg-gray-100 text-brown',
             };
-            return c[s] ?? 'bg-gray-100 text-gray-700';
+            return c[s] ?? 'bg-gray-100 text-brown';
         },
 
         paymentStatusColor(s) {
-            return s === 'paid' ? 'bg-green-100 text-green-800'
+            return s === 'paid' ? 'bg-cream text-gold-antique'
                 : s === 'failed' ? 'bg-red-100 text-red-800'
                 : 'bg-yellow-100 text-yellow-800';
         },
@@ -706,15 +706,25 @@ function orderList() {
                 picked_up:        'bg-blue-100 text-blue-700',
                 in_transit:       'bg-indigo-100 text-indigo-700',
                 out_for_delivery: 'bg-cyan-100 text-cyan-700',
-                delivered:        'bg-green-100 text-green-700',
+                delivered:        'bg-cream text-gold-antique',
                 partial_delivery: 'bg-amber-100 text-amber-700',
                 cancelled:        'bg-red-100 text-red-700',
-                returned:         'bg-gray-100 text-gray-600',
+                returned:         'bg-gray-100 text-muted',
                 on_hold:          'bg-orange-100 text-orange-700',
             };
-            return c[s] ?? 'bg-gray-100 text-gray-600';
+            return c[s] ?? 'bg-gray-100 text-muted';
         },
     };
 }
 </script>
 @endpush
+
+
+
+
+
+
+
+
+
+

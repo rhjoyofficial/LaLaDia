@@ -8,8 +8,8 @@
     {{-- Page Header --}}
     <div class="flex items-center justify-between mb-6">
         <div>
-            <h1 class="text-2xl font-bold text-gray-900">Webhooks</h1>
-            <p class="text-sm text-gray-500 mt-0.5">Register external URLs to receive real-time event notifications</p>
+            <h1 class="text-2xl font-bold text-brand">Webhooks</h1>
+            <p class="text-sm text-muted mt-0.5">Register external URLs to receive real-time event notifications</p>
         </div>
         <button @click="openCreateModal()"
             class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 transition cursor-pointer">
@@ -20,16 +20,16 @@
     {{-- Event Reference Cards --}}
     <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3 mb-6">
         <template x-for="ev in allowedEvents" :key="ev">
-            <div class="bg-white border border-gray-200 rounded-xl px-3 py-2.5 flex items-center gap-2">
+            <div class="bg-white border border-champagne rounded-xl px-3 py-2.5 flex items-center gap-2">
                 <span class="w-2 h-2 rounded-full shrink-0"
-                    :class="webhooks.some(w => w.event === ev && w.is_active) ? 'bg-green-500' : 'bg-gray-300'"></span>
-                <span class="text-xs font-mono text-gray-700 truncate" x-text="ev"></span>
+                    :class="webhooks.some(w => w.event === ev && w.is_active) ? 'bg-ivory0' : 'bg-gray-300'"></span>
+                <span class="text-xs font-mono text-brown truncate" x-text="ev"></span>
             </div>
         </template>
     </div>
 
     {{-- Loading skeleton --}}
-    <div x-show="loading" class="bg-white rounded-xl border border-gray-200 divide-y divide-gray-100">
+    <div x-show="loading" class="bg-white rounded-xl border border-champagne divide-y divide-gray-100">
         <template x-for="i in 3" :key="i">
             <div class="px-5 py-4 flex items-center gap-4 animate-pulse">
                 <div class="h-4 bg-gray-200 rounded w-40"></div>
@@ -40,56 +40,56 @@
     </div>
 
     {{-- Webhooks Table --}}
-    <div x-show="!loading" class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+    <div x-show="!loading" class="bg-white rounded-xl border border-champagne overflow-hidden">
         <table class="min-w-full divide-y divide-gray-100" x-show="webhooks.length > 0">
-            <thead class="bg-gray-50">
+            <thead class="bg-cream">
                 <tr>
-                    <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Event</th>
-                    <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">URL</th>
-                    <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Secret</th>
-                    <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Status</th>
-                    <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Registered</th>
-                    <th class="px-5 py-3 text-right text-xs font-semibold text-gray-500 uppercase">Actions</th>
+                    <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Event</th>
+                    <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">URL</th>
+                    <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Secret</th>
+                    <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Status</th>
+                    <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Registered</th>
+                    <th class="px-5 py-3 text-right text-xs font-semibold text-muted uppercase">Actions</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-gray-100">
                 <template x-for="wh in webhooks" :key="wh.id">
-                    <tr class="hover:bg-gray-50 transition">
+                    <tr class="hover:bg-cream transition">
                         <td class="px-5 py-3.5">
                             <span class="inline-flex items-center gap-1.5 px-2 py-1 rounded-lg text-xs font-mono font-medium"
-                                :class="eventColors[wh.event] ?? 'bg-gray-100 text-gray-700'"
+                                :class="eventColors[wh.event] ?? 'bg-gray-100 text-brown'"
                                 x-text="wh.event"></span>
                         </td>
                         <td class="px-5 py-3.5 max-w-xs">
-                            <span class="text-sm text-gray-700 truncate block" x-text="wh.url" :title="wh.url"></span>
+                            <span class="text-sm text-brown truncate block" x-text="wh.url" :title="wh.url"></span>
                         </td>
                         <td class="px-5 py-3.5">
-                            <span class="text-xs font-mono text-gray-400" x-text="wh.secret_hint ?? '—'"></span>
+                            <span class="text-xs font-mono text-taupe" x-text="wh.secret_hint ?? '—'"></span>
                         </td>
                         <td class="px-5 py-3.5">
                             <button @click="toggleActive(wh)"
                                 :class="wh.is_active
-                                    ? 'bg-green-100 text-green-700 hover:bg-green-200'
-                                    : 'bg-gray-100 text-gray-500 hover:bg-gray-200'"
+                                    ? 'bg-cream text-gold-antique hover:bg-champagne'
+                                    : 'bg-gray-100 text-muted hover:bg-gray-200'"
                                 class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium transition cursor-pointer">
                                 <span class="w-1.5 h-1.5 rounded-full"
-                                    :class="wh.is_active ? 'bg-green-500' : 'bg-gray-400'"></span>
+                                    :class="wh.is_active ? 'bg-ivory0' : 'bg-gray-400'"></span>
                                 <span x-text="wh.is_active ? 'Active' : 'Inactive'"></span>
                             </button>
                         </td>
-                        <td class="px-5 py-3.5 text-sm text-gray-400"
+                        <td class="px-5 py-3.5 text-sm text-taupe"
                             x-text="wh.created_at ? fmtDate(wh.created_at) : '—'"></td>
                         <td class="px-5 py-3.5 text-right">
                             <div class="flex items-center justify-end gap-1">
                                 <button @click="testWebhook(wh)"
                                     :disabled="!wh.is_active || testing[wh.id]"
                                     :class="(!wh.is_active || testing[wh.id]) ? 'opacity-40 cursor-not-allowed' : 'hover:text-indigo-600 hover:bg-indigo-50 cursor-pointer'"
-                                    class="p-1.5 text-gray-400 rounded transition"
+                                    class="p-1.5 text-taupe rounded transition"
                                     title="Send test ping">
                                     <i class="fas text-xs" :class="testing[wh.id] ? 'fa-circle-notch fa-spin' : 'fa-paper-plane'"></i>
                                 </button>
                                 <button @click="confirmDelete(wh)"
-                                    class="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded transition cursor-pointer"
+                                    class="p-1.5 text-taupe hover:text-red-600 hover:bg-red-50 rounded transition cursor-pointer"
                                     title="Delete">
                                     <i class="fas fa-trash text-xs"></i>
                                 </button>
@@ -106,8 +106,8 @@
             <div class="w-14 h-14 rounded-full bg-indigo-50 flex items-center justify-center mb-4">
                 <i class="fas fa-link-slash text-2xl text-indigo-300"></i>
             </div>
-            <h3 class="text-sm font-semibold text-gray-700 mb-1">No webhooks registered</h3>
-            <p class="text-xs text-gray-400 max-w-sm mb-5">
+            <h3 class="text-sm font-semibold text-brown mb-1">No webhooks registered</h3>
+            <p class="text-xs text-taupe max-w-sm mb-5">
                 Register an external URL to start receiving real-time event notifications from your store.
             </p>
             <button @click="openCreateModal()"
@@ -148,7 +148,7 @@
 
         <div class="mt-4 border-t border-indigo-100 pt-4">
             <p class="text-xs font-semibold text-indigo-800 mb-2">Payload structure</p>
-            <pre class="bg-white border border-indigo-100 rounded-lg p-3 text-xs text-gray-700 overflow-x-auto"><code>{
+            <pre class="bg-white border border-indigo-100 rounded-lg p-3 text-xs text-brown overflow-x-auto"><code>{
   "event": "order.created",
   "data": { ... event-specific fields ... }
 }</code></pre>
@@ -161,18 +161,18 @@
         <div @click.outside="createModal.open = false"
             class="bg-white rounded-2xl shadow-2xl w-full max-w-lg p-6">
 
-            <h3 class="text-base font-semibold text-gray-900 mb-1">Register Webhook</h3>
-            <p class="text-xs text-gray-500 mb-5">Your URL will receive a signed POST request when the selected event fires.</p>
+            <h3 class="text-base font-semibold text-brand mb-1">Register Webhook</h3>
+            <p class="text-xs text-muted mb-5">Your URL will receive a signed POST request when the selected event fires.</p>
 
             <div class="space-y-4">
                 {{-- Event --}}
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                    <label class="block text-sm font-medium text-brown mb-1">
                         Event <span class="text-red-500">*</span>
                     </label>
                     <select x-model="createModal.event"
                         class="w-full text-sm border rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none font-mono"
-                        :class="createModal.errors.event ? 'border-red-400' : 'border-gray-200'">
+                        :class="createModal.errors.event ? 'border-red-400' : 'border-champagne'">
                         <option value="">— choose an event —</option>
                         <template x-for="ev in allowedEvents" :key="ev">
                             <option :value="ev" x-text="ev"></option>
@@ -184,13 +184,13 @@
 
                 {{-- URL --}}
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                    <label class="block text-sm font-medium text-brown mb-1">
                         Endpoint URL <span class="text-red-500">*</span>
                     </label>
                     <input x-model="createModal.url" type="url"
                         placeholder="https://your-app.com/webhooks/bionic"
                         class="w-full text-sm border rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none"
-                        :class="createModal.errors.url ? 'border-red-400' : 'border-gray-200'">
+                        :class="createModal.errors.url ? 'border-red-400' : 'border-champagne'">
                     <p x-show="createModal.errors.url" class="text-xs text-red-500 mt-1"
                         x-text="createModal.errors.url?.[0]"></p>
                 </div>
@@ -198,7 +198,7 @@
                 {{-- Secret --}}
                 <div>
                     <div class="flex items-center justify-between mb-1">
-                        <label class="block text-sm font-medium text-gray-700">
+                        <label class="block text-sm font-medium text-brown">
                             Signing Secret <span class="text-red-500">*</span>
                         </label>
                         <button type="button" @click="createModal.secret = generateSecret()"
@@ -211,16 +211,16 @@
                             :type="createModal.showSecret ? 'text' : 'password'"
                             placeholder="Min. 16 characters"
                             class="w-full text-sm border rounded-lg px-3 py-2 pr-10 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none font-mono"
-                            :class="createModal.errors.secret ? 'border-red-400' : 'border-gray-200'">
+                            :class="createModal.errors.secret ? 'border-red-400' : 'border-champagne'">
                         <button type="button"
                             @click="createModal.showSecret = !createModal.showSecret"
-                            class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 cursor-pointer">
+                            class="absolute right-3 top-1/2 -translate-y-1/2 text-taupe hover:text-muted cursor-pointer">
                             <i class="fas text-xs" :class="createModal.showSecret ? 'fa-eye-slash' : 'fa-eye'"></i>
                         </button>
                     </div>
                     <p x-show="createModal.errors.secret" class="text-xs text-red-500 mt-1"
                         x-text="createModal.errors.secret?.[0]"></p>
-                    <p class="text-xs text-gray-400 mt-1">
+                    <p class="text-xs text-taupe mt-1">
                         Used to sign each request. Store it securely — it won't be shown again after saving.
                     </p>
                 </div>
@@ -228,7 +228,7 @@
 
             <div class="flex justify-end gap-2 mt-6">
                 <button @click="createModal.open = false"
-                    class="px-4 py-2 text-sm text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition cursor-pointer">
+                    class="px-4 py-2 text-sm text-muted border border-champagne rounded-lg hover:bg-cream transition cursor-pointer">
                     Cancel
                 </button>
                 <button @click="createWebhook()" :disabled="createModal.loading"
@@ -251,8 +251,8 @@
                     <i class="fas fa-trash text-red-600"></i>
                 </div>
                 <div>
-                    <h3 class="text-base font-semibold text-gray-900">Delete Webhook?</h3>
-                    <p class="text-sm text-gray-500 mt-1">
+                    <h3 class="text-base font-semibold text-brand">Delete Webhook?</h3>
+                    <p class="text-sm text-muted mt-1">
                         The endpoint
                         <span class="font-mono text-xs bg-gray-100 px-1 rounded"
                             x-text="deleteModal.webhook?.url"></span>
@@ -262,7 +262,7 @@
             </div>
             <div class="flex justify-end gap-2">
                 <button @click="deleteModal.open = false"
-                    class="px-4 py-2 text-sm text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition cursor-pointer">
+                    class="px-4 py-2 text-sm text-muted border border-champagne rounded-lg hover:bg-cream transition cursor-pointer">
                     Cancel
                 </button>
                 <button @click="deleteWebhook()" :disabled="deleteModal.loading"
@@ -452,7 +452,7 @@ function webhooksApp() {
 
         toast(msg, type = 'success') {
             const el = document.createElement('div');
-            el.className = `fixed bottom-5 right-5 z-[9999] px-4 py-3 rounded-lg shadow-lg text-sm font-medium flex items-center gap-2 ${type === 'success' ? 'bg-green-600 text-white' : 'bg-red-600 text-white'}`;
+            el.className = `fixed bottom-5 right-5 z-[9999] px-4 py-3 rounded-lg shadow-lg text-sm font-medium flex items-center gap-2 ${type === 'success' ? 'bg-primary text-white' : 'bg-red-600 text-white'}`;
             el.innerHTML = `<i class="fas ${type === 'success' ? 'fa-circle-check' : 'fa-circle-xmark'}"></i> ${msg}`;
             document.body.appendChild(el);
             setTimeout(() => el.remove(), 3500);
@@ -461,3 +461,13 @@ function webhooksApp() {
 }
 </script>
 @endpush
+
+
+
+
+
+
+
+
+
+

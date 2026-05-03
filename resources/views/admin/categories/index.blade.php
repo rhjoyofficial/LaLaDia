@@ -9,12 +9,12 @@
     {{-- Page Header --}}
     <div class="flex items-center justify-between mb-6">
         <div>
-            <h2 class="text-lg font-bold text-gray-800">Categories</h2>
-            <p class="text-sm text-gray-500 mt-0.5">Manage product categories</p>
+            <h2 class="text-lg font-bold text-brown">Categories</h2>
+            <p class="text-sm text-muted mt-0.5">Manage product categories</p>
         </div>
         @can('category.create')
         <button @click="openCreate()"
-            class="inline-flex items-center gap-2 bg-green-700 hover:bg-green-800 text-white text-sm font-medium px-4 py-2 rounded-lg transition cursor-pointer">
+            class="inline-flex items-center gap-2 bg-gold-antique hover:bg-gold-antique text-white text-sm font-medium px-4 py-2 rounded-lg transition cursor-pointer">
             <i class="fa-solid fa-plus text-xs"></i>
             Add Category
         </button>
@@ -22,33 +22,33 @@
     </div>
 
     {{-- Search + Stats bar --}}
-    <div class="bg-white border border-gray-200 rounded-xl mb-4 p-4 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
+    <div class="bg-white border border-champagne rounded-xl mb-4 p-4 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
         <div class="relative w-full sm:w-72">
-            <i class="fa-solid fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+            <i class="fa-solid fa-search absolute left-3 top-1/2 -translate-y-1/2 text-taupe text-xs"></i>
             <input
                 type="text"
                 x-model="search"
                 @input.debounce.400ms="loadCategories(1)"
                 placeholder="Search categories…"
-                class="w-full pl-9 pr-4 py-2 text-sm border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-green-600"
+                class="w-full pl-9 pr-4 py-2 text-sm border border-champagne rounded-lg outline-none focus:ring-2 focus:ring-gold-antique"
             >
         </div>
-        <p class="text-sm text-gray-500" x-text="meta.total !== undefined ? meta.total + ' categories' : ''"></p>
+        <p class="text-sm text-muted" x-text="meta.total !== undefined ? meta.total + ' categories' : ''"></p>
     </div>
 
     {{-- Table --}}
-    <div class="bg-white border border-gray-200 rounded-xl overflow-hidden">
+    <div class="bg-white border border-champagne rounded-xl overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full text-sm">
-                <thead class="bg-gray-50 border-b border-gray-100">
+                <thead class="bg-cream border-b border-champagne">
                     <tr>
-                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase w-12">#</th>
-                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Category</th>
-                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Slug</th>
-                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Products</th>
-                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Order</th>
-                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Status</th>
-                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Actions</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase w-12">#</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Category</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Slug</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Products</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Order</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Status</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-50">
@@ -67,28 +67,28 @@
                     {{-- Rows --}}
                     <template x-if="!loading">
                         <template x-for="cat in categories" :key="cat.id">
-                            <tr class="hover:bg-gray-50 transition">
-                                <td class="px-5 py-3 text-gray-400 text-xs" x-text="cat.id"></td>
+                            <tr class="hover:bg-cream transition">
+                                <td class="px-5 py-3 text-taupe text-xs" x-text="cat.id"></td>
                                 <td class="px-5 py-3">
                                     <div class="flex items-center gap-3">
                                         <template x-if="cat.image_url">
-                                            <img :src="cat.image_url" class="w-9 h-9 rounded-lg object-cover border border-gray-100">
+                                            <img :src="cat.image_url" class="w-9 h-9 rounded-lg object-cover border border-champagne">
                                         </template>
                                         <template x-if="!cat.image_url">
                                             <div class="w-9 h-9 rounded-lg bg-gray-100 flex items-center justify-center">
-                                                <i class="fa-solid fa-image text-gray-400 text-xs"></i>
+                                                <i class="fa-solid fa-image text-taupe text-xs"></i>
                                             </div>
                                         </template>
-                                        <span class="font-medium text-gray-800" x-text="cat.name"></span>
+                                        <span class="font-medium text-brown" x-text="cat.name"></span>
                                     </div>
                                 </td>
-                                <td class="px-5 py-3 font-mono text-xs text-gray-500" x-text="cat.slug"></td>
-                                <td class="px-5 py-3 text-gray-600" x-text="cat.products_count ?? '—'"></td>
-                                <td class="px-5 py-3 text-gray-500" x-text="cat.sort_order ?? 0"></td>
+                                <td class="px-5 py-3 font-mono text-xs text-muted" x-text="cat.slug"></td>
+                                <td class="px-5 py-3 text-muted" x-text="cat.products_count ?? '—'"></td>
+                                <td class="px-5 py-3 text-muted" x-text="cat.sort_order ?? 0"></td>
                                 <td class="px-5 py-3">
                                     <span :class="cat.is_active
-                                        ? 'bg-green-100 text-green-800'
-                                        : 'bg-gray-100 text-gray-500'"
+                                        ? 'bg-cream text-gold-antique'
+                                        : 'bg-gray-100 text-muted'"
                                         class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium"
                                         x-text="cat.is_active ? 'Active' : 'Inactive'">
                                     </span>
@@ -116,7 +116,7 @@
                     {{-- Empty state --}}
                     <template x-if="!loading && categories.length === 0">
                         <tr>
-                            <td colspan="7" class="px-5 py-12 text-center text-gray-400">
+                            <td colspan="7" class="px-5 py-12 text-center text-taupe">
                                 <i class="fa-solid fa-layer-group text-2xl mb-2 block"></i>
                                 No categories found
                             </td>
@@ -128,8 +128,8 @@
         </div>
 
         {{-- Pagination --}}
-        <div class="px-5 py-3 border-t border-gray-100 flex items-center justify-between" x-show="meta.last_page > 1">
-            <p class="text-xs text-gray-500">
+        <div class="px-5 py-3 border-t border-champagne flex items-center justify-between" x-show="meta.last_page > 1">
+            <p class="text-xs text-muted">
                 Page <span x-text="meta.current_page"></span> of <span x-text="meta.last_page"></span>
                 &bull; <span x-text="meta.total"></span> total
             </p>
@@ -137,13 +137,13 @@
                 <button
                     @click="loadCategories(meta.current_page - 1)"
                     :disabled="meta.current_page <= 1"
-                    class="px-3 py-1.5 text-xs font-medium border border-gray-200 rounded-lg disabled:opacity-40 hover:bg-gray-50 transition cursor-pointer disabled:cursor-not-allowed">
+                    class="px-3 py-1.5 text-xs font-medium border border-champagne rounded-lg disabled:opacity-40 hover:bg-cream transition cursor-pointer disabled:cursor-not-allowed">
                     &larr; Prev
                 </button>
                 <button
                     @click="loadCategories(meta.current_page + 1)"
                     :disabled="meta.current_page >= meta.last_page"
-                    class="px-3 py-1.5 text-xs font-medium border border-gray-200 rounded-lg disabled:opacity-40 hover:bg-gray-50 transition cursor-pointer disabled:cursor-not-allowed">
+                    class="px-3 py-1.5 text-xs font-medium border border-champagne rounded-lg disabled:opacity-40 hover:bg-cream transition cursor-pointer disabled:cursor-not-allowed">
                     Next &rarr;
                 </button>
             </div>
@@ -171,10 +171,10 @@
             x-transition:enter-end="opacity-100 scale-100">
 
             {{-- Header --}}
-            <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100">
-                <h3 class="text-base font-bold text-gray-800"
+            <div class="flex items-center justify-between px-6 py-4 border-b border-champagne">
+                <h3 class="text-base font-bold text-brown"
                     x-text="isEditing ? 'Edit Category' : 'Add Category'"></h3>
-                <button @click="showModal = false" class="text-gray-400 hover:text-gray-600 cursor-pointer">
+                <button @click="showModal = false" class="text-taupe hover:text-muted cursor-pointer">
                     <i class="fa-solid fa-xmark text-lg"></i>
                 </button>
             </div>
@@ -184,9 +184,9 @@
 
                 {{-- Name --}}
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Name <span class="text-red-500">*</span></label>
+                    <label class="block text-sm font-medium text-brown mb-1">Name <span class="text-red-500">*</span></label>
                     <input type="text" x-model="form.name"
-                        class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-600"
+                        class="w-full border border-champagne rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-gold-antique"
                         :class="errors.name ? 'border-red-400' : ''"
                         placeholder="e.g. Supplements">
                     <p x-show="errors.name" class="mt-1 text-xs text-red-600" x-text="errors.name?.[0]"></p>
@@ -194,20 +194,20 @@
 
                 {{-- Description --}}
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                    <label class="block text-sm font-medium text-brown mb-1">Description</label>
                     <textarea x-model="form.description" rows="3"
-                        class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-600 resize-none"
+                        class="w-full border border-champagne rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-gold-antique resize-none"
                         placeholder="Optional description…"></textarea>
                 </div>
 
                 {{-- Image --}}
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Category Image</label>
+                    <label class="block text-sm font-medium text-brown mb-1">Category Image</label>
                     <div class="flex items-center gap-4">
                         <template x-if="imagePreview">
-                            <img :src="imagePreview" class="w-16 h-16 rounded-lg object-cover border border-gray-200">
+                            <img :src="imagePreview" class="w-16 h-16 rounded-lg object-cover border border-champagne">
                         </template>
-                        <label class="cursor-pointer inline-flex items-center gap-2 border border-dashed border-gray-300 rounded-lg px-4 py-2.5 text-sm text-gray-500 hover:border-green-500 hover:text-green-600 transition">
+                        <label class="cursor-pointer inline-flex items-center gap-2 border border-dashed border-gray-300 rounded-lg px-4 py-2.5 text-sm text-muted hover:border-primary hover:text-primary transition">
                             <i class="fa-solid fa-upload text-xs"></i>
                             <span x-text="imagePreview ? 'Change image' : 'Upload image'"></span>
                             <input type="file" accept="image/*" class="sr-only" @change="handleImageChange($event)">
@@ -219,30 +219,30 @@
                 {{-- Sort Order & Status --}}
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Sort Order</label>
+                        <label class="block text-sm font-medium text-brown mb-1">Sort Order</label>
                         <input type="number" x-model.number="form.sort_order" min="0"
-                            class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-600">
+                            class="w-full border border-champagne rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-gold-antique">
                     </div>
                     <div class="flex flex-col justify-end pb-1">
                         <label class="flex items-center gap-2 cursor-pointer">
                             <div class="relative">
                                 <input type="checkbox" x-model="form.is_active" class="sr-only peer">
-                                <div class="w-10 h-6 bg-gray-200 peer-checked:bg-green-600 rounded-full transition"></div>
+                                <div class="w-10 h-6 bg-gray-200 peer-checked:bg-primary rounded-full transition"></div>
                                 <div class="absolute top-1 left-1 w-4 h-4 bg-white rounded-full shadow transition peer-checked:translate-x-4"></div>
                             </div>
-                            <span class="text-sm font-medium text-gray-700">Active</span>
+                            <span class="text-sm font-medium text-brown">Active</span>
                         </label>
                     </div>
                 </div>
 
                 {{-- Footer --}}
-                <div class="flex items-center justify-end gap-3 pt-2 border-t border-gray-100">
+                <div class="flex items-center justify-end gap-3 pt-2 border-t border-champagne">
                     <button type="button" @click="showModal = false"
-                        class="px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 transition cursor-pointer">
+                        class="px-4 py-2 text-sm font-medium text-muted hover:text-brand transition cursor-pointer">
                         Cancel
                     </button>
                     <button type="submit" :disabled="saving"
-                        class="inline-flex items-center gap-2 bg-green-700 hover:bg-green-800 disabled:opacity-60 text-white text-sm font-medium px-5 py-2 rounded-lg transition cursor-pointer">
+                        class="inline-flex items-center gap-2 bg-gold-antique hover:bg-gold-antique disabled:opacity-60 text-white text-sm font-medium px-5 py-2 rounded-lg transition cursor-pointer">
                         <i x-show="saving" class="fa-solid fa-spinner fa-spin text-xs"></i>
                         <span x-text="isEditing ? 'Update Category' : 'Create Category'"></span>
                     </button>
@@ -267,11 +267,11 @@
             <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center mx-auto mb-4">
                 <i class="fa-solid fa-triangle-exclamation text-red-600"></i>
             </div>
-            <h3 class="text-base font-bold text-gray-800 mb-1">Delete Category?</h3>
-            <p class="text-sm text-gray-500 mb-5">This cannot be undone. Products in this category will be unlinked.</p>
+            <h3 class="text-base font-bold text-brown mb-1">Delete Category?</h3>
+            <p class="text-sm text-muted mb-5">This cannot be undone. Products in this category will be unlinked.</p>
             <div class="flex gap-3 justify-center">
                 <button @click="showDeleteModal = false"
-                    class="px-4 py-2 text-sm font-medium border border-gray-200 rounded-lg hover:bg-gray-50 transition cursor-pointer">
+                    class="px-4 py-2 text-sm font-medium border border-champagne rounded-lg hover:bg-cream transition cursor-pointer">
                     Cancel
                 </button>
                 <button @click="deleteCategory()"
@@ -442,3 +442,13 @@ function categoryManager() {
 }
 </script>
 @endpush
+
+
+
+
+
+
+
+
+
+

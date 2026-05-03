@@ -1,7 +1,7 @@
 @props(['combo'])
 
 <div
-    class="group/card bg-white rounded-xl border border-gray-100 overflow-hidden active:bg-gray-50 transition-all duration-300 hover:shadow-md hover:border-primary/20">
+    class="group/card bg-white rounded-xl border border-champagne overflow-hidden active:bg-cream transition-all duration-300 hover:shadow-md hover:border-primary/20">
     <div class="flex flex-row items-stretch h-full">
         <div class="w-2/5 sm:w-32 md:w-5/12 aspect-square shrink-0 overflow-hidden relative">
             <img src="{{ $combo->image_url }}" alt="{{ $combo->title }}"
@@ -19,12 +19,12 @@
             <div class="grow">
                 <div class="flex items-start justify-between gap-2 mb-1 ">
                     <a href="{{ route('combos.show' , $combo->slug) }}" title="{{ $combo->items->map(fn($item) => $item->variant->product->name)->implode(' • ') }}"
-                        class="font-bengali text-left text-gray-800 font-medium leading-snug line-clamp-2 min-h-8 group-hover/card:text-primary transition-colors truncate-2 hover:underline">
+                        class="font-bengali text-left text-brown font-medium leading-snug line-clamp-2 min-h-8 group-hover/card:text-primary transition-colors truncate-2 hover:underline">
                         {{ $combo->title }}
                     </a>                  
                 </div>
 
-                <p class="text-xs text-gray-400 mb-2 truncate "
+                <p class="text-xs text-taupe mb-2 truncate "
                     title="{{ $combo->items->map(fn($item) => $item->variant->product->name)->implode(' • ') }}">
                     {{ $combo->items->map(fn($item) => $item->variant->product->name)->implode(' • ') }}
                     </p>
@@ -32,7 +32,7 @@
                 <div class="flex items-baseline gap-1.5 mb-3 font-bengali">
                     <span class="text-base font-bold text-primary">{{ number_format($combo->final_price) }}৳</span>
                     @if ($combo->pricing_mode === 'manual' || $combo->discount_value > 0)
-                        <span class="text-xs text-gray-400 line-through">{{ number_format($combo->auto_price) }}৳</span>
+                        <span class="text-xs text-taupe line-through">{{ number_format($combo->auto_price) }}৳</span>
                     @endif
                 </div>
             </div>
@@ -57,3 +57,13 @@
         </div>
     </div>
 </div>
+
+
+
+
+
+
+
+
+
+

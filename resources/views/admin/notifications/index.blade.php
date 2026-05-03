@@ -8,8 +8,8 @@
     {{-- Page Header --}}
     <div class="flex items-center justify-between mb-6">
         <div>
-            <h1 class="text-2xl font-bold text-gray-900">Notification Center</h1>
-            <p class="text-sm text-gray-500 mt-0.5">Monitor alerts, manage failed jobs, and broadcast messages</p>
+            <h1 class="text-2xl font-bold text-brand">Notification Center</h1>
+            <p class="text-sm text-muted mt-0.5">Monitor alerts, manage failed jobs, and broadcast messages</p>
         </div>
         @can('notification.send')
         <button @click="switchTab('send')"
@@ -20,33 +20,33 @@
     </div>
 
     {{-- Tab Nav --}}
-    <div class="border-b border-gray-200 mb-6">
+    <div class="border-b border-champagne mb-6">
         <nav class="-mb-px flex gap-6">
             <button @click="switchTab('overview')"
-                    :class="tab === 'overview' ? 'border-indigo-600 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700'"
+                    :class="tab === 'overview' ? 'border-indigo-600 text-indigo-600' : 'border-transparent text-muted hover:text-brown'"
                     class="inline-flex items-center gap-1.5 pb-3 text-sm font-medium border-b-2 transition">
                 <i class="fas fa-chart-bar text-xs"></i> Overview
             </button>
             <button @click="switchTab('notifications')"
-                    :class="tab === 'notifications' ? 'border-indigo-600 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700'"
+                    :class="tab === 'notifications' ? 'border-indigo-600 text-indigo-600' : 'border-transparent text-muted hover:text-brown'"
                     class="inline-flex items-center gap-1.5 pb-3 text-sm font-medium border-b-2 transition">
                 <i class="fas fa-bell text-xs"></i> Sent
                 <span x-show="stats && stats.total_notifications > 0"
-                      class="ml-1 bg-gray-100 text-gray-600 text-xs px-1.5 py-0.5 rounded-full"
+                      class="ml-1 bg-gray-100 text-muted text-xs px-1.5 py-0.5 rounded-full"
                       x-text="stats ? stats.total_notifications.toLocaleString() : ''"></span>
             </button>
             <button @click="switchTab('failed')"
-                    :class="tab === 'failed' ? 'border-indigo-600 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700'"
+                    :class="tab === 'failed' ? 'border-indigo-600 text-indigo-600' : 'border-transparent text-muted hover:text-brown'"
                     class="inline-flex items-center gap-1.5 pb-3 text-sm font-medium border-b-2 transition">
                 <i class="fas fa-triangle-exclamation text-xs"></i> Failed Jobs
                 <span x-show="stats && stats.total_failed_jobs > 0"
-                      :class="stats && stats.recent_failed_jobs > 0 ? 'bg-red-100 text-red-700' : 'bg-gray-100 text-gray-600'"
+                      :class="stats && stats.recent_failed_jobs > 0 ? 'bg-red-100 text-red-700' : 'bg-gray-100 text-muted'"
                       class="ml-1 text-xs px-1.5 py-0.5 rounded-full"
                       x-text="stats ? stats.total_failed_jobs : ''"></span>
             </button>
             @can('notification.send')
             <button @click="switchTab('send')"
-                    :class="tab === 'send' ? 'border-indigo-600 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700'"
+                    :class="tab === 'send' ? 'border-indigo-600 text-indigo-600' : 'border-transparent text-muted hover:text-brown'"
                     class="inline-flex items-center gap-1.5 pb-3 text-sm font-medium border-b-2 transition">
                 <i class="fas fa-paper-plane text-xs"></i> Send
             </button>
@@ -60,7 +60,7 @@
     <div x-show="tab === 'overview'">
         <div x-show="statsLoading" class="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
             <template x-for="i in 5">
-                <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100 animate-pulse">
+                <div class="bg-white rounded-xl p-5 shadow-sm border border-champagne animate-pulse">
                     <div class="h-3 bg-gray-200 rounded w-2/3 mb-3"></div>
                     <div class="h-7 bg-gray-200 rounded w-1/3"></div>
                 </div>
@@ -69,48 +69,48 @@
 
         <div x-show="!statsLoading && stats" class="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
             {{-- Total Notifications --}}
-            <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
-                <p class="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">Total Sent</p>
-                <p class="text-2xl font-bold text-gray-900" x-text="stats ? stats.total_notifications.toLocaleString() : 0"></p>
-                <p class="text-xs text-gray-400 mt-1">All time</p>
+            <div class="bg-white rounded-xl p-5 shadow-sm border border-champagne">
+                <p class="text-xs font-medium text-muted uppercase tracking-wide mb-1">Total Sent</p>
+                <p class="text-2xl font-bold text-brand" x-text="stats ? stats.total_notifications.toLocaleString() : 0"></p>
+                <p class="text-xs text-taupe mt-1">All time</p>
             </div>
             {{-- Today Sent --}}
-            <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
-                <p class="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">Today</p>
+            <div class="bg-white rounded-xl p-5 shadow-sm border border-champagne">
+                <p class="text-xs font-medium text-muted uppercase tracking-wide mb-1">Today</p>
                 <p class="text-2xl font-bold text-indigo-600" x-text="stats ? stats.today_sent.toLocaleString() : 0"></p>
-                <p class="text-xs text-gray-400 mt-1">Sent today</p>
+                <p class="text-xs text-taupe mt-1">Sent today</p>
             </div>
             {{-- Unread --}}
-            <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
-                <p class="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">Unread</p>
+            <div class="bg-white rounded-xl p-5 shadow-sm border border-champagne">
+                <p class="text-xs font-medium text-muted uppercase tracking-wide mb-1">Unread</p>
                 <p class="text-2xl font-bold text-amber-600" x-text="stats ? stats.unread_notifications.toLocaleString() : 0"></p>
-                <p class="text-xs text-gray-400 mt-1">Not yet read</p>
+                <p class="text-xs text-taupe mt-1">Not yet read</p>
             </div>
             {{-- Failed Jobs Total --}}
-            <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
-                <p class="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">Failed Jobs</p>
+            <div class="bg-white rounded-xl p-5 shadow-sm border border-champagne">
+                <p class="text-xs font-medium text-muted uppercase tracking-wide mb-1">Failed Jobs</p>
                 <p class="text-2xl font-bold"
-                   :class="stats && stats.total_failed_jobs > 0 ? 'text-red-600' : 'text-gray-900'"
+                   :class="stats && stats.total_failed_jobs > 0 ? 'text-red-600' : 'text-brand'"
                    x-text="stats ? stats.total_failed_jobs.toLocaleString() : 0"></p>
-                <p class="text-xs text-gray-400 mt-1">In queue</p>
+                <p class="text-xs text-taupe mt-1">In queue</p>
             </div>
             {{-- Recent Failed --}}
-            <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
-                <p class="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">Last 24h Failures</p>
+            <div class="bg-white rounded-xl p-5 shadow-sm border border-champagne">
+                <p class="text-xs font-medium text-muted uppercase tracking-wide mb-1">Last 24h Failures</p>
                 <p class="text-2xl font-bold"
-                   :class="stats && stats.recent_failed_jobs > 0 ? 'text-red-600' : 'text-green-600'"
+                   :class="stats && stats.recent_failed_jobs > 0 ? 'text-red-600' : 'text-primary'"
                    x-text="stats ? stats.recent_failed_jobs : 0"></p>
-                <p class="text-xs text-gray-400 mt-1">Recent failures</p>
+                <p class="text-xs text-taupe mt-1">Recent failures</p>
             </div>
         </div>
 
         {{-- Quick Actions --}}
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-                <h3 class="text-sm font-semibold text-gray-800 mb-4 flex items-center gap-2">
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-champagne">
+                <h3 class="text-sm font-semibold text-brown mb-4 flex items-center gap-2">
                     <i class="fas fa-bell text-indigo-500"></i> Notifications
                 </h3>
-                <p class="text-sm text-gray-600 mb-4">
+                <p class="text-sm text-muted mb-4">
                     View all sent notifications, track read status, and search by content.
                 </p>
                 <button @click="switchTab('notifications')" class="text-sm text-indigo-600 font-medium hover:underline">
@@ -118,11 +118,11 @@
                 </button>
             </div>
 
-            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-                <h3 class="text-sm font-semibold text-gray-800 mb-4 flex items-center gap-2">
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-champagne">
+                <h3 class="text-sm font-semibold text-brown mb-4 flex items-center gap-2">
                     <i class="fas fa-triangle-exclamation text-red-500"></i> Failed Jobs
                 </h3>
-                <p class="text-sm text-gray-600 mb-4">
+                <p class="text-sm text-muted mb-4">
                     Inspect failed queue jobs, view exception details, and retry or discard them.
                 </p>
                 <button @click="switchTab('failed')" class="text-sm text-indigo-600 font-medium hover:underline">
@@ -131,11 +131,11 @@
             </div>
 
             @can('notification.send')
-            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 md:col-span-2">
-                <h3 class="text-sm font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                    <i class="fas fa-paper-plane text-green-500"></i> Manual Broadcast
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-champagne md:col-span-2">
+                <h3 class="text-sm font-semibold text-brown mb-4 flex items-center gap-2">
+                    <i class="fas fa-paper-plane text-ivory0"></i> Manual Broadcast
                 </h3>
-                <p class="text-sm text-gray-600 mb-4">
+                <p class="text-sm text-muted mb-4">
                     Send in-app or email notifications to all users, specific roles, or individual customers.
                 </p>
                 <button @click="switchTab('send')" class="text-sm text-indigo-600 font-medium hover:underline">
@@ -151,73 +151,73 @@
     {{-- ─────────────────────────────────────────────── --}}
     <div x-show="tab === 'notifications'">
         {{-- Filters --}}
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 mb-4 flex flex-wrap gap-3">
+        <div class="bg-white rounded-xl shadow-sm border border-champagne p-4 mb-4 flex flex-wrap gap-3">
             <div class="relative flex-1 min-w-[200px]">
-                <i class="fas fa-search absolute left-3 top-2.5 text-gray-400 text-sm"></i>
+                <i class="fas fa-search absolute left-3 top-2.5 text-taupe text-sm"></i>
                 <input x-model="notifSearch" @input.debounce.400ms="notifPage = 1; loadNotifications()"
                        type="text" placeholder="Search by subject or message…"
-                       class="pl-9 pr-4 py-2 w-full text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                       class="pl-9 pr-4 py-2 w-full text-sm border border-champagne rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
             </div>
             <select x-model="notifRead" @change="notifPage = 1; loadNotifications()"
-                    class="text-sm border border-gray-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500">
+                    class="text-sm border border-champagne rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500">
                 <option value="">All Status</option>
                 <option value="1">Read</option>
                 <option value="0">Unread</option>
             </select>
             <button @click="notifSearch = ''; notifRead = ''; notifPage = 1; loadNotifications()"
-                    class="text-sm text-gray-500 hover:text-gray-700 px-3">
+                    class="text-sm text-muted hover:text-brown px-3">
                 <i class="fas fa-rotate-left mr-1"></i> Reset
             </button>
         </div>
 
         {{-- Table --}}
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        <div class="bg-white rounded-xl shadow-sm border border-champagne overflow-hidden">
             <div x-show="notifLoading" class="p-8 flex justify-center">
                 <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
             </div>
 
             <table x-show="!notifLoading" class="min-w-full divide-y divide-gray-100">
-                <thead class="bg-gray-50">
+                <thead class="bg-cream">
                     <tr>
-                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Recipient</th>
-                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Subject</th>
-                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Type</th>
-                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Status</th>
-                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Sent</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase tracking-wide">Recipient</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase tracking-wide">Subject</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase tracking-wide">Type</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase tracking-wide">Status</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase tracking-wide">Sent</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100">
                     <template x-for="n in notifications" :key="n.id">
-                        <tr class="hover:bg-gray-50 transition">
+                        <tr class="hover:bg-cream transition">
                             <td class="px-5 py-3.5">
                                 <div class="flex items-center gap-2">
                                     <div class="w-7 h-7 rounded-full bg-indigo-100 flex items-center justify-center flex-shrink-0">
                                         <i class="fas fa-user text-indigo-500 text-xs"></i>
                                     </div>
-                                    <span class="text-sm text-gray-700" x-text="n.recipient"></span>
+                                    <span class="text-sm text-brown" x-text="n.recipient"></span>
                                 </div>
                             </td>
                             <td class="px-5 py-3.5 max-w-xs">
-                                <p class="text-sm font-medium text-gray-800 truncate" x-text="n.subject || '(no subject)'"></p>
-                                <p class="text-xs text-gray-400 truncate mt-0.5" x-text="n.message || ''"></p>
+                                <p class="text-sm font-medium text-brown truncate" x-text="n.subject || '(no subject)'"></p>
+                                <p class="text-xs text-taupe truncate mt-0.5" x-text="n.message || ''"></p>
                             </td>
                             <td class="px-5 py-3.5">
-                                <span class="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full font-mono"
+                                <span class="text-xs bg-gray-100 text-muted px-2 py-0.5 rounded-full font-mono"
                                       x-text="n.type"></span>
                             </td>
                             <td class="px-5 py-3.5">
-                                <span :class="n.read_at ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'"
+                                <span :class="n.read_at ? 'bg-cream text-gold-antique' : 'bg-amber-100 text-amber-700'"
                                       class="inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full font-medium">
-                                    <span :class="n.read_at ? 'bg-green-500' : 'bg-amber-500'"
+                                    <span :class="n.read_at ? 'bg-ivory0' : 'bg-amber-500'"
                                           class="w-1.5 h-1.5 rounded-full"></span>
                                     <span x-text="n.read_at ? 'Read' : 'Unread'"></span>
                                 </span>
                             </td>
-                            <td class="px-5 py-3.5 text-sm text-gray-500" x-text="formatDate(n.created_at)"></td>
+                            <td class="px-5 py-3.5 text-sm text-muted" x-text="formatDate(n.created_at)"></td>
                         </tr>
                     </template>
                     <tr x-show="!notifLoading && notifications.length === 0">
-                        <td colspan="5" class="px-5 py-12 text-center text-gray-400">
+                        <td colspan="5" class="px-5 py-12 text-center text-taupe">
                             <i class="fas fa-bell-slash text-3xl mb-3 block"></i>
                             No notifications found
                         </td>
@@ -228,17 +228,17 @@
 
         {{-- Pagination --}}
         <div x-show="notifMeta.last_page > 1" class="flex items-center justify-between mt-4">
-            <p class="text-sm text-gray-500">
+            <p class="text-sm text-muted">
                 Page <span x-text="notifMeta.current_page"></span> of <span x-text="notifMeta.last_page"></span>
                 &nbsp;·&nbsp; <span x-text="notifMeta.total?.toLocaleString()"></span> total
             </p>
             <div class="flex gap-2">
                 <button @click="notifPage--; loadNotifications()" :disabled="notifPage <= 1"
-                        class="px-3 py-1.5 text-sm border border-gray-200 rounded-lg disabled:opacity-40 hover:bg-gray-50 transition">
+                        class="px-3 py-1.5 text-sm border border-champagne rounded-lg disabled:opacity-40 hover:bg-cream transition">
                     <i class="fas fa-chevron-left text-xs"></i>
                 </button>
                 <button @click="notifPage++; loadNotifications()" :disabled="notifPage >= notifMeta.last_page"
-                        class="px-3 py-1.5 text-sm border border-gray-200 rounded-lg disabled:opacity-40 hover:bg-gray-50 transition">
+                        class="px-3 py-1.5 text-sm border border-champagne rounded-lg disabled:opacity-40 hover:bg-cream transition">
                     <i class="fas fa-chevron-right text-xs"></i>
                 </button>
             </div>
@@ -250,22 +250,22 @@
     {{-- ─────────────────────────────────────────────── --}}
     <div x-show="tab === 'failed'">
         {{-- Toolbar --}}
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 mb-4 flex flex-wrap gap-3 items-center">
+        <div class="bg-white rounded-xl shadow-sm border border-champagne p-4 mb-4 flex flex-wrap gap-3 items-center">
             <div class="relative flex-1 min-w-[200px]">
-                <i class="fas fa-search absolute left-3 top-2.5 text-gray-400 text-sm"></i>
+                <i class="fas fa-search absolute left-3 top-2.5 text-taupe text-sm"></i>
                 <input x-model="failedSearch" @input.debounce.400ms="failedPage = 1; loadFailedJobs()"
                        type="text" placeholder="Search job name, queue, exception…"
-                       class="pl-9 pr-4 py-2 w-full text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                       class="pl-9 pr-4 py-2 w-full text-sm border border-champagne rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
             </div>
             <select x-model="failedQueue" @change="failedPage = 1; loadFailedJobs()"
-                    class="text-sm border border-gray-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500">
+                    class="text-sm border border-champagne rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500">
                 <option value="">All Queues</option>
                 <template x-for="q in failedQueues" :key="q">
                     <option :value="q" x-text="q"></option>
                 </template>
             </select>
             <button @click="failedSearch = ''; failedQueue = ''; failedPage = 1; loadFailedJobs()"
-                    class="text-sm text-gray-500 hover:text-gray-700 px-2">
+                    class="text-sm text-muted hover:text-brown px-2">
                 <i class="fas fa-rotate-left mr-1"></i> Reset
             </button>
 
@@ -281,30 +281,30 @@
         </div>
 
         {{-- Table --}}
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        <div class="bg-white rounded-xl shadow-sm border border-champagne overflow-hidden">
             <div x-show="failedLoading" class="p-8 flex justify-center">
                 <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-red-500"></div>
             </div>
 
             <table x-show="!failedLoading" class="min-w-full divide-y divide-gray-100">
-                <thead class="bg-gray-50">
+                <thead class="bg-cream">
                     <tr>
-                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Job</th>
-                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Queue</th>
-                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Exception</th>
-                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Failed At</th>
-                        <th class="px-5 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wide">Actions</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase tracking-wide">Job</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase tracking-wide">Queue</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase tracking-wide">Exception</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase tracking-wide">Failed At</th>
+                        <th class="px-5 py-3 text-right text-xs font-semibold text-muted uppercase tracking-wide">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100">
                     <template x-for="job in failedJobs" :key="job.id">
-                        <tr class="hover:bg-gray-50 transition">
+                        <tr class="hover:bg-cream transition">
                             <td class="px-5 py-3.5">
-                                <p class="text-sm font-medium text-gray-800" x-text="job.display_name"></p>
-                                <p class="text-xs text-gray-400 font-mono mt-0.5" x-text="job.uuid.substring(0,13) + '…'"></p>
+                                <p class="text-sm font-medium text-brown" x-text="job.display_name"></p>
+                                <p class="text-xs text-taupe font-mono mt-0.5" x-text="job.uuid.substring(0,13) + '…'"></p>
                             </td>
                             <td class="px-5 py-3.5">
-                                <span class="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full font-medium"
+                                <span class="text-xs bg-gray-100 text-muted px-2 py-0.5 rounded-full font-medium"
                                       x-text="job.queue"></span>
                             </td>
                             <td class="px-5 py-3.5 max-w-xs">
@@ -314,7 +314,7 @@
                                     View full trace
                                 </button>
                             </td>
-                            <td class="px-5 py-3.5 text-sm text-gray-500" x-text="formatDate(job.failed_at)"></td>
+                            <td class="px-5 py-3.5 text-sm text-muted" x-text="formatDate(job.failed_at)"></td>
                             <td class="px-5 py-3.5 text-right">
                                 @can('notification.manage')
                                 <div class="flex items-center justify-end gap-2">
@@ -332,14 +332,14 @@
                                 </div>
                                 @endcan
                                 @cannot('notification.manage')
-                                <span class="text-xs text-gray-400">View only</span>
+                                <span class="text-xs text-taupe">View only</span>
                                 @endcannot
                             </td>
                         </tr>
                     </template>
                     <tr x-show="!failedLoading && failedJobs.length === 0">
-                        <td colspan="5" class="px-5 py-12 text-center text-gray-400">
-                            <i class="fas fa-circle-check text-3xl text-green-400 mb-3 block"></i>
+                        <td colspan="5" class="px-5 py-12 text-center text-taupe">
+                            <i class="fas fa-circle-check text-3xl text-gold-warm mb-3 block"></i>
                             No failed jobs — queue is healthy!
                         </td>
                     </tr>
@@ -349,17 +349,17 @@
 
         {{-- Pagination --}}
         <div x-show="failedMeta.last_page > 1" class="flex items-center justify-between mt-4">
-            <p class="text-sm text-gray-500">
+            <p class="text-sm text-muted">
                 Page <span x-text="failedMeta.current_page"></span> of <span x-text="failedMeta.last_page"></span>
                 &nbsp;·&nbsp; <span x-text="failedMeta.total"></span> total
             </p>
             <div class="flex gap-2">
                 <button @click="failedPage--; loadFailedJobs()" :disabled="failedPage <= 1"
-                        class="px-3 py-1.5 text-sm border border-gray-200 rounded-lg disabled:opacity-40 hover:bg-gray-50 transition">
+                        class="px-3 py-1.5 text-sm border border-champagne rounded-lg disabled:opacity-40 hover:bg-cream transition">
                     <i class="fas fa-chevron-left text-xs"></i>
                 </button>
                 <button @click="failedPage++; loadFailedJobs()" :disabled="failedPage >= failedMeta.last_page"
-                        class="px-3 py-1.5 text-sm border border-gray-200 rounded-lg disabled:opacity-40 hover:bg-gray-50 transition">
+                        class="px-3 py-1.5 text-sm border border-champagne rounded-lg disabled:opacity-40 hover:bg-cream transition">
                     <i class="fas fa-chevron-right text-xs"></i>
                 </button>
             </div>
@@ -372,14 +372,14 @@
     @can('notification.send')
     <div x-show="tab === 'send'">
         <div class="max-w-2xl">
-            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                <h2 class="text-base font-semibold text-gray-900 mb-5">Compose Broadcast</h2>
+            <div class="bg-white rounded-xl shadow-sm border border-champagne p-6">
+                <h2 class="text-base font-semibold text-brand mb-5">Compose Broadcast</h2>
 
                 {{-- Success banner --}}
                 <div x-show="sendSuccess" x-transition
-                     class="mb-4 p-3.5 bg-green-50 border border-green-200 rounded-lg flex items-start gap-2">
-                    <i class="fas fa-circle-check text-green-600 mt-0.5"></i>
-                    <p class="text-sm text-green-800" x-text="sendSuccess"></p>
+                     class="mb-4 p-3.5 bg-ivory border border-sand rounded-lg flex items-start gap-2">
+                    <i class="fas fa-circle-check text-primary mt-0.5"></i>
+                    <p class="text-sm text-gold-antique" x-text="sendSuccess"></p>
                 </div>
 
                 {{-- Error banner --}}
@@ -393,14 +393,14 @@
 
                     {{-- Recipients --}}
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Recipients</label>
+                        <label class="block text-sm font-medium text-brown mb-2">Recipients</label>
                         <div class="flex flex-wrap gap-2 mb-3">
                             <template x-for="opt in [{v:'all',l:'All Active Users'},{v:'role',l:'By Role'},{v:'specific',l:'Specific IDs'}]" :key="opt.v">
                                 <button type="button"
                                         @click="sendForm.recipient_type = opt.v; sendForm.recipient_ids = []"
                                         :class="sendForm.recipient_type === opt.v
                                             ? 'bg-indigo-600 text-white border-indigo-600'
-                                            : 'bg-white text-gray-600 border-gray-200 hover:border-indigo-400'"
+                                            : 'bg-white text-muted border-champagne hover:border-indigo-400'"
                                         class="px-3 py-1.5 text-sm border rounded-lg transition font-medium"
                                         x-text="opt.l">
                                 </button>
@@ -409,7 +409,7 @@
 
                         {{-- Role multi-select --}}
                         <div x-show="sendForm.recipient_type === 'role'" class="space-y-1.5">
-                            <p class="text-xs text-gray-500 mb-2">Select one or more roles:</p>
+                            <p class="text-xs text-muted mb-2">Select one or more roles:</p>
                             <div class="flex flex-wrap gap-2">
                                 <template x-for="role in availableRoles" :key="role">
                                     <label class="inline-flex items-center gap-1.5 cursor-pointer">
@@ -417,7 +417,7 @@
                                                :value="role"
                                                x-model="sendForm.recipient_ids"
                                                class="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
-                                        <span class="text-sm text-gray-700" x-text="role"></span>
+                                        <span class="text-sm text-brown" x-text="role"></span>
                                     </label>
                                 </template>
                             </div>
@@ -428,26 +428,26 @@
                             <input x-model="recipientIdsText"
                                    @input="sendForm.recipient_ids = recipientIdsText.split(',').map(s => s.trim()).filter(Boolean)"
                                    type="text" placeholder="e.g. 1, 5, 42 (comma-separated user IDs)"
-                                   class="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
-                            <p class="text-xs text-gray-400 mt-1">Enter user IDs separated by commas</p>
+                                   class="w-full text-sm border border-champagne rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                            <p class="text-xs text-taupe mt-1">Enter user IDs separated by commas</p>
                         </div>
                     </div>
 
                     {{-- Channels --}}
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Channels</label>
+                        <label class="block text-sm font-medium text-brown mb-2">Channels</label>
                         <div class="flex gap-4">
                             <label class="inline-flex items-center gap-2 cursor-pointer">
                                 <input type="checkbox" value="database" x-model="sendForm.channels"
                                        class="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
-                                <span class="text-sm text-gray-700 flex items-center gap-1.5">
+                                <span class="text-sm text-brown flex items-center gap-1.5">
                                     <i class="fas fa-bell text-indigo-500 text-xs"></i> In-App
                                 </span>
                             </label>
                             <label class="inline-flex items-center gap-2 cursor-pointer">
                                 <input type="checkbox" value="mail" x-model="sendForm.channels"
                                        class="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
-                                <span class="text-sm text-gray-700 flex items-center gap-1.5">
+                                <span class="text-sm text-brown flex items-center gap-1.5">
                                     <i class="fas fa-envelope text-indigo-500 text-xs"></i> Email
                                 </span>
                             </label>
@@ -459,39 +459,39 @@
 
                     {{-- Subject --}}
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Subject</label>
+                        <label class="block text-sm font-medium text-brown mb-1">Subject</label>
                         <input x-model="sendForm.subject" type="text" maxlength="200"
                                placeholder="Notification subject…"
-                               class="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
-                        <p class="text-xs text-gray-400 mt-1 text-right" x-text="(sendForm.subject?.length || 0) + '/200'"></p>
+                               class="w-full text-sm border border-champagne rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                        <p class="text-xs text-taupe mt-1 text-right" x-text="(sendForm.subject?.length || 0) + '/200'"></p>
                     </div>
 
                     {{-- Message --}}
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Message</label>
+                        <label class="block text-sm font-medium text-brown mb-1">Message</label>
                         <textarea x-model="sendForm.message" rows="5" maxlength="5000"
                                   placeholder="Write your message here…"
-                                  class="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none"></textarea>
-                        <p class="text-xs text-gray-400 mt-1 text-right" x-text="(sendForm.message?.length || 0) + '/5000'"></p>
+                                  class="w-full text-sm border border-champagne rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none"></textarea>
+                        <p class="text-xs text-taupe mt-1 text-right" x-text="(sendForm.message?.length || 0) + '/5000'"></p>
                     </div>
 
                     {{-- Preview summary --}}
                     <div x-show="sendForm.subject || sendForm.message"
-                         class="p-4 bg-gray-50 rounded-lg border border-gray-200 text-sm">
-                        <p class="font-medium text-gray-700 mb-1">Preview</p>
-                        <p class="text-gray-800 font-semibold" x-text="sendForm.subject || '(no subject)'"></p>
-                        <p class="text-gray-600 mt-1 text-xs leading-relaxed" x-text="sendForm.message"></p>
+                         class="p-4 bg-cream rounded-lg border border-champagne text-sm">
+                        <p class="font-medium text-brown mb-1">Preview</p>
+                        <p class="text-brown font-semibold" x-text="sendForm.subject || '(no subject)'"></p>
+                        <p class="text-muted mt-1 text-xs leading-relaxed" x-text="sendForm.message"></p>
                         <div class="flex gap-3 mt-2">
-                            <span class="text-xs text-gray-400">
+                            <span class="text-xs text-taupe">
                                 To:
-                                <span class="font-medium text-gray-600"
+                                <span class="font-medium text-muted"
                                       x-text="sendForm.recipient_type === 'all' ? 'All active users'
                                            : sendForm.recipient_type === 'role' ? (sendForm.recipient_ids.join(', ') || '(select roles)')
                                            : 'User IDs: ' + (sendForm.recipient_ids.join(', ') || '(none)')">
                                 </span>
                             </span>
-                            <span class="text-xs text-gray-400">Via:
-                                <span class="font-medium text-gray-600"
+                            <span class="text-xs text-taupe">Via:
+                                <span class="font-medium text-muted"
                                       x-text="sendForm.channels.map(c => c === 'mail' ? 'Email' : 'In-App').join(', ') || '(none)'"></span>
                             </span>
                         </div>
@@ -500,7 +500,7 @@
                     {{-- Submit --}}
                     <div class="flex items-center justify-between pt-1">
                         <button type="button" @click="resetSendForm()"
-                                class="text-sm text-gray-500 hover:text-gray-700">
+                                class="text-sm text-muted hover:text-brown">
                             <i class="fas fa-rotate-left mr-1"></i> Clear form
                         </button>
                         <button type="submit"
@@ -523,23 +523,23 @@
          class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40">
         <div @click.outside="previewJob = null" x-show="previewJob"
              class="bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[80vh] overflow-hidden flex flex-col">
-            <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+            <div class="flex items-center justify-between px-6 py-4 border-b border-champagne">
                 <div>
-                    <h3 class="text-base font-semibold text-gray-900" x-text="previewJob?.display_name"></h3>
-                    <p class="text-xs text-gray-500 mt-0.5">Failed at:
+                    <h3 class="text-base font-semibold text-brand" x-text="previewJob?.display_name"></h3>
+                    <p class="text-xs text-muted mt-0.5">Failed at:
                         <span x-text="previewJob ? formatDate(previewJob.failed_at) : ''"></span>
                         &nbsp;·&nbsp; Queue: <span x-text="previewJob?.queue"></span>
                     </p>
                 </div>
-                <button @click="previewJob = null" class="text-gray-400 hover:text-gray-600">
+                <button @click="previewJob = null" class="text-taupe hover:text-muted">
                     <i class="fas fa-times text-lg"></i>
                 </button>
             </div>
             <div class="overflow-y-auto p-6 flex-1">
-                <pre class="text-xs text-gray-700 font-mono whitespace-pre-wrap leading-relaxed bg-gray-50 p-4 rounded-lg border border-gray-200"
+                <pre class="text-xs text-brown font-mono whitespace-pre-wrap leading-relaxed bg-cream p-4 rounded-lg border border-champagne"
                      x-text="previewJob?.exception_full"></pre>
             </div>
-            <div class="flex justify-end gap-2 px-6 py-4 border-t border-gray-100">
+            <div class="flex justify-end gap-2 px-6 py-4 border-t border-champagne">
                 @can('notification.manage')
                 <button @click="retryJob(previewJob.uuid); previewJob = null"
                         class="inline-flex items-center gap-1.5 px-3 py-2 text-sm bg-amber-50 text-amber-700 border border-amber-200 rounded-lg hover:bg-amber-100 transition">
@@ -551,7 +551,7 @@
                 </button>
                 @endcan
                 <button @click="previewJob = null"
-                        class="px-4 py-2 text-sm text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition">
+                        class="px-4 py-2 text-sm text-muted border border-champagne rounded-lg hover:bg-cream transition">
                     Close
                 </button>
             </div>
@@ -568,17 +568,17 @@
                     <i class="fas fa-trash text-red-600"></i>
                 </div>
                 <div>
-                    <h3 class="text-base font-semibold text-gray-900">Delete Failed Job?</h3>
-                    <p class="text-sm text-gray-500 mt-1">
+                    <h3 class="text-base font-semibold text-brand">Delete Failed Job?</h3>
+                    <p class="text-sm text-muted mt-1">
                         This will permanently remove
-                        <span class="font-medium text-gray-700" x-text="deleteJobData?.display_name"></span>
+                        <span class="font-medium text-brown" x-text="deleteJobData?.display_name"></span>
                         from the failed jobs list.
                     </p>
                 </div>
             </div>
             <div class="flex justify-end gap-2">
                 <button @click="showDeleteJobModal = false; deleteJobData = null"
-                        class="px-4 py-2 text-sm text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition">
+                        class="px-4 py-2 text-sm text-muted border border-champagne rounded-lg hover:bg-cream transition">
                     Cancel
                 </button>
                 <button @click="deleteJob(deleteJobData.uuid)"
@@ -601,16 +601,16 @@
                     <i class="fas fa-rotate-right text-amber-600"></i>
                 </div>
                 <div>
-                    <h3 class="text-base font-semibold text-gray-900">Retry All Failed Jobs?</h3>
-                    <p class="text-sm text-gray-500 mt-1">
-                        All <span class="font-medium text-gray-700" x-text="failedMeta.total"></span>
+                    <h3 class="text-base font-semibold text-brand">Retry All Failed Jobs?</h3>
+                    <p class="text-sm text-muted mt-1">
+                        All <span class="font-medium text-brown" x-text="failedMeta.total"></span>
                         failed job(s) will be re-queued for processing.
                     </p>
                 </div>
             </div>
             <div class="flex justify-end gap-2">
                 <button @click="showRetryAllModal = false"
-                        class="px-4 py-2 text-sm text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition">
+                        class="px-4 py-2 text-sm text-muted border border-champagne rounded-lg hover:bg-cream transition">
                     Cancel
                 </button>
                 <button @click="retryAllJobs()"
@@ -904,7 +904,7 @@ function notificationCenter() {
         showToast(msg, type = 'success') {
             const div = document.createElement('div');
             div.className = `fixed bottom-5 right-5 z-[9999] px-4 py-3 rounded-lg shadow-lg text-sm font-medium flex items-center gap-2 transition
-                ${type === 'success' ? 'bg-green-600 text-white' : 'bg-red-600 text-white'}`;
+                ${type === 'success' ? 'bg-primary text-white' : 'bg-red-600 text-white'}`;
             div.innerHTML = `<i class="fas ${type === 'success' ? 'fa-circle-check' : 'fa-circle-xmark'}"></i> ${msg}`;
             document.body.appendChild(div);
             setTimeout(() => div.remove(), 3500);
@@ -913,3 +913,13 @@ function notificationCenter() {
 }
 </script>
 @endpush
+
+
+
+
+
+
+
+
+
+

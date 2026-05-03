@@ -26,12 +26,12 @@
                     <img src="{{ asset('assets/images/bionic-logo.png') }}" alt="{{ config('app.name') }}"
                         class="h-14 mx-auto">
                 </a>
-                <h1 class="mt-4 text-xl font-bold text-gray-800">Admin Panel</h1>
-                <p class="text-sm text-gray-500 mt-1">Sign in to continue</p>
+                <h1 class="mt-4 text-xl font-bold text-brown">Admin Panel</h1>
+                <p class="text-sm text-muted mt-1">Sign in to continue</p>
             </div>
 
             {{-- Card --}}
-            <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
+            <div class="bg-white rounded-2xl shadow-sm border border-champagne p-8">
 
                 {{-- Validation errors --}}
                 @if ($errors->any())
@@ -44,8 +44,8 @@
 
                 {{-- Status message (e.g. "You have been logged out") --}}
                 @if (session('status'))
-                    <div class="mb-6 p-3 bg-green-50 border border-green-200 rounded-lg">
-                        <p class="text-sm text-green-700">{{ session('status') }}</p>
+                    <div class="mb-6 p-3 bg-ivory border border-sand rounded-lg">
+                        <p class="text-sm text-gold-antique">{{ session('status') }}</p>
                     </div>
                 @endif
 
@@ -54,25 +54,25 @@
 
                     {{-- Email / Phone --}}
                     <div class="mb-5">
-                        <label for="login" class="block text-sm font-medium text-gray-700 mb-1">
+                        <label for="login" class="block text-sm font-medium text-brown mb-1">
                             Email or Phone
                         </label>
                         <input id="login" name="login" type="text" value="{{ old('login') }}" required
                             autofocus autocomplete="username"
                             class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm
-                                      focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-green-600
+                                      focus:outline-none focus:ring-2 focus:ring-gold-antique focus:border-primary
                                       placeholder-gray-400 transition"
                             placeholder="admin@example.com">
                     </div>
 
                     {{-- Password --}}
                     <div class="mb-5">
-                        <label for="password" class="block text-sm font-medium text-gray-700 mb-1">
+                        <label for="password" class="block text-sm font-medium text-brown mb-1">
                             Password
                         </label>
                         <input id="password" name="password" type="password" required autocomplete="current-password"
                             class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm
-                                      focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-green-600
+                                      focus:outline-none focus:ring-2 focus:ring-gold-antique focus:border-primary
                                       placeholder-gray-400 transition"
                             placeholder="Enter your password">
                     </div>
@@ -81,22 +81,22 @@
                     <div class="flex items-center justify-between mb-6">
                         <label class="flex items-center gap-2 cursor-pointer">
                             <input type="checkbox" name="remember"
-                                class="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-600">
-                            <span class="text-sm text-gray-600">Remember me</span>
+                                class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-gold-antique">
+                            <span class="text-sm text-muted">Remember me</span>
                         </label>
                     </div>
 
                     {{-- Submit --}}
                     <button type="submit"
-                        class="w-full py-2.5 px-4 bg-green-700 text-white text-sm font-semibold rounded-lg
-                                   hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-600
+                        class="w-full py-2.5 px-4 bg-gold-antique text-white text-sm font-semibold rounded-lg
+                                   hover:bg-gold-antique focus:outline-none focus:ring-2 focus:ring-gold-antique
                                    focus:ring-offset-2 transition active:scale-[0.98] cursor-pointer">
                         Sign In
                     </button>
                 </form>
             </div>
 
-            <p class="text-center text-xs text-gray-400 mt-6">
+            <p class="text-center text-xs text-taupe mt-6">
                 &copy; {{ date('Y') }} {{ config('app.name') }}. All rights reserved.
             </p>
         </div>
@@ -105,3 +105,13 @@
 </body>
 
 </html>
+
+
+
+
+
+
+
+
+
+

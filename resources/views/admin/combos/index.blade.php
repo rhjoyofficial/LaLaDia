@@ -9,51 +9,51 @@
     {{-- Page Header --}}
     <div class="flex items-center justify-between mb-6">
         <div>
-            <h2 class="text-lg font-bold text-gray-800">Combos</h2>
-            <p class="text-sm text-gray-500 mt-0.5">Bundle products together and sell at a special price</p>
+            <h2 class="text-lg font-bold text-brown">Combos</h2>
+            <p class="text-sm text-muted mt-0.5">Bundle products together and sell at a special price</p>
         </div>
         @can('product.create')
         <a href="{{ route('admin.combos.create') }}"
-            class="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold bg-green-700 text-white rounded-lg hover:bg-green-800 transition">
+            class="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold bg-gold-antique text-white rounded-lg hover:bg-gold-antique transition">
             <i class="fa-solid fa-plus text-xs"></i> New Combo
         </a>
         @endcan
     </div>
 
     {{-- Filters --}}
-    <div class="bg-white border border-gray-200 rounded-xl mb-4 p-4 flex flex-wrap gap-3">
+    <div class="bg-white border border-champagne rounded-xl mb-4 p-4 flex flex-wrap gap-3">
         <div class="relative flex-1 min-w-52">
-            <i class="fa-solid fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+            <i class="fa-solid fa-search absolute left-3 top-1/2 -translate-y-1/2 text-taupe text-xs"></i>
             <input type="text" x-model="search" @input.debounce.400ms="load(1)"
                 placeholder="Search by title…"
-                class="w-full pl-9 pr-4 py-2 text-sm border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-green-600">
+                class="w-full pl-9 pr-4 py-2 text-sm border border-champagne rounded-lg outline-none focus:ring-2 focus:ring-gold-antique">
         </div>
         <select x-model="filterStatus" @change="load(1)"
-            class="border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-600 cursor-pointer">
+            class="border border-champagne rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-gold-antique cursor-pointer">
             <option value="">All</option>
             <option value="active">Active</option>
             <option value="inactive">Inactive</option>
             <option value="featured">Featured</option>
         </select>
         <button @click="search=''; filterStatus=''; load(1)" x-show="search || filterStatus"
-            class="text-xs text-gray-500 hover:text-red-600 transition cursor-pointer px-2">
+            class="text-xs text-muted hover:text-red-600 transition cursor-pointer px-2">
             <i class="fa-solid fa-xmark"></i> Clear
         </button>
     </div>
 
     {{-- Table --}}
-    <div class="bg-white border border-gray-200 rounded-xl overflow-hidden">
+    <div class="bg-white border border-champagne rounded-xl overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full text-sm">
-                <thead class="bg-gray-50 border-b border-gray-100">
+                <thead class="bg-cream border-b border-champagne">
                     <tr>
-                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Combo</th>
-                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Components</th>
-                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Pricing</th>
-                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Final Price</th>
-                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Stock</th>
-                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Status</th>
-                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase"></th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Combo</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Components</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Pricing</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Final Price</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Stock</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Status</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase"></th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-50">
@@ -66,37 +66,37 @@
 
                     <template x-if="!loading">
                         <template x-for="combo in combos" :key="combo.id">
-                            <tr class="hover:bg-gray-50 transition">
+                            <tr class="hover:bg-cream transition">
                                 <td class="px-5 py-3">
                                     <div class="flex items-center gap-3">
                                         <div class="w-10 h-10 rounded-lg bg-gray-100 overflow-hidden flex-shrink-0">
                                             <img x-show="combo.image" :src="combo.image" :alt="combo.title"
                                                 class="w-full h-full object-cover">
-                                            <div x-show="!combo.image" class="w-full h-full flex items-center justify-center text-gray-400">
+                                            <div x-show="!combo.image" class="w-full h-full flex items-center justify-center text-taupe">
                                                 <i class="fa-solid fa-cubes text-xs"></i>
                                             </div>
                                         </div>
                                         <div>
                                             <a :href="`/admin/combos/${combo.id}/edit`"
-                                                class="font-semibold text-xs text-gray-800 hover:text-green-700 transition"
+                                                class="font-semibold text-xs text-brown hover:text-gold-antique transition"
                                                 x-text="combo.title">
                                             </a>
-                                            <p class="text-xs text-gray-400 font-mono" x-text="combo.slug"></p>
+                                            <p class="text-xs text-taupe font-mono" x-text="combo.slug"></p>
                                         </div>
                                     </div>
                                 </td>
-                                <td class="px-5 py-3 text-xs text-gray-600">
+                                <td class="px-5 py-3 text-xs text-muted">
                                     <div class="flex items-center gap-1.5">
                                         <template x-for="item in (combo.items ?? []).slice(0, 3)" :key="item.id">
                                             <div class="w-6 h-6 rounded bg-gray-100 overflow-hidden flex-shrink-0" :title="item.variant?.product?.name + ' — ' + item.variant?.title">
                                                 <img x-show="item.variant?.product?.thumbnail" :src="item.variant?.product?.thumbnail"
                                                     class="w-full h-full object-cover">
-                                                <div x-show="!item.variant?.product?.thumbnail" class="w-full h-full flex items-center justify-center text-gray-400 text-xs">
+                                                <div x-show="!item.variant?.product?.thumbnail" class="w-full h-full flex items-center justify-center text-taupe text-xs">
                                                     <i class="fa-solid fa-box"></i>
                                                 </div>
                                             </div>
                                         </template>
-                                        <span class="text-xs text-gray-500 ml-1"
+                                        <span class="text-xs text-muted ml-1"
                                             x-text="(combo.items_count ?? combo.items?.length ?? 0) + ' component' + ((combo.items_count ?? combo.items?.length ?? 0) !== 1 ? 's' : '')">
                                         </span>
                                     </div>
@@ -110,22 +110,22 @@
                                         <span x-text="combo.discount_type === 'percentage' ? combo.discount_value + '% off' : '৳' + combo.discount_value + ' off'"></span>
                                     </span>
                                 </td>
-                                <td class="px-5 py-3 text-xs font-semibold text-gray-900">
+                                <td class="px-5 py-3 text-xs font-semibold text-brand">
                                     <template x-if="combo.final_price != null">
                                         <span>৳<span x-text="Number(combo.final_price).toLocaleString()"></span></span>
                                     </template>
                                     <template x-if="combo.final_price == null">
-                                        <span class="text-gray-400">—</span>
+                                        <span class="text-taupe">—</span>
                                     </template>
                                 </td>
                                 <td class="px-5 py-3 text-xs">
                                     <template x-if="combo.available_stock != null">
-                                        <span :class="combo.available_stock === 0 ? 'text-red-600 font-semibold' : combo.available_stock <= 5 ? 'text-yellow-600 font-semibold' : 'text-gray-700'"
+                                        <span :class="combo.available_stock === 0 ? 'text-red-600 font-semibold' : combo.available_stock <= 5 ? 'text-yellow-600 font-semibold' : 'text-brown'"
                                             x-text="combo.available_stock === 0 ? 'Out of stock' : combo.available_stock + ' sets'">
                                         </span>
                                     </template>
                                     <template x-if="combo.available_stock == null">
-                                        <span class="text-gray-400">—</span>
+                                        <span class="text-taupe">—</span>
                                     </template>
                                 </td>
                                 <td class="px-5 py-3">
@@ -133,7 +133,7 @@
                                         @can('product.update')
                                         <button @click="toggleActive(combo)"
                                             class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium transition cursor-pointer"
-                                            :class="combo.is_active ? 'bg-green-100 text-green-800 hover:bg-green-200' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'"
+                                            :class="combo.is_active ? 'bg-cream text-gold-antique hover:bg-champagne' : 'bg-gray-100 text-muted hover:bg-gray-200'"
                                             x-text="combo.is_active ? 'Active' : 'Inactive'">
                                         </button>
                                         @endcan
@@ -165,7 +165,7 @@
 
                     <template x-if="!loading && combos.length === 0">
                         <tr>
-                            <td colspan="7" class="px-5 py-12 text-center text-gray-400">
+                            <td colspan="7" class="px-5 py-12 text-center text-taupe">
                                 <i class="fa-solid fa-cubes text-2xl mb-2 block"></i>
                                 No combos found
                             </td>
@@ -177,18 +177,18 @@
         </div>
 
         {{-- Pagination --}}
-        <div class="px-5 py-3 border-t border-gray-100 flex items-center justify-between" x-show="meta.last_page > 1">
-            <p class="text-xs text-gray-500">
+        <div class="px-5 py-3 border-t border-champagne flex items-center justify-between" x-show="meta.last_page > 1">
+            <p class="text-xs text-muted">
                 Page <span x-text="meta.current_page"></span> of <span x-text="meta.last_page"></span>
                 &bull; <span x-text="meta.total"></span> combos
             </p>
             <div class="flex gap-2">
                 <button @click="load(meta.current_page - 1)" :disabled="meta.current_page <= 1"
-                    class="px-3 py-1.5 text-xs font-medium border border-gray-200 rounded-lg disabled:opacity-40 hover:bg-gray-50 transition cursor-pointer disabled:cursor-not-allowed">
+                    class="px-3 py-1.5 text-xs font-medium border border-champagne rounded-lg disabled:opacity-40 hover:bg-cream transition cursor-pointer disabled:cursor-not-allowed">
                     &larr; Prev
                 </button>
                 <button @click="load(meta.current_page + 1)" :disabled="meta.current_page >= meta.last_page"
-                    class="px-3 py-1.5 text-xs font-medium border border-gray-200 rounded-lg disabled:opacity-40 hover:bg-gray-50 transition cursor-pointer disabled:cursor-not-allowed">
+                    class="px-3 py-1.5 text-xs font-medium border border-champagne rounded-lg disabled:opacity-40 hover:bg-cream transition cursor-pointer disabled:cursor-not-allowed">
                     Next &rarr;
                 </button>
             </div>
@@ -205,14 +205,14 @@
                     <i class="fa-solid fa-trash text-red-600"></i>
                 </div>
                 <div>
-                    <h3 class="font-bold text-gray-800">Delete Combo</h3>
-                    <p class="text-xs text-gray-500">This cannot be undone.</p>
+                    <h3 class="font-bold text-brown">Delete Combo</h3>
+                    <p class="text-xs text-muted">This cannot be undone.</p>
                 </div>
             </div>
-            <p class="text-sm text-gray-700 mb-5">Delete <span class="font-semibold" x-text="deleteTarget?.title"></span>?</p>
+            <p class="text-sm text-brown mb-5">Delete <span class="font-semibold" x-text="deleteTarget?.title"></span>?</p>
             <div class="flex justify-end gap-3">
                 <button @click="showDeleteModal = false"
-                    class="px-4 py-2 text-sm font-medium text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition cursor-pointer">
+                    class="px-4 py-2 text-sm font-medium text-muted border border-champagne rounded-lg hover:bg-cream transition cursor-pointer">
                     Cancel
                 </button>
                 <button @click="doDelete()" :disabled="deleting"
@@ -284,3 +284,13 @@ function comboList() {
 }
 </script>
 @endpush
+
+
+
+
+
+
+
+
+
+

@@ -8,12 +8,12 @@
 
     {{-- Page Header --}}
     <div class="flex items-center gap-4 mb-6">
-        <a href="{{ route('admin.products') }}" class="text-gray-400 hover:text-gray-700 transition">
+        <a href="{{ route('admin.products') }}" class="text-taupe hover:text-brown transition">
             <i class="fa-solid fa-arrow-left"></i>
         </a>
         <div>
-            <h2 class="text-lg font-bold text-gray-800">Add New Product</h2>
-            <p class="text-sm text-gray-500 mt-0.5">Fill in the details to create a new product</p>
+            <h2 class="text-lg font-bold text-brown">Add New Product</h2>
+            <p class="text-sm text-muted mt-0.5">Fill in the details to create a new product</p>
         </div>
     </div>
 
@@ -32,39 +32,39 @@
             <div class="xl:col-span-2 space-y-6">
 
                 {{-- Basic Info --}}
-                <div class="bg-white border border-gray-200 rounded-xl p-6 space-y-4">
-                    <h3 class="text-sm font-bold text-gray-700">Basic Information</h3>
+                <div class="bg-white border border-champagne rounded-xl p-6 space-y-4">
+                    <h3 class="text-sm font-bold text-brown">Basic Information</h3>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Product Name <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium text-brown mb-1">Product Name <span class="text-red-500">*</span></label>
                         <input type="text" x-model="form.name"
-                            class="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-600"
-                            :class="errors.name ? 'border-red-400' : 'border-gray-200'"
+                            class="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-gold-antique"
+                            :class="errors.name ? 'border-red-400' : 'border-champagne'"
                             placeholder="e.g. Mangrove Gold Honey (ম্যানগ্রোভ গোল্ড হানি) 500gm">
                         <p x-show="errors.name" class="mt-1 text-xs text-red-600" x-text="errors.name?.[0]"></p>
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Short Description</label>
+                        <label class="block text-sm font-medium text-brown mb-1">Short Description</label>
                         <input type="text" x-model="form.short_description"
-                            class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-600"
+                            class="w-full border border-champagne rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-gold-antique"
                             placeholder="One-liner for product cards">
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Full Description</label>
+                        <label class="block text-sm font-medium text-brown mb-1">Full Description</label>
                         <textarea x-model="form.description" rows="6"
-                            class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-600 resize-y"
+                            class="w-full border border-champagne rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-gold-antique resize-y"
                             placeholder="Detailed product description…"></textarea>
                     </div>
                 </div>
 
                 {{-- Variants --}}
-                <div class="bg-white border border-gray-200 rounded-xl p-6">
+                <div class="bg-white border border-champagne rounded-xl p-6">
                     <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-sm font-bold text-gray-700">Variants <span class="text-red-500">*</span></h3>
+                        <h3 class="text-sm font-bold text-brown">Variants <span class="text-red-500">*</span></h3>
                         <button type="button" @click="addVariant()"
-                            class="inline-flex items-center gap-1.5 text-sm text-green-700 font-medium hover:text-green-900 transition cursor-pointer">
+                            class="inline-flex items-center gap-1.5 text-sm text-gold-antique font-medium hover:text-brand transition cursor-pointer">
                             <i class="fa-solid fa-plus text-xs"></i> Add Variant
                         </button>
                     </div>
@@ -73,10 +73,10 @@
 
                     <div class="space-y-4">
                         <template x-for="(variant, index) in variants" :key="index">
-                            <div class="border border-gray-200 rounded-xl p-4 relative">
+                            <div class="border border-champagne rounded-xl p-4 relative">
                                 {{-- Variant header --}}
                                 <div class="flex items-center justify-between mb-4">
-                                    <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider"
+                                    <span class="text-xs font-semibold text-muted uppercase tracking-wider"
                                         x-text="'Variant ' + (index + 1) + (variant.title ? ' — ' + variant.title : '')"></span>
                                     <button type="button" @click="removeVariant(index)"
                                         x-show="variants.length > 1"
@@ -87,48 +87,48 @@
 
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                     <div>
-                                        <label class="block text-xs font-medium text-gray-600 mb-1">Title <span class="text-red-500">*</span></label>
+                                        <label class="block text-xs font-medium text-muted mb-1">Title <span class="text-red-500">*</span></label>
                                         <input type="text" x-model="variant.title"
-                                            class="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-600"
-                                            :class="errors['variants.' + index + '.title'] ? 'border-red-400' : 'border-gray-200'"
+                                            class="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-gold-antique"
+                                            :class="errors['variants.' + index + '.title'] ? 'border-red-400' : 'border-champagne'"
                                             placeholder="e.g. 1kg Jar">
                                         <p x-show="errors['variants.' + index + '.title']" class="mt-1 text-xs text-red-600"
                                             x-text="errors['variants.' + index + '.title']?.[0]"></p>
                                     </div>
                                     <div>
-                                        <label class="block text-xs font-medium text-gray-600 mb-1">SKU <span class="text-red-500">*</span></label>
+                                        <label class="block text-xs font-medium text-muted mb-1">SKU <span class="text-red-500">*</span></label>
                                         <input type="text" x-model="variant.sku"
-                                            class="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-600 font-mono"
-                                            :class="errors['variants.' + index + '.sku'] ? 'border-red-400' : 'border-gray-200'"
+                                            class="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-gold-antique font-mono"
+                                            :class="errors['variants.' + index + '.sku'] ? 'border-red-400' : 'border-champagne'"
                                             placeholder="MGH-1KG-JAR">
                                         <p x-show="errors['variants.' + index + '.sku']" class="mt-1 text-xs text-red-600"
                                             x-text="errors['variants.' + index + '.sku']?.[0]"></p>
                                     </div>
                                     <div>
-                                        <label class="block text-xs font-medium text-gray-600 mb-1">Price (৳) <span class="text-red-500">*</span></label>
+                                        <label class="block text-xs font-medium text-muted mb-1">Price (৳) <span class="text-red-500">*</span></label>
                                         <input type="number" x-model.number="variant.price" min="0" step="0.01"
-                                            class="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-600"
-                                            :class="errors['variants.' + index + '.price'] ? 'border-red-400' : 'border-gray-200'"
+                                            class="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-gold-antique"
+                                            :class="errors['variants.' + index + '.price'] ? 'border-red-400' : 'border-champagne'"
                                             placeholder="0.00">
                                         <p x-show="errors['variants.' + index + '.price']" class="mt-1 text-xs text-red-600"
                                             x-text="errors['variants.' + index + '.price']?.[0]"></p>
                                     </div>
                                     <div>
-                                        <label class="block text-xs font-medium text-gray-600 mb-1">Stock</label>
+                                        <label class="block text-xs font-medium text-muted mb-1">Stock</label>
                                         <input type="number" x-model.number="variant.stock" min="0"
-                                            class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-600"
+                                            class="w-full border border-champagne rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-gold-antique"
                                             placeholder="0">
                                     </div>
                                     <div>
-                                        <label class="block text-xs font-medium text-gray-600 mb-1">Weight (grams)</label>
+                                        <label class="block text-xs font-medium text-muted mb-1">Weight (grams)</label>
                                         <input type="number" x-model.number="variant.weight_grams" min="0"
-                                            class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-600"
+                                            class="w-full border border-champagne rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-gold-antique"
                                             placeholder="1000">
                                     </div>
                                     <div>
-                                        <label class="block text-xs font-medium text-gray-600 mb-1">Discount Type</label>
+                                        <label class="block text-xs font-medium text-muted mb-1">Discount Type</label>
                                         <select x-model="variant.discount_type"
-                                            class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-600 cursor-pointer">
+                                            class="w-full border border-champagne rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-gold-antique cursor-pointer">
                                             <option value="">No Discount</option>
                                             <option value="percentage">Percentage (%)</option>
                                             <option value="fixed">Fixed Amount (৳)</option>
@@ -136,31 +136,31 @@
                                     </div>
                                     <template x-if="variant.discount_type">
                                         <div>
-                                            <label class="block text-xs font-medium text-gray-600 mb-1"
+                                            <label class="block text-xs font-medium text-muted mb-1"
                                                 x-text="variant.discount_type === 'percentage' ? 'Discount %' : 'Discount Amount (৳)'"></label>
                                             <input type="number" x-model.number="variant.discount_value" min="0" step="0.01"
-                                                class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-600"
+                                                class="w-full border border-champagne rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-gold-antique"
                                                 placeholder="0">
                                         </div>
                                     </template>
                                     <template x-if="variant.discount_type">
                                         <div>
-                                            <label class="block text-xs font-medium text-gray-600 mb-1">Sale Ends At</label>
+                                            <label class="block text-xs font-medium text-muted mb-1">Sale Ends At</label>
                                             <input type="datetime-local" x-model="variant.sale_ends_at"
-                                                class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-600">
+                                                class="w-full border border-champagne rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-gold-antique">
                                         </div>
                                     </template>
                                 </div>
 
                                 {{-- Variant active toggle --}}
-                                <div class="mt-3 pt-3 border-t border-gray-100 flex items-center gap-2">
+                                <div class="mt-3 pt-3 border-t border-champagne flex items-center gap-2">
                                     <label class="flex items-center gap-2 cursor-pointer">
                                         <div class="relative">
                                             <input type="checkbox" x-model="variant.is_active" class="sr-only peer">
-                                            <div class="w-8 h-5 bg-gray-200 peer-checked:bg-green-600 rounded-full transition"></div>
+                                            <div class="w-8 h-5 bg-gray-200 peer-checked:bg-primary rounded-full transition"></div>
                                             <div class="absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow transition peer-checked:translate-x-3"></div>
                                         </div>
-                                        <span class="text-xs font-medium text-gray-600">Variant Active</span>
+                                        <span class="text-xs font-medium text-muted">Variant Active</span>
                                     </label>
                                 </div>
                             </div>
@@ -169,48 +169,48 @@
                 </div>
 
                 {{-- SEO --}}
-                <div class="bg-white border border-gray-200 rounded-xl p-6 space-y-4">
-                    <h3 class="text-sm font-bold text-gray-700">SEO</h3>
+                <div class="bg-white border border-champagne rounded-xl p-6 space-y-4">
+                    <h3 class="text-sm font-bold text-brown">SEO</h3>
                     <div>
-                        <label class="block text-xs font-medium text-gray-600 mb-1">Meta Title</label>
+                        <label class="block text-xs font-medium text-muted mb-1">Meta Title</label>
                         <input type="text" x-model="form.meta_title"
-                            class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-600"
+                            class="w-full border border-champagne rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-gold-antique"
                             placeholder="Overrides product name in search results">
                     </div>
                     <div>
-                        <label class="block text-xs font-medium text-gray-600 mb-1">Meta Description</label>
+                        <label class="block text-xs font-medium text-muted mb-1">Meta Description</label>
                         <textarea x-model="form.meta_description" rows="2"
-                            class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-600 resize-none"
+                            class="w-full border border-champagne rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-gold-antique resize-none"
                             placeholder="160 chars max"></textarea>
                     </div>
                     <div>
-                        <label class="block text-xs font-medium text-gray-600 mb-1">Meta Keywords</label>
+                        <label class="block text-xs font-medium text-muted mb-1">Meta Keywords</label>
                         <input type="text" x-model="form.meta_keywords"
-                            class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-600"
+                            class="w-full border border-champagne rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-gold-antique"
                             placeholder="protein, whey, supplement">
                     </div>
                 </div>
 
                 {{-- Landing Page --}}
-                <div class="bg-white border border-gray-200 rounded-xl p-6 space-y-4">
+                <div class="bg-white border border-champagne rounded-xl p-6 space-y-4">
                     <div class="flex items-center justify-between">
-                        <h3 class="text-sm font-bold text-gray-700">Landing Page</h3>
+                        <h3 class="text-sm font-bold text-brown">Landing Page</h3>
                         <label class="flex items-center gap-2 cursor-pointer">
                             <div class="relative">
                                 <input type="checkbox" x-model="form.is_landing_enabled" class="sr-only peer">
-                                <div class="w-10 h-6 bg-gray-200 peer-checked:bg-green-600 rounded-full transition"></div>
+                                <div class="w-10 h-6 bg-gray-200 peer-checked:bg-primary rounded-full transition"></div>
                                 <div class="absolute top-1 left-1 w-4 h-4 bg-white rounded-full shadow transition peer-checked:translate-x-4"></div>
                             </div>
-                            <span class="text-sm font-medium text-gray-700">Enabled</span>
+                            <span class="text-sm font-medium text-brown">Enabled</span>
                         </label>
                     </div>
                     <div x-show="form.is_landing_enabled">
-                        <label class="block text-xs font-medium text-gray-600 mb-1">Landing Slug</label>
+                        <label class="block text-xs font-medium text-muted mb-1">Landing Slug</label>
                         <div class="flex items-center gap-2">
-                            <span class="text-sm text-gray-400">/product-page/</span>
+                            <span class="text-sm text-taupe">/product-page/</span>
                             <input type="text" x-model="form.landing_slug"
-                                class="flex-1 border rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-600"
-                                :class="errors.landing_slug ? 'border-red-400' : 'border-gray-200'"
+                                class="flex-1 border rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-gold-antique"
+                                :class="errors.landing_slug ? 'border-red-400' : 'border-champagne'"
                                 placeholder="my-product-campaign">
                         </div>
                         <p x-show="errors.landing_slug" class="mt-1 text-xs text-red-600" x-text="errors.landing_slug?.[0]"></p>
@@ -225,14 +225,14 @@
             <div class="space-y-6">
 
                 {{-- Publish box --}}
-                <div class="bg-white border border-gray-200 rounded-xl p-5 space-y-4">
-                    <h3 class="text-sm font-bold text-gray-700">Publish</h3>
+                <div class="bg-white border border-champagne rounded-xl p-5 space-y-4">
+                    <h3 class="text-sm font-bold text-brown">Publish</h3>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Category <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium text-brown mb-1">Category <span class="text-red-500">*</span></label>
                         <select x-model="form.category_id"
-                            class="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-600 cursor-pointer"
-                            :class="errors.category_id ? 'border-red-400' : 'border-gray-200'">
+                            class="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-gold-antique cursor-pointer"
+                            :class="errors.category_id ? 'border-red-400' : 'border-champagne'">
                             <option value="">Select category…</option>
                             <template x-for="cat in categories" :key="cat.id">
                                 <option :value="cat.id" x-text="cat.name"></option>
@@ -242,22 +242,22 @@
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Base Price (৳) <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium text-brown mb-1">Base Price (৳) <span class="text-red-500">*</span></label>
                         <input type="number" x-model.number="form.base_price" min="0" step="0.01"
-                            class="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-600"
-                            :class="errors.base_price ? 'border-red-400' : 'border-gray-200'"
+                            class="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-gold-antique"
+                            :class="errors.base_price ? 'border-red-400' : 'border-champagne'"
                             placeholder="0.00">
                         <p x-show="errors.base_price" class="mt-1 text-xs text-red-600" x-text="errors.base_price?.[0]"></p>
                     </div>
 
-                    <div class="space-y-2 pt-2 border-t border-gray-100">
+                    <div class="space-y-2 pt-2 border-t border-champagne">
                         <label class="flex items-center gap-3 cursor-pointer">
                             <div class="relative">
                                 <input type="checkbox" x-model="form.is_active" class="sr-only peer">
-                                <div class="w-10 h-6 bg-gray-200 peer-checked:bg-green-600 rounded-full transition"></div>
+                                <div class="w-10 h-6 bg-gray-200 peer-checked:bg-primary rounded-full transition"></div>
                                 <div class="absolute top-1 left-1 w-4 h-4 bg-white rounded-full shadow transition peer-checked:translate-x-4"></div>
                             </div>
-                            <span class="text-sm font-medium text-gray-700">Published (Active)</span>
+                            <span class="text-sm font-medium text-brown">Published (Active)</span>
                         </label>
                         <label class="flex items-center gap-3 cursor-pointer">
                             <div class="relative">
@@ -265,7 +265,7 @@
                                 <div class="w-10 h-6 bg-gray-200 peer-checked:bg-yellow-500 rounded-full transition"></div>
                                 <div class="absolute top-1 left-1 w-4 h-4 bg-white rounded-full shadow transition peer-checked:translate-x-4"></div>
                             </div>
-                            <span class="text-sm font-medium text-gray-700">Featured</span>
+                            <span class="text-sm font-medium text-brown">Featured</span>
                         </label>
                         <label class="flex items-center gap-3 cursor-pointer">
                             <div class="relative">
@@ -273,17 +273,17 @@
                                 <div class="w-10 h-6 bg-gray-200 peer-checked:bg-orange-500 rounded-full transition"></div>
                                 <div class="absolute top-1 left-1 w-4 h-4 bg-white rounded-full shadow transition peer-checked:translate-x-4"></div>
                             </div>
-                            <span class="text-sm font-medium text-gray-700">Trending</span>
+                            <span class="text-sm font-medium text-brown">Trending</span>
                         </label>
                     </div>
 
-                    <div class="pt-2 border-t border-gray-100 flex gap-3">
+                    <div class="pt-2 border-t border-champagne flex gap-3">
                         <a href="{{ route('admin.products') }}"
-                            class="flex-1 text-center text-sm font-medium text-gray-600 border border-gray-200 rounded-lg py-2 hover:bg-gray-50 transition">
+                            class="flex-1 text-center text-sm font-medium text-muted border border-champagne rounded-lg py-2 hover:bg-cream transition">
                             Cancel
                         </a>
                         <button type="submit" :disabled="saving"
-                            class="flex-1 inline-flex items-center justify-center gap-2 bg-green-700 hover:bg-green-800 disabled:opacity-60 text-white text-sm font-medium py-2 rounded-lg transition cursor-pointer">
+                            class="flex-1 inline-flex items-center justify-center gap-2 bg-gold-antique hover:bg-gold-antique disabled:opacity-60 text-white text-sm font-medium py-2 rounded-lg transition cursor-pointer">
                             <i x-show="saving" class="fa-solid fa-spinner fa-spin text-xs"></i>
                             <span x-text="saving ? 'Saving…' : 'Create Product'"></span>
                         </button>
@@ -291,12 +291,12 @@
                 </div>
 
                 {{-- Thumbnail --}}
-                <div class="bg-white border border-gray-200 rounded-xl p-5">
-                    <h3 class="text-sm font-bold text-gray-700 mb-3">Thumbnail</h3>
+                <div class="bg-white border border-champagne rounded-xl p-5">
+                    <h3 class="text-sm font-bold text-brown mb-3">Thumbnail</h3>
 
                     <template x-if="thumbnailPreview">
                         <div class="mb-3 relative group">
-                            <img :src="thumbnailPreview" class="w-full h-40 object-cover rounded-lg border border-gray-200">
+                            <img :src="thumbnailPreview" class="w-full h-40 object-cover rounded-lg border border-champagne">
                             <button type="button" @click="thumbnailPreview = null; thumbnail = null"
                                 class="absolute top-2 right-2 w-6 h-6 bg-red-600 text-white rounded-full text-xs opacity-0 group-hover:opacity-100 transition cursor-pointer flex items-center justify-center">
                                 <i class="fa-solid fa-xmark"></i>
@@ -304,24 +304,24 @@
                         </div>
                     </template>
 
-                    <label class="cursor-pointer flex flex-col items-center gap-2 border-2 border-dashed border-gray-200 rounded-xl px-4 py-6 hover:border-green-400 hover:bg-green-50 transition text-center">
+                    <label class="cursor-pointer flex flex-col items-center gap-2 border-2 border-dashed border-champagne rounded-xl px-4 py-6 hover:border-gold-warm hover:bg-ivory transition text-center">
                         <i class="fa-solid fa-image text-gray-300 text-3xl"></i>
-                        <span class="text-sm text-gray-500">Click to upload thumbnail</span>
-                        <span class="text-xs text-gray-400">JPG, PNG, WebP · Max 2MB</span>
+                        <span class="text-sm text-muted">Click to upload thumbnail</span>
+                        <span class="text-xs text-taupe">JPG, PNG, WebP · Max 2MB</span>
                         <input type="file" accept="image/*" class="sr-only" @change="handleThumbnail($event)">
                     </label>
                     <p x-show="errors.thumbnail" class="mt-1 text-xs text-red-600" x-text="errors.thumbnail?.[0]"></p>
                 </div>
 
                 {{-- Gallery --}}
-                <div class="bg-white border border-gray-200 rounded-xl p-5">
-                    <h3 class="text-sm font-bold text-gray-700 mb-3">Gallery</h3>
+                <div class="bg-white border border-champagne rounded-xl p-5">
+                    <h3 class="text-sm font-bold text-brown mb-3">Gallery</h3>
 
                     <template x-if="galleryPreviews.length > 0">
                         <div class="grid grid-cols-3 gap-2 mb-3">
                             <template x-for="(img, i) in galleryPreviews" :key="i">
                                 <div class="relative group">
-                                    <img :src="img" class="w-full h-20 object-cover rounded-lg border border-gray-100">
+                                    <img :src="img" class="w-full h-20 object-cover rounded-lg border border-champagne">
                                     <button type="button" @click="removeGalleryNew(i)"
                                         class="absolute top-1 right-1 w-5 h-5 bg-red-600 text-white rounded-full text-xs opacity-0 group-hover:opacity-100 transition cursor-pointer flex items-center justify-center">
                                         <i class="fa-solid fa-xmark text-xs"></i>
@@ -331,7 +331,7 @@
                         </div>
                     </template>
 
-                    <label class="cursor-pointer flex items-center gap-2 border border-dashed border-gray-200 rounded-lg px-4 py-3 hover:border-green-400 hover:bg-green-50 transition text-sm text-gray-500">
+                    <label class="cursor-pointer flex items-center gap-2 border border-dashed border-champagne rounded-lg px-4 py-3 hover:border-gold-warm hover:bg-ivory transition text-sm text-muted">
                         <i class="fa-solid fa-plus text-xs"></i>
                         Add gallery images
                         <input type="file" accept="image/*" multiple class="sr-only" @change="handleGallery($event)">
@@ -521,3 +521,13 @@ function productForm(productId) {
 }
 </script>
 @endpush
+
+
+
+
+
+
+
+
+
+

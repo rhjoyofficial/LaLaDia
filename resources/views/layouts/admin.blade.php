@@ -23,7 +23,7 @@
     @stack('styles')
 </head>
 
-<body class="h-full bg-gray-50 font-[Inter] antialiased no-scrollbar" x-data="{ sidebarOpen: false }">
+<body class="h-full bg-cream font-[Inter] antialiased no-scrollbar" x-data="{ sidebarOpen: false }">
     <x-flash-container />
     {{-- Mobile sidebar overlay --}}
     <div x-show="sidebarOpen" x-cloak class="fixed inset-0 z-40 bg-black/50 lg:hidden" @click="sidebarOpen = false"
@@ -150,7 +150,7 @@
                 @if ($item['permission'] === null || auth()->user()->can($item['permission']))
                     <a href="{{ route($item['route']) }}"
                         class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition
-                              {{ request()->routeIs($item['route'] . '*') ? 'bg-green-700 text-white' : 'text-gray-400 hover:bg-gray-800 hover:text-gray-200' }}">
+                              {{ request()->routeIs($item['route'] . '*') ? 'bg-gold-antique text-white' : 'text-taupe hover:bg-gray-800 hover:text-gray-200' }}">
                         <i class="fa-solid {{ $item['icon'] }} w-5 text-center text-xs"></i>
                         {{ $item['label'] }}
                     </a>
@@ -162,12 +162,12 @@
         <div class="absolute bottom-0 left-0 right-0 border-t border-gray-800 px-4 py-3">
             <div class="flex items-center gap-3">
                 <div
-                    class="w-8 h-8 rounded-full bg-green-700 flex items-center justify-center text-white text-xs font-bold">
+                    class="w-8 h-8 rounded-full bg-gold-antique flex items-center justify-center text-white text-xs font-bold">
                     {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
                 </div>
                 <div class="flex-1 min-w-0">
                     <p class="text-sm font-medium text-gray-200 truncate">{{ auth()->user()->name }}</p>
-                    <p class="text-xs text-gray-500 truncate">{{ auth()->user()->roles->pluck('name')->first() }}</p>
+                    <p class="text-xs text-muted truncate">{{ auth()->user()->roles->pluck('name')->first() }}</p>
                 </div>
             </div>
         </div>
@@ -178,20 +178,20 @@
 
         {{-- Topbar --}}
         <header
-            class="sticky top-0 z-30 bg-white border-b border-gray-200 h-16 flex items-center px-4 lg:px-6 shrink-0">
+            class="sticky top-0 z-30 bg-white border-b border-champagne h-16 flex items-center px-4 lg:px-6 shrink-0">
             {{-- Mobile hamburger --}}
-            <button @click="sidebarOpen = !sidebarOpen" class="lg:hidden mr-3 text-gray-500 hover:text-gray-700">
+            <button @click="sidebarOpen = !sidebarOpen" class="lg:hidden mr-3 text-muted hover:text-brown">
                 <i class="fa-solid fa-bars text-lg"></i>
             </button>
 
             {{-- Page title --}}
-            <h1 class="text-lg font-bold text-gray-800">@yield('title', 'Dashboard')</h1>
+            <h1 class="text-lg font-bold text-brown">@yield('title', 'Dashboard')</h1>
 
             {{-- Right side --}}
             <div class="ml-auto flex items-center gap-4">
                 {{-- Visit store --}}
                 <a href="{{ route('home') }}" target="_blank"
-                    class="hidden sm:flex items-center gap-1.5 text-sm text-gray-500 hover:text-green-700 transition">
+                    class="hidden sm:flex items-center gap-1.5 text-sm text-muted hover:text-gold-antique transition">
                     <i class="fa-solid fa-external-link text-xs"></i>
                     Visit Store
                 </a>
@@ -200,7 +200,7 @@
                 <form method="POST" action="{{ route('admin.logout') }}">
                     @csrf
                     <button type="submit"
-                        class="cursor-pointer flex items-center gap-1.5 text-sm text-gray-500 hover:text-red-600 transition">
+                        class="cursor-pointer flex items-center gap-1.5 text-sm text-muted hover:text-red-600 transition">
                         <i class="fa-solid fa-right-from-bracket text-xs"></i>
                         Logout
                     </button>
@@ -210,7 +210,7 @@
 
         {{-- Flash messages --}}
         @if (session('success'))
-            <div class="mx-4 lg:mx-6 mt-4 p-3 bg-green-50 border border-green-200 rounded-lg text-sm text-green-700">
+            <div class="mx-4 lg:mx-6 mt-4 p-3 bg-ivory border border-sand rounded-lg text-sm text-gold-antique">
                 {{ session('success') }}
             </div>
         @endif
@@ -226,7 +226,7 @@
         </main>
 
         {{-- Footer --}}
-        <footer class="px-4 lg:px-6 py-3 border-t border-gray-100 text-xs text-gray-400">
+        <footer class="px-4 lg:px-6 py-3 border-t border-champagne text-xs text-taupe">
             &copy; {{ date('Y') }} {{ config('app.name') }} &mdash; Admin Panel
         </footer>
     </div>
@@ -237,3 +237,13 @@
 </body>
 
 </html>
+
+
+
+
+
+
+
+
+
+

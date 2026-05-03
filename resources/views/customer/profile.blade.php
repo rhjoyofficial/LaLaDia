@@ -3,33 +3,40 @@
 @section('title', 'My Profile')
 
 @section('content')
-    <section class="max-w-7xl mx-auto px-4 md:px-8 py-8">
+    <section class="max-w-7xl mx-auto px-4 md:px-8 py-8" style="background: var(--color-bg); min-height: 60vh;">
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
             @include('customer.partials.nav')
 
-            <div class="lg:col-span-3 bg-white border border-gray-100 rounded-2xl p-6 shadow-sm">
-                <h1 class="text-2xl font-bold text-gray-900 mb-6">My Profile</h1>
+            <div class="lg:col-span-3">
+                <div class="card p-6">
+                    <h1 class="text-xl font-bold mb-6" style="color: var(--color-text);">My Profile</h1>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="p-4 rounded-xl bg-gray-50 border border-gray-100">
-                        <p class="text-xs uppercase text-gray-500">Name</p>
-                        <p class="text-base font-semibold text-gray-900 mt-1">{{ $user->name }}</p>
-                    </div>
-                    <div class="p-4 rounded-xl bg-gray-50 border border-gray-100">
-                        <p class="text-xs uppercase text-gray-500">Email</p>
-                        <p class="text-base font-semibold text-gray-900 mt-1">{{ $user->email ?: 'Not provided' }}</p>
-                    </div>
-                    <div class="p-4 rounded-xl bg-gray-50 border border-gray-100">
-                        <p class="text-xs uppercase text-gray-500">Phone</p>
-                        <p class="text-base font-semibold text-gray-900 mt-1">{{ $user->phone ?: 'Not provided' }}</p>
-                    </div>
-                    <div class="p-4 rounded-xl bg-gray-50 border border-gray-100">
-                        <p class="text-xs uppercase text-gray-500">Referral Code</p>
-                        <p class="text-base font-semibold text-gray-900 mt-1">{{ $user->referral_code ?: 'Not generated' }}
-                        </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        @php
+                            $fields = [
+                                ['label' => 'Full Name',     'value' => $user->name],
+                                ['label' => 'Email Address', 'value' => $user->email       ?: 'Not provided'],
+                                ['label' => 'Phone Number',  'value' => $user->phone       ?: 'Not provided'],
+                                ['label' => 'Referral Code', 'value' => $user->referral_code ?: 'Not generated'],
+                            ];
+                        @endphp
+
+                        @foreach ($fields as $field)
+                            <div class="p-4 rounded-xl"
+                                 style="background: var(--color-bg-soft); border: 1px solid var(--color-border);">
+                                <p class="text-xs font-bold uppercase tracking-widest mb-1"
+                                   style="color: var(--color-text-muted);">
+                                    {{ $field['label'] }}
+                                </p>
+                                <p class="text-base font-semibold" style="color: var(--color-text);">
+                                    {{ $field['value'] }}
+                                </p>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
         </div>
     </section>
 @endsection
+

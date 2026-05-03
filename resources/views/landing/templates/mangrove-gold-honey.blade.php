@@ -17,22 +17,22 @@
                         <i class="fas fa-award"></i> ১০০% খাঁটি ও প্রাকৃতিক
                     </div>
 
-                    <h1 class="text-4xl md:text-6xl font-black text-gray-900 leading-tight mb-6 font-hind">
+                    <h1 class="text-4xl md:text-6xl font-black text-brand leading-tight mb-6 font-hind">
                         সুন্দরবনের সেরা উপহার <br />
                         <span class="text-primary italic">Mangrove Gold Honey</span>
                     </h1>
 
-                    <p class="text-lg md:text-xl text-gray-600 mb-8 font-hind leading-relaxed max-w-xl">
+                    <p class="text-lg md:text-xl text-muted mb-8 font-hind leading-relaxed max-w-xl">
                         "সুস্থ থাকুন. সুস্থ জীবন উপভোগ করুন।" সরাসরি সুন্দরবনের গহীন অরণ্য
                         থেকে সংগৃহীত প্রাকৃতিক পুষ্টিগুণে ভরপুর প্রিমিয়াম মধু।
                     </p>
 
                     <div class="flex flex-col sm:flex-row items-center gap-4 justify-center md:justify-start mb-8">
                         <div class="bg-white px-6 py-3 rounded-2xl shadow-sm border border-primary/20">
-                            <span class="block text-xs text-gray-500 font-bold uppercase tracking-wider">পরিমাণ: ৫০৫~
+                            <span class="block text-xs text-muted font-bold uppercase tracking-wider">পরিমাণ: ৫০৫~
                                 গ্রাম</span>
-                            <span class="text-2xl font-black text-gray-900">৳৯৯০
-                                <span class="text-sm font-normal text-gray-400 line-through font-noto">৳১২৫০</span></span>
+                            <span class="text-2xl font-black text-brand">৳৯৯০
+                                <span class="text-sm font-normal text-taupe line-through font-noto">৳১২৫০</span></span>
                         </div>
 
                         <a href="#order-form"
@@ -41,7 +41,7 @@
                         </a>
                     </div>
 
-                    <div class="flex items-center gap-6 justify-center md:justify-start text-sm text-gray-500 font-hind">
+                    <div class="flex items-center gap-6 justify-center md:justify-start text-sm text-muted font-hind">
                         <div class="flex items-center gap-2">
                             <i class="fas fa-truck text-primary"></i> দ্রুত ডেলিভারি
                         </div>
@@ -97,12 +97,12 @@
                         বিশুদ্ধতার গল্প
                     </div>
 
-                    <h2 class="text-3xl md:text-5xl font-black text-gray-900 leading-tight">
+                    <h2 class="text-3xl md:text-5xl font-black text-brand leading-tight">
                         প্রকৃতির শ্রেষ্ঠ দান: <br />
                         <span class="text-primary">ম্যানগ্রোভ গোল্ড হানি</span>
                     </h2>
 
-                    <div class="space-y-5 text-gray-600 text-lg leading-relaxed text-justify md:text-left">
+                    <div class="space-y-5 text-muted text-lg leading-relaxed text-justify md:text-left">
                         <p>
                             সুন্দরবন বিশ্বের বৃহত্তম ম্যানগ্রোভ বন, যা প্রায় ১০,০০০ বর্গ
                             কিলোমিটার এলাকা জুড়ে বিস্তৃত। এখানকার বুনো ফুল থেকে মৌমাছিরা
@@ -126,13 +126,13 @@
                             <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
                                 <i class="fas fa-certificate"></i>
                             </div>
-                            <span class="font-bold text-gray-800">১০০% অর্গানিক</span>
+                            <span class="font-bold text-brown">১০০% অর্গানিক</span>
                         </div>
                         <div class="flex items-center gap-3">
                             <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
                                 <i class="fas fa-vial"></i>
                             </div>
-                            <span class="font-bold text-gray-800">নো অ্যাডেড সুগার</span>
+                            <span class="font-bold text-brown">নো অ্যাডেড সুগার</span>
                         </div>
                     </div>
                 </div>
@@ -143,11 +143,11 @@
     <section id="certifications" class="pb-6 md:pb-10 bg-white">
         <div class="max-w-8xl mx-auto px-6">
             <div class="text-center mb-6">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 font-hind">
+                <h2 class="text-3xl md:text-4xl font-bold text-brand mb-4 font-hind">
                     আন্তর্জাতিক মানের নিশ্চয়তা
                 </h2>
                 <div class="w-24 h-1.5 bg-primary mx-auto rounded-full mb-6"></div>
-                <p class="text-lg text-gray-600 max-w-3xl mx-auto font-hind">
+                <p class="text-lg text-muted max-w-3xl mx-auto font-hind">
                     ম্যানগ্রোভ গোল্ড হানি আমরা সরাসরি আপনার কাছে পৌঁছে দিচ্ছি। আমাদের
                     বিশ্বাসযোগ্যতার সনদসমূহ:
                 </p>
@@ -160,7 +160,7 @@
                     <img src="img/cert-iso-22000.png" alt="ISO 22000 Certified"
                         class="h-16 md:h-20 object-contain transition-transform duration-300 group-hover:scale-110"
                         loading="lazy" />
-                    <span class="mt-3 text-sm font-medium text-gray-800 font-inter">ISO 22000</span>
+                    <span class="mt-3 text-sm font-medium text-brown font-inter">ISO 22000</span>
                 </div>
 
                 <!-- Halal -->
@@ -169,7 +169,7 @@
                     <img src="img/cert-halal.png" alt="Halal Certified"
                         class="h-16 md:h-20 object-contain transition-transform duration-300 group-hover:scale-110"
                         loading="lazy" />
-                    <span class="mt-3 text-sm font-medium text-gray-800 font-inter">Halal Certified</span>
+                    <span class="mt-3 text-sm font-medium text-brown font-inter">Halal Certified</span>
                 </div>
 
                 <!-- HACCP -->
@@ -178,7 +178,7 @@
                     <img src="img/cert-haccp.png" alt="HACCP Certified"
                         class="h-16 md:h-20 object-contain transition-transform duration-300 group-hover:scale-110"
                         loading="lazy" />
-                    <span class="mt-3 text-sm font-medium text-gray-800 font-inter">HACCP</span>
+                    <span class="mt-3 text-sm font-medium text-brown font-inter">HACCP</span>
                 </div>
 
                 <!-- GMP Quality -->
@@ -187,17 +187,17 @@
                     <img src="img/gmp-quality.png" alt="GMP Quality"
                         class="h-16 md:h-20 object-contain transition-transform duration-300 group-hover:scale-110"
                         loading="lazy" />
-                    <span class="mt-3 text-sm font-medium text-gray-800 font-inter">GMP Quality</span>
+                    <span class="mt-3 text-sm font-medium text-brown font-inter">GMP Quality</span>
                 </div>
 
             </div>
         </div>
     </section>
     <!-- ================= KEY BENEFITS SECTION ================= -->
-    <section class="t-16 md:pt-24 bg-gray-50/50 font-hind">
+    <section class="t-16 md:pt-24 bg-cream/50 font-hind">
         <div class="max-w-8xl mx-auto px-6 text-center mb-16">
             <span class="text-primary font-bold uppercase tracking-widest text-sm mb-3 block">হেলথ বেনিফিটস</span>
-            <h2 class="text-3xl md:text-5xl font-black text-gray-900 leading-tight">
+            <h2 class="text-3xl md:text-5xl font-black text-brand leading-tight">
                 প্রতিদিন মধু খাওয়ার
                 <span class="text-primary">অবিশ্বাস্য উপকারিতা</span>
             </h2>
@@ -206,88 +206,88 @@
 
         <div class="max-w-8xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <div
-                class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-gray-100 hover:shadow-xl hover:border-primary/20 transition-all duration-300 group">
+                class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-champagne hover:shadow-xl hover:border-primary/20 transition-all duration-300 group">
                 <div
                     class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center text-primary text-3xl mb-6 group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all">
                     <i class="fas fa-shield-virus"></i>
                 </div>
-                <h3 class="text-xl font-bold text-gray-900 mb-4">
+                <h3 class="text-xl font-bold text-brand mb-4">
                     রোগ প্রতিরোধ ক্ষমতা
                 </h3>
-                <p class="text-gray-600 leading-relaxed">
+                <p class="text-muted leading-relaxed">
                     প্রতিদিন সকালে মধু সেবন করলে শরীরে অ্যান্টি-অক্সিডেন্ট বৃদ্ধি পায়,
                     যা ঠান্ডা-কাশি ও ভাইরাল ইনফেকশন প্রতিরোধে দারুণ কাজ করে।
                 </p>
             </div>
 
             <div
-                class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-gray-100 hover:shadow-xl hover:border-primary/20 transition-all duration-300 group">
+                class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-champagne hover:shadow-xl hover:border-primary/20 transition-all duration-300 group">
                 <div
                     class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center text-primary text-3xl mb-6 group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all">
                     <i class="fas fa-weight"></i>
                 </div>
-                <h3 class="text-xl font-bold text-gray-900 mb-4">
+                <h3 class="text-xl font-bold text-brand mb-4">
                     ওজন ও মেদ নিয়ন্ত্রণ
                 </h3>
-                <p class="text-gray-600 leading-relaxed">
+                <p class="text-muted leading-relaxed">
                     হালকা গরম পানিতে লেবু ও মধু মিশিয়ে নিয়মিত খেলে শরীরের বাড়তি মেদ
                     দ্রুত ঝরে যায় এবং লিভারের টক্সিন দূর করে শরীর সুস্থ রাখে।
                 </p>
             </div>
 
             <div
-                class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-gray-100 hover:shadow-xl hover:border-primary/20 transition-all duration-300 group">
+                class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-champagne hover:shadow-xl hover:border-primary/20 transition-all duration-300 group">
                 <div
                     class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center text-primary text-3xl mb-6 group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all">
                     <i class="fas fa-heartbeat"></i>
                 </div>
-                <h3 class="text-xl font-bold text-gray-900 mb-4">
+                <h3 class="text-xl font-bold text-brand mb-4">
                     হৃদরোগের ঝুঁকি হ্রাস
                 </h3>
-                <p class="text-gray-600 leading-relaxed">
+                <p class="text-muted leading-relaxed">
                     মধু রক্তনালী পরিষ্কার রাখতে সাহায্য করে এবং ক্ষতিকর কোলেস্টেরল কমিয়ে
                     হৃদপিণ্ডের কার্যকারিতা ও রক্ত সঞ্চালন স্বাভাবিক রাখে।
                 </p>
             </div>
 
             <div
-                class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-gray-100 hover:shadow-xl hover:border-primary/20 transition-all duration-300 group">
+                class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-champagne hover:shadow-xl hover:border-primary/20 transition-all duration-300 group">
                 <div
                     class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center text-primary text-3xl mb-6 group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all">
                     <i class="fa-solid fa-face-grin-stars"></i>
                 </div>
-                <h3 class="text-xl font-bold text-gray-900 mb-4">
+                <h3 class="text-xl font-bold text-brand mb-4">
                     উজ্জ্বল ও সুন্দর ত্বক
                 </h3>
-                <p class="text-gray-600 leading-relaxed">
+                <p class="text-muted leading-relaxed">
                     ত্বকে মধুর ব্যবহারে মুখের কালো দাগ দূর হয়। এটি ত্বকের আর্দ্রতা ধরে
                     রেখে প্রাকৃতিক লাবণ্য ফিরিয়ে আনে এবং বুড়িয়ে যাওয়া রোধ করে।
                 </p>
             </div>
 
             <div
-                class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-gray-100 hover:shadow-xl hover:border-primary/20 transition-all duration-300 group">
+                class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-champagne hover:shadow-xl hover:border-primary/20 transition-all duration-300 group">
                 <div
                     class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center text-primary text-3xl mb-6 group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all">
                     <i class="fas fa-bolt"></i>
                 </div>
-                <h3 class="text-xl font-bold text-gray-900 mb-4">এনার্জি বুস্ট</h3>
-                <p class="text-gray-600 leading-relaxed">
+                <h3 class="text-xl font-bold text-brand mb-4">এনার্জি বুস্ট</h3>
+                <p class="text-muted leading-relaxed">
                     দুধ ও মধুর মিশ্রণ টেস্টোস্টেরন (Testosterone) বৃদ্ধিতে সাহায্য করে,
                     যা পুরুষের পেশি গঠন, প্রজনন ক্ষমতা ও স্ট্যামিনা বাড়াতে সহায়ক।
                 </p>
             </div>
 
             <div
-                class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-gray-100 hover:shadow-xl hover:border-primary/20 transition-all duration-300 group">
+                class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-champagne hover:shadow-xl hover:border-primary/20 transition-all duration-300 group">
                 <div
                     class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center text-primary text-3xl mb-6 group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all">
                     <i class="fas fa-lungs-virus"></i>
                 </div>
-                <h3 class="text-xl font-bold text-gray-900 mb-4">
+                <h3 class="text-xl font-bold text-brand mb-4">
                     হজম ও অনিদ্রা দূরীকরণ
                 </h3>
-                <p class="text-gray-600 leading-relaxed">
+                <p class="text-muted leading-relaxed">
                     মধু কোষ্ঠকাঠিন্য দূর করে হজমশক্তি বাড়াতে কার্যকর। ঘুমানোর আগে মধু
                     খেলে তা স্নায়ু শিথিল করে এবং গভীর ও আরামদায়ক ঘুম নিশ্চিত করে।
                 </p>
@@ -298,12 +298,12 @@
     <!-- ================= VERSATILE USES SECTION ================= -->
     <section class="py-16 md:py-24 bg-white font-hind overflow-hidden">
         <div class="max-w-8xl mx-auto px-6 mb-16 text-center">
-            <h2 class="text-3xl md:text-5xl font-black text-gray-900 leading-tight mb-4">
+            <h2 class="text-3xl md:text-5xl font-black text-brand leading-tight mb-4">
                 মধুর
                 <span class="text-primary italic underline underline-offset-8 decoration-primary/30">
                     বহুমুখী ব্যবহার</span>
             </h2>
-            <p class="text-gray-500 max-w-2xl mx-auto text-lg mt-6">
+            <p class="text-muted max-w-2xl mx-auto text-lg mt-6">
                 দৈনন্দিন জীবনে আমাদের ম্যানগ্রোভ গোল্ড মধু আপনার সুস্বাস্থ্য ও
                 সৌন্দর্যের সঙ্গী হতে পারে।
             </p>
@@ -321,10 +321,10 @@
                     </div>
                 </div>
                 <div class="md:w-1/2 space-y-4 text-center md:text-left">
-                    <h3 class="text-2xl font-black text-gray-900">
+                    <h3 class="text-2xl font-black text-brand">
                         চিনির স্বাস্থ্যকর বিকল্প
                     </h3>
-                    <p class="text-gray-600 text-lg leading-relaxed">
+                    <p class="text-muted text-lg leading-relaxed">
                         চা, দুধ বা যেকোনো ডেজার্টে সাদা চিনি বাদ দিয়ে আমাদের মধু ব্যবহার
                         করুন। এটি কেবল স্বাস্থ্যকরই নয়, আপনার খাবারের স্বাদকেও করবে
                         বহুগুণ সুস্বাদু।
@@ -343,10 +343,10 @@
                     </div>
                 </div>
                 <div class="md:w-1/2 space-y-4 text-center md:text-left">
-                    <h3 class="text-2xl font-black text-gray-900">
+                    <h3 class="text-2xl font-black text-brand">
                         প্রাকৃতিক রূপচর্চা
                     </h3>
-                    <p class="text-gray-600 text-lg leading-relaxed">
+                    <p class="text-muted text-lg leading-relaxed">
                         মধুকে আপনি প্রাকৃতিক **Moisturizing Mask** হিসেবে ব্যবহার করতে
                         পারেন। এটি ত্বকের আর্দ্রতা ধরে রাখে এবং রুক্ষতা দূর করে ত্বককে
                         কোমল ও উজ্জ্বল করে তোলে।
@@ -365,10 +365,10 @@
                     </div>
                 </div>
                 <div class="md:w-1/2 space-y-4 text-center md:text-left">
-                    <h3 class="text-2xl font-black text-gray-900">
+                    <h3 class="text-2xl font-black text-brand">
                         প্রাথমিক সুরক্ষা ও চিকিৎসা
                     </h3>
-                    <p class="text-gray-600 text-lg leading-relaxed">
+                    <p class="text-muted text-lg leading-relaxed">
                         ঠান্ডা এবং ফ্লু প্রতিরোধে মধুর কার্যকারিতা সর্বজনবিদিত। এছাড়াও
                         দুর্বল ও ভঙ্গুর নখের চিকিৎসায় মধুর ব্যবহার নখকে শক্ত ও
                         স্বাস্থ্যোজ্জ্বল করতে সাহায্য করে।
@@ -378,3 +378,13 @@
         </div>
     </section>
 @endsection
+
+
+
+
+
+
+
+
+
+

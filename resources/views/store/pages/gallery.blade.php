@@ -5,11 +5,11 @@
 @section('content')
     <!-- Elegant, Light-Themed Cinematic Design -->
     <div
-        class="bg-[#f0f5f1] min-h-screen text-slate-600 font-light overflow-hidden selection:bg-primary/30 shadow-2xl bg-white border-x border-slate-200">
+        class="bg-ivory min-h-screen text-muted font-light overflow-hidden selection:bg-primary/30 shadow-2xl bg-white border-x border-champagne">
 
         <!-- Cinematic Hero -->
         <section
-            class="relative h-100 flex items-center justify-center border-b border-slate-200 bg-primary overflow-hidden group">
+            class="relative h-100 flex items-center justify-center border-b border-champagne bg-primary overflow-hidden group">
             <div class="absolute inset-0 z-0">
                 <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&q=80&w=2000"
                     class="w-full h-full object-cover opacity-20 scale-110 group-hover:scale-100 transition-transform duration-[7s] ease-out"
@@ -38,7 +38,7 @@
                     {{ $data['title'] }}
                 </h1>
 
-                <p class="text-sm md:text-base text-green-50/80 max-w-lg mx-auto leading-relaxed font-light line-clamp-2">
+                <p class="text-sm md:text-base text-ivory/80 max-w-lg mx-auto leading-relaxed font-light line-clamp-2">
                     {{ $data['subtitle'] }}
                 </p>
 
@@ -112,3 +112,13 @@
     </div>
 
 @endsection
+
+
+
+
+
+
+
+
+
+

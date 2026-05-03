@@ -8,8 +8,8 @@
         {{-- Page Header --}}
         <div class="flex items-center justify-between mb-6">
             <div>
-                <h1 class="text-2xl font-bold text-gray-900">Access Control</h1>
-                <p class="text-sm text-gray-500 mt-0.5">Manage roles, permission matrix, staff accounts, and permissions</p>
+                <h1 class="text-2xl font-bold text-brand">Access Control</h1>
+                <p class="text-sm text-muted mt-0.5">Manage roles, permission matrix, staff accounts, and permissions</p>
             </div>
             <div class="flex gap-2">
                 <button x-show="tab === 'roles'" @click="createModal.open = true"
@@ -28,12 +28,12 @@
         </div>
 
         {{-- Tabs --}}
-        <div class="border-b border-gray-200 mb-6">
+        <div class="border-b border-champagne mb-6">
             <nav class="-mb-px flex gap-6">
                 @foreach ([['roles', 'fa-shield-halved', 'Roles'], ['matrix', 'fa-table-cells', 'Permission Matrix'], ['staff', 'fa-user-tie', 'Admin Staff'], ['permissions', 'fa-key', 'Permissions']] as [$t, $icon, $label])
                     <button @click="switchTab('{{ $t }}')"
                         :class="tab === '{{ $t }}' ? 'border-indigo-600 text-indigo-600' :
-                            'border-transparent text-gray-500 hover:text-gray-700'"
+                            'border-transparent text-muted hover:text-brown'"
                         class="inline-flex items-center gap-1.5 pb-3 text-sm font-medium border-b-2 transition cursor-pointer">
                         <i class="fas {{ $icon }} text-xs"></i> {{ $label }}
                     </button>
@@ -47,7 +47,7 @@
         <div x-show="tab === 'roles'">
             <div x-show="rolesLoading" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <template x-for="i in 6">
-                    <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100 animate-pulse">
+                    <div class="bg-white rounded-xl p-5 shadow-sm border border-champagne animate-pulse">
                         <div class="h-4 bg-gray-200 rounded w-1/2 mb-3"></div>
                         <div class="h-3 bg-gray-200 rounded w-1/3 mb-2"></div>
                         <div class="h-3 bg-gray-200 rounded w-2/3"></div>
@@ -57,33 +57,33 @@
 
             <div x-show="!rolesLoading" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <template x-for="role in roles" :key="role.id">
-                    <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition">
+                    <div class="bg-white rounded-xl p-5 shadow-sm border border-champagne hover:shadow-md transition">
                         {{-- Header --}}
                         <div class="flex items-start justify-between mb-3">
                             <div class="flex items-center gap-2">
                                 <div :class="role.is_protected ? 'bg-indigo-100' : 'bg-gray-100'"
                                     class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0">
-                                    <i :class="role.is_protected ? 'fa-shield text-indigo-600' : 'fa-user-tag text-gray-500'"
+                                    <i :class="role.is_protected ? 'fa-shield text-indigo-600' : 'fa-user-tag text-muted'"
                                         class="fas text-sm"></i>
                                 </div>
                                 <div>
-                                    <p class="text-sm font-semibold text-gray-900" x-text="role.name"></p>
+                                    <p class="text-sm font-semibold text-brand" x-text="role.name"></p>
                                     <span x-show="role.is_protected"
                                         class="text-xs bg-indigo-50 text-indigo-600 px-1.5 py-0.5 rounded font-medium">System</span>
                                     <span x-show="!role.is_protected"
-                                        class="text-xs bg-gray-50 text-gray-500 px-1.5 py-0.5 rounded">Custom</span>
+                                        class="text-xs bg-cream text-muted px-1.5 py-0.5 rounded">Custom</span>
                                 </div>
                             </div>
                             <div class="flex items-center gap-1" x-show="!role.is_protected">
                                 <button @click="openEditModal(role)" title="Rename"
-                                    class="p-1.5 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded transition cursor-pointer">
+                                    class="p-1.5 text-taupe hover:text-indigo-600 hover:bg-indigo-50 rounded transition cursor-pointer">
                                     <i class="fas fa-pencil text-xs"></i>
                                 </button>
                                 <button @click="deleteModal = { open: true, role: role }" title="Delete"
                                     :disabled="role.users_count > 0"
                                     :class="role.users_count > 0 ? 'opacity-30 cursor-not-allowed' :
                                         'hover:text-red-600 hover:bg-red-50'"
-                                    class="p-1.5 text-gray-400 rounded transition cursor-pointer">
+                                    class="p-1.5 text-taupe rounded transition cursor-pointer">
                                     <i class="fas fa-trash text-xs"></i>
                                 </button>
                             </div>
@@ -92,29 +92,29 @@
                         {{-- Stats --}}
                         <div class="flex gap-4 mb-3">
                             <div class="text-center">
-                                <p class="text-lg font-bold text-gray-900" x-text="role.users_count"></p>
-                                <p class="text-xs text-gray-400">Users</p>
+                                <p class="text-lg font-bold text-brand" x-text="role.users_count"></p>
+                                <p class="text-xs text-taupe">Users</p>
                             </div>
                             <div class="text-center">
-                                <p class="text-lg font-bold text-gray-900" x-text="role.permissions_count"></p>
-                                <p class="text-xs text-gray-400">Permissions</p>
+                                <p class="text-lg font-bold text-brand" x-text="role.permissions_count"></p>
+                                <p class="text-xs text-taupe">Permissions</p>
                             </div>
                         </div>
 
                         {{-- Permission preview --}}
                         <div class="flex flex-wrap gap-1 mb-3 min-h-6">
                             <template x-for="perm in (role.permissions ?? []).slice(0,5)" :key="perm">
-                                <span class="text-xs bg-gray-100 text-gray-600 px-1.5 py-0.5 rounded font-mono"
+                                <span class="text-xs bg-gray-100 text-muted px-1.5 py-0.5 rounded font-mono"
                                     x-text="perm.split('.')[0]"></span>
                             </template>
-                            <span x-show="(role.permissions ?? []).length > 5" class="text-xs text-gray-400 px-1"
+                            <span x-show="(role.permissions ?? []).length > 5" class="text-xs text-taupe px-1"
                                 x-text="'+' + ((role.permissions ?? []).length - 5) + ' more'"></span>
-                            <span x-show="(role.permissions ?? []).length === 0" class="text-xs text-gray-400 italic">No
+                            <span x-show="(role.permissions ?? []).length === 0" class="text-xs text-taupe italic">No
                                 permissions</span>
                         </div>
 
                         {{-- Footer actions --}}
-                        <div class="flex gap-2 pt-3 border-t border-gray-100">
+                        <div class="flex gap-2 pt-3 border-t border-champagne">
                             <button @click="openUsersModal(role)"
                                 class="flex-1 text-xs text-center py-1.5 text-indigo-600 hover:bg-indigo-50 rounded transition cursor-pointer"
                                 x-show="role.users_count > 0">
@@ -122,7 +122,7 @@
                                 View <span x-text="role.users_count"></span> Users
                             </button>
                             <button @click="switchTab('matrix')"
-                                class="flex-1 text-xs text-center py-1.5 text-gray-500 hover:bg-gray-50 rounded transition cursor-pointer">
+                                class="flex-1 text-xs text-center py-1.5 text-muted hover:bg-cream rounded transition cursor-pointer">
                                 <i class="fas fa-sliders mr-1"></i> Edit Permissions
                             </button>
                         </div>
@@ -135,14 +135,14 @@
         {{-- TAB: Permission Matrix                                --}}
         {{-- ───────────────────────────────────────────────────── --}}
         <div x-show="tab === 'matrix'">
-            <div x-show="matrixLoading" class="bg-white rounded-xl p-8 text-center shadow-sm border border-gray-100">
+            <div x-show="matrixLoading" class="bg-white rounded-xl p-8 text-center shadow-sm border border-champagne">
                 <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-indigo-600 mx-auto"></div>
-                <p class="text-sm text-gray-500 mt-3">Loading permission matrix…</p>
+                <p class="text-sm text-muted mt-3">Loading permission matrix…</p>
             </div>
 
             <div x-show="!matrixLoading">
                 {{-- Legend & hint --}}
-                <div class="flex items-center gap-4 mb-4 text-xs text-gray-500">
+                <div class="flex items-center gap-4 mb-4 text-xs text-muted">
                     <span class="flex items-center gap-1.5">
                         <span class="w-4 h-4 rounded bg-indigo-600 inline-block"></span> Granted
                     </span>
@@ -153,32 +153,32 @@
                         <span class="w-4 h-4 rounded bg-indigo-100 inline-block border border-indigo-200"></span> System
                         (auto-granted)
                     </span>
-                    <span class="ml-auto text-gray-400 italic">Changes auto-save per role after a short delay</span>
+                    <span class="ml-auto text-taupe italic">Changes auto-save per role after a short delay</span>
                 </div>
 
-                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-x-auto">
+                <div class="bg-white rounded-xl shadow-sm border border-champagne overflow-x-auto">
                     <table class="text-xs border-collapse">
                         <thead>
                             {{-- Group header row --}}
-                            <tr class="border-b border-gray-200">
+                            <tr class="border-b border-champagne">
                                 <th
-                                    class="sticky left-0 z-20 bg-white px-4 py-3 text-left text-xs font-semibold text-gray-700 min-w-35 border-r border-gray-200">
+                                    class="sticky left-0 z-20 bg-white px-4 py-3 text-left text-xs font-semibold text-brown min-w-35 border-r border-champagne">
                                     Role
                                 </th>
                                 <template x-for="[group, perms] in Object.entries(matrixGroups)" :key="group">
                                     <th :colspan="perms.length"
-                                        class="px-2 py-2 text-center font-semibold text-gray-600 uppercase tracking-wide border-r border-gray-200 bg-gray-50"
-                                        :class="groupColors[group] ?? 'text-gray-600'" x-text="group"></th>
+                                        class="px-2 py-2 text-center font-semibold text-muted uppercase tracking-wide border-r border-champagne bg-cream"
+                                        :class="groupColors[group] ?? 'text-muted'" x-text="group"></th>
                                 </template>
                             </tr>
                             {{-- Permission sub-header row --}}
-                            <tr class="border-b-2 border-gray-200">
-                                <th class="sticky left-0 z-20 bg-gray-50 px-4 py-2 border-r border-gray-200">
-                                    <span class="text-xs text-gray-400">↓ role / perm →</span>
+                            <tr class="border-b-2 border-champagne">
+                                <th class="sticky left-0 z-20 bg-cream px-4 py-2 border-r border-champagne">
+                                    <span class="text-xs text-taupe">↓ role / perm →</span>
                                 </th>
                                 <template x-for="[group, perms] in Object.entries(matrixGroups)" :key="'h-' + group">
                                     <template x-for="perm in perms" :key="perm">
-                                        <th class="px-1 py-2 text-center font-medium text-gray-500 border-r border-gray-100 whitespace-nowrap min-w-13"
+                                        <th class="px-1 py-2 text-center font-medium text-muted border-r border-champagne whitespace-nowrap min-w-13"
                                             x-text="permLabel(perm)"></th>
                                     </template>
                                 </template>
@@ -186,15 +186,15 @@
                         </thead>
                         <tbody>
                             <template x-for="role in matrixRoles" :key="role.id">
-                                <tr class="border-b border-gray-100 hover:bg-gray-50/50 transition"
+                                <tr class="border-b border-champagne hover:bg-cream/50 transition"
                                     :class="pendingRoles[role.id] ? 'bg-amber-50/30' : ''">
                                     {{-- Role name cell --}}
-                                    <td class="sticky left-0 z-10 bg-inherit px-4 py-2.5 border-r border-gray-200">
+                                    <td class="sticky left-0 z-10 bg-inherit px-4 py-2.5 border-r border-champagne">
                                         <div class="flex items-center justify-between gap-2">
                                             <div>
-                                                <p class="font-semibold text-gray-800 whitespace-nowrap"
+                                                <p class="font-semibold text-brown whitespace-nowrap"
                                                     x-text="role.name"></p>
-                                                <p class="text-gray-400 mt-0.5"
+                                                <p class="text-taupe mt-0.5"
                                                     x-text="role.users_count + ' user' + (role.users_count !== 1 ? 's' : '')">
                                                 </p>
                                             </div>
@@ -205,13 +205,13 @@
                                                     <i class="fas fa-circle-notch fa-spin text-xs"></i> Saving
                                                 </span>
                                                 <span x-show="savedRoles[role.id] && !savingRoles[role.id]"
-                                                    class="text-xs text-green-600 flex items-center gap-1">
+                                                    class="text-xs text-primary flex items-center gap-1">
                                                     <i class="fas fa-check text-xs"></i> Saved
                                                 </span>
                                                 {{-- Grant/Revoke All --}}
                                                 <div x-show="!role.is_protected" class="flex gap-1">
                                                     <button @click="grantAll(role.id)"
-                                                        class="px-1.5 py-0.5 bg-green-100 text-green-700 rounded text-xs hover:bg-green-200 transition cursor-pointer"
+                                                        class="px-1.5 py-0.5 bg-cream text-gold-antique rounded text-xs hover:bg-champagne transition cursor-pointer"
                                                         title="Grant all">All</button>
                                                     <button @click="revokeAll(role.id)"
                                                         class="px-1.5 py-0.5 bg-red-100 text-red-700 rounded text-xs hover:bg-red-200 transition cursor-pointer"
@@ -224,7 +224,7 @@
                                     <template x-for="[group, perms] in Object.entries(matrixGroups)"
                                         :key="'r' + role.id + group">
                                         <template x-for="perm in perms" :key="'c' + role.id + perm">
-                                            <td class="px-1 py-2 text-center border-r border-gray-100">
+                                            <td class="px-1 py-2 text-center border-r border-champagne">
                                                 <button @click="role.is_protected ? null : toggleCell(role.id, perm)"
                                                     :disabled="role.is_protected"
                                                     :title="role.is_protected ? role.name + ' always has ' + perm : (matrix[role
@@ -234,7 +234,7 @@
                                                             ?.[perm] && !role.is_protected,
                                                         'bg-indigo-100 text-indigo-400 cursor-default': matrix[role.id]
                                                             ?.[perm] && role.is_protected,
-                                                        'bg-gray-200 text-gray-400 hover:bg-gray-300': !matrix[role.id]
+                                                        'bg-gray-200 text-taupe hover:bg-gray-300': !matrix[role.id]
                                                             ?.[perm] && !role.is_protected,
                                                         'bg-gray-100 text-gray-300 cursor-default': !matrix[role.id]?.[
                                                             perm
@@ -261,34 +261,34 @@
         <div x-show="tab === 'staff'">
 
             {{-- Search --}}
-            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 mb-4">
+            <div class="bg-white rounded-xl shadow-sm border border-champagne p-4 mb-4">
                 <div class="relative max-w-md">
-                    <i class="fas fa-search absolute left-3 top-2.5 text-gray-400 text-sm"></i>
+                    <i class="fas fa-search absolute left-3 top-2.5 text-taupe text-sm"></i>
                     <input x-model="staffSearch" @input.debounce.400ms="staffPage=1; loadStaff()" type="text"
                         placeholder="Search by name or email…"
-                        class="pl-9 pr-4 py-2 w-full text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none">
+                        class="pl-9 pr-4 py-2 w-full text-sm border border-champagne rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none">
                 </div>
             </div>
 
             {{-- Table --}}
-            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+            <div class="bg-white rounded-xl shadow-sm border border-champagne overflow-hidden">
                 <div x-show="staffLoading" class="p-8 flex justify-center">
                     <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
                 </div>
                 <table x-show="!staffLoading" class="min-w-full divide-y divide-gray-100">
-                    <thead class="bg-gray-50">
+                    <thead class="bg-cream">
                         <tr>
-                            <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">User</th>
-                            <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Current Role</th>
-                            <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Status</th>
-                            <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Last Login</th>
-                            <th class="px-5 py-3 text-right text-xs font-semibold text-gray-500 uppercase">Assign Role</th>
-                            <th class="px-5 py-3 text-right text-xs font-semibold text-gray-500 uppercase">Actions</th>
+                            <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">User</th>
+                            <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Current Role</th>
+                            <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Status</th>
+                            <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Last Login</th>
+                            <th class="px-5 py-3 text-right text-xs font-semibold text-muted uppercase">Assign Role</th>
+                            <th class="px-5 py-3 text-right text-xs font-semibold text-muted uppercase">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
                         <template x-for="user in staffUsers" :key="user.id">
-                            <tr class="hover:bg-gray-50 transition">
+                            <tr class="hover:bg-cream transition">
                                 <td class="px-5 py-3.5">
                                     <div class="flex items-center gap-2.5">
                                         <div
@@ -297,31 +297,31 @@
                                                 x-text="user.name.charAt(0).toUpperCase()"></span>
                                         </div>
                                         <div>
-                                            <p class="text-sm font-medium text-gray-800" x-text="user.name"></p>
-                                            <p class="text-xs text-gray-400" x-text="user.email"></p>
+                                            <p class="text-sm font-medium text-brown" x-text="user.name"></p>
+                                            <p class="text-xs text-taupe" x-text="user.email"></p>
                                         </div>
                                     </div>
                                 </td>
                                 <td class="px-5 py-3.5">
                                     <span x-show="user.primary_role"
                                         :class="user.primary_role === 'Super Admin' || user.primary_role === 'Admin' ?
-                                            'bg-indigo-100 text-indigo-700' : 'bg-gray-100 text-gray-700'"
+                                            'bg-indigo-100 text-indigo-700' : 'bg-gray-100 text-brown'"
                                         class="text-xs px-2 py-0.5 rounded-full font-medium"
                                         x-text="user.primary_role"></span>
-                                    <span x-show="!user.primary_role" class="text-xs text-gray-400 italic">No role</span>
+                                    <span x-show="!user.primary_role" class="text-xs text-taupe italic">No role</span>
                                 </td>
                                 <td class="px-5 py-3.5">
                                     <span
-                                        :class="user.is_active ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'"
+                                        :class="user.is_active ? 'bg-cream text-gold-antique' : 'bg-gray-100 text-muted'"
                                         class="text-xs px-2 py-0.5 rounded-full font-medium"
                                         x-text="user.is_active ? 'Active' : 'Inactive'"></span>
                                 </td>
-                                <td class="px-5 py-3.5 text-sm text-gray-500"
+                                <td class="px-5 py-3.5 text-sm text-muted"
                                     x-text="user.last_login_at ? fmtDate(user.last_login_at) : 'Never'"></td>
                                 <td class="px-5 py-3.5 text-right">
                                     <div class="flex items-center justify-end gap-2">
                                         <select :id="'role-' + user.id"
-                                            class="text-sm border border-gray-200 rounded-lg px-2 py-1.5 focus:ring-2 focus:ring-indigo-500 outline-none"
+                                            class="text-sm border border-champagne rounded-lg px-2 py-1.5 focus:ring-2 focus:ring-indigo-500 outline-none"
                                             @change.stop>
                                             <option value="">— select —</option>
                                             <template x-for="r in allRoles" :key="r">
@@ -339,11 +339,11 @@
                                 <td class="px-5 py-3.5 text-right">
                                     <div class="flex items-center justify-end gap-1">
                                         <button @click="openEditStaffModal(user)" title="Edit"
-                                            class="p-1.5 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded transition cursor-pointer">
+                                            class="p-1.5 text-taupe hover:text-indigo-600 hover:bg-indigo-50 rounded transition cursor-pointer">
                                             <i class="fas fa-pencil text-xs"></i>
                                         </button>
                                         <button @click="confirmDeleteStaff(user)" title="Delete"
-                                            class="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded transition cursor-pointer">
+                                            class="p-1.5 text-taupe hover:text-red-600 hover:bg-red-50 rounded transition cursor-pointer">
                                             <i class="fas fa-trash text-xs"></i>
                                         </button>
                                     </div>
@@ -351,7 +351,7 @@
                             </tr>
                         </template>
                         <tr x-show="!staffLoading && staffUsers.length === 0">
-                            <td colspan="6" class="px-5 py-12 text-center text-gray-400">
+                            <td colspan="6" class="px-5 py-12 text-center text-taupe">
                                 <i class="fas fa-user-slash text-3xl mb-3 block"></i> No admin users found
                             </td>
                         </tr>
@@ -361,17 +361,17 @@
 
             {{-- Pagination --}}
             <div x-show="staffMeta.last_page > 1" class="flex items-center justify-between mt-4">
-                <p class="text-sm text-gray-500">
+                <p class="text-sm text-muted">
                     Page <span x-text="staffMeta.current_page"></span> of <span x-text="staffMeta.last_page"></span>
                     &nbsp;·&nbsp; <span x-text="staffMeta.total"></span> users
                 </p>
                 <div class="flex gap-2">
                     <button @click="staffPage--; loadStaff()" :disabled="staffPage <= 1"
-                        class="px-3 py-1.5 text-sm border border-gray-200 rounded-lg disabled:opacity-40 hover:bg-gray-50 transition cursor-pointer">
+                        class="px-3 py-1.5 text-sm border border-champagne rounded-lg disabled:opacity-40 hover:bg-cream transition cursor-pointer">
                         <i class="fas fa-chevron-left text-xs"></i>
                     </button>
                     <button @click="staffPage++; loadStaff()" :disabled="staffPage >= staffMeta.last_page"
-                        class="px-3 py-1.5 text-sm border border-gray-200 rounded-lg disabled:opacity-40 hover:bg-gray-50 transition cursor-pointer">
+                        class="px-3 py-1.5 text-sm border border-champagne rounded-lg disabled:opacity-40 hover:bg-cream transition cursor-pointer">
                         <i class="fas fa-chevron-right text-xs"></i>
                     </button>
                 </div>
@@ -382,56 +382,56 @@
         {{-- TAB: Permissions                                      --}}
         {{-- ───────────────────────────────────────────────────── --}}
         <div x-show="tab === 'permissions'">
-            <div x-show="permsLoading" class="bg-white rounded-xl p-8 text-center shadow-sm border border-gray-100">
+            <div x-show="permsLoading" class="bg-white rounded-xl p-8 text-center shadow-sm border border-champagne">
                 <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-indigo-600 mx-auto"></div>
-                <p class="text-sm text-gray-500 mt-3">Loading permissions…</p>
+                <p class="text-sm text-muted mt-3">Loading permissions…</p>
             </div>
 
-            <div x-show="!permsLoading" class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+            <div x-show="!permsLoading" class="bg-white rounded-xl shadow-sm border border-champagne overflow-hidden">
                 <table class="min-w-full divide-y divide-gray-100">
-                    <thead class="bg-gray-50">
+                    <thead class="bg-cream">
                         <tr>
-                            <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Permission Name</th>
-                            <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Assigned to Roles</th>
-                            <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Type</th>
-                            <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Created</th>
-                            <th class="px-5 py-3 text-right text-xs font-semibold text-gray-500 uppercase">Actions</th>
+                            <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Permission Name</th>
+                            <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Assigned to Roles</th>
+                            <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Type</th>
+                            <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Created</th>
+                            <th class="px-5 py-3 text-right text-xs font-semibold text-muted uppercase">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
                         <template x-for="perm in permissions" :key="perm.id">
-                            <tr class="hover:bg-gray-50 transition">
+                            <tr class="hover:bg-cream transition">
                                 <td class="px-5 py-3.5">
-                                    <span class="font-mono text-sm text-gray-800 bg-gray-100 px-2 py-0.5 rounded"
+                                    <span class="font-mono text-sm text-brown bg-gray-100 px-2 py-0.5 rounded"
                                         x-text="perm.name"></span>
                                 </td>
                                 <td class="px-5 py-3.5">
                                     <span x-show="perm.roles_count > 0"
-                                        class="text-sm text-gray-700 font-medium"
+                                        class="text-sm text-brown font-medium"
                                         x-text="perm.roles_count + ' role' + (perm.roles_count !== 1 ? 's' : '')"></span>
                                     <span x-show="perm.roles_count === 0"
-                                        class="text-xs text-gray-400 italic">Unassigned</span>
+                                        class="text-xs text-taupe italic">Unassigned</span>
                                 </td>
                                 <td class="px-5 py-3.5">
                                     <span x-show="perm.is_protected"
                                         class="text-xs bg-indigo-50 text-indigo-600 px-2 py-0.5 rounded-full font-medium">System</span>
                                     <span x-show="!perm.is_protected"
-                                        class="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full">Custom</span>
+                                        class="text-xs bg-gray-100 text-muted px-2 py-0.5 rounded-full">Custom</span>
                                 </td>
-                                <td class="px-5 py-3.5 text-sm text-gray-500"
+                                <td class="px-5 py-3.5 text-sm text-muted"
                                     x-text="perm.created_at ? fmtDate(perm.created_at) : '—'"></td>
                                 <td class="px-5 py-3.5 text-right">
                                     <div class="flex items-center justify-end gap-1">
                                         <button @click="openEditPermModal(perm)" title="Rename"
                                             :disabled="perm.is_protected"
                                             :class="perm.is_protected ? 'opacity-30 cursor-not-allowed' : 'hover:text-indigo-600 hover:bg-indigo-50 cursor-pointer'"
-                                            class="p-1.5 text-gray-400 rounded transition">
+                                            class="p-1.5 text-taupe rounded transition">
                                             <i class="fas fa-pencil text-xs"></i>
                                         </button>
                                         <button @click="confirmDeletePerm(perm)" title="Delete"
                                             :disabled="perm.is_protected || perm.roles_count > 0"
                                             :class="(perm.is_protected || perm.roles_count > 0) ? 'opacity-30 cursor-not-allowed' : 'hover:text-red-600 hover:bg-red-50 cursor-pointer'"
-                                            class="p-1.5 text-gray-400 rounded transition">
+                                            class="p-1.5 text-taupe rounded transition">
                                             <i class="fas fa-trash text-xs"></i>
                                         </button>
                                     </div>
@@ -439,7 +439,7 @@
                             </tr>
                         </template>
                         <tr x-show="!permsLoading && permissions.length === 0">
-                            <td colspan="5" class="px-5 py-12 text-center text-gray-400">
+                            <td colspan="5" class="px-5 py-12 text-center text-taupe">
                                 <i class="fas fa-key text-3xl mb-3 block"></i> No permissions found
                             </td>
                         </tr>
@@ -456,17 +456,17 @@
         <div x-show="createModal.open" x-transition.opacity
             class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40">
             <div @click.outside="createModal.open = false" class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6">
-                <h3 class="text-base font-semibold text-gray-900 mb-4">Create New Role</h3>
+                <h3 class="text-base font-semibold text-brand mb-4">Create New Role</h3>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Role Name</label>
+                    <label class="block text-sm font-medium text-brown mb-1">Role Name</label>
                     <input x-model="createModal.name" @keyup.enter="createRole()" type="text"
                         placeholder="e.g. Content Manager"
-                        class="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none">
+                        class="w-full text-sm border border-champagne rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none">
                     <p x-show="createModal.error" class="text-xs text-red-500 mt-1" x-text="createModal.error"></p>
                 </div>
                 <div class="flex justify-end gap-2 mt-5">
                     <button @click="createModal.open = false; createModal.name = ''; createModal.error = null"
-                        class="px-4 py-2 text-sm text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition cursor-pointer">
+                        class="px-4 py-2 text-sm text-muted border border-champagne rounded-lg hover:bg-cream transition cursor-pointer">
                         Cancel
                     </button>
                     <button @click="createRole()" :disabled="createModal.loading || !createModal.name.trim()"
@@ -483,16 +483,16 @@
         <div x-show="editModal.open" x-transition.opacity
             class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40">
             <div @click.outside="editModal.open = false" class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6">
-                <h3 class="text-base font-semibold text-gray-900 mb-4">Rename Role</h3>
+                <h3 class="text-base font-semibold text-brand mb-4">Rename Role</h3>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">New Name</label>
+                    <label class="block text-sm font-medium text-brown mb-1">New Name</label>
                     <input x-model="editModal.name" @keyup.enter="saveRoleName()" type="text"
-                        class="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none">
+                        class="w-full text-sm border border-champagne rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none">
                     <p x-show="editModal.error" class="text-xs text-red-500 mt-1" x-text="editModal.error"></p>
                 </div>
                 <div class="flex justify-end gap-2 mt-5">
                     <button @click="editModal.open = false"
-                        class="px-4 py-2 text-sm text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition cursor-pointer">
+                        class="px-4 py-2 text-sm text-muted border border-champagne rounded-lg hover:bg-cream transition cursor-pointer">
                         Cancel
                     </button>
                     <button @click="saveRoleName()" :disabled="editModal.loading || !editModal.name.trim()"
@@ -512,17 +512,17 @@
                         <i class="fas fa-trash text-red-600"></i>
                     </div>
                     <div>
-                        <h3 class="text-base font-semibold text-gray-900">Delete Role?</h3>
-                        <p class="text-sm text-gray-500 mt-1">
+                        <h3 class="text-base font-semibold text-brand">Delete Role?</h3>
+                        <p class="text-sm text-muted mt-1">
                             This will permanently remove the
-                            <strong class="text-gray-700" x-text="deleteModal.role?.name"></strong> role.
+                            <strong class="text-brown" x-text="deleteModal.role?.name"></strong> role.
                             This cannot be undone.
                         </p>
                     </div>
                 </div>
                 <div class="flex justify-end gap-2">
                     <button @click="deleteModal.open = false"
-                        class="px-4 py-2 text-sm text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition cursor-pointer">
+                        class="px-4 py-2 text-sm text-muted border border-champagne rounded-lg hover:bg-cream transition cursor-pointer">
                         Cancel
                     </button>
                     <button @click="deleteRole()" :disabled="deleteModal.loading"
@@ -538,11 +538,11 @@
             class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40">
             <div @click.outside="usersModal.open = false"
                 class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[80vh] overflow-hidden flex flex-col">
-                <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100">
-                    <h3 class="text-base font-semibold text-gray-900">
+                <div class="flex items-center justify-between px-6 py-4 border-b border-champagne">
+                    <h3 class="text-base font-semibold text-brand">
                         Users with role: <span class="text-indigo-600" x-text="usersModal.role?.name"></span>
                     </h3>
-                    <button @click="usersModal.open = false" class="text-gray-400 hover:text-gray-600 cursor-pointer">
+                    <button @click="usersModal.open = false" class="text-taupe hover:text-muted cursor-pointer">
                         <i class="fas fa-times text-lg"></i>
                     </button>
                 </div>
@@ -551,26 +551,26 @@
                         <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
                     </div>
                     <table x-show="!usersModal.loading" class="min-w-full divide-y divide-gray-100">
-                        <thead class="bg-gray-50 sticky top-0">
+                        <thead class="bg-cream sticky top-0">
                             <tr>
-                                <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Name</th>
-                                <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Email</th>
-                                <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Status</th>
-                                <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Last Login</th>
+                                <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Name</th>
+                                <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Email</th>
+                                <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Status</th>
+                                <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Last Login</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-100">
                             <template x-for="u in usersModal.users" :key="u.id">
                                 <tr>
-                                    <td class="px-5 py-3 text-sm font-medium text-gray-800" x-text="u.name"></td>
-                                    <td class="px-5 py-3 text-sm text-gray-500" x-text="u.email"></td>
+                                    <td class="px-5 py-3 text-sm font-medium text-brown" x-text="u.name"></td>
+                                    <td class="px-5 py-3 text-sm text-muted" x-text="u.email"></td>
                                     <td class="px-5 py-3">
                                         <span
-                                            :class="u.is_active ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'"
+                                            :class="u.is_active ? 'bg-cream text-gold-antique' : 'bg-gray-100 text-muted'"
                                             class="text-xs px-2 py-0.5 rounded-full font-medium"
                                             x-text="u.is_active ? 'Active' : 'Inactive'"></span>
                                     </td>
-                                    <td class="px-5 py-3 text-sm text-gray-500"
+                                    <td class="px-5 py-3 text-sm text-muted"
                                         x-text="u.last_login_at ? fmtDate(u.last_login_at) : 'Never'"></td>
                                 </tr>
                             </template>
@@ -578,18 +578,18 @@
                     </table>
                 </div>
                 <div x-show="usersModal.meta?.last_page > 1"
-                    class="flex items-center justify-between px-5 py-3 border-t border-gray-100">
-                    <p class="text-xs text-gray-500">
+                    class="flex items-center justify-between px-5 py-3 border-t border-champagne">
+                    <p class="text-xs text-muted">
                         <span x-text="usersModal.meta?.total"></span> total users
                     </p>
                     <div class="flex gap-2">
                         <button @click="loadRoleUsers(usersModal.page - 1)" :disabled="usersModal.page <= 1"
-                            class="px-3 py-1 text-xs border border-gray-200 rounded disabled:opacity-40 hover:bg-gray-50 cursor-pointer">
+                            class="px-3 py-1 text-xs border border-champagne rounded disabled:opacity-40 hover:bg-cream cursor-pointer">
                             <i class="fas fa-chevron-left"></i>
                         </button>
                         <button @click="loadRoleUsers(usersModal.page + 1)"
                             :disabled="usersModal.page >= usersModal.meta?.last_page"
-                            class="px-3 py-1 text-xs border border-gray-200 rounded disabled:opacity-40 hover:bg-gray-50 cursor-pointer">
+                            class="px-3 py-1 text-xs border border-champagne rounded disabled:opacity-40 hover:bg-cream cursor-pointer">
                             <i class="fas fa-chevron-right"></i>
                         </button>
                     </div>
@@ -601,39 +601,39 @@
         <div x-show="createStaffModal.open" x-transition.opacity
             class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40">
             <div @click.outside="createStaffModal.open = false" class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6">
-                <h3 class="text-base font-semibold text-gray-900 mb-4">Create Admin Staff</h3>
+                <h3 class="text-base font-semibold text-brand mb-4">Create Admin Staff</h3>
                 <div class="space-y-3">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Full Name <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium text-brown mb-1">Full Name <span class="text-red-500">*</span></label>
                         <input x-model="createStaffModal.name" type="text" placeholder="John Doe"
                             class="w-full text-sm border rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none"
-                            :class="createStaffModal.errors.name ? 'border-red-400' : 'border-gray-200'">
+                            :class="createStaffModal.errors.name ? 'border-red-400' : 'border-champagne'">
                         <p x-show="createStaffModal.errors.name" class="text-xs text-red-500 mt-1" x-text="createStaffModal.errors.name?.[0]"></p>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Email <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium text-brown mb-1">Email <span class="text-red-500">*</span></label>
                         <input x-model="createStaffModal.email" type="email" placeholder="staff@example.com"
                             class="w-full text-sm border rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none"
-                            :class="createStaffModal.errors.email ? 'border-red-400' : 'border-gray-200'">
+                            :class="createStaffModal.errors.email ? 'border-red-400' : 'border-champagne'">
                         <p x-show="createStaffModal.errors.email" class="text-xs text-red-500 mt-1" x-text="createStaffModal.errors.email?.[0]"></p>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                        <label class="block text-sm font-medium text-brown mb-1">Phone</label>
                         <input x-model="createStaffModal.phone" type="text" placeholder="01XXXXXXXXX"
-                            class="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none">
+                            class="w-full text-sm border border-champagne rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Password <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium text-brown mb-1">Password <span class="text-red-500">*</span></label>
                         <input x-model="createStaffModal.password" type="password" placeholder="Min. 8 characters"
                             class="w-full text-sm border rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none"
-                            :class="createStaffModal.errors.password ? 'border-red-400' : 'border-gray-200'">
+                            :class="createStaffModal.errors.password ? 'border-red-400' : 'border-champagne'">
                         <p x-show="createStaffModal.errors.password" class="text-xs text-red-500 mt-1" x-text="createStaffModal.errors.password?.[0]"></p>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Role <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium text-brown mb-1">Role <span class="text-red-500">*</span></label>
                         <select x-model="createStaffModal.role"
                             class="w-full text-sm border rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none"
-                            :class="createStaffModal.errors.role ? 'border-red-400' : 'border-gray-200'">
+                            :class="createStaffModal.errors.role ? 'border-red-400' : 'border-champagne'">
                             <option value="">— select role —</option>
                             <template x-for="r in allRoles" :key="r">
                                 <option :value="r" x-text="r"></option>
@@ -644,7 +644,7 @@
                 </div>
                 <div class="flex justify-end gap-2 mt-5">
                     <button @click="createStaffModal.open = false"
-                        class="px-4 py-2 text-sm text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition cursor-pointer">
+                        class="px-4 py-2 text-sm text-muted border border-champagne rounded-lg hover:bg-cream transition cursor-pointer">
                         Cancel
                     </button>
                     <button @click="createStaff()" :disabled="createStaffModal.loading"
@@ -660,31 +660,31 @@
         <div x-show="editStaffModal.open" x-transition.opacity
             class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40">
             <div @click.outside="editStaffModal.open = false" class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6">
-                <h3 class="text-base font-semibold text-gray-900 mb-4">Edit Staff Member</h3>
+                <h3 class="text-base font-semibold text-brand mb-4">Edit Staff Member</h3>
                 <div class="space-y-3">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Full Name <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium text-brown mb-1">Full Name <span class="text-red-500">*</span></label>
                         <input x-model="editStaffModal.name" type="text"
                             class="w-full text-sm border rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none"
-                            :class="editStaffModal.errors.name ? 'border-red-400' : 'border-gray-200'">
+                            :class="editStaffModal.errors.name ? 'border-red-400' : 'border-champagne'">
                         <p x-show="editStaffModal.errors.name" class="text-xs text-red-500 mt-1" x-text="editStaffModal.errors.name?.[0]"></p>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Email <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium text-brown mb-1">Email <span class="text-red-500">*</span></label>
                         <input x-model="editStaffModal.email" type="email"
                             class="w-full text-sm border rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none"
-                            :class="editStaffModal.errors.email ? 'border-red-400' : 'border-gray-200'">
+                            :class="editStaffModal.errors.email ? 'border-red-400' : 'border-champagne'">
                         <p x-show="editStaffModal.errors.email" class="text-xs text-red-500 mt-1" x-text="editStaffModal.errors.email?.[0]"></p>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                        <label class="block text-sm font-medium text-brown mb-1">Phone</label>
                         <input x-model="editStaffModal.phone" type="text"
-                            class="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none">
+                            class="w-full text-sm border border-champagne rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none">
                     </div>
                 </div>
                 <div class="flex justify-end gap-2 mt-5">
                     <button @click="editStaffModal.open = false"
-                        class="px-4 py-2 text-sm text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition cursor-pointer">
+                        class="px-4 py-2 text-sm text-muted border border-champagne rounded-lg hover:bg-cream transition cursor-pointer">
                         Cancel
                     </button>
                     <button @click="updateStaff()" :disabled="editStaffModal.loading"
@@ -704,17 +704,17 @@
                         <i class="fas fa-trash text-red-600"></i>
                     </div>
                     <div>
-                        <h3 class="text-base font-semibold text-gray-900">Delete Staff Member?</h3>
-                        <p class="text-sm text-gray-500 mt-1">
+                        <h3 class="text-base font-semibold text-brand">Delete Staff Member?</h3>
+                        <p class="text-sm text-muted mt-1">
                             This will permanently remove
-                            <strong class="text-gray-700" x-text="deleteStaffModal.user?.name"></strong>.
+                            <strong class="text-brown" x-text="deleteStaffModal.user?.name"></strong>.
                             This cannot be undone.
                         </p>
                     </div>
                 </div>
                 <div class="flex justify-end gap-2">
                     <button @click="deleteStaffModal.open = false"
-                        class="px-4 py-2 text-sm text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition cursor-pointer">
+                        class="px-4 py-2 text-sm text-muted border border-champagne rounded-lg hover:bg-cream transition cursor-pointer">
                         Cancel
                     </button>
                     <button @click="deleteStaff()" :disabled="deleteStaffModal.loading"
@@ -729,18 +729,18 @@
         <div x-show="createPermModal.open" x-transition.opacity
             class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40">
             <div @click.outside="createPermModal.open = false" class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6">
-                <h3 class="text-base font-semibold text-gray-900 mb-1">Create Permission</h3>
-                <p class="text-xs text-gray-500 mb-4">Use lowercase with dots or dashes only. e.g. <code class="bg-gray-100 px-1 rounded">report.export</code></p>
+                <h3 class="text-base font-semibold text-brand mb-1">Create Permission</h3>
+                <p class="text-xs text-muted mb-4">Use lowercase with dots or dashes only. e.g. <code class="bg-gray-100 px-1 rounded">report.export</code></p>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Permission Name <span class="text-red-500">*</span></label>
+                    <label class="block text-sm font-medium text-brown mb-1">Permission Name <span class="text-red-500">*</span></label>
                     <input x-model="createPermModal.name" type="text" placeholder="module.action"
                         class="w-full text-sm border rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none font-mono"
-                        :class="createPermModal.errors.name ? 'border-red-400' : 'border-gray-200'">
+                        :class="createPermModal.errors.name ? 'border-red-400' : 'border-champagne'">
                     <p x-show="createPermModal.errors.name" class="text-xs text-red-500 mt-1" x-text="createPermModal.errors.name?.[0]"></p>
                 </div>
                 <div class="flex justify-end gap-2 mt-5">
                     <button @click="createPermModal.open = false"
-                        class="px-4 py-2 text-sm text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition cursor-pointer">
+                        class="px-4 py-2 text-sm text-muted border border-champagne rounded-lg hover:bg-cream transition cursor-pointer">
                         Cancel
                     </button>
                     <button @click="createPermission()" :disabled="createPermModal.loading || !createPermModal.name.trim()"
@@ -756,17 +756,17 @@
         <div x-show="editPermModal.open" x-transition.opacity
             class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40">
             <div @click.outside="editPermModal.open = false" class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6">
-                <h3 class="text-base font-semibold text-gray-900 mb-4">Rename Permission</h3>
+                <h3 class="text-base font-semibold text-brand mb-4">Rename Permission</h3>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">New Name <span class="text-red-500">*</span></label>
+                    <label class="block text-sm font-medium text-brown mb-1">New Name <span class="text-red-500">*</span></label>
                     <input x-model="editPermModal.name" type="text"
                         class="w-full text-sm border rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none font-mono"
-                        :class="editPermModal.errors.name ? 'border-red-400' : 'border-gray-200'">
+                        :class="editPermModal.errors.name ? 'border-red-400' : 'border-champagne'">
                     <p x-show="editPermModal.errors.name" class="text-xs text-red-500 mt-1" x-text="editPermModal.errors.name?.[0]"></p>
                 </div>
                 <div class="flex justify-end gap-2 mt-5">
                     <button @click="editPermModal.open = false"
-                        class="px-4 py-2 text-sm text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition cursor-pointer">
+                        class="px-4 py-2 text-sm text-muted border border-champagne rounded-lg hover:bg-cream transition cursor-pointer">
                         Cancel
                     </button>
                     <button @click="updatePermission()" :disabled="editPermModal.loading || !editPermModal.name.trim()"
@@ -786,17 +786,17 @@
                         <i class="fas fa-trash text-red-600"></i>
                     </div>
                     <div>
-                        <h3 class="text-base font-semibold text-gray-900">Delete Permission?</h3>
-                        <p class="text-sm text-gray-500 mt-1">
+                        <h3 class="text-base font-semibold text-brand">Delete Permission?</h3>
+                        <p class="text-sm text-muted mt-1">
                             This will permanently remove
-                            <code class="text-gray-700 bg-gray-100 px-1 rounded text-xs" x-text="deletePermModal.perm?.name"></code>.
+                            <code class="text-brown bg-gray-100 px-1 rounded text-xs" x-text="deletePermModal.perm?.name"></code>.
                             This cannot be undone.
                         </p>
                     </div>
                 </div>
                 <div class="flex justify-end gap-2">
                     <button @click="deletePermModal.open = false"
-                        class="px-4 py-2 text-sm text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition cursor-pointer">
+                        class="px-4 py-2 text-sm text-muted border border-champagne rounded-lg hover:bg-cream transition cursor-pointer">
                         Cancel
                     </button>
                     <button @click="deletePermission()" :disabled="deletePermModal.loading"
@@ -835,14 +835,14 @@
                 saveTimers: {},
                 groupColors: {
                     category:     'text-blue-600',
-                    product:      'text-green-600',
+                    product:      'text-primary',
                     order:        'text-purple-600',
                     coupon:       'text-pink-600',
                     shipping:     'text-orange-600',
                     customer:     'text-teal-600',
                     landing:      'text-orange-600',
                     notification: 'text-indigo-600',
-                    system:       'text-gray-600',
+                    system:       'text-muted',
                     analytics:    'text-cyan-600',
                     role:         'text-red-600',
                     staff:        'text-violet-600',
@@ -1322,7 +1322,7 @@
                 toast(msg, type = 'success') {
                     const el = document.createElement('div');
                     el.className = `fixed bottom-5 right-5 z-[9999] px-4 py-3 rounded-lg shadow-lg text-sm font-medium flex items-center gap-2
-                        ${type === 'success' ? 'bg-green-600 text-white' : 'bg-red-600 text-white'}`;
+                        ${type === 'success' ? 'bg-primary text-white' : 'bg-red-600 text-white'}`;
                     el.innerHTML = `<i class="fas ${type === 'success' ? 'fa-circle-check' : 'fa-circle-xmark'}"></i> ${msg}`;
                     document.body.appendChild(el);
                     setTimeout(() => el.remove(), 3500);
@@ -1331,3 +1331,13 @@
         }
     </script>
 @endpush
+
+
+
+
+
+
+
+
+
+

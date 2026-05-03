@@ -9,19 +9,19 @@
         {{-- Page Header --}}
         <div class="flex items-center justify-between mb-6">
             <div>
-                <a href="{{ route('admin.landing-pages') }}" class="text-sm text-gray-500 hover:text-green-700 transition">
+                <a href="{{ route('admin.landing-pages') }}" class="text-sm text-muted hover:text-gold-antique transition">
                     <i class="fa-solid fa-arrow-left mr-1"></i> Back to Landing Pages
                 </a>
-                <h2 class="text-lg font-bold text-gray-800 mt-1">Edit Landing Page</h2>
+                <h2 class="text-lg font-bold text-brown mt-1">Edit Landing Page</h2>
             </div>
             <a :href="(form.type === 'product' || form.type === 'combo') ? '/product-page/' + form.slug : '/p/' + form.slug" target="_blank"
-                class="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition">
+                class="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium bg-white border border-gray-300 rounded-lg hover:bg-cream transition">
                 <i class="fa-solid fa-external-link text-xs"></i> Preview
             </a>
         </div>
 
         {{-- Loading State --}}
-        <div x-show="loading" class="text-center py-12 text-gray-400">
+        <div x-show="loading" class="text-center py-12 text-taupe">
             <i class="fa-solid fa-spinner fa-spin mr-2"></i> Loading...
         </div>
 
@@ -32,86 +32,86 @@
             <div class="lg:col-span-2 space-y-5">
 
                 {{-- Basic Info --}}
-                <div class="bg-white border border-gray-200 rounded-xl p-5">
-                    <h3 class="font-semibold text-gray-800 mb-4">Basic Information</h3>
+                <div class="bg-white border border-champagne rounded-xl p-5">
+                    <h3 class="font-semibold text-brown mb-4">Basic Information</h3>
                     <div class="space-y-4">
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Title <span
+                                <label class="block text-xs font-semibold text-muted uppercase mb-1">Title <span
                                         class="text-red-400">*</span></label>
                                 <input x-model="form.title" type="text"
-                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-300">
+                                    class="w-full rounded-lg border border-champagne px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold-warm">
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Slug <span
+                                <label class="block text-xs font-semibold text-muted uppercase mb-1">Slug <span
                                         class="text-red-400">*</span></label>
                                 <input x-model="form.slug" type="text"
-                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-green-300">
+                                    class="w-full rounded-lg border border-champagne px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-gold-warm">
                             </div>
                         </div>
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Type</label>
+                                <label class="block text-xs font-semibold text-muted uppercase mb-1">Type</label>
                                 <input :value="form.type" type="text" disabled
-                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm bg-gray-50 text-gray-500">
-                                <p class="text-xs text-gray-400 mt-1">Type cannot be changed after creation</p>
+                                    class="w-full rounded-lg border border-champagne px-3 py-2 text-sm bg-cream text-muted">
+                                <p class="text-xs text-taupe mt-1">Type cannot be changed after creation</p>
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Blade
+                                <label class="block text-xs font-semibold text-muted uppercase mb-1">Blade
                                     Template</label>
                                 <input x-model="form.blade_template" type="text"
-                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-green-300">
+                                    class="w-full rounded-lg border border-champagne px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-gold-warm">
                             </div>
                         </div>
                     </div>
                 </div>
 
                 {{-- Content --}}
-                <div class="bg-white border border-gray-200 rounded-xl p-5">
-                    <h3 class="font-semibold text-gray-800 mb-4">Content</h3>
+                <div class="bg-white border border-champagne rounded-xl p-5">
+                    <h3 class="font-semibold text-brown mb-4">Content</h3>
                     <div class="space-y-4">
                         <div>
-                            <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Hero Image Path</label>
+                            <label class="block text-xs font-semibold text-muted uppercase mb-1">Hero Image Path</label>
                             <input x-model="form.hero_image" type="text"
-                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-300">
+                                class="w-full rounded-lg border border-champagne px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold-warm">
                         </div>
                         <div>
-                            <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Page Content
+                            <label class="block text-xs font-semibold text-muted uppercase mb-1">Page Content
                                 (HTML)</label>
                             <textarea x-model="form.content" rows="8"
-                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-green-300"></textarea>
+                                class="w-full rounded-lg border border-champagne px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-gold-warm"></textarea>
                         </div>
                     </div>
                 </div>
 
                 {{-- Items (sales + listing types) --}}
-                <div x-show="form.type === 'sales' || form.type === 'listing'" class="bg-white border border-gray-200 rounded-xl p-5">
+                <div x-show="form.type === 'sales' || form.type === 'listing'" class="bg-white border border-champagne rounded-xl p-5">
                     <div class="flex items-center justify-between mb-4">
                         <div>
-                            <h3 class="font-semibold text-gray-800" x-text="form.type === 'listing' ? 'Listing Items' : 'Sales Items'"></h3>
-                            <p class="text-xs text-gray-400 mt-0.5" x-show="form.type === 'listing'">Browse & add to cart — no embedded checkout.</p>
-                            <p class="text-xs text-gray-400 mt-0.5" x-show="form.type === 'sales'">Direct order — no cart.</p>
+                            <h3 class="font-semibold text-brown" x-text="form.type === 'listing' ? 'Listing Items' : 'Sales Items'"></h3>
+                            <p class="text-xs text-taupe mt-0.5" x-show="form.type === 'listing'">Browse & add to cart — no embedded checkout.</p>
+                            <p class="text-xs text-taupe mt-0.5" x-show="form.type === 'sales'">Direct order — no cart.</p>
                         </div>
                         <button @click="addSalesItem()" type="button"
-                            class="text-sm text-green-700 hover:text-green-800 font-semibold cursor-pointer">
+                            class="text-sm text-gold-antique hover:text-gold-antique font-semibold cursor-pointer">
                             <i class="fa-solid fa-plus mr-1"></i> Add Item
                         </button>
                     </div>
                     <div class="space-y-3">
                         <template x-for="(item, idx) in form.items" :key="idx">
-                            <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-                                <select x-model="item.type" class="rounded-lg border border-gray-200 px-2 py-1.5 text-xs">
+                            <div class="flex items-center gap-3 p-3 bg-cream rounded-lg">
+                                <select x-model="item.type" class="rounded-lg border border-champagne px-2 py-1.5 text-xs">
                                     <option value="variant">Variant</option>
                                     <option value="combo">Combo</option>
                                 </select>
                                 <input x-show="item.type === 'variant'" x-model.number="item.product_variant_id"
                                     type="number" placeholder="Variant ID"
-                                    class="flex-1 rounded-lg border border-gray-200 px-2 py-1.5 text-xs">
+                                    class="flex-1 rounded-lg border border-champagne px-2 py-1.5 text-xs">
                                 <input x-show="item.type === 'combo'" x-model.number="item.combo_id" type="number"
                                     placeholder="Combo ID"
-                                    class="flex-1 rounded-lg border border-gray-200 px-2 py-1.5 text-xs">
-                                <label class="flex items-center gap-1 text-xs text-gray-500">
+                                    class="flex-1 rounded-lg border border-champagne px-2 py-1.5 text-xs">
+                                <label class="flex items-center gap-1 text-xs text-muted">
                                     <input type="checkbox" x-model="item.is_preselected" class="accent-green-700">
                                     Pre-select
                                 </label>
@@ -129,87 +129,87 @@
             <div class="space-y-5">
 
                 {{-- Actions --}}
-                <div class="bg-white border border-gray-200 rounded-xl p-5">
+                <div class="bg-white border border-champagne rounded-xl p-5">
                     <div class="flex items-center justify-between mb-4">
                         <label class="flex items-center gap-2 text-sm">
                             <input type="checkbox" x-model="form.is_active" class="accent-green-700 w-4 h-4">
-                            <span class="font-semibold text-gray-700">Active</span>
+                            <span class="font-semibold text-brown">Active</span>
                         </label>
                     </div>
 
                     <button @click="submit()" :disabled="submitting" type="button"
-                        class="w-full bg-green-700 text-white py-2.5 rounded-lg font-semibold text-sm hover:bg-green-800 transition disabled:opacity-70 cursor-pointer">
+                        class="w-full bg-gold-antique text-white py-2.5 rounded-lg font-semibold text-sm hover:bg-gold-antique transition disabled:opacity-70 cursor-pointer">
                         <span x-text="submitting ? 'Saving...' : 'Save Changes'"></span>
                     </button>
 
-                    <p x-show="successMessage" class="text-green-600 text-xs mt-2 font-medium" x-text="successMessage"></p>
+                    <p x-show="successMessage" class="text-primary text-xs mt-2 font-medium" x-text="successMessage"></p>
                     <p x-show="errorMessage" class="text-red-500 text-xs mt-2 font-medium" x-text="errorMessage"></p>
                 </div>
 
                 {{-- SEO --}}
-                <div class="bg-white border border-gray-200 rounded-xl p-5">
-                    <h3 class="font-semibold text-gray-800 mb-4">SEO</h3>
+                <div class="bg-white border border-champagne rounded-xl p-5">
+                    <h3 class="font-semibold text-brown mb-4">SEO</h3>
                     <div class="space-y-3">
                         <div>
-                            <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Meta Title</label>
+                            <label class="block text-xs font-semibold text-muted uppercase mb-1">Meta Title</label>
                             <input x-model="form.meta_title" type="text"
-                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-300">
+                                class="w-full rounded-lg border border-champagne px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold-warm">
                         </div>
                         <div>
-                            <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Meta
+                            <label class="block text-xs font-semibold text-muted uppercase mb-1">Meta
                                 Description</label>
                             <textarea x-model="form.meta_description" rows="3"
-                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-300"></textarea>
+                                class="w-full rounded-lg border border-champagne px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold-warm"></textarea>
                         </div>
                         <div>
-                            <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Pixel Event
+                            <label class="block text-xs font-semibold text-muted uppercase mb-1">Pixel Event
                                 Name</label>
                             <input x-model="form.pixel_event_name" type="text"
-                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-300">
+                                class="w-full rounded-lg border border-champagne px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold-warm">
                         </div>
                     </div>
                 </div>
 
                 {{-- Free Delivery Config (not applicable to listing type) --}}
-                <div x-show="form.type !== 'listing'" class="bg-white border border-gray-200 rounded-xl p-5">
-                    <h3 class="font-semibold text-gray-800 mb-4">Free Delivery Rules</h3>
+                <div x-show="form.type !== 'listing'" class="bg-white border border-champagne rounded-xl p-5">
+                    <h3 class="font-semibold text-brown mb-4">Free Delivery Rules</h3>
                     <div class="space-y-3">
                         <div>
-                            <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Free above amount
+                            <label class="block text-xs font-semibold text-muted uppercase mb-1">Free above amount
                                 <span class="font-bengali">&#2547;</span></label>
                             <input x-model.number="form.config.free_delivery_amount" type="number" min="0"
                                 step="1" placeholder="e.g. 1500"
-                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-300">
-                            <p class="text-xs text-gray-400 mt-1">Leave empty to use zone default</p>
+                                class="w-full rounded-lg border border-champagne px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold-warm">
+                            <p class="text-xs text-taupe mt-1">Leave empty to use zone default</p>
                         </div>
                         <div>
-                            <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Free above total
+                            <label class="block text-xs font-semibold text-muted uppercase mb-1">Free above total
                                 units</label>
                             <input x-model.number="form.config.free_delivery_qty" type="number" min="1"
                                 step="1" placeholder="e.g. 3"
-                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-300">
+                                class="w-full rounded-lg border border-champagne px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold-warm">
                         </div>
                     </div>
                 </div>
 
                 {{-- Landing Discount Config (not applicable to listing type) --}}
-                <div x-show="form.type !== 'listing'" class="bg-white border border-gray-200 rounded-xl p-5">
-                    <h3 class="font-semibold text-gray-800 mb-1">Special Discount</h3>
-                    <p class="text-xs text-gray-400 mb-4">Applied after tier pricing. Flat amount takes priority over percent if both are set.</p>
+                <div x-show="form.type !== 'listing'" class="bg-white border border-champagne rounded-xl p-5">
+                    <h3 class="font-semibold text-brown mb-1">Special Discount</h3>
+                    <p class="text-xs text-taupe mb-4">Applied after tier pricing. Flat amount takes priority over percent if both are set.</p>
                     <div class="space-y-3">
                         <div>
-                            <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Flat discount
+                            <label class="block text-xs font-semibold text-muted uppercase mb-1">Flat discount
                                 <span class="font-bengali">&#2547;</span></label>
                             <input x-model.number="form.config.discount_amount" type="number" min="0"
                                 step="1" placeholder="e.g. 100"
-                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-300">
+                                class="w-full rounded-lg border border-champagne px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold-warm">
                         </div>
                         <div>
-                            <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Percent discount
+                            <label class="block text-xs font-semibold text-muted uppercase mb-1">Percent discount
                                 %</label>
                             <input x-model.number="form.config.discount_percent" type="number" min="0" max="100"
                                 step="0.5" placeholder="e.g. 10"
-                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-300">
+                                class="w-full rounded-lg border border-champagne px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold-warm">
                         </div>
                     </div>
                 </div>
@@ -369,3 +369,13 @@
     </script>
 
 @endsection
+
+
+
+
+
+
+
+
+
+

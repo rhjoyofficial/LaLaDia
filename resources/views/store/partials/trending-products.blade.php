@@ -8,14 +8,14 @@
             <span class="h-0.5 w-full bg-gray-200 hidden md:block"></span>
             <div class="flex gap-2 md:shrink-0">
                 <button
-                    class="trending-prev p-2 rounded-md border border-gray-200 hover:bg-gray-50 transition-colors cursor-pointer focus:outline-none">
+                    class="trending-prev p-2 rounded-md border border-champagne hover:bg-cream transition-colors cursor-pointer focus:outline-none">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                     </svg>
                 </button>
                 <button
-                    class="trending-next p-2 rounded-md border border-gray-200 hover:bg-gray-50 transition-colors cursor-pointer focus:outline-none">
+                    class="trending-next p-2 rounded-md border border-champagne hover:bg-cream transition-colors cursor-pointer focus:outline-none">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-primary" fill="none"
                         viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
@@ -70,3 +70,13 @@
         });
     </script>
 @endpush
+
+
+
+
+
+
+
+
+
+

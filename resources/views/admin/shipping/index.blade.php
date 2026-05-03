@@ -9,14 +9,14 @@
     {{-- Page Header --}}
     <div class="flex items-center justify-between mb-6">
         <div>
-            <h2 class="text-lg font-bold text-gray-800">Shipping Zones</h2>
-            <p class="text-sm text-gray-500 mt-0.5">
+            <h2 class="text-lg font-bold text-brown">Shipping Zones</h2>
+            <p class="text-sm text-muted mt-0.5">
                 Drag rows to reorder — order is reflected in the checkout zone picker
             </p>
         </div>
         @can('shipping.create')
         <button @click="openCreateModal()"
-            class="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold bg-green-700 text-white rounded-lg hover:bg-green-800 transition cursor-pointer">
+            class="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold bg-gold-antique text-white rounded-lg hover:bg-gold-antique transition cursor-pointer">
             <i class="fa-solid fa-plus text-xs"></i> New Zone
         </button>
         @endcan
@@ -24,21 +24,21 @@
 
     {{-- Stats --}}
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
-        <div class="bg-white border border-gray-200 rounded-xl px-4 py-3">
-            <p class="text-xs text-gray-500 mb-0.5">Total Zones</p>
-            <p class="text-xl font-bold text-gray-900" x-text="zones.length"></p>
+        <div class="bg-white border border-champagne rounded-xl px-4 py-3">
+            <p class="text-xs text-muted mb-0.5">Total Zones</p>
+            <p class="text-xl font-bold text-brand" x-text="zones.length"></p>
         </div>
-        <div class="bg-white border border-gray-200 rounded-xl px-4 py-3">
-            <p class="text-xs text-gray-500 mb-0.5">Active</p>
-            <p class="text-xl font-bold text-green-700" x-text="zones.filter(z => z.is_active).length"></p>
+        <div class="bg-white border border-champagne rounded-xl px-4 py-3">
+            <p class="text-xs text-muted mb-0.5">Active</p>
+            <p class="text-xl font-bold text-gold-antique" x-text="zones.filter(z => z.is_active).length"></p>
         </div>
-        <div class="bg-white border border-gray-200 rounded-xl px-4 py-3">
-            <p class="text-xs text-gray-500 mb-0.5">With Free Shipping</p>
+        <div class="bg-white border border-champagne rounded-xl px-4 py-3">
+            <p class="text-xs text-muted mb-0.5">With Free Shipping</p>
             <p class="text-xl font-bold text-blue-700" x-text="zones.filter(z => z.free_shipping_threshold).length"></p>
         </div>
-        <div class="bg-white border border-gray-200 rounded-xl px-4 py-3">
-            <p class="text-xs text-gray-500 mb-0.5">Total Orders</p>
-            <p class="text-xl font-bold text-gray-900"
+        <div class="bg-white border border-champagne rounded-xl px-4 py-3">
+            <p class="text-xs text-muted mb-0.5">Total Orders</p>
+            <p class="text-xl font-bold text-brand"
                 x-text="zones.reduce((s, z) => s + (z.orders_count ?? 0), 0).toLocaleString()">
             </p>
         </div>
@@ -50,25 +50,25 @@
         <i class="fa-solid fa-spinner fa-spin"></i> Saving new order…
     </div>
     <div x-show="reorderSaved" x-cloak
-        class="mb-3 inline-flex items-center gap-2 text-xs text-green-700 bg-green-50 border border-green-200 rounded-lg px-3 py-1.5">
+        class="mb-3 inline-flex items-center gap-2 text-xs text-gold-antique bg-ivory border border-sand rounded-lg px-3 py-1.5">
         <i class="fa-solid fa-check"></i> Order saved
     </div>
 
     {{-- Table --}}
-    <div class="bg-white border border-gray-200 rounded-xl overflow-hidden">
+    <div class="bg-white border border-champagne rounded-xl overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full text-sm">
-                <thead class="bg-gray-50 border-b border-gray-100">
+                <thead class="bg-cream border-b border-champagne">
                     <tr>
                         <th class="px-3 py-3 w-10"></th>{{-- drag handle --}}
-                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">#</th>
-                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Zone Name</th>
-                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Charge</th>
-                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Free Above</th>
-                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Est. Days</th>
-                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Orders</th>
-                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Status</th>
-                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase"></th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">#</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Zone Name</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Charge</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Free Above</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Est. Days</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Orders</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase">Status</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-muted uppercase"></th>
                     </tr>
                 </thead>
                 <tbody x-ref="sortableBody" class="divide-y divide-gray-50">
@@ -85,38 +85,38 @@
 
                     <template x-if="!loading">
                         <template x-for="(zone, index) in zones" :key="zone.id">
-                            <tr class="hover:bg-gray-50 transition group" :data-id="zone.id">
+                            <tr class="hover:bg-cream transition group" :data-id="zone.id">
                                 {{-- Drag handle --}}
                                 <td class="px-3 py-3 text-center">
-                                    <span class="drag-handle inline-block text-gray-300 group-hover:text-gray-500 cursor-grab active:cursor-grabbing transition select-none">
+                                    <span class="drag-handle inline-block text-gray-300 group-hover:text-muted cursor-grab active:cursor-grabbing transition select-none">
                                         <i class="fa-solid fa-grip-vertical"></i>
                                     </span>
                                 </td>
                                 {{-- Sort order badge --}}
                                 <td class="px-5 py-3">
-                                    <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-gray-100 text-xs font-bold text-gray-600"
+                                    <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-gray-100 text-xs font-bold text-muted"
                                         x-text="index + 1">
                                     </span>
                                 </td>
                                 <td class="px-5 py-3">
-                                    <span class="font-semibold text-gray-800 text-xs" x-text="zone.name"></span>
+                                    <span class="font-semibold text-brown text-xs" x-text="zone.name"></span>
                                 </td>
-                                <td class="px-5 py-3 text-xs font-semibold text-gray-900">
+                                <td class="px-5 py-3 text-xs font-semibold text-brand">
                                     ৳<span x-text="Number(zone.base_charge).toLocaleString()"></span>
                                 </td>
-                                <td class="px-5 py-3 text-xs text-gray-600">
+                                <td class="px-5 py-3 text-xs text-muted">
                                     <span x-show="zone.free_shipping_threshold">
                                         ৳<span x-text="Number(zone.free_shipping_threshold).toLocaleString()"></span>
                                     </span>
-                                    <span x-show="!zone.free_shipping_threshold" class="text-gray-400">—</span>
+                                    <span x-show="!zone.free_shipping_threshold" class="text-taupe">—</span>
                                 </td>
-                                <td class="px-5 py-3 text-xs text-gray-600">
+                                <td class="px-5 py-3 text-xs text-muted">
                                     <span x-show="zone.estimated_days">
                                         <span x-text="zone.estimated_days"></span> day<span x-text="zone.estimated_days > 1 ? 's' : ''"></span>
                                     </span>
-                                    <span x-show="!zone.estimated_days" class="text-gray-400">—</span>
+                                    <span x-show="!zone.estimated_days" class="text-taupe">—</span>
                                 </td>
-                                <td class="px-5 py-3 text-xs text-gray-600"
+                                <td class="px-5 py-3 text-xs text-muted"
                                     x-text="(zone.orders_count ?? 0).toLocaleString()">
                                 </td>
                                 <td class="px-5 py-3">
@@ -124,13 +124,13 @@
                                     <button @click="toggleActive(zone)"
                                         class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium transition cursor-pointer"
                                         :class="zone.is_active
-                                            ? 'bg-green-100 text-green-800 hover:bg-green-200'
-                                            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'"
+                                            ? 'bg-cream text-gold-antique hover:bg-champagne'
+                                            : 'bg-gray-100 text-muted hover:bg-gray-200'"
                                         x-text="zone.is_active ? 'Active' : 'Inactive'">
                                     </button>
                                     @else
                                     <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium"
-                                        :class="zone.is_active ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-600'"
+                                        :class="zone.is_active ? 'bg-cream text-gold-antique' : 'bg-gray-100 text-muted'"
                                         x-text="zone.is_active ? 'Active' : 'Inactive'">
                                     </span>
                                     @endcan
@@ -162,7 +162,7 @@
 
                     <template x-if="!loading && zones.length === 0">
                         <tr>
-                            <td colspan="9" class="px-5 py-12 text-center text-gray-400">
+                            <td colspan="9" class="px-5 py-12 text-center text-taupe">
                                 <i class="fa-solid fa-truck text-2xl mb-2 block"></i>
                                 No shipping zones yet
                             </td>
@@ -184,9 +184,9 @@
         <div @click.outside="showFormModal = false"
             class="bg-white rounded-2xl shadow-2xl w-full max-w-md">
 
-            <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100">
-                <h3 class="font-bold text-gray-800" x-text="editingId ? 'Edit Shipping Zone' : 'New Shipping Zone'"></h3>
-                <button @click="showFormModal = false" class="text-gray-400 hover:text-gray-700 cursor-pointer">
+            <div class="flex items-center justify-between px-6 py-4 border-b border-champagne">
+                <h3 class="font-bold text-brown" x-text="editingId ? 'Edit Shipping Zone' : 'New Shipping Zone'"></h3>
+                <button @click="showFormModal = false" class="text-taupe hover:text-brown cursor-pointer">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
@@ -195,42 +195,42 @@
 
                 {{-- Name --}}
                 <div>
-                    <label class="block text-xs font-semibold text-gray-600 mb-1">Zone Name <span class="text-red-500">*</span></label>
+                    <label class="block text-xs font-semibold text-muted mb-1">Zone Name <span class="text-red-500">*</span></label>
                     <input type="text" x-model="form.name" placeholder="e.g. Dhaka City"
-                        :class="errors.name ? 'border-red-400' : 'border-gray-200'"
-                        class="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-600">
+                        :class="errors.name ? 'border-red-400' : 'border-champagne'"
+                        class="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-gold-antique">
                     <p x-show="errors.name" class="text-xs text-red-500 mt-1" x-text="errors.name?.[0]"></p>
                 </div>
 
                 {{-- Charge + Free threshold --}}
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-xs font-semibold text-gray-600 mb-1">Base Charge (৳) <span class="text-red-500">*</span></label>
+                        <label class="block text-xs font-semibold text-muted mb-1">Base Charge (৳) <span class="text-red-500">*</span></label>
                         <input type="number" x-model="form.base_charge" min="0" step="0.01"
-                            :class="errors.base_charge ? 'border-red-400' : 'border-gray-200'"
-                            class="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-600">
+                            :class="errors.base_charge ? 'border-red-400' : 'border-champagne'"
+                            class="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-gold-antique">
                         <p x-show="errors.base_charge" class="text-xs text-red-500 mt-1" x-text="errors.base_charge?.[0]"></p>
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-gray-600 mb-1">Free Shipping Above (৳)</label>
+                        <label class="block text-xs font-semibold text-muted mb-1">Free Shipping Above (৳)</label>
                         <input type="number" x-model="form.free_shipping_threshold" min="0" step="0.01" placeholder="Disabled"
-                            class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-600">
-                        <p class="text-xs text-gray-400 mt-0.5">Leave blank to disable</p>
+                            class="w-full border border-champagne rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-gold-antique">
+                        <p class="text-xs text-taupe mt-0.5">Leave blank to disable</p>
                     </div>
                 </div>
 
                 {{-- Estimated days + Sort order --}}
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-xs font-semibold text-gray-600 mb-1">Estimated Days</label>
+                        <label class="block text-xs font-semibold text-muted mb-1">Estimated Days</label>
                         <input type="number" x-model="form.estimated_days" min="1" placeholder="e.g. 2"
-                            class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-600">
+                            class="w-full border border-champagne rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-gold-antique">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-gray-600 mb-1">Sort Order</label>
+                        <label class="block text-xs font-semibold text-muted mb-1">Sort Order</label>
                         <input type="number" x-model="form.sort_order" min="0" max="9999" placeholder="Auto"
-                            class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-600">
-                        <p class="text-xs text-gray-400 mt-0.5">Lower = higher in list</p>
+                            class="w-full border border-champagne rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-gold-antique">
+                        <p class="text-xs text-taupe mt-0.5">Lower = higher in list</p>
                     </div>
                 </div>
 
@@ -238,20 +238,20 @@
                 <div class="flex items-center gap-3 pt-1">
                     <button type="button" @click="form.is_active = !form.is_active"
                         class="relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200"
-                        :class="form.is_active ? 'bg-green-600' : 'bg-gray-300'">
+                        :class="form.is_active ? 'bg-primary' : 'bg-gray-300'">
                         <span class="pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow transition duration-200"
                             :class="form.is_active ? 'translate-x-4' : 'translate-x-0'"></span>
                     </button>
-                    <span class="text-sm text-gray-700" x-text="form.is_active ? 'Active (visible in checkout)' : 'Inactive (hidden from checkout)'"></span>
+                    <span class="text-sm text-brown" x-text="form.is_active ? 'Active (visible in checkout)' : 'Inactive (hidden from checkout)'"></span>
                 </div>
 
-                <div class="flex justify-end gap-3 pt-2 border-t border-gray-100 mt-4">
+                <div class="flex justify-end gap-3 pt-2 border-t border-champagne mt-4">
                     <button type="button" @click="showFormModal = false"
-                        class="px-4 py-2 text-sm font-medium text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition cursor-pointer">
+                        class="px-4 py-2 text-sm font-medium text-muted border border-champagne rounded-lg hover:bg-cream transition cursor-pointer">
                         Cancel
                     </button>
                     <button type="submit" :disabled="saving"
-                        class="px-5 py-2 text-sm font-semibold bg-green-700 text-white rounded-lg hover:bg-green-800 disabled:opacity-50 transition cursor-pointer disabled:cursor-not-allowed">
+                        class="px-5 py-2 text-sm font-semibold bg-gold-antique text-white rounded-lg hover:bg-gold-antique disabled:opacity-50 transition cursor-pointer disabled:cursor-not-allowed">
                         <span x-text="saving ? 'Saving…' : (editingId ? 'Update Zone' : 'Create Zone')"></span>
                     </button>
                 </div>
@@ -272,16 +272,16 @@
                     <i class="fa-solid fa-trash text-red-600"></i>
                 </div>
                 <div>
-                    <h3 class="font-bold text-gray-800">Delete Zone</h3>
-                    <p class="text-xs text-gray-500">This action cannot be undone.</p>
+                    <h3 class="font-bold text-brown">Delete Zone</h3>
+                    <p class="text-xs text-muted">This action cannot be undone.</p>
                 </div>
             </div>
-            <p class="text-sm text-gray-700 mb-5">
+            <p class="text-sm text-brown mb-5">
                 Delete <span class="font-semibold" x-text="deleteTarget?.name"></span>?
             </p>
             <div class="flex justify-end gap-3">
                 <button @click="showDeleteModal = false"
-                    class="px-4 py-2 text-sm font-medium text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition cursor-pointer">
+                    class="px-4 py-2 text-sm font-medium text-muted border border-champagne rounded-lg hover:bg-cream transition cursor-pointer">
                     Cancel
                 </button>
                 <button @click="doDelete()" :disabled="deleting"
@@ -358,7 +358,7 @@ function shippingManager() {
                 animation: 150,
                 handle: '.drag-handle',
                 ghostClass: 'opacity-40',
-                chosenClass: 'bg-green-50',
+                chosenClass: 'bg-ivory',
                 dragClass: 'shadow-xl',
 
                 onEnd: (evt) => {
@@ -522,3 +522,13 @@ function shippingManager() {
 }
 </script>
 @endpush
+
+
+
+
+
+
+
+
+
+

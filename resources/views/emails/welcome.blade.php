@@ -7,7 +7,7 @@
     <style>
         /* ── Reset ─────────────────────────────────────────── */
         * { box-sizing: border-box; }
-        body  { margin: 0; padding: 0; background: #f0f5f1; font-family: 'Helvetica Neue', Arial, sans-serif; color: #1a1a1a; -webkit-font-smoothing: antialiased; }
+        body  { margin: 0; padding: 0; background: #FDFAF4; font-family: 'Helvetica Neue', Arial, sans-serif; color: #1a1a1a; -webkit-font-smoothing: antialiased; }
         a     { color: inherit; text-decoration: none; }
         img   { display: block; border: 0; }
 
@@ -173,7 +173,7 @@
         /* ── Divider ────────────────────────────────────────── */
         .divider {
             border: none;
-            border-top: 1px solid #f3f4f6;
+            border-top: 1px solid #F5EDD8;
             margin: 24px 0;
         }
 
@@ -320,3 +320,13 @@
 </div>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+

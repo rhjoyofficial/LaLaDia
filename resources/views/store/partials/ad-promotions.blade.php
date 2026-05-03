@@ -12,7 +12,7 @@
         </div>
 
         <div
-            class="relative overflow-hidden rounded-2xl md:rounded-3xl bg-gray-50 group shadow-sm border border-gray-100 transition-all duration-500 hover:shadow-2xl">
+            class="relative overflow-hidden rounded-2xl md:rounded-3xl bg-cream group shadow-sm border border-champagne transition-all duration-500 hover:shadow-2xl">
             <a href="/ramadan-special" class="block relative w-full">
                 <picture>
                     <source media="(min-width: 1280px)" srcset="{{ asset('assets/ads/ghee-mustard-oil-desktop.jpg') }}">
@@ -28,3 +28,13 @@
 
     </div>
 </section>
+
+
+
+
+
+
+
+
+
+
