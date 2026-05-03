@@ -534,6 +534,24 @@
         async function doAddToCart(btn) {
             const variantId = btn.dataset.variant;
             const qty = Math.max(1, Number(qtyDisplay.textContent.trim() || 1));
+            const v = activeVariant();
+
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({ ecommerce: null });
+            window.dataLayer.push({
+                event: 'add_to_cart',
+                ecommerce: {
+                    currency: 'BDT',
+                    value: parseFloat((v.final_price * qty).toFixed(2)),
+                    items: [{
+                        item_id:   String(v.id),
+                        item_name: '{{ addslashes($product->name) }}',
+                        price:     parseFloat(v.final_price),
+                        quantity:  qty,
+                    }],
+                },
+            });
+
             await window.Cart?.add(variantId, qty, btn);
         }
 

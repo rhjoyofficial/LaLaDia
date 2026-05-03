@@ -60,7 +60,10 @@ Route::get('/order-success/{order}', function ($orderNumber) {
         ->where('order_number', $orderNumber)
         ->firstOrFail();
 
-    return view('store.order-success', compact('order'));
+    // Pull removes the key from the session in one atomic step (read + delete)
+    $purchaseEvent = session()->pull('pending_purchase_event');
+
+    return view('store.order-success', compact('order', 'purchaseEvent'));
 })->name('order.success');
 Route::get('/order-failed', [OrderController::class, 'failed'])->name('order.failed');
 

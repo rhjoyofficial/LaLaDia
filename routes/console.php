@@ -1,6 +1,7 @@
 <?php
 
 use App\Console\Commands\AbandonExpiredCarts;
+use App\Console\Commands\CheckCodCancellations;
 use App\Console\Commands\ExpireCoupons;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
@@ -25,6 +26,11 @@ Schedule::command(ExpireCoupons::class)
 Schedule::command(AbandonExpiredCarts::class)
     ->hourly()
     ->description('Release reserved stock from expired guest carts');
+
+// Dispatch server-side conversion events for COD orders confirmed > 48 h ago
+Schedule::command(CheckCodCancellations::class)
+    ->hourly()
+    ->description('Fire missed conversion events for approved COD orders');
 
 // Process queued jobs (emails, SMS, WhatsApp, webhooks, referral commissions).
 // --stop-when-empty exits after draining the queue — safe for shared hosting

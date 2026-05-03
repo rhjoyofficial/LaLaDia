@@ -6,6 +6,8 @@ use App\Domains\Category\Models\Category;
 use App\Domains\Category\Observers\CategoryObserver;
 use App\Domains\Landing\Models\LandingPage;
 use App\Domains\Landing\Observers\LandingPageObserver;
+use App\Domains\Order\Models\Order;
+use App\Domains\Order\Observers\OrderObserver;
 use App\Domains\Product\Models\Combo;
 use App\Domains\Product\Models\Product;
 use App\Domains\Product\Models\ProductVariant;
@@ -31,5 +33,6 @@ class AppServiceProvider extends ServiceProvider
         LandingPage::observe(LandingPageObserver::class);
         HeroBanner::observe(HeroBannerObserver::class);
         ShippingZone::observe(ShippingZoneObserver::class);
+        Order::observe(OrderObserver::class);
     }
 }

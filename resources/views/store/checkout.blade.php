@@ -402,5 +402,50 @@
         </form>
     </div>
 </div>
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Wait briefly for CheckoutManager to populate cart data into the DOM
+    setTimeout(function () {
+        try {
+            const itemEls = document.querySelectorAll('#coItemsList [data-variant-id]');
+            const items = [];
+            let value = 0;
+
+            itemEls.forEach(function (el) {
+                const price = parseFloat(el.dataset.price || 0);
+                const qty   = parseInt(el.dataset.quantity || 1, 10);
+                items.push({
+                    item_id:   el.dataset.variantId || el.dataset.comboId || '',
+                    item_name: el.dataset.name || '',
+                    price:     price,
+                    quantity:  qty,
+                });
+                value += price * qty;
+            });
+
+            // Fall back to the total shown in the summary if items aren't annotated
+            if (!items.length) {
+                const totalEl = document.getElementById('coTotal');
+                const raw = totalEl ? totalEl.textContent.replace(/[^\d.]/g, '') : '0';
+                value = parseFloat(raw) || 0;
+            }
+
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({ ecommerce: null });
+            window.dataLayer.push({
+                event: 'begin_checkout',
+                ecommerce: {
+                    currency: 'BDT',
+                    value:    parseFloat(value.toFixed(2)),
+                    items:    items,
+                },
+            });
+        } catch (e) {}
+    }, 800);
+});
+</script>
+@endpush
+
 @endsection
 

@@ -99,10 +99,29 @@ class LandingCheckoutController extends Controller
         try {
             $user = Auth::guard('web')->user() ?? Auth::guard('sanctum')->user();
 
+            $validated = array_merge($validated, [
+                'ip_address'       => $request->ip(),
+                'fbp'              => $request->cookie('_fbp'),
+                'fbc'              => $request->cookie('_fbc'),
+                'event_source_url' => $request->header('Referer'),
+                'user_agent'       => $request->userAgent(),
+                'test_mode'        => !app()->isProduction(),
+            ]);
+
             $order = $this->checkoutService->checkout($validated, $landing, $user);
 
-            // Store last order in session for the success page
             $request->session()->put('last_order_id', $order->id);
+            $request->session()->put('pending_purchase_event', [
+                'transaction_id' => $order->order_number,
+                'value'          => (float) $order->grand_total,
+                'currency'       => 'BDT',
+                'items'          => $order->items->map(fn($item) => [
+                    'item_id'   => $item->variant_id ?? ('combo_' . $item->combo_id),
+                    'item_name' => $item->combo_name_snapshot ?? $item->product_name_snapshot,
+                    'price'     => (float) $item->unit_price,
+                    'quantity'  => $item->quantity,
+                ])->toArray(),
+            ]);
 
             $redirectUrl = $order->payment_method === 'cod'
                 ? route('order.success', ['order' => $order->order_number])

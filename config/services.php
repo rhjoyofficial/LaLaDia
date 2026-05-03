@@ -17,7 +17,14 @@ return [
         'id' => env('GTM_ID'),
     ],
     'meta' => [
-        'pixel_id' => env('META_PIXEL_ID'),
+        'pixel_id'        => env('META_PIXEL_ID'),
+        'access_token'    => env('META_ACCESS_TOKEN'),
+        'test_event_code' => env('META_TEST_EVENT_CODE'),
+    ],
+
+    'ga4' => [
+        'measurement_id' => env('GA4_MEASUREMENT_ID'),
+        'api_secret'     => env('GA4_API_SECRET'),
     ],
     
     'postmark' => [

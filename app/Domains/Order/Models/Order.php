@@ -37,15 +37,28 @@ class Order extends Model
         'notes',
         'checkout_token',
         'gateway_transaction_id',
+        // Tracking
+        'test_mode',
+        'ip_address',
+        'fbp',
+        'fbc',
+        'event_source_url',
+        'user_agent',
+        'ga_client_id',
+        'conversion_fired',
+        'approved_at',
     ];
 
     protected $casts = [
-        'placed_at'     => 'datetime',
-        'confirmed_at'  => 'datetime',
-        'processing_at' => 'datetime',
-        'shipped_at'    => 'datetime',
-        'delivered_at'  => 'datetime',
-        'cancelled_at'  => 'datetime',
+        'placed_at'        => 'datetime',
+        'confirmed_at'     => 'datetime',
+        'processing_at'    => 'datetime',
+        'shipped_at'       => 'datetime',
+        'delivered_at'     => 'datetime',
+        'cancelled_at'     => 'datetime',
+        'approved_at'      => 'datetime',
+        'test_mode'        => 'boolean',
+        'conversion_fired' => 'boolean',
     ];
 
     public function user()
