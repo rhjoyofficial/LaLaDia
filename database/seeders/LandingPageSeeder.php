@@ -82,5 +82,46 @@ class LandingPageSeeder extends Seeder
                 ]
             );
         }
+
+        // ─── 4. LISTING TYPE — Premium Mango Collection ────────
+        $mangoCategory = \App\Domains\Category\Models\Category::where('slug', 'fruits')->first();
+        if ($mangoCategory) {
+            $mangoProducts = Product::where('category_id', $mangoCategory->id)->get();
+            if ($mangoProducts->count() > 0) {
+                $mangoLanding = LandingPage::updateOrCreate(
+                    ['slug' => 'premium-mango-collection'],
+                    [
+                        'type'             => LandingPage::TYPE_LISTING,
+                        'title'            => 'প্রিমিয়াম আমের সমাহার — সরাসরি বাগান থেকে',
+                        'blade_template'   => 'mango-items',
+                        'content'          => 'রাজশাহীর সেরা বাগান থেকে বাছাইকৃত ১০০% ফরমালিন মুক্ত ও বিষমুক্ত আম।',
+                        'meta_title'       => 'প্রিমিয়াম আম সংগ্রহ | La La Dia',
+                        'meta_description' => 'হিমসাগর, আম্রপালি, ল্যাংড়া সহ সেরা সব আমের কালেকশন। সরাসরি বাগান থেকে আপনার ঘরে।',
+                        'pixel_event_name' => 'ViewContent',
+                        'is_active'        => true,
+                        'config'           => [
+                            'hero_style' => 'tropical',
+                        ],
+                    ]
+                );
+
+                // Add items
+                foreach ($mangoProducts as $index => $product) {
+                    $variant = $product->variants()->first();
+                    if ($variant) {
+                        \App\Domains\Landing\Models\LandingPageItem::updateOrCreate(
+                            [
+                                'landing_page_id'    => $mangoLanding->id,
+                                'product_variant_id' => $variant->id,
+                            ],
+                            [
+                                'sort_order'     => $index,
+                                'is_preselected' => false,
+                            ]
+                        );
+                    }
+                }
+            }
+        }
     }
 }

@@ -32,7 +32,7 @@
                             d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z">
                         </path>
                     </svg>
-                    <span class="text-xs md:text-sm font-semibold text-green-800">Summer Mango Festival 2025 —
+                    <span class="text-xs md:text-sm font-semibold text-green-800">Summer Mango Festival 2026 —
                         <span class="text-green-600">Now Open</span></span>
                 </div>
 
@@ -296,222 +296,12 @@
             </div>
 
             <!-- Grid Container -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Card 1: Himsagar -->
-                <div
-                    class="relative bg-white rounded-3xl p-5 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] border border-[#f3ead3] hover:shadow-[0_8px_30px_-10px_rgba(217,107,8,0.15)] transition-all duration-300 group cinematic-element opacity-0 translate-y-10 ease-out">
-                    <div
-                        class="w-full aspect-square bg-[#f8f5eb] rounded-2xl mb-5 relative overflow-hidden flex items-center justify-center">
-                        <div
-                            class="absolute top-3 right-3 z-10 bg-white/90 backdrop-blur-sm shadow-sm px-2.5 py-1 rounded-full flex items-center gap-1 text-xs font-bold text-gray-800">
-                            <svg class="w-3.5 h-3.5 text-[#FDBA21]" fill="currentColor" viewBox="0 0 20 20">
-                                <path
-                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
-                                </path>
-                            </svg>
-                            4.9
-                        </div>
-                        <img src="https://placehold.co/400x400/transparent/d97014?text=Himsagar" alt="Himsagar Mango"
-                            class="w-3/4 h-3/4 object-contain group-hover:scale-110 transition-transform duration-500 ease-out"
-                            loading="lazy" />
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                @foreach ($listingItems as $item)
+                    <div class="cinematic-element opacity-0 translate-y-10 transition-all duration-700 ease-out">
+                        <x-product-card :product="$item->variant->product" />
                     </div>
-                    <div>
-                        <h4 class="text-xl font-bold text-[#2D241C] mb-1">Himsagar</h4>
-                        <p class="text-xs text-gray-500 mb-4">Premium A-grade</p>
-                        <div class="flex items-end justify-between">
-                            <div>
-                                <p class="text-[10px] text-gray-400 uppercase font-bold tracking-wider mb-0.5">
-                                    Per KG
-                                </p>
-                                <p class="text-2xl font-extrabold text-[#D96B08]">৳ 280</p>
-                            </div>
-                            <button
-                                class="bg-[#fef4d4] text-[#D96B08] hover:bg-[#FDBA21] hover:text-[#2D241C] font-bold text-sm px-5 py-2.5 rounded-full transition-colors flex items-center gap-1 shadow-sm">
-                                + Add
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 2: Langra -->
-                <div
-                    class="relative bg-white rounded-3xl p-5 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] border border-[#f3ead3] hover:shadow-[0_8px_30px_-10px_rgba(217,107,8,0.15)] transition-all duration-300 group cinematic-element opacity-0 translate-y-10 delay-100 ease-out">
-                    <div
-                        class="w-full aspect-square bg-[#f8f5eb] rounded-2xl mb-5 relative overflow-hidden flex items-center justify-center">
-                        <div
-                            class="absolute top-3 right-3 z-10 bg-white/90 backdrop-blur-sm shadow-sm px-2.5 py-1 rounded-full flex items-center gap-1 text-xs font-bold text-gray-800">
-                            <svg class="w-3.5 h-3.5 text-[#FDBA21]" fill="currentColor" viewBox="0 0 20 20">
-                                <path
-                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
-                                </path>
-                            </svg>
-                            4.8
-                        </div>
-                        <img src="https://placehold.co/400x400/transparent/d97014?text=Langra" alt="Langra Mango"
-                            class="w-3/4 h-3/4 object-contain group-hover:scale-110 transition-transform duration-500 ease-out"
-                            loading="lazy" />
-                    </div>
-                    <div>
-                        <h4 class="text-xl font-bold text-[#2D241C] mb-1">Langra</h4>
-                        <p class="text-xs text-gray-500 mb-4">Premium A-grade</p>
-                        <div class="flex items-end justify-between">
-                            <div>
-                                <p class="text-[10px] text-gray-400 uppercase font-bold tracking-wider mb-0.5">
-                                    Per KG
-                                </p>
-                                <p class="text-2xl font-extrabold text-[#D96B08]">৳ 240</p>
-                            </div>
-                            <button
-                                class="bg-[#fef4d4] text-[#D96B08] hover:bg-[#FDBA21] hover:text-[#2D241C] font-bold text-sm px-5 py-2.5 rounded-full transition-colors flex items-center gap-1 shadow-sm">
-                                + Add
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 3: Fazli -->
-                <div
-                    class="relative bg-white rounded-3xl p-5 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] border border-[#f3ead3] hover:shadow-[0_8px_30px_-10px_rgba(217,107,8,0.15)] transition-all duration-300 group cinematic-element opacity-0 translate-y-10 delay-200 ease-out">
-                    <div
-                        class="w-full aspect-square bg-[#f8f5eb] rounded-2xl mb-5 relative overflow-hidden flex items-center justify-center">
-                        <div
-                            class="absolute top-3 right-3 z-10 bg-white/90 backdrop-blur-sm shadow-sm px-2.5 py-1 rounded-full flex items-center gap-1 text-xs font-bold text-gray-800">
-                            <svg class="w-3.5 h-3.5 text-[#FDBA21]" fill="currentColor" viewBox="0 0 20 20">
-                                <path
-                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
-                                </path>
-                            </svg>
-                            4.7
-                        </div>
-                        <img src="https://placehold.co/400x400/transparent/d97014?text=Fazli" alt="Fazli Mango"
-                            class="w-3/4 h-3/4 object-contain group-hover:scale-110 transition-transform duration-500 ease-out"
-                            loading="lazy" />
-                    </div>
-                    <div>
-                        <h4 class="text-xl font-bold text-[#2D241C] mb-1">Fazli</h4>
-                        <p class="text-xs text-gray-500 mb-4">Premium A-grade</p>
-                        <div class="flex items-end justify-between">
-                            <div>
-                                <p class="text-[10px] text-gray-400 uppercase font-bold tracking-wider mb-0.5">
-                                    Per KG
-                                </p>
-                                <p class="text-2xl font-extrabold text-[#D96B08]">৳ 220</p>
-                            </div>
-                            <button
-                                class="bg-[#fef4d4] text-[#D96B08] hover:bg-[#FDBA21] hover:text-[#2D241C] font-bold text-sm px-5 py-2.5 rounded-full transition-colors flex items-center gap-1 shadow-sm">
-                                + Add
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 4: Amrapali -->
-                <div
-                    class="relative bg-white rounded-3xl p-5 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] border border-[#f3ead3] hover:shadow-[0_8px_30px_-10px_rgba(217,107,8,0.15)] transition-all duration-300 group cinematic-element opacity-0 translate-y-10 delay-300 ease-out">
-                    <div
-                        class="w-full aspect-square bg-[#f8f5eb] rounded-2xl mb-5 relative overflow-hidden flex items-center justify-center">
-                        <div
-                            class="absolute top-3 right-3 z-10 bg-white/90 backdrop-blur-sm shadow-sm px-2.5 py-1 rounded-full flex items-center gap-1 text-xs font-bold text-gray-800">
-                            <svg class="w-3.5 h-3.5 text-[#FDBA21]" fill="currentColor" viewBox="0 0 20 20">
-                                <path
-                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
-                                </path>
-                            </svg>
-                            4.8
-                        </div>
-                        <img src="https://placehold.co/400x400/transparent/d97014?text=Amrapali" alt="Amrapali Mango"
-                            class="w-3/4 h-3/4 object-contain group-hover:scale-110 transition-transform duration-500 ease-out"
-                            loading="lazy" />
-                    </div>
-                    <div>
-                        <h4 class="text-xl font-bold text-[#2D241C] mb-1">Amrapali</h4>
-                        <p class="text-xs text-gray-500 mb-4">Premium A-grade</p>
-                        <div class="flex items-end justify-between">
-                            <div>
-                                <p class="text-[10px] text-gray-400 uppercase font-bold tracking-wider mb-0.5">
-                                    Per KG
-                                </p>
-                                <p class="text-2xl font-extrabold text-[#D96B08]">৳ 260</p>
-                            </div>
-                            <button
-                                class="bg-[#fef4d4] text-[#D96B08] hover:bg-[#FDBA21] hover:text-[#2D241C] font-bold text-sm px-5 py-2.5 rounded-full transition-colors flex items-center gap-1 shadow-sm">
-                                + Add
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 5: Khirsapat -->
-                <div
-                    class="relative bg-white rounded-3xl p-5 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] border border-[#f3ead3] hover:shadow-[0_8px_30px_-10px_rgba(217,107,8,0.15)] transition-all duration-300 group cinematic-element opacity-0 translate-y-10 delay-400 ease-out">
-                    <div
-                        class="w-full aspect-square bg-[#f8f5eb] rounded-2xl mb-5 relative overflow-hidden flex items-center justify-center">
-                        <div
-                            class="absolute top-3 right-3 z-10 bg-white/90 backdrop-blur-sm shadow-sm px-2.5 py-1 rounded-full flex items-center gap-1 text-xs font-bold text-gray-800">
-                            <svg class="w-3.5 h-3.5 text-[#FDBA21]" fill="currentColor" viewBox="0 0 20 20">
-                                <path
-                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
-                                </path>
-                            </svg>
-                            5.0
-                        </div>
-                        <img src="https://placehold.co/400x400/transparent/d97014?text=Khirsapat" alt="Khirsapat Mango"
-                            class="w-3/4 h-3/4 object-contain group-hover:scale-110 transition-transform duration-500 ease-out"
-                            loading="lazy" />
-                    </div>
-                    <div>
-                        <h4 class="text-xl font-bold text-[#2D241C] mb-1">Khirsapat</h4>
-                        <p class="text-xs text-gray-500 mb-4">Premium A-grade</p>
-                        <div class="flex items-end justify-between">
-                            <div>
-                                <p class="text-[10px] text-gray-400 uppercase font-bold tracking-wider mb-0.5">
-                                    Per KG
-                                </p>
-                                <p class="text-2xl font-extrabold text-[#D96B08]">৳ 300</p>
-                            </div>
-                            <button
-                                class="bg-[#fef4d4] text-[#D96B08] hover:bg-[#FDBA21] hover:text-[#2D241C] font-bold text-sm px-5 py-2.5 rounded-full transition-colors flex items-center gap-1 shadow-sm">
-                                + Add
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 6: Gopalbhog -->
-                <div
-                    class="relative bg-white rounded-3xl p-5 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] border border-[#f3ead3] hover:shadow-[0_8px_30px_-10px_rgba(217,107,8,0.15)] transition-all duration-300 group cinematic-element opacity-0 translate-y-10 delay-500 ease-out">
-                    <div
-                        class="w-full aspect-square bg-[#f8f5eb] rounded-2xl mb-5 relative overflow-hidden flex items-center justify-center">
-                        <div
-                            class="absolute top-3 right-3 z-10 bg-white/90 backdrop-blur-sm shadow-sm px-2.5 py-1 rounded-full flex items-center gap-1 text-xs font-bold text-gray-800">
-                            <svg class="w-3.5 h-3.5 text-[#FDBA21]" fill="currentColor" viewBox="0 0 20 20">
-                                <path
-                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
-                                </path>
-                            </svg>
-                            4.7
-                        </div>
-                        <img src="https://placehold.co/400x400/transparent/d97014?text=Gopalbhog" alt="Gopalbhog Mango"
-                            class="w-3/4 h-3/4 object-contain group-hover:scale-110 transition-transform duration-500 ease-out"
-                            loading="lazy" />
-                    </div>
-                    <div>
-                        <h4 class="text-xl font-bold text-[#2D241C] mb-1">Gopalbhog</h4>
-                        <p class="text-xs text-gray-500 mb-4">Premium A-grade</p>
-                        <div class="flex items-end justify-between">
-                            <div>
-                                <p class="text-[10px] text-gray-400 uppercase font-bold tracking-wider mb-0.5">
-                                    Per KG
-                                </p>
-                                <p class="text-2xl font-extrabold text-[#D96B08]">৳ 250</p>
-                            </div>
-                            <button
-                                class="bg-[#fef4d4] text-[#D96B08] hover:bg-[#FDBA21] hover:text-[#2D241C] font-bold text-sm px-5 py-2.5 rounded-full transition-colors flex items-center gap-1 shadow-sm">
-                                + Add
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </section>
@@ -529,7 +319,7 @@
                 <div
                     class="relative w-full aspect-square rounded-[2.5rem] overflow-hidden shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)] border-8 border-white group">
                     <!-- Replaced with generic orchard placeholder, using aspect ratio and lazy loading -->
-                    <img src="about-mango.jpg" alt="Mango Orchard"
+                    <img src="{{ asset('assets/landing/about-mango.jpg') }}" alt="Mango Orchard"
                         class="w-full h-full aspect-square object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out"
                         loading="lazy" />
 
@@ -793,7 +583,7 @@
                     </div>
                     <img src="{{ asset('assets/landing/tall-tree.jpg') }}" alt="Mangoes growing on a tree branch"
                         loading="lazy"
-                        class="aspect-[2/3] w-full object-cover transform group-hover:scale-110 transition-transform duration-1000 ease-in-out" />
+                        class="aspect-2/3 w-full object-cover transform group-hover:scale-110 transition-transform duration-1000 ease-in-out" />
                 </div>
 
                 <!-- Image 2: Square (Middle Top) -->
