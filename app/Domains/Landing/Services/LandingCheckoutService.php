@@ -148,14 +148,16 @@ class LandingCheckoutService
             ]);
 
             // 4. Shipping address
+            $zone = \App\Domains\Shipping\Models\ShippingZone::find($data['zone_id']);
             $order->shippingAddress()->create([
                 'type'           => 'shipping',
                 'customer_name'  => $data['customer_name'],
                 'customer_phone' => $data['customer_phone'],
                 'address_line'   => $data['address_line'],
                 'area'           => $data['area'] ?? null,
-                'city'           => $data['city'] ?? null,
+                'city'           => $data['city'] ?? $zone?->name ?? 'Bangladesh',
             ]);
+
 
             // 5. Order items
             foreach ($pricing->lineItems as $lineItem) {

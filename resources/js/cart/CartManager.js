@@ -244,7 +244,7 @@ export default class CartManager {
         particle.className = "cart-particle";
         particle.style.left = `${btnRect.left + btnRect.width / 2 - 16}px`;
         particle.style.top = `${btnRect.top + btnRect.height / 2 - 16}px`;
-        particle.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32" fill="var(--primary)"><path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22l1-2.3A4.49 4.49 0 0 0 8 20C19 20 22 3 22 3c-1 2-8 2-5 11-2.5-2.5-3.5-6.5-3-10Z"/></svg>`;
+        particle.innerHTML = `<i class="fa-solid fa-crown text-4xl text-primary"></i>`;
         document.body.appendChild(particle);
 
         // Double rAF: first paints start position, second triggers the CSS transition

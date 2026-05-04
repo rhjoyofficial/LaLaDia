@@ -187,7 +187,7 @@
                     {{-- take middle right --}}
                     <div class="relative w-36 h-36 md:shrink-0 flex items-center">
                         <img src="{{ asset('assets/images/mango.png') }}" alt="Mango"
-                            class="rounded w-full h-full aspect-square object-contain transform group-hover:scale-110 group-hover:-rotate-6 transition-all duration-500"
+                            class="rounded-xl w-full h-full aspect-square object-contain transform group-hover:scale-110 group-hover:-rotate-6 transition-all duration-500"
                             lazy="loading">
                     </div>
 
@@ -287,7 +287,7 @@
                 <div class="flex items-center gap-2 mt-4 overflow-hidden">
                     <div class="flex -space-x-5">
                         @foreach ([1, 2, 3, 4, 5, 6] as $i)
-                            <img src="{{ asset('assets/images/product-' . $i . '.png') }}"
+                            <img src="{{ asset('assets/images/product-' . $i . '.jpg') }}"
                                 alt="Product {{ $i }}"
                                 class="w-16 h-16 lg:w-20 lg:h-20 rounded-2xl aspect-square object-cover border-2 border-white"
                                 lazy="loading">
@@ -296,18 +296,45 @@
                 </div>
             </div>
 
-            {{-- Happy Customers  --}}
+            {{-- Luxury Midnight & Gold Book Turn --}}  
             <div
-                class="hidden col-span-12 lg:col-span-2 lg:row-span-1 lg:col-start-4 lg:row-start-4 bg-white rounded-3xl p-6 lg:flex flex-col items-center justify-center text-center">
-                <div class="flex justify-center items-center gap-1">
-                    @foreach ([1, 2, 3] as $i)
-                        <img src="{{ asset('assets/images/customer' . $i . '.png') }}" alt="Happy Customer"
-                            class="rounded-full w-12 h-12 aspect-square object-cover border-2 border-white -ml-2 first:ml-0">
-                    @endforeach
+                class="hidden col-span-12 lg:col-span-2 lg:row-span-1 lg:col-start-4 lg:row-start-4 lg:flex items-center justify-center [perspective:1000px]">
+                <div class="relative w-full h-full transition-all duration-1000 [transform-style:preserve-3d] group hover:[transform:rotateY(-180deg)] cursor-pointer">
+                    
+                    {{-- Front Page (The Luxury Edit) --}}
+                    <div class="absolute inset-0 [backface-visibility:hidden] bg-white/90 backdrop-blur-xl rounded-3xl p-6 flex flex-col items-center justify-center text-center border border-white/60 shadow-sm overflow-hidden">
+                        
+                        {{-- Liquid Glass Shine Sweep --}}
+                        <div class="absolute inset-0 bg-linear-to-tr from-transparent via-white/40 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out"></div>
+                        
+                        <div class="relative mb-4 text-primary">
+                            <div class="absolute inset-0 bg-primary/10 blur-xl rounded-full animate-pulse"></div>
+                            <i class="fa-solid fa-gem text-3xl relative z-10 group-hover:scale-110 transition-transform"></i>
+                        </div>
+                        <h4 class="text-[9px] font-black text-primary uppercase tracking-[0.4em] mb-1">Signature</h4>
+                        <p class="text-sm font-black text-brown leading-tight">The Luxury<br>Selection</p>
+                    </div>
+
+                    {{-- Back Page (The Gold Standard) --}}
+                    <div class="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] bg-linear-to-br from-[#111111] to-[#333333] rounded-3xl p-6 flex flex-col items-center justify-center text-center text-white shadow-2xl border border-white/10 overflow-hidden">
+                         
+                        {{-- Hypnotic Luxury Spiral --}}
+                        <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-40">
+                            @foreach([1, 2, 3, 4] as $i)
+                            <div class="absolute border border-primary/30 rounded-full animate-[luxury-spiral_{{ 3 + ($i * 0.5) }}s_linear_infinite]" 
+                                 style="width: {{ 40 * $i }}px; height: {{ 40 * $i }}px;"></div>
+                            @endforeach
+                        </div>
+
+                         <div class="mb-3 relative z-10">
+                            <i class="fa-solid fa-crown text-4xl text-primary drop-shadow-[0_0_15px_rgba(212,175,55,0.4)]"></i>
+                         </div>
+                        <h4 class="text-[9px] font-black uppercase tracking-[0.5em] text-primary mb-1 relative z-10">Excellence</h4>
+                        <p class="text-xs font-bold leading-tight italic relative z-10">"The Gold Standard <br> in Quality"</p>
+                        <div class="mt-4 h-0.5 w-12 bg-primary/40 rounded-full relative z-10"></div>
+                    </div>
+
                 </div>
-                <div class="bg-primary text-white text-base font-black px-3 py-1 rounded-full mb-2">10k+</div>
-                <p class="text-sm font-bold text-brown">Happy Customers</p>
-                <div class="text-sm text-taupe mt-1">⭐ 4.9 Rating</div>
             </div>
 
             {{-- Certifications Swiper  --}}
@@ -465,13 +492,3 @@
         });
     </script>
 @endpush
-
-
-
-
-
-
-
-
-
-

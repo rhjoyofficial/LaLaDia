@@ -39,7 +39,7 @@ Route::get('/combos/{slug}', [ComboPageController::class, 'show'])->name('combos
 // Product/combo landing pages (direct checkout, no cart)
 Route::get('/product-page/{slug}', [LandingPageController::class, 'show'])->name('landing.page');
 // Sales/listing landing pages live under /p/ to avoid a catch-all conflict
-Route::get('/p/{slug}', [LandingPageController::class, 'show'])->name('landing.p');
+Route::get('/page/{slug}', [LandingPageController::class, 'show'])->name('landing.p');
 
 
 /*

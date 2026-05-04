@@ -123,5 +123,56 @@ class LandingPageSeeder extends Seeder
                 }
             }
         }
+
+        // ─── 5. SALES TYPE — Dry Fish Collection ────────
+        $dryfishLanding = LandingPage::updateOrCreate(
+            ['slug' => 'shutki-mach-collection'],
+            [
+                'type'             => LandingPage::TYPE_SALES,
+                'title'            => 'বিশুদ্ধ ও নিরাপদ শুঁটকি মাছ — সরাসরি সমুদ্র থেকে',
+                'blade_template'   => 'dryfish',
+                'content'          => 'শতভাগ রাসায়নিকমুক্ত শুঁটকি মাছ — লইট্টা, ছুরি, মধু ফাইশ্যা, মৌরালা কাচকি। গ্রিন মাচা ও ভ্যাকুয়াম প্যাকেজিংয়ে প্রস্তুত।',
+                'meta_title'       => 'বিশুদ্ধ শুঁটকি মাছ কিনুন | La La Dia',
+                'meta_description' => 'শতভাগ রাসায়নিকমুক্ত শুঁটকি মাছ — লইট্টা, ছুরি, মধু ফাইশ্যা, মৌরালা কাচকি। সারা বাংলাদেশে ডেলিভারি।',
+                'pixel_event_name' => 'ViewContent',
+                'is_active'        => true,
+                'config'           => [
+                    'free_delivery_amount' => 2000,
+                    'hero_style'           => 'natural',
+                ],
+            ]
+        );
+
+        // Add all dry fish variants as sales items
+        $dryfishSkus = [
+            'loitta-shutki-125G' => 0,
+            'loitta-shutki-500G' => 1,
+            'loitta-shutki-1KG'  => 2,
+            'churi-shutki-125G'  => 3,
+            'churi-shutki-500G'  => 4,
+            'churi-shutki-1KG'   => 5,
+            'modhu-faisa-125G'   => 6,
+            'modhu-faisa-500G'   => 7,
+            'modhu-faisa-1KG'    => 8,
+            'mowrala-kachki-125G'=> 9,
+            'mowrala-kachki-500G'=> 10,
+            'mowrala-kachki-1KG' => 11,
+        ];
+
+        foreach ($dryfishSkus as $sku => $sortOrder) {
+            $variant = ProductVariant::where('sku', $sku)->first();
+            if ($variant) {
+                LandingPageItem::updateOrCreate(
+                    [
+                        'landing_page_id'    => $dryfishLanding->id,
+                        'product_variant_id' => $variant->id,
+                    ],
+                    [
+                        'sort_order'     => $sortOrder,
+                        'is_preselected' => false,
+                    ]
+                );
+            }
+        }
     }
 }
