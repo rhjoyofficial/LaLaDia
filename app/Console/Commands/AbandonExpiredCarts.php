@@ -21,7 +21,7 @@ class AbandonExpiredCarts extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Release reserved stock from expired guest carts and mark them abandoned';
 
     /**
      * Execute the console command.

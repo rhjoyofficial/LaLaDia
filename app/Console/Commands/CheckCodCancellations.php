@@ -25,7 +25,6 @@ class CheckCodCancellations extends Command
             ->chunkById(50, function ($orders) use (&$count) {
                 foreach ($orders as $order) {
                     SendConversionEvents::dispatch($order);
-                    $order->update(['conversion_fired' => true]);
                     $count++;
                 }
             });
