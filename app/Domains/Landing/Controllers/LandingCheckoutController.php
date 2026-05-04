@@ -11,6 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 
 /**
  * LandingCheckoutController — API controller
@@ -41,8 +42,8 @@ class LandingCheckoutController extends Controller
 
         $validated = $request->validate([
             'items'              => 'required|array|min:1',
-            'items.*.variant_id' => 'nullable|integer|exists:product_variants,id',
-            'items.*.combo_id'   => 'nullable|integer|exists:combos,id',
+            'items.*.variant_id' => ['nullable', 'integer', Rule::exists('product_variants', 'id')->where('is_active', true)],
+            'items.*.combo_id'   => ['nullable', 'integer', Rule::exists('combos', 'id')->where('is_active', true)],
             'items.*.quantity'   => 'required|integer|min:1',
             'zone_id'            => 'required|integer|exists:shipping_zones,id',
             'coupon_code'        => 'nullable|string|max:50',
@@ -90,8 +91,8 @@ class LandingCheckoutController extends Controller
             'zone_id'            => 'required|integer|exists:shipping_zones,id',
             'payment_method'     => 'required|in:cod,sslcommerz',
             'items'              => 'required|array|min:1',
-            'items.*.variant_id' => 'nullable|integer|exists:product_variants,id',
-            'items.*.combo_id'   => 'nullable|integer|exists:combos,id',
+            'items.*.variant_id' => ['nullable', 'integer', Rule::exists('product_variants', 'id')->where('is_active', true)],
+            'items.*.combo_id'   => ['nullable', 'integer', Rule::exists('combos', 'id')->where('is_active', true)],
             'items.*.quantity'   => 'required|integer|min:1',
             'coupon_code'        => 'nullable|string|max:50',
         ]);

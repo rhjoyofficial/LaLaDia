@@ -31,11 +31,12 @@ class Product extends Model
     ];
 
     protected $casts = [
-        'gallery' => 'array',
-        'is_active' => 'boolean',
-        'is_featured' => 'boolean',
-        'is_trending' => 'boolean',
-        'nutritional_info' => 'array',
+        'gallery'            => 'array',
+        'is_active'          => 'boolean',
+        'is_featured'        => 'boolean',
+        'is_trending'        => 'boolean',
+        'is_landing_enabled' => 'boolean',
+        'nutritional_info'   => 'array',
     ];
 
     public function category()

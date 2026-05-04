@@ -22,23 +22,31 @@ class AdminTransactionController extends Controller
     public function summary(): JsonResponse
     {
         try {
-            // Core revenue totals
-            $totalRevenue = (float) Order::where('payment_status', 'paid')->sum('grand_total');
-            $todayRevenue = (float) Order::where('payment_status', 'paid')
-                ->whereDate('placed_at', today())->sum('grand_total');
-            $weekRevenue  = (float) Order::where('payment_status', 'paid')
-                ->whereBetween('placed_at', [now()->startOfWeek(), now()])->sum('grand_total');
-            $monthRevenue = (float) Order::where('payment_status', 'paid')
-                ->whereBetween('placed_at', [now()->startOfMonth(), now()])->sum('grand_total');
+            // Consolidate 7 scalar Order queries into a single conditional-aggregate pass
+            $weekStart  = now()->startOfWeek()->toDateTimeString();
+            $monthStart = now()->startOfMonth()->toDateTimeString();
+
+            $stats = Order::selectRaw("
+                SUM(CASE WHEN payment_status = 'paid' THEN grand_total ELSE 0 END)                                    AS total_revenue,
+                SUM(CASE WHEN payment_status = 'paid' AND DATE(placed_at) = CURDATE() THEN grand_total ELSE 0 END)   AS today_revenue,
+                SUM(CASE WHEN payment_status = 'paid' AND placed_at >= ?  THEN grand_total ELSE 0 END)               AS week_revenue,
+                SUM(CASE WHEN payment_status = 'paid' AND placed_at >= ?  THEN grand_total ELSE 0 END)               AS month_revenue,
+                SUM(CASE WHEN payment_status = 'unpaid' THEN grand_total ELSE 0 END)                                 AS unpaid_total,
+                SUM(CASE WHEN payment_status = 'unpaid' THEN 1 ELSE 0 END)                                           AS unpaid_count,
+                SUM(CASE WHEN payment_status = 'failed' THEN 1 ELSE 0 END)                                           AS failed_count
+            ", [$weekStart, $monthStart])->first();
+
+            $totalRevenue = (float) $stats->total_revenue;
+            $todayRevenue = (float) $stats->today_revenue;
+            $weekRevenue  = (float) $stats->week_revenue;
+            $monthRevenue = (float) $stats->month_revenue;
+            $unpaidTotal  = (float) $stats->unpaid_total;
+            $unpaidCount  = (int)   $stats->unpaid_count;
+            $failedCount  = (int)   $stats->failed_count;
 
             // Refunds & net
             $totalRefunds = (float) OrderTransaction::where('type', 'refund')->sum('amount');
             $netRevenue   = $totalRevenue - $totalRefunds;
-
-            // Unpaid exposure
-            $unpaidCount  = Order::where('payment_status', 'unpaid')->count();
-            $unpaidTotal  = (float) Order::where('payment_status', 'unpaid')->sum('grand_total');
-            $failedCount  = Order::where('payment_status', 'failed')->count();
 
             // Transactions by type
             $byType = OrderTransaction::select(

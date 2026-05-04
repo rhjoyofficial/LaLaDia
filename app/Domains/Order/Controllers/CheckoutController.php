@@ -77,6 +77,7 @@ class CheckoutController extends Controller
                 'ip_address'       => $request->ip(),
                 'fbp'              => $request->cookie('_fbp'),
                 'fbc'              => $request->cookie('_fbc'),
+                'ga_client_id'     => $request->input('ga_client_id') ?? $request->cookie('_ga'),
                 'event_source_url' => $request->header('Referer'),
                 'user_agent'       => $request->userAgent(),
                 'test_mode'        => !app()->isProduction(),

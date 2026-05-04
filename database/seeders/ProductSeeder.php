@@ -197,12 +197,72 @@ class ProductSeeder extends Seeder
             $v5kg = $product->variants()->create(['title' => '5KG', 'sku' => Str::slug($m['name']) . '-5KG', 'price' => $m['price'] * 5 * 0.95, 'stock' => 1000, 'weight_grams' => 5000, 'is_active' => true]);
             $v10kg = $product->variants()->create(['title' => '10KG', 'sku' => Str::slug($m['name']) . '-10KG', 'price' => $m['price'] * 10 * 0.90, 'stock' => 500, 'weight_grams' => 10000, 'is_active' => true]);
 
-            // Tier prices for 1KG variant (Wholesale/Bulk buy)
-            $v1kg->tierPrices()->create([
-                'min_quantity' => 20,
-                'discount_type' => 'percentage',
-                'discount_value' => 15,
+            // Tier prices for 1KG variant (multi-tier wholesale ladder)
+            $v1kg->tierPrices()->createMany([
+                // Tier 1: Buy 5+ → 5% off
+                ['min_quantity' => 5,  'discount_type' => 'percentage', 'discount_value' => 5],
+                // Tier 2: Buy 10+ → 10% off (overlapping escalation test)
+                ['min_quantity' => 10, 'discount_type' => 'percentage', 'discount_value' => 10],
+                // Tier 3: Buy 20+ → 15% off + free delivery on all zones
+                [
+                    'min_quantity'    => 20,
+                    'discount_type'   => 'percentage',
+                    'discount_value'  => 15,
+                    'has_free_delivery' => true,
+                ],
             ]);
+
+            // Tier for 5KG: Buy 2 (10KG) → ৳50 off + free gift honey + free delivery
+            if ($m['name'] === 'Himsagar Mango (হিমসাগর আম)') {
+                $honeyVariantId = $honey->variants->first()->id;
+                $v5kg->tierPrices()->createMany([
+                    // Tier 1: Buy 1×5KG → ৳20 fixed off
+                    ['min_quantity' => 1, 'discount_type' => 'fixed', 'discount_value' => 20],
+                    // Tier 2: Buy 2×5KG → ৳50 off + free honey gift + free delivery (QA: overlapping gift+delivery)
+                    [
+                        'min_quantity'            => 2,
+                        'discount_type'           => 'fixed',
+                        'discount_value'          => 50,
+                        'has_free_delivery'       => true,
+                        'gift_product_variant_id' => $honeyVariantId,
+                        'gift_quantity'           => 1,
+                    ],
+                    // Tier 3: Buy 4×5KG → ৳150 off + 2 honey gifts + free delivery (QA: higher gift qty)
+                    [
+                        'min_quantity'            => 4,
+                        'discount_type'           => 'fixed',
+                        'discount_value'          => 150,
+                        'has_free_delivery'       => true,
+                        'gift_product_variant_id' => $honeyVariantId,
+                        'gift_quantity'           => 2,
+                    ],
+                ]);
+            }
+
+            // Tier for 10KG: Buy 3+ → 12% off + free delivery (QA: large-qty threshold)
+            $v10kg->tierPrices()->create([
+                'min_quantity'    => 3,
+                'discount_type'   => 'percentage',
+                'discount_value'  => 12,
+                'has_free_delivery' => true,
+            ]);
+        }
+
+        // ── QA Scenario: Ghee with zone-restricted free delivery ────────────
+        // Tests the "free_delivery_zones" constraint path in CheckoutPricingService.
+        $gheeVariant = $ghee->variants->first();
+        if ($gheeVariant) {
+            $firstZoneId = \App\Domains\Shipping\Models\ShippingZone::orderBy('id')->value('id');
+            if ($firstZoneId) {
+                $gheeVariant->tierPrices()->create([
+                    'min_quantity'        => 3,
+                    'discount_type'       => 'percentage',
+                    'discount_value'      => 8,
+                    'has_free_delivery'   => true,
+                    // Free delivery only for the first zone — all others still pay shipping
+                    'free_delivery_zones' => [$firstZoneId],
+                ]);
+            }
         }
     }
 }

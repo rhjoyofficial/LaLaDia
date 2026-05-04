@@ -30,13 +30,18 @@ class ProductSearchService
             $query->where('category_id', $filters->get('category_id'));
         }
 
-        // Price filtering
-        if ($filters->has('min_price')) {
-            $query->where('base_price', '>=', $filters->get('min_price'));
-        }
-
-        if ($filters->has('max_price')) {
-            $query->where('base_price', '<=', $filters->get('max_price'));
+        // Price filtering — runs against the cheapest active variant's price
+        // so the filter matches what customers actually see on product cards.
+        if ($filters->has('min_price') || $filters->has('max_price')) {
+            $query->whereHas('variants', function ($q) use ($filters) {
+                $q->where('is_active', true);
+                if ($filters->has('min_price')) {
+                    $q->where('price', '>=', $filters->get('min_price'));
+                }
+                if ($filters->has('max_price')) {
+                    $q->where('price', '<=', $filters->get('max_price'));
+                }
+            });
         }
 
         // Featured

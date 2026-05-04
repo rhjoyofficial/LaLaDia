@@ -19,6 +19,18 @@ class HeroBannerSeeder extends Seeder
 
         $banners = [
             [
+                'badge'       => 'Seasonal Excellence',
+                'title'       => 'Premium Seasonal <br> Rajshahi & <br> Satkhira Mangos',
+                'subtitle'    => 'Taste the King of Fruits',
+                'description' => 'Direct from the finest orchards of Bangladesh. Hand-picked, chemical-free, and naturally ripened.',
+                'button_text' => 'Order Mangoes',
+                'button_url'  => '/page/premium-mango-collection',
+                'image'       => 'banners/banner-mango.png',
+                'sort_order'  => 0,
+                'is_active'   => true,
+                'category_id' => $categories['fruits']->id ?? null,
+            ],
+            [
                 'badge'       => '100% Pure & Raw',
                 'title'       => 'Pure Sundarbans <br> Mangrove Gold <br> Honey',
                 'subtitle'    => 'Nature’s Golden Elixir',
@@ -60,7 +72,7 @@ class HeroBannerSeeder extends Seeder
                 'subtitle'    => 'Naturally Sun-Dried',
                 'description' => 'Loitta, Churi, and Faisa shutki — cleaned and processed with modern hygiene standards.',
                 'button_text' => 'Shop Shutki',
-                'button_url'  => '/shop?category=dry-fish',
+                'button_url'  => '/page/dryfish-collection',
                 'image'       => 'banners/banner-shutki.png',
                 'sort_order'  => 4,
                 'is_active'   => true,

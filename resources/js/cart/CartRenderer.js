@@ -88,6 +88,7 @@ export default class CartRenderer {
     }
 
     row(i) {
+        const isGift = !!i.is_gift;
         const isCombo = !!i.combo_name_snapshot;
         const displayName = isCombo
             ? i.combo_name_snapshot
@@ -101,22 +102,48 @@ export default class CartRenderer {
                 ? "assets/combo-products/combo.jpg"
                 : "/images/product-placeholder.png");
 
-        const tierNudge = !isCombo
+        const tierNudge = (!isCombo && !isGift)
             ? `<div class="mt-1">${this.tierHtml(i, true)}</div>`
             : "";
 
         // Strikethrough original price when tier discount is active
-        const priceHtml =
-            !isCombo && i.tier_saving && i.original_unit_price
-                ? `<p class="text-[10px] text-gray-400 line-through leading-none">৳${i.original_unit_price} x ${i.quantity}</p>
+        let priceHtml = "";
+        
+        if (isGift) {
+            priceHtml = `<p class="text-sm font-bold text-emerald-600 font-bengali uppercase text-[11px] tracking-wider">Free Gift</p>`;
+        } else if (!isCombo && i.tier_saving && i.original_unit_price) {
+            priceHtml = `<p class="text-[10px] text-gray-400 line-through leading-none">৳${i.original_unit_price} x ${i.quantity}</p>
                <p class="text-[10px] text-emerald-600 font-semibold leading-none">৳${i.unit_price} x ${i.quantity}</p>
-               <p class="text-sm font-bold text-primary font-bengali">৳${(i.unit_price * i.quantity).toFixed(2)}</p>`
-                : `<p class="text-[10px] text-gray-400 font-medium">৳${i.unit_price} x ${i.quantity}</p>
                <p class="text-sm font-bold text-primary font-bengali">৳${(i.unit_price * i.quantity).toFixed(2)}</p>`;
+        } else {
+            priceHtml = `<p class="text-[10px] text-gray-400 font-medium">৳${i.unit_price} x ${i.quantity}</p>
+               <p class="text-sm font-bold text-primary font-bengali">৳${(i.unit_price * i.quantity).toFixed(2)}</p>`;
+        }
+        
+        const controlsHtml = isGift ? `
+            <div class="flex items-center">
+                <span class="text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded border border-emerald-100">Qty: ${i.quantity}</span>
+            </div>
+        ` : `
+            <div class="flex items-center border border-gray-200 rounded-lg overflow-hidden bg-white">
+                <button class="minus w-7 h-7 flex items-center justify-center text-gray-500 hover:bg-100 transition-colors border-r border-gray-200 cursor-pointer">-</button>
+                <div class="w-8 h-7 flex items-center justify-center text-xs font-bold text-gray-800">${i.quantity}</div>
+                <button class="plus w-7 h-7 flex items-center justify-center text-gray-500 hover:bg-100 transition-colors border-l border-gray-200 cursor-pointer">+</button>
+            </div>
+        `;
+        
+        const removeHtml = isGift ? `` : `
+            <button class="remove text-gray-400 hover:text-red-500 transition-colors p-1 shrink-0">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        `;
+        
+        const rowClass = isGift ? "bg-emerald-50/30 border-emerald-100" : "hover:bg-gray-50/50 border-gray-100";
 
         return `
-    <div class="cartRow group flex items-start gap-4 border-b border-gray-100 p-4 transition-all hover:bg-gray-50/50" data-item-id="${i.id}">
-        <div class="h-16 w-16 shrink-0 overflow-hidden rounded-lg border border-gray-100 bg-gray-50">
+    <div class="cartRow group flex items-start gap-4 border-b p-4 transition-all ${rowClass}" data-item-id="${i.id}">
+        <div class="h-16 w-16 shrink-0 overflow-hidden rounded-lg border border-gray-100 bg-gray-50 relative">
+            ${isGift ? '<div class="absolute top-0 left-0 bg-emerald-500 text-white text-[8px] font-bold px-1 py-0.5 rounded-br uppercase z-10 shadow-sm">GIFT</div>' : ''}
             <img src="${imageUrl}" alt="${displayName}" class="h-full w-full object-cover">
         </div>
 
@@ -127,18 +154,11 @@ export default class CartRenderer {
                     <p class="text-[11px] text-gray-500 font-bengali">${displayVariant ?? ""}</p>
                     ${tierNudge}
                 </div>
-                <button class="remove text-gray-400 hover:text-red-500 transition-colors p-1 shrink-0">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                </button>
+                ${removeHtml}
             </div>
 
             <div class="mt-2 flex items-center justify-between">
-                <div class="flex items-center border border-gray-200 rounded-lg overflow-hidden bg-white">
-                    <button class="minus w-7 h-7 flex items-center justify-center text-gray-500 hover:bg-100 transition-colors border-r border-gray-200 cursor-pointer">-</button>
-                    <div class="w-8 h-7 flex items-center justify-center text-xs font-bold text-gray-800">${i.quantity}</div>
-                    <button class="plus w-7 h-7 flex items-center justify-center text-gray-500 hover:bg-100 transition-colors border-l border-gray-200 cursor-pointer">+</button>
-                </div>
-
+                ${controlsHtml}
                 <div class="text-right">
                     ${priceHtml}
                 </div>
@@ -151,31 +171,31 @@ export default class CartRenderer {
         this.container.querySelectorAll(".cartRow").forEach((row) => {
             const itemId = row.dataset.itemId;
 
-            row.querySelector(".plus").onclick = () => {
-                const item = this.getItem(itemId);
-                window.Cart.update(itemId, parseInt(item.quantity) + 1);
-            };
+            const plusBtn = row.querySelector(".plus");
+            if (plusBtn) {
+                plusBtn.onclick = () => {
+                    const item = this.getItem(itemId);
+                    window.Cart.update(itemId, parseInt(item.quantity) + 1);
+                };
+            }
 
-            // row.querySelector(".minus").onclick = () => {
-            //     const item = this.getItem(itemId);
-            //     if (item.quantity <= 1) {
-            //         window.Cart.remove(itemId);
-            //         return;
-            //     }
-            //     window.Cart.update(itemId, parseInt(item.quantity) - 1);
-            // };
+            const minusBtn = row.querySelector(".minus");
+            if (minusBtn) {
+                minusBtn.onclick = () => {
+                    const item = this.getItem(itemId);
+                    if (item.quantity <= 1) {
+                        return;
+                    }
+                    window.Cart.update(itemId, parseInt(item.quantity) - 1);
+                };
+            }
 
-            row.querySelector(".minus").onclick = () => {
-                const item = this.getItem(itemId);
-                if (item.quantity <= 1) {
-                    return;
-                }
-                window.Cart.update(itemId, parseInt(item.quantity) - 1);
-            };
-
-            row.querySelector(".remove").onclick = () => {
-                window.Cart.remove(itemId);
-            };
+            const removeBtn = row.querySelector(".remove");
+            if (removeBtn) {
+                removeBtn.onclick = () => {
+                    window.Cart.remove(itemId);
+                };
+            }
         });
     }
 

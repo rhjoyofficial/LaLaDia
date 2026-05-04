@@ -219,6 +219,17 @@ class OrderEditService
                 }
             }
 
+            // ── 6b. Reserve stock for auto-gift line items ──────────────
+            // Gift variants are injected by the pricing engine and not in $newItems,
+            // so they must be reserved separately to maintain stock accuracy.
+            foreach ($pricing->lineItems as $lineItem) {
+                if (($lineItem['discount_type_snapshot'] ?? null) === 'Free Gift' && !empty($lineItem['variant_id'])) {
+                    $pricing->lockedVariants
+                        ->get($lineItem['variant_id'])
+                        ?->increment('reserved_stock', $lineItem['quantity']);
+                }
+            }
+
             // ── 7. Update order-level fields (totals + zone + customer) ─
             $orderUpdates = [
                 'zone_id'              => $effectiveZoneId,

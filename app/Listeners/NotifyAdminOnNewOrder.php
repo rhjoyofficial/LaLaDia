@@ -66,7 +66,7 @@ class NotifyAdminOnNewOrder implements ShouldQueue
                 'View order: ' . route('order.success', ['order' => $order->order_number]),
             ]);
 
-            Mail::raw(
+            Mail::mailer('noreply')->raw(
                 $emailBody,
                 fn($msg) => $msg
                     ->to($adminEmail)

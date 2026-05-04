@@ -15,6 +15,10 @@ class Commission extends Model
         'status'
     ];
 
+    protected $casts = [
+        'commission_amount' => 'decimal:2',
+    ];
+
     public function order()
     {
         return $this->belongsTo(Order::class);

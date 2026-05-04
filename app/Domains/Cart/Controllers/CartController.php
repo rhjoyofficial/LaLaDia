@@ -42,8 +42,8 @@ class CartController extends Controller
         try {
 
             $request->validate([
-                'variant_id' => 'required|exists:product_variants,id',
-                'quantity' => 'required|integer|min:1'
+                'variant_id' => ['required', \Illuminate\Validation\Rule::exists('product_variants', 'id')->where('is_active', true)],
+                'quantity'   => 'required|integer|min:1',
             ]);
 
 
@@ -70,8 +70,8 @@ class CartController extends Controller
     {
         try {
             $request->validate([
-                'combo_id' => 'required|exists:combos,id',
-                'quantity' => 'required|integer|min:1'
+                'combo_id' => ['required', \Illuminate\Validation\Rule::exists('combos', 'id')->where('is_active', true)],
+                'quantity' => 'required|integer|min:1',
             ]);
 
             $cart = $this->resolveCart($request);
@@ -196,9 +196,42 @@ class CartController extends Controller
     private function payload($cart)
     {
         $cart->load(['items.variant.product', 'items.variant.tierPrices', 'items.combo']);
+        
+        $totals = $this->cartPricingService->calculate($cart);
+        $items = CartItemResource::collection($cart->items)->resolve();
+        
+        if (!empty($totals['auto_gifts'])) {
+            // Batch-load all gift variants in one query instead of one per gift.
+            $giftVariantIds = array_column($totals['auto_gifts'], 'variant_id');
+            $giftVariants = \App\Domains\Product\Models\ProductVariant::with('product')
+                ->whereIn('id', $giftVariantIds)
+                ->get()
+                ->keyBy('id');
+
+            foreach ($totals['auto_gifts'] as $gift) {
+                $giftVariant = $giftVariants->get($gift['variant_id']);
+                $items[] = [
+                    'id'                     => 'gift_' . $gift['variant_id'],
+                    'variant_id'             => $gift['variant_id'],
+                    'combo_id'               => null,
+                    'quantity'               => $gift['quantity'],
+                    'product_name_snapshot'  => $gift['product_name_snapshot'],
+                    'variant_title_snapshot' => $gift['variant_title_snapshot'],
+                    'combo_name_snapshot'    => null,
+                    'unit_price'             => 0,
+                    'original_unit_price'    => 0,
+                    'tier_saving'            => null,
+                    'tiers'                  => [],
+                    'subtotal'               => 0,
+                    'image_url'              => $giftVariant?->product->image_url ?? null,
+                    'is_gift'                => true,
+                ];
+            }
+        }
+        
         return [
-            'items' => CartItemResource::collection($cart->items),
-            'totals' => $this->cartPricingService->calculate($cart),
+            'items' => $items,
+            'totals' => $totals,
             'cart_id' => $cart->id,
         ];
     }

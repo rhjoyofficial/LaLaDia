@@ -103,7 +103,7 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'admin'])->group(function ()
         ->middleware('permission:order.update');
         
     Route::get('orders/export-bulk', [AdminOrderController::class, 'exportBulk'])
-        ->middleware('permission:order.view');
+        ->middleware('permission:order.export');
     Route::get('orders/import-template', [AdminOrderController::class, 'importTemplate'])
         ->middleware('permission:order.create');
     Route::post('orders/import-bulk', [AdminOrderController::class, 'importBulk'])

@@ -3,6 +3,7 @@
 namespace App\Domains\Order\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
 
 class CheckoutPreviewRequest extends FormRequest
@@ -16,8 +17,8 @@ class CheckoutPreviewRequest extends FormRequest
     {
         return [
             'items'              => 'required|array|min:1',
-            'items.*.variant_id' => 'nullable|exists:product_variants,id',
-            'items.*.combo_id'   => 'nullable|exists:combos,id',
+            'items.*.variant_id' => ['nullable', Rule::exists('product_variants', 'id')->where('is_active', true)],
+            'items.*.combo_id'   => ['nullable', Rule::exists('combos', 'id')->where('is_active', true)],
             'items.*.quantity'   => 'required|integer|min:1',
 
             'coupon_code' => 'nullable|string|max:50',

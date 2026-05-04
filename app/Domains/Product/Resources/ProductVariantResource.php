@@ -23,7 +23,24 @@ class ProductVariantResource extends JsonResource
             'available_stock'  => $this->available_stock,
             'weight_grams'     => $this->weight_grams,
             'is_active'        => (bool) $this->is_active,
+            // Public-facing minimal tier data (used by store pages)
             'tiers'            => ProductTierResource::collection($this->whenLoaded('tierPrices')),
+            // Full admin tier data (used by admin product edit UI)
+            'tier_prices'      => $this->relationLoaded('tierPrices')
+                ? $this->tierPrices->map(fn($t) => [
+                    'id'                      => $t->id,
+                    'min_quantity'            => $t->min_quantity,
+                    'discount_type'           => $t->discount_type,
+                    'discount_value'          => (float) $t->discount_value,
+                    'has_free_delivery'       => (bool) $t->has_free_delivery,
+                    'free_delivery_zones'     => $t->free_delivery_zones ?? [],
+                    'gift_product_variant_id' => $t->gift_product_variant_id,
+                    'gift_variant_name'       => $t->relationLoaded('giftVariant')
+                        ? ($t->giftVariant?->product?->name . ' — ' . $t->giftVariant?->title)
+                        : null,
+                    'gift_quantity'           => $t->gift_quantity ?? 1,
+                ])->values()
+                : [],
         ];
     }
 }

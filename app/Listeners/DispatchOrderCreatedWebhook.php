@@ -40,7 +40,7 @@ class DispatchOrderCreatedWebhook implements ShouldQueue
             'items_count'     => $order->items->count(),
             'items'           => $order->items->map(fn($i) => [
                 'sku'      => $i->sku_snapshot,
-                'name'     => $i->name_snapshot,
+                'name'     => $i->product_name_snapshot,
                 'quantity' => $i->quantity,
                 'price'    => (float) $i->unit_price,
             ])->toArray(),

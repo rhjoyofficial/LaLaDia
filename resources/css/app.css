@@ -39,6 +39,8 @@
   /* Very dark gold — text on light gold bg    */
   --gold-900: #1A1200;
   /* Near-black warm gold — deepest shade      */
+  --gold-antique: #AF9642;
+  /* Muted, classic antique gold               */
 
   /* ── WHITE SCALE ────────────────────────────────
      Warm whites only — a whisper of gold in every shade.
@@ -199,6 +201,7 @@
   --color-gold-500: var(--gold-500);
   --color-gold-600: var(--gold-600);
   --color-gold-700: var(--gold-700);
+  --color-gold-antique: var(--gold-antique);
 
   /* ── Black shades for direct Tailwind use ─── */
   --color-black-rich: var(--black-rich);

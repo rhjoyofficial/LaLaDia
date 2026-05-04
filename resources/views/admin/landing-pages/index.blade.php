@@ -85,10 +85,10 @@
                                 <td class="px-4 py-3">
                                     <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold"
                                         :class="{
-                                            'bg-blue-100 text-blue-700':   page.type === 'product',
+                                            'bg-blue-100 text-blue-700': page.type === 'product',
                                             'bg-purple-100 text-purple-700': page.type === 'combo',
                                             'bg-amber-100 text-amber-700': page.type === 'sales',
-                                            'bg-teal-100 text-teal-700':  page.type === 'listing',
+                                            'bg-teal-100 text-teal-700': page.type === 'listing',
                                         }"
                                         x-text="page.type.charAt(0).toUpperCase() + page.type.slice(1)"></span>
                                 </td>
@@ -108,7 +108,7 @@
                                         @can('landing-pages.update')
                                             <button @click="toggleActive(page)"
                                                 class="relative inline-flex h-5 w-9 items-center rounded-full transition-colors cursor-pointer"
-                                                :class="page.is_active ? 'bg-ivory0' : 'bg-gray-300'">
+                                                :class="page.is_active ? 'bg-ivory' : 'bg-gray-300'">
                                                 <span
                                                     class="inline-block h-3.5 w-3.5 transform rounded-full bg-white transition-transform shadow"
                                                     :class="page.is_active ? 'translate-x-4' : 'translate-x-0.5'"></span>
@@ -288,7 +288,7 @@
                         if (page.type === 'product' || page.type === 'combo') {
                             return '/product-page/' + page.slug;
                         }
-                        return '/p/' + page.slug;
+                        return '/page/' + page.slug;
                     },
 
                     async deletePage() {
@@ -315,13 +315,3 @@
         </script>
     @endpush
 @endsection
-
-
-
-
-
-
-
-
-
-

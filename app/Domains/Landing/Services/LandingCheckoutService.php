@@ -164,7 +164,7 @@ class LandingCheckoutService
                 $order->items()->create($lineItem);
             }
 
-            // 6. Reserve stock
+            // 6. Reserve stock for user-submitted items
             foreach ($data['items'] as $item) {
                 if (!empty($item['combo_id'])) {
                     $combo = Combo::with('items')->findOrFail($item['combo_id']);
@@ -177,6 +177,17 @@ class LandingCheckoutService
                     $pricing->lockedVariants
                         ->get($item['variant_id'])
                         ->increment('reserved_stock', $item['quantity']);
+                }
+            }
+
+            // 6b. Reserve stock for auto-gift line items injected by the pricing engine.
+            //     Gift variants are not in $data['items'], so they must be handled separately.
+            foreach ($pricing->lineItems as $lineItem) {
+                if (($lineItem['discount_type_snapshot'] ?? null) === 'Free Gift') {
+                    $giftVariant = $pricing->lockedVariants->get($lineItem['variant_id']);
+                    if ($giftVariant) {
+                        $giftVariant->increment('reserved_stock', $lineItem['quantity']);
+                    }
                 }
             }
 

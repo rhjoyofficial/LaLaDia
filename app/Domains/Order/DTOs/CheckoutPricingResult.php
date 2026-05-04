@@ -16,6 +16,8 @@ class CheckoutPricingResult
         public readonly float $shippingCost,
         public readonly float $grandTotal,
         public readonly Collection $lockedVariants,
+        /** Gifts that were skipped due to stock exhaustion: [{variant_id, quantity, product_name}] */
+        public readonly array $skippedGifts = [],
     ) {}
 
     /**
@@ -24,13 +26,14 @@ class CheckoutPricingResult
     public function toArray(): array
     {
         return [
-            'line_items'       => $this->lineItems,
-            'subtotal'         => round($this->subtotal, 2),
-            'tier_discount'    => round($this->tierDiscountTotal, 2),
-            'coupon_discount'  => round($this->couponDiscount, 2),
-            'coupon_code'      => $this->coupon?->code,
-            'shipping_cost'    => round($this->shippingCost, 2),
-            'grand_total'      => round($this->grandTotal, 2),
+            'line_items'      => $this->lineItems,
+            'subtotal'        => round($this->subtotal, 2),
+            'tier_discount'   => round($this->tierDiscountTotal, 2),
+            'coupon_discount' => round($this->couponDiscount, 2),
+            'coupon_code'     => $this->coupon?->code,
+            'shipping_cost'   => round($this->shippingCost, 2),
+            'grand_total'     => round($this->grandTotal, 2),
+            'skipped_gifts'   => $this->skippedGifts,
         ];
     }
 }

@@ -176,13 +176,40 @@ class AdminOrderController extends Controller
         $header = array_map('trim', $header);
         $header = array_map('strtolower', $header);
 
-        $groups = [];
+        // Pass 1: collect all rows and SKUs without any per-row DB queries
+        $rawRows = [];
+        $allSkus = [];
         while (($row = fgetcsv($handle)) !== false) {
             if (count($row) !== count($header)) continue;
-            
             $data = array_combine($header, $row);
             $phone = trim($data['customer_phone'] ?? '');
             if (empty($phone)) continue;
+            $sku = trim($data['product_sku'] ?? '');
+            if ($sku) {
+                $allSkus[] = $sku;
+            }
+            $rawRows[] = $data;
+        }
+        fclose($handle);
+
+        // Batch SKU lookup — single query for all SKUs in the file
+        $variantsBySku = \App\Domains\Product\Models\ProductVariant::whereIn('sku', array_unique($allSkus))
+            ->where('is_active', true)
+            ->get(['id', 'sku'])
+            ->keyBy('sku');
+
+        // Validate zone IDs in one batch query
+        $allZoneIds = collect($rawRows)->pluck('zone_id')->map(fn($z) => (int) $z)->filter()->unique()->values()->all();
+        $validZoneIds = \App\Domains\Shipping\Models\ShippingZone::whereIn('id', $allZoneIds)
+            ->where('is_active', true)
+            ->pluck('id')
+            ->flip();
+
+        // Pass 2: build groups using the pre-fetched maps
+        $groups = [];
+        foreach ($rawRows as $data) {
+            $phone = trim($data['customer_phone'] ?? '');
+            $zoneId = (int) ($data['zone_id'] ?? 0);
 
             if (!isset($groups[$phone])) {
                 $groups[$phone] = [
@@ -193,7 +220,7 @@ class AdminOrderController extends Controller
                     'area'           => trim($data['area'] ?? ''),
                     'city'           => trim($data['city'] ?? ''),
                     'postal_code'    => trim($data['postal_code'] ?? ''),
-                    'zone_id'        => (int) ($data['zone_id'] ?? 0),
+                    'zone_id'        => $validZoneIds->has($zoneId) ? $zoneId : 0,
                     'payment_method' => strtolower(trim($data['payment_method'] ?? 'cod')),
                     'notes'          => trim($data['notes'] ?? ''),
                     'coupon_code'    => trim($data['coupon_code'] ?? ''),
@@ -201,21 +228,15 @@ class AdminOrderController extends Controller
                 ];
             }
 
-            // Extract variant by exact SKU
             $sku = trim($data['product_sku'] ?? '');
             $qty = (int) ($data['quantity'] ?? 1);
-            if ($sku && $qty > 0) {
-                // Deep fetch the variant matching SKU tightly
-                $variant = \App\Domains\Product\Models\ProductVariant::where('sku', $sku)->first();
-                if ($variant) {
-                    $groups[$phone]['items'][] = [
-                        'variant_id' => $variant->id,
-                        'quantity'   => $qty
-                    ];
-                }
+            if ($sku && $qty > 0 && $variantsBySku->has($sku)) {
+                $groups[$phone]['items'][] = [
+                    'variant_id' => $variantsBySku->get($sku)->id,
+                    'quantity'   => $qty
+                ];
             }
         }
-        fclose($handle);
 
         $createdCount = 0;
         $failedCount = 0;
@@ -275,8 +296,8 @@ class AdminOrderController extends Controller
             'notes'            => 'nullable|string|max:2000',
             'linked_user_id'   => 'nullable|integer|exists:users,id',
             'items'              => 'required|array|min:1',
-            'items.*.variant_id' => 'nullable|integer|exists:product_variants,id',
-            'items.*.combo_id'   => 'nullable|integer|exists:combos,id',
+            'items.*.variant_id' => ['nullable', 'integer', \Illuminate\Validation\Rule::exists('product_variants', 'id')->where('is_active', true)],
+            'items.*.combo_id'   => ['nullable', 'integer', \Illuminate\Validation\Rule::exists('combos', 'id')->where('is_active', true)],
             'items.*.quantity'   => 'required|integer|min:1',
         ]);
 
@@ -543,23 +564,12 @@ class AdminOrderController extends Controller
 
             return ApiResponse::success($variants->concat($combos)->values());
         } catch (Throwable $e) {
-            // Log the exact error for your debugging
             Log::error('Product Search Error: ' . $e->getMessage(), [
-                'file' => $e->getFile(),
-                'line' => $e->getLine(),
-                'trace' => $e->getTraceAsString()
+                'file'  => $e->getFile(),
+                'line'  => $e->getLine(),
             ]);
 
-            // Return a clean error response to the frontend 
-            // Note: Change `ApiResponse::error` to match your actual custom response class methods
-            if (method_exists(ApiResponse::class, 'error')) {
-                return ApiResponse::error('An error occurred while searching for products.', 500);
-            }
-
-            return response()->json([
-                'success' => false,
-                'message' => 'An error occurred while searching for products.'
-            ], 500);
+            return ApiResponse::error('An error occurred while searching for products.', null, 500);
         }
     }
 
@@ -572,7 +582,8 @@ class AdminOrderController extends Controller
      */
     public function shippingZones()
     {
-        $zones = \App\Domains\Shipping\Models\ShippingZone::orderBy('sort_order')
+        $zones = \App\Domains\Shipping\Models\ShippingZone::where('is_active', true)
+            ->orderBy('sort_order')
             ->get(['id', 'name', 'base_charge', 'free_shipping_threshold']);
 
         return ApiResponse::success($zones);

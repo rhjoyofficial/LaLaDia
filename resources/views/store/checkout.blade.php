@@ -405,31 +405,22 @@
 @push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    // Wait briefly for CheckoutManager to populate cart data into the DOM
-    setTimeout(function () {
+    // Wait for CartManager to finish its refresh() call before reading state.
+    // cart:updated fires once refresh() completes; fall back to 1.5s timeout.
+    function pushBeginCheckout() {
         try {
-            const itemEls = document.querySelectorAll('#coItemsList [data-variant-id]');
-            const items = [];
-            let value = 0;
-
-            itemEls.forEach(function (el) {
-                const price = parseFloat(el.dataset.price || 0);
-                const qty   = parseInt(el.dataset.quantity || 1, 10);
-                items.push({
-                    item_id:   el.dataset.variantId || el.dataset.comboId || '',
-                    item_name: el.dataset.name || '',
-                    price:     price,
-                    quantity:  qty,
+            const cartItems = window.Cart?.state?.items ?? [];
+            const items = cartItems
+                .filter(function (i) { return !i.is_gift; })
+                .map(function (i) {
+                    return {
+                        item_id:   String(i.variant_id ?? ('combo_' + i.combo_id)),
+                        item_name: i.combo_name_snapshot ?? i.product_name_snapshot ?? '',
+                        price:     parseFloat(i.unit_price) || 0,
+                        quantity:  i.quantity,
+                    };
                 });
-                value += price * qty;
-            });
-
-            // Fall back to the total shown in the summary if items aren't annotated
-            if (!items.length) {
-                const totalEl = document.getElementById('coTotal');
-                const raw = totalEl ? totalEl.textContent.replace(/[^\d.]/g, '') : '0';
-                value = parseFloat(raw) || 0;
-            }
+            const value = items.reduce(function (s, i) { return s + i.price * i.quantity; }, 0);
 
             window.dataLayer = window.dataLayer || [];
             window.dataLayer.push({ ecommerce: null });
@@ -442,7 +433,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 },
             });
         } catch (e) {}
-    }, 800);
+    }
+
+    if (window.Cart?.initialized) {
+        pushBeginCheckout();
+    } else {
+        window.addEventListener('cart:updated', pushBeginCheckout, { once: true });
+        setTimeout(pushBeginCheckout, 1500); // absolute fallback
+    }
 });
 </script>
 @endpush

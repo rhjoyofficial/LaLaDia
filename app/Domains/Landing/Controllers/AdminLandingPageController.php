@@ -56,9 +56,9 @@ class AdminLandingPageController extends Controller
     {
         $landingPage->load([
             'product:id,name,thumbnail',
-            'combo:id,name,image',
+            'combo:id,title,image',
             'items.variant.product:id,name',
-            'items.combo:id,name',
+            'items.combo:id,title',
         ]);
 
         return ApiResponse::success(new LandingPageResource($landingPage), 'Landing page retrieved');
@@ -125,7 +125,7 @@ class AdminLandingPageController extends Controller
                     }
                 }
 
-                $landing->load(['product:id,name', 'combo:id,name', 'items']);
+                $landing->load(['product:id,name', 'combo:id,title', 'items']);
 
                 return ApiResponse::success($landing, 'Landing page created', 201);
             });
@@ -186,7 +186,7 @@ class AdminLandingPageController extends Controller
                     }
                 }
 
-                $landingPage->load(['product:id,name', 'combo:id,name', 'items']);
+                $landingPage->load(['product:id,name', 'combo:id,title', 'items']);
                 return ApiResponse::success($landingPage, 'Landing page updated');
             });
         } catch (Exception $e) {

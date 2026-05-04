@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Throwable;
 
+
 class SendOrderStatusEmail implements ShouldQueue
 {
     use InteractsWithQueue;
@@ -39,8 +40,8 @@ class SendOrderStatusEmail implements ShouldQueue
         }
 
         try {
-            $fromAddress = env('NOREPLY_MAIL_FROM_ADDRESS', 'no-reply@bionic.garden');
-            $fromName    = env('NOREPLY_MAIL_FROM_NAME', config('app.name') . ' Orders');
+            $fromAddress = config('mail.mailers.noreply.from.address');
+            $fromName    = config('mail.mailers.noreply.from.name') ?: config('app.name') . ' Orders';
 
             Mail::mailer('noreply')
                 ->to($order->customer_email)
@@ -58,5 +59,12 @@ class SendOrderStatusEmail implements ShouldQueue
                 'error' => $e->getMessage(),
             ]);
         }
+    }
+
+    public function failed(Throwable $exception): void
+    {
+        Log::error('SendOrderStatusEmail: failed permanently', [
+            'error' => $exception->getMessage(),
+        ]);
     }
 }

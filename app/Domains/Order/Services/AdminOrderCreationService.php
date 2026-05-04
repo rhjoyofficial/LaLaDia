@@ -93,7 +93,7 @@ class AdminOrderCreationService
                 $order->items()->create($lineItem);
             }
 
-            // 5. Reserve stock for all variants (using locked instances from pricing engine)
+            // 5. Reserve stock for all user-submitted items (locked instances from pricing engine)
             foreach ($data['items'] as $item) {
                 if (!empty($item['combo_id'])) {
                     $combo = Combo::with('items')->findOrFail($item['combo_id']);
@@ -106,6 +106,17 @@ class AdminOrderCreationService
                     $pricing->lockedVariants
                         ->get($item['variant_id'])
                         ->increment('reserved_stock', $item['quantity']);
+                }
+            }
+
+            // 5b. Reserve stock for auto-gift line items injected by the pricing engine.
+            //     Gift variants are not in $data['items'], so they must be handled separately.
+            foreach ($pricing->lineItems as $lineItem) {
+                if (($lineItem['discount_type_snapshot'] ?? null) === 'Free Gift') {
+                    $giftVariant = $pricing->lockedVariants->get($lineItem['variant_id']);
+                    if ($giftVariant) {
+                        $giftVariant->increment('reserved_stock', $lineItem['quantity']);
+                    }
                 }
             }
 

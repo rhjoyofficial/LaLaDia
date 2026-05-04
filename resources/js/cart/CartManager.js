@@ -77,8 +77,7 @@ export default class CartManager {
         } catch {
             this.setState({
                 items: [],
-                subtotal: 0,
-                totalQty: 0,
+                totals: { subtotal: 0, total_qty: 0 },
             });
         } finally {
             this.initialized = true;
@@ -95,10 +94,11 @@ export default class CartManager {
             );
         }
 
+        const totals = payload.totals ?? {};
         this.state = {
             items: payload.items || [],
-            subtotal: payload.totals.subtotal || 0,
-            totalQty: payload.totals.total_qty || 0,
+            subtotal: totals.subtotal || 0,
+            totalQty: totals.total_qty || 0,
         };
 
         if (this.badge) {
@@ -113,7 +113,7 @@ export default class CartManager {
     }
 
     async add(variantId, qty = 1, button = null) {
-        return this._perfomCartAction(
+        return this._performCartAction(
             "/add",
             { variant_id: variantId, quantity: qty },
             button,
@@ -121,7 +121,7 @@ export default class CartManager {
     }
 
     async addCombo(comboId, qty = 1, button = null) {
-        return this._perfomCartAction(
+        return this._performCartAction(
             "/add-combo",
             { combo_id: comboId, quantity: qty },
             button,
@@ -141,7 +141,7 @@ export default class CartManager {
         return headers;
     }
 
-    async _perfomCartAction(endpoint, data, button) {
+    async _performCartAction(endpoint, data, button) {
         if (this.pending) return;
         this.pending = true;
 

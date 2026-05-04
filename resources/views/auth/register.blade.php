@@ -9,8 +9,7 @@
             {{-- Logo & Header --}}
             <div class="text-center">
                 <a href="{{ url('/') }}" class="inline-block">
-                    <img class="mx-auto h-16 w-auto" src="{{ asset('assets/images/bionic-logo.png') }}"
-                        alt="Bionic Garden Logo">
+                    <img class="mx-auto h-16 w-auto" src="{{ asset('assets/images/laladia-logo.png') }}" alt="Laladia Logo">
                 </a>
                 <h2 class="mt-6 text-3xl font-bold tracking-tight text-brand font-['Plus_Jakarta_Sans']">
                     Create Account
@@ -105,13 +104,3 @@
         </div>
     </div>
 @endsection
-
-
-
-
-
-
-
-
-
-

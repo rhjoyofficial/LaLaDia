@@ -13,6 +13,7 @@ class LandingPageObserver
         Cache::forget("landing:data:{$landingPage->slug}:product");
         Cache::forget("landing:data:{$landingPage->slug}:combo");
         Cache::forget("landing:data:{$landingPage->slug}:sales");
+        Cache::forget("landing:data:{$landingPage->slug}:listing");
     }
 
     public function updated(LandingPage $landingPage): void { $this->clearCache($landingPage); }

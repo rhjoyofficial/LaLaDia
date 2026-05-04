@@ -33,7 +33,7 @@ class LandingPageResource extends JsonResource
             ]),
             'combo'            => $this->whenLoaded('combo', fn() => [
                 'id'    => $this->combo->id,
-                'name'  => $this->combo->name,
+                'name'  => $this->combo->title,
                 'image' => $this->combo->image,
             ]),
             'items'            => $this->whenLoaded('items'),

@@ -6,6 +6,7 @@ use App\Domains\Cart\Services\CartService;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
 
 class CheckoutRequest extends FormRequest
@@ -55,10 +56,11 @@ class CheckoutRequest extends FormRequest
             'notes'            => 'nullable|string|max:1000',
 
             'items'              => 'required|array|min:1',
-            'items.*.variant_id' => 'nullable|exists:product_variants,id',
-            'items.*.combo_id'   => 'nullable|exists:combos,id',
+            'items.*.variant_id' => ['nullable', Rule::exists('product_variants', 'id')->where('is_active', true)],
+            'items.*.combo_id'   => ['nullable', Rule::exists('combos', 'id')->where('is_active', true)],
             'items.*.quantity'   => 'required|integer|min:1',
 
+            'ga_client_id'   => 'nullable|string|max:100',
             'coupon_code'    => 'nullable|string|max:50',
             'checkout_token' => [
                 Auth::check() ? 'nullable' : 'required',

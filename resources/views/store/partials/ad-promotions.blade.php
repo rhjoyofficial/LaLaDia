@@ -13,7 +13,8 @@
 
         <div
             class="relative overflow-hidden rounded-2xl md:rounded-3xl bg-cream group shadow-sm border border-champagne transition-all duration-500 hover:shadow-2xl">
-            <a href="{{ route('combos.index') }}" class="block relative w-full aspect-4/5 md:aspect-16/9 xl:aspect-4/1">
+            <a href="/page/premium-mango-collection"
+                class="block relative w-full aspect-4/5 md:aspect-video xl:aspect-4/1">
                 <picture>
                     <source media="(min-width: 1280px)" srcset="{{ asset('assets/ads/ghee-mustard-oil-desktop.jpg') }}">
 
@@ -28,13 +29,3 @@
 
     </div>
 </section>
-
-
-
-
-
-
-
-
-
-

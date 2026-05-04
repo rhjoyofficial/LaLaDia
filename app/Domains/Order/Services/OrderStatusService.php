@@ -27,6 +27,12 @@ class OrderStatusService
                 }
 
                 // 1. Inventory Logic: Handle Transitions
+                // Eager-load all required relations in one query before the loops
+                // in fulfillStock/releaseStock to avoid N+1 per combo item.
+                if ($newStatus === OrderStatus::Shipped || $newStatus === OrderStatus::Cancelled) {
+                    $order->load(['items.combo.items']);
+                }
+
                 // Only fulfill stock if we are moving TO Shipped from a non-shipped state
                 if ($newStatus === OrderStatus::Shipped && $oldStatusStr !== 'shipped') {
                     $this->fulfillStock($order);

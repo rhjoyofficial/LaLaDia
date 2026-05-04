@@ -22,9 +22,13 @@ class CartItemResource extends JsonResource
       $tiers = $this->variant->tierPrices
         ->sortBy('min_quantity')
         ->map(fn($t) => [
-          'qty'   => (int)   $t->min_quantity,
-          'type'  =>         $t->discount_type,
-          'value' => (float) $t->discount_value,
+          'qty'            => (int)   $t->min_quantity,
+          'type'           =>         $t->discount_type,
+          'value'          => (float) $t->discount_value,
+          'free_delivery'  => (bool)  $t->has_free_delivery,
+          'delivery_zones' =>         $t->free_delivery_zones ?? [],
+          'gift_variant_id'=>         $t->gift_product_variant_id,
+          'gift_qty'       =>         $t->gift_quantity,
         ])
         ->values()
         ->toArray();

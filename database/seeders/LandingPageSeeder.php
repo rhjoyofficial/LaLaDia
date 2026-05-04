@@ -126,7 +126,7 @@ class LandingPageSeeder extends Seeder
 
         // ─── 5. SALES TYPE — Dry Fish Collection ────────
         $dryfishLanding = LandingPage::updateOrCreate(
-            ['slug' => 'shutki-mach-collection'],
+            ['slug' => 'dryfish-collection'],
             [
                 'type'             => LandingPage::TYPE_SALES,
                 'title'            => 'বিশুদ্ধ ও নিরাপদ শুঁটকি মাছ — সরাসরি সমুদ্র থেকে',

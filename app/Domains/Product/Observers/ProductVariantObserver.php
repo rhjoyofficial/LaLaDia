@@ -26,6 +26,7 @@ class ProductVariantObserver
         }
     }
 
+    public function created(ProductVariant $variant): void { $this->clearCache($variant); }
     public function updated(ProductVariant $variant): void { $this->clearCache($variant); }
     public function deleted(ProductVariant $variant): void { $this->clearCache($variant); }
 }

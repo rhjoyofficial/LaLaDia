@@ -9,6 +9,14 @@ class Combo extends Model
 {
     protected $fillable = ['title', 'slug', 'description', 'image', 'pricing_mode', 'manual_price', 'discount_type', 'discount_value', 'is_active', 'is_featured', 'is_landing_enabled', 'landing_slug'];
 
+    protected $casts = [
+        'is_active'          => 'boolean',
+        'is_featured'        => 'boolean',
+        'is_landing_enabled' => 'boolean',
+        'manual_price'       => 'decimal:2',
+        'discount_value'     => 'decimal:2',
+    ];
+
     public function items()
     {
         return $this->hasMany(ComboItem::class);

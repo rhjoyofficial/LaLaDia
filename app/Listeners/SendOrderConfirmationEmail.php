@@ -38,8 +38,8 @@ class SendOrderConfirmationEmail implements ShouldQueue
             // Ensure relationships are loaded so the template renders without N+1 queries.
             $order->loadMissing(['items', 'shippingAddress']);
 
-            $fromAddress = env('NOREPLY_MAIL_FROM_ADDRESS', 'no-reply@bionic.garden');
-            $fromName    = env('NOREPLY_MAIL_FROM_NAME', config('app.name') . ' Orders');
+            $fromAddress = config('mail.mailers.noreply.from.address');
+            $fromName    = config('mail.mailers.noreply.from.name') ?: config('app.name') . ' Orders';
 
             Mail::mailer('noreply')
                 ->to($order->customer_email)

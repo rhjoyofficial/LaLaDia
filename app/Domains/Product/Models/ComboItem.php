@@ -8,7 +8,7 @@ use App\Domains\Product\Models\ProductVariant;
 class ComboItem extends Model
 {
     public $timestamps = false;
-    protected $fillable = ['combo_id', 'product_variant_id', 'quantity', 'combo_name_snapshot'];
+    protected $fillable = ['combo_id', 'product_variant_id', 'quantity'];
 
     public function variant()
     {

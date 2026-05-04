@@ -123,6 +123,7 @@ export default class CheckoutManager {
         if (!this.itemsList) return;
         this.itemsList.innerHTML = items
             .map((i) => {
+                const isGift = !!i.is_gift;
                 const isCombo = !!i.combo_name_snapshot;
                 const name = isCombo
                     ? i.combo_name_snapshot
@@ -131,15 +132,18 @@ export default class CheckoutManager {
                 const lineTotal = (i.unit_price * i.quantity).toFixed(2);
                 const imageUrl = i.image_url || "/images/placeholder.png";
 
-                return `<div class="flex items-center gap-3 py-3 border-b border-gray-100 last:border-0">
-                <div class="w-12 h-12 rounded-lg bg-gray-50 overflow-hidden shrink-0 border border-gray-100">
+                const giftBadge = isGift ? '<div class="absolute top-0 left-0 bg-emerald-500 text-white text-[8px] font-bold px-1 py-0.5 rounded-br uppercase z-10 shadow-sm">Gift</div>' : '';
+
+                return `<div class="flex items-center gap-3 py-3 border-b border-gray-100 last:border-0 relative">
+                <div class="w-12 h-12 rounded-lg bg-gray-50 overflow-hidden shrink-0 border border-gray-100 relative">
+                    ${giftBadge}
                     <img src="${imageUrl}" alt="${name}" class="w-full h-full object-cover">
                 </div>
                 <div class="flex-1 min-w-0">
                     <p class="text-sm font-semibold text-gray-800 truncate font-bengali">${name}</p>
                     <p class="text-xs text-gray-400">${variant ?? ""} × ${i.quantity}</p>
                 </div>
-                <p class="text-sm font-bold text-gray-800 font-bengali shrink-0">৳${lineTotal}</p>
+                <p class="text-sm font-bold text-gray-800 font-bengali shrink-0">${isGift ? '<span class="text-emerald-600 text-[11px] uppercase tracking-wider">Free Gift</span>' : '৳' + lineTotal}</p>
             </div>`;
             })
             .join("");
@@ -471,6 +475,7 @@ export default class CheckoutManager {
             notes: this.notesInput?.value?.trim() || null,
             coupon_code: this.coupon?.code ?? null,
             checkout_token: window.Cart.token,
+            ga_client_id: this._getGaClientId(),
             items,
         };
 
@@ -567,5 +572,18 @@ export default class CheckoutManager {
                 : "Place Order";
         }
         this.placeOrderBtn.classList.toggle("opacity-70", loading);
+    }
+
+    _getGaClientId() {
+        try {
+            // Prefer the GA4 client ID from the tracker object if gtag/ga is loaded
+            if (typeof window.ga?.getAll === "function") {
+                const trackers = window.ga.getAll();
+                if (trackers.length) return trackers[0].get("clientId");
+            }
+        } catch {}
+        // Fallback: parse the _ga cookie (format: GA1.1.<clientId-part1>.<clientId-part2>)
+        const match = document.cookie.match(/_ga=GA\d+\.\d+\.(.+?)(?:;|$)/);
+        return match ? match[1] : null;
     }
 }

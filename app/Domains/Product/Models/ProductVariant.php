@@ -92,9 +92,13 @@ class ProductVariant extends Model
             'discount_percent' => $this->discount_percent,
             'available_stock' => $this->available_stock,
             'tiers' => $this->tierPrices->map(fn($t) => [
-                'qty' => $t->min_quantity,
-                'type' => $t->discount_type,
-                'value' => $t->discount_value
+                'qty'               => $t->min_quantity,
+                'type'              => $t->discount_type,
+                'value'             => $t->discount_value,
+                'free_delivery'     => (bool) $t->has_free_delivery,
+                'delivery_zones'    => $t->free_delivery_zones ?? [],
+                'gift_variant_id'   => $t->gift_product_variant_id,
+                'gift_qty'          => $t->gift_quantity,
             ])->values()
         ];
     }

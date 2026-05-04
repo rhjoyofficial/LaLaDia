@@ -43,6 +43,7 @@ class CartPricingService
             'subtotal'  => $result->subtotal,
             'discount'  => $result->tierDiscountTotal,
             'total'     => $result->subtotal - $result->tierDiscountTotal,
+            'auto_gifts' => array_values(array_filter($result->lineItems, fn($i) => ($i['discount_type_snapshot'] ?? '') === 'Free Gift')),
         ];
     }
 }

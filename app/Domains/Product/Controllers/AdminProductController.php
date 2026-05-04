@@ -40,7 +40,7 @@ class AdminProductController extends Controller
     {
         $this->authorize('product.view');
 
-        $product->load(['allVariants.tierPrices', 'category']);
+        $product->load(['allVariants.tierPrices.giftVariant.product', 'category']);
 
         return ApiResponse::success(new ProductResource($product), 'Product loaded');
     }
@@ -65,8 +65,6 @@ class AdminProductController extends Controller
     public function update(UpdateProductRequest $request, Product $product)
     {
         try {
-            $this->authorize('product.update');
-
             $updated = $this->service->update($product, $request->validated());
 
             AdminLogger::log('products', "Product {$product->name} updated", $product, [], 'updated');

@@ -263,17 +263,39 @@ class CartService
     {
         DB::transaction(function () use ($cart) {
             $cart->load('items.combo.items');
+
+            // Collect all variant IDs that need to be decremented.
+            $variantIds = collect();
             foreach ($cart->items as $item) {
-                if ($item->combo_id) {
-                    $combo = Combo::with('items.variant')->find($item->combo_id);
-                    if ($combo) {
-                        foreach ($combo->items as $ci) {
-                            $ci->variant->decrement('reserved_stock', $ci->quantity * $item->quantity);
+                if ($item->combo_id && $item->combo) {
+                    $variantIds = $variantIds->merge($item->combo->items->pluck('product_variant_id'));
+                } elseif ($item->variant_id) {
+                    $variantIds->push($item->variant_id);
+                }
+            }
+
+            // Lock all affected rows in a single query — matches the pattern used
+            // in clearCart(), addItem(), removeItem() to prevent race conditions.
+            $variants = ProductVariant::whereIn('id', $variantIds->unique())
+                ->lockForUpdate()
+                ->get()
+                ->keyBy('id');
+
+            foreach ($cart->items as $item) {
+                if ($item->combo_id && $item->combo) {
+                    foreach ($item->combo->items as $ci) {
+                        $variant = $variants->get($ci->product_variant_id);
+                        if ($variant) {
+                            $release = min($variant->reserved_stock, $ci->quantity * $item->quantity);
+                            $variant->decrement('reserved_stock', $release);
                         }
                     }
                 } elseif ($item->variant_id) {
-                    ProductVariant::where('id', $item->variant_id)
-                        ->decrement('reserved_stock', $item->quantity);
+                    $variant = $variants->get($item->variant_id);
+                    if ($variant) {
+                        $release = min($variant->reserved_stock, $item->quantity);
+                        $variant->decrement('reserved_stock', $release);
+                    }
                 }
             }
         });

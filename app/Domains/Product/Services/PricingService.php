@@ -29,6 +29,7 @@ class PricingService
                 'total'               => $total,
                 'discount_type'       => 'none',
                 'discount_value'      => 0,
+                'tier'                => null,
             ];
         }
 
@@ -47,6 +48,7 @@ class PricingService
             'total'               => $finalTotal,
             'discount_type'       => $tier->discount_type, // e.g., 'percentage'
             'discount_value'      => $tier->discount_value, // e.g., 10.00
+            'tier'                => $tier,
         ];
     }
 }

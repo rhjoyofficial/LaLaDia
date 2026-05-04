@@ -172,6 +172,110 @@
                                         <span class="text-xs font-medium text-muted">Variant Active</span>
                                     </label>
                                 </div>
+
+                                <template x-if="variant.id">
+                                    <div class="mt-4 pt-4 border-t border-champagne">
+                                        <div class="flex items-center justify-between mb-3">
+                                            <h4 class="text-xs font-bold text-brown uppercase tracking-wider">Tier Prices / Incentives</h4>
+                                            <button type="button" @click="addTierPrice(index)"
+                                                class="inline-flex items-center gap-1.5 text-xs text-gold-antique font-medium hover:text-brand transition cursor-pointer">
+                                                <i class="fa-solid fa-plus text-[10px]"></i> Add Tier
+                                            </button>
+                                        </div>
+
+                                        <div class="space-y-3">
+                                            <template x-for="(tier, tIndex) in variant.tier_prices" :key="tIndex">
+                                                <div class="bg-ivory border border-champagne rounded-lg p-3">
+                                                    <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+                                                        <div>
+                                                            <label class="block text-[10px] font-medium text-muted mb-1">Min Qty <span class="text-red-500">*</span></label>
+                                                            <input type="number" x-model.number="tier.min_quantity" min="1"
+                                                                class="w-full border border-champagne rounded-md px-2 py-1.5 text-xs outline-none focus:ring-1 focus:ring-gold-antique">
+                                                        </div>
+                                                        <div>
+                                                            <label class="block text-[10px] font-medium text-muted mb-1">Discount Type</label>
+                                                            <select x-model="tier.discount_type"
+                                                                class="w-full border border-champagne rounded-md px-2 py-1.5 text-xs outline-none focus:ring-1 focus:ring-gold-antique cursor-pointer">
+                                                                <option value="percentage">Percentage (%)</option>
+                                                                <option value="fixed">Fixed Amount (৳)</option>
+                                                            </select>
+                                                        </div>
+                                                        <div>
+                                                            <label class="block text-[10px] font-medium text-muted mb-1">Discount Value <span class="text-red-500">*</span></label>
+                                                            <input type="number" x-model.number="tier.discount_value" min="0" step="0.01"
+                                                                class="w-full border border-champagne rounded-md px-2 py-1.5 text-xs outline-none focus:ring-1 focus:ring-gold-antique">
+                                                        </div>
+                                                        {{-- Gift Variant Searcher --}}
+                                                        <div class="relative" x-data="{ open: false }" @click.away="open = false">
+                                                            <label class="block text-[10px] font-medium text-muted mb-1">Gift Variant</label>
+                                                            <input
+                                                                type="text"
+                                                                :value="tier.gift_label || ''"
+                                                                @input="tier.gift_label = $event.target.value; searchGiftVariant(index, tIndex, $event.target.value); open = true"
+                                                                @focus="open = true"
+                                                                placeholder="Search by name or SKU…"
+                                                                class="w-full border border-champagne rounded-md px-2 py-1.5 text-xs outline-none focus:ring-1 focus:ring-gold-antique"
+                                                                autocomplete="off">
+                                                            <button type="button" x-show="tier.gift_product_variant_id" @click="tier.gift_product_variant_id = null; tier.gift_label = ''; open = false" class="absolute right-2 top-6 text-muted hover:text-red-500 cursor-pointer">
+                                                                <i class="fa-solid fa-xmark text-[10px]"></i>
+                                                            </button>
+                                                            <div x-show="open && tier.giftResults && tier.giftResults.length > 0" x-cloak
+                                                                class="absolute z-50 left-0 right-0 mt-0.5 bg-white border border-champagne rounded-md shadow-lg max-h-40 overflow-y-auto">
+                                                                <template x-for="result in (tier.giftResults || [])" :key="result.variant_id">
+                                                                    <button type="button"
+                                                                        @click="tier.gift_product_variant_id = result.variant_id; tier.gift_label = result.product_name + ' — ' + result.variant_title + ' (#' + result.variant_id + ')'; open = false"
+                                                                        class="w-full text-left px-2 py-1.5 hover:bg-ivory text-[10px] border-b border-champagne last:border-0 cursor-pointer">
+                                                                        <span class="font-medium text-brown" x-text="result.product_name"></span>
+                                                                        <span class="text-muted" x-text="' — ' + result.variant_title"></span>
+                                                                        <span class="text-taupe font-mono ml-1" x-text="'#' + result.variant_id"></span>
+                                                                    </button>
+                                                                </template>
+                                                            </div>
+                                                            <p x-show="tier.gift_product_variant_id" class="mt-0.5 text-[9px] text-green-600 font-mono" x-text="'ID: ' + tier.gift_product_variant_id"></p>
+                                                        </div>
+                                                        <div>
+                                                            <label class="block text-[10px] font-medium text-muted mb-1">Gift Qty</label>
+                                                            <input type="number" x-model.number="tier.gift_quantity" min="1"
+                                                                class="w-full border border-champagne rounded-md px-2 py-1.5 text-xs outline-none focus:ring-1 focus:ring-gold-antique">
+                                                        </div>
+                                                        <div class="sm:col-span-2">
+                                                            <div class="flex items-center mt-4 mb-1">
+                                                                <label class="flex items-center gap-2 cursor-pointer">
+                                                                    <input type="checkbox" x-model="tier.has_free_delivery" class="rounded border-champagne text-gold-antique focus:ring-gold-antique w-4 h-4">
+                                                                    <span class="text-xs font-medium text-muted">Free Delivery Override</span>
+                                                                </label>
+                                                            </div>
+                                                            {{-- Zone multi-selector (visible only when free delivery is checked) --}}
+                                                            <div x-show="tier.has_free_delivery" x-cloak class="mt-1 border border-champagne rounded-md p-2 bg-ivory">
+                                                                <p class="text-[9px] text-muted mb-1">Limit to zones (leave empty = all zones)</p>
+                                                                <div class="grid grid-cols-2 gap-1 max-h-24 overflow-y-auto">
+                                                                    <template x-for="zone in shippingZones" :key="zone.id">
+                                                                        <label class="flex items-center gap-1.5 cursor-pointer">
+                                                                            <input type="checkbox"
+                                                                                :value="zone.id"
+                                                                                :checked="(tier.free_delivery_zones || []).includes(zone.id)"
+                                                                                @change="toggleZone(index, tIndex, zone.id, $event.target.checked)"
+                                                                                class="rounded border-champagne text-gold-antique focus:ring-gold-antique w-3 h-3">
+                                                                            <span class="text-[10px] text-brown" x-text="zone.name"></span>
+                                                                        </label>
+                                                                    </template>
+                                                                    <p x-show="shippingZones.length === 0" class="text-[10px] text-muted col-span-2">Loading zones…</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex items-end justify-end gap-2">
+                                                            <button type="button" @click="saveTierPrice(index, tIndex)" class="text-[10px] font-bold bg-gold-antique text-white px-3 py-1.5 rounded cursor-pointer hover:bg-gold-warm transition">Save</button>
+                                                            <button type="button" @click="removeTierPrice(index, tIndex)" class="text-[10px] font-bold bg-red-100 text-red-600 px-3 py-1.5 rounded cursor-pointer hover:bg-red-200 transition">Del</button>
+                                                        </div>
+                                                    </div>
+                                                    <div x-show="tier.saveError" class="mt-2 text-[10px] text-red-600" x-text="tier.saveError"></div>
+                                                    <div x-show="tier.saveSuccess" class="mt-2 text-[10px] text-green-600">Saved!</div>
+                                                </div>
+                                            </template>
+                                            <p x-show="!variant.tier_prices || variant.tier_prices.length === 0" class="text-[10px] text-muted italic">No tier prices yet.</p>
+                                        </div>
+                                    </div>
+                                </template>
                             </div>
                         </template>
                     </div>
@@ -411,13 +515,60 @@ function productForm(productId) {
         galleryRemove: [],
 
         variants: [],
+        shippingZones: [],
+        _giftSearchTimers: {},
 
         async init() {
-            await this.loadCategories();
+            await Promise.all([this.loadCategories(), this.loadShippingZones()]);
             if (this.isEdit) {
                 await this.loadProduct();
             } else {
                 this.addVariant();
+            }
+        },
+
+        async loadShippingZones() {
+            try {
+                const r = await fetch('/api/v1/admin/shipping-zones', {
+                    headers: { 'Accept': 'application/json' }
+                });
+                const data = await r.json();
+                this.shippingZones = data.data ?? [];
+            } catch (e) {
+                console.error('Failed to load shipping zones', e);
+            }
+        },
+
+        searchGiftVariant(vIndex, tIndex, query) {
+            const key = `${vIndex}_${tIndex}`;
+            clearTimeout(this._giftSearchTimers[key]);
+            if (!query || query.length < 2) {
+                this.variants[vIndex].tier_prices[tIndex].giftResults = [];
+                return;
+            }
+            this._giftSearchTimers[key] = setTimeout(async () => {
+                try {
+                    const r = await fetch(`/api/v1/admin/orders/search-products?q=${encodeURIComponent(query)}`, {
+                        headers: { 'Accept': 'application/json' }
+                    });
+                    const data = await r.json();
+                    const results = (data.data ?? []).filter(item => item.type === 'variant');
+                    this.variants[vIndex].tier_prices[tIndex].giftResults = results;
+                } catch (e) {
+                    console.error('Gift variant search failed', e);
+                }
+            }, 300);
+        },
+
+        toggleZone(vIndex, tIndex, zoneId, checked) {
+            const tier = this.variants[vIndex].tier_prices[tIndex];
+            if (!tier.free_delivery_zones) tier.free_delivery_zones = [];
+            if (checked) {
+                if (!tier.free_delivery_zones.includes(zoneId)) {
+                    tier.free_delivery_zones.push(zoneId);
+                }
+            } else {
+                tier.free_delivery_zones = tier.free_delivery_zones.filter(id => id !== zoneId);
             }
         },
 
@@ -478,6 +629,22 @@ function productForm(productId) {
                         ? new Date(v.sale_ends_at).toISOString().slice(0, 16)
                         : '',
                     is_active: v.is_active !== false,
+                    tier_prices: (v.tier_prices ?? []).map(t => ({
+                        id: t.id,
+                        min_quantity: t.min_quantity,
+                        discount_type: t.discount_type,
+                        discount_value: t.discount_value,
+                        has_free_delivery: t.has_free_delivery,
+                        free_delivery_zones: t.free_delivery_zones || [],
+                        gift_product_variant_id: t.gift_product_variant_id || null,
+                        gift_label: t.gift_product_variant_id
+                            ? (t.gift_variant_name ? t.gift_variant_name + ' (#' + t.gift_product_variant_id + ')' : '#' + t.gift_product_variant_id)
+                            : '',
+                        gift_quantity: t.gift_quantity || 1,
+                        giftResults: [],
+                        saveError: null,
+                        saveSuccess: false,
+                    })),
                 }));
 
                 if (this.variants.length === 0) {
@@ -504,12 +671,109 @@ function productForm(productId) {
                 discount_value: '',
                 sale_ends_at: '',
                 is_active: true,
+                tier_prices: [],
             });
         },
 
         removeVariant(index) {
             if (this.variants.length > 1) {
                 this.variants.splice(index, 1);
+            }
+        },
+
+        addTierPrice(vIndex) {
+            if (!this.variants[vIndex].tier_prices) this.variants[vIndex].tier_prices = [];
+            this.variants[vIndex].tier_prices.push({
+                id: null,
+                min_quantity: 2,
+                discount_type: 'percentage',
+                discount_value: 0,
+                has_free_delivery: false,
+                free_delivery_zones: [],
+                gift_product_variant_id: null,
+                gift_label: '',
+                gift_quantity: 1,
+                giftResults: [],
+                saveError: null,
+                saveSuccess: false,
+            });
+        },
+
+        async saveTierPrice(vIndex, tIndex) {
+            const variant = this.variants[vIndex];
+            const tier = variant.tier_prices[tIndex];
+            tier.saveError = null;
+            tier.saveSuccess = false;
+
+            if (!variant.id) {
+                tier.saveError = "Save the product/variant first before adding tiers.";
+                return;
+            }
+
+            try {
+                const fd = {
+                    min_quantity: tier.min_quantity,
+                    discount_type: tier.discount_type,
+                    discount_value: tier.discount_value,
+                    has_free_delivery: tier.has_free_delivery,
+                    free_delivery_zones: tier.free_delivery_zones,
+                    gift_product_variant_id: tier.gift_product_variant_id || null,
+                    gift_quantity: tier.gift_quantity || 1,
+                };
+
+                const r = await fetch(`/api/v1/admin/products/${variant.id}/tier-prices`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(fd)
+                });
+
+                const data = await r.json();
+
+                if (r.ok) {
+                    tier.id = data.data.id;
+                    tier.saveSuccess = true;
+                    setTimeout(() => tier.saveSuccess = false, 2000);
+                } else if (r.status === 422) {
+                    tier.saveError = Object.values(data.errors)[0][0];
+                } else {
+                    tier.saveError = data.message || "Failed to save.";
+                }
+            } catch (e) {
+                tier.saveError = "Network error.";
+            }
+        },
+
+        async removeTierPrice(vIndex, tIndex) {
+            const variant = this.variants[vIndex];
+            const tier = variant.tier_prices[tIndex];
+
+            if (!tier.id) {
+                variant.tier_prices.splice(tIndex, 1);
+                return;
+            }
+
+            if (!confirm("Are you sure you want to delete this tier price?")) return;
+
+            try {
+                const r = await fetch(`/api/v1/admin/products/${variant.id}/tier-prices/${tier.id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                        'Accept': 'application/json',
+                    }
+                });
+
+                if (r.ok) {
+                    variant.tier_prices.splice(tIndex, 1);
+                } else {
+                    alert("Failed to delete tier.");
+                }
+            } catch (e) {
+                alert("Network error.");
             }
         },
 

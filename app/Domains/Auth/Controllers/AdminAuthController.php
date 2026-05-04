@@ -73,6 +73,15 @@ class AdminAuthController extends Controller
             ]);
         }
 
+        if (! ($user->is_active ?? true)) {
+            Auth::logout();
+            $request->session()->invalidate();
+
+            throw ValidationException::withMessages([
+                'login' => __('This account has been deactivated. Please contact a system administrator.'),
+            ]);
+        }
+
         RateLimiter::clear($this->throttleKey($request));
         $request->session()->regenerate();
 

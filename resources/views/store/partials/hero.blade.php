@@ -54,7 +54,7 @@
                     <!-- Next Button -->
                     <div
                         class="swiper-button-next after:hidden flex items-center justify-center bg-primary/10 hover:bg-primary/20 backdrop-blur w-10 h-10 rounded-full shadow-md transition-colors">
-                        <svg xmlns="http://www.w3.org" class="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24"
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
                         </svg>
@@ -63,7 +63,7 @@
                     <!-- Prev Button -->
                     <div
                         class="swiper-button-prev after:hidden flex items-center justify-center bg-primary/10 hover:bg-primary/20 backdrop-blur w-10 h-10 rounded-full shadow-md transition-colors">
-                        <svg xmlns="http://www.w3.org" class="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24"
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                         </svg>
@@ -296,41 +296,50 @@
                 </div>
             </div>
 
-            {{-- Luxury Midnight & Gold Book Turn --}}  
+            {{-- Luxury Midnight & Gold Book Turn --}}
             <div
-                class="hidden col-span-12 lg:col-span-2 lg:row-span-1 lg:col-start-4 lg:row-start-4 lg:flex items-center justify-center [perspective:1000px]">
-                <div class="relative w-full h-full transition-all duration-1000 [transform-style:preserve-3d] group hover:[transform:rotateY(-180deg)] cursor-pointer">
-                    
+                class="hidden col-span-12 lg:col-span-2 lg:row-span-1 lg:col-start-4 lg:row-start-4 lg:flex items-center justify-center perspective-[1000px]">
+                <div
+                    class="relative w-full h-full transition-all duration-1000 transform-3d group hover:[transform:rotateY(-180deg)] cursor-pointer">
+
                     {{-- Front Page (The Luxury Edit) --}}
-                    <div class="absolute inset-0 [backface-visibility:hidden] bg-white/90 backdrop-blur-xl rounded-3xl p-6 flex flex-col items-center justify-center text-center border border-white/60 shadow-sm overflow-hidden">
-                        
+                    <div
+                        class="absolute inset-0 backface-hidden bg-white/90 backdrop-blur-xl rounded-3xl p-6 flex flex-col items-center justify-center text-center border border-white/60 shadow-sm overflow-hidden">
+
                         {{-- Liquid Glass Shine Sweep --}}
-                        <div class="absolute inset-0 bg-linear-to-tr from-transparent via-white/40 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out"></div>
-                        
+                        <div
+                            class="absolute inset-0 bg-linear-to-tr from-transparent via-white/40 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out">
+                        </div>
+
                         <div class="relative mb-4 text-primary">
                             <div class="absolute inset-0 bg-primary/10 blur-xl rounded-full animate-pulse"></div>
-                            <i class="fa-solid fa-gem text-3xl relative z-10 group-hover:scale-110 transition-transform"></i>
+                            <i
+                                class="fa-solid fa-gem text-3xl relative z-10 group-hover:scale-110 transition-transform"></i>
                         </div>
                         <h4 class="text-[9px] font-black text-primary uppercase tracking-[0.4em] mb-1">Signature</h4>
                         <p class="text-sm font-black text-brown leading-tight">The Luxury<br>Selection</p>
                     </div>
 
                     {{-- Back Page (The Gold Standard) --}}
-                    <div class="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] bg-linear-to-br from-[#111111] to-[#333333] rounded-3xl p-6 flex flex-col items-center justify-center text-center text-white shadow-2xl border border-white/10 overflow-hidden">
-                         
+                    <div
+                        class="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] bg-linear-to-br from-[#111111] to-[#333333] rounded-3xl p-6 flex flex-col items-center justify-center text-center text-white shadow-2xl border border-white/10 overflow-hidden">
+
                         {{-- Hypnotic Luxury Spiral --}}
                         <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-40">
-                            @foreach([1, 2, 3, 4] as $i)
-                            <div class="absolute border border-primary/30 rounded-full animate-[luxury-spiral_{{ 3 + ($i * 0.5) }}s_linear_infinite]" 
-                                 style="width: {{ 40 * $i }}px; height: {{ 40 * $i }}px;"></div>
+                            @foreach ([1, 2, 3, 4] as $i)
+                                <div class="absolute border border-primary/30 rounded-full animate-[luxury-spiral_{{ 3 + $i * 0.5 }}s_linear_infinite]"
+                                    style="width: {{ 40 * $i }}px; height: {{ 40 * $i }}px;"></div>
                             @endforeach
                         </div>
 
-                         <div class="mb-3 relative z-10">
-                            <i class="fa-solid fa-crown text-4xl text-primary drop-shadow-[0_0_15px_rgba(212,175,55,0.4)]"></i>
-                         </div>
-                        <h4 class="text-[9px] font-black uppercase tracking-[0.5em] text-primary mb-1 relative z-10">Excellence</h4>
-                        <p class="text-xs font-bold leading-tight italic relative z-10">"The Gold Standard <br> in Quality"</p>
+                        <div class="mb-3 relative z-10">
+                            <i
+                                class="fa-solid fa-crown text-4xl text-primary drop-shadow-[0_0_15px_rgba(212,175,55,0.4)]"></i>
+                        </div>
+                        <h4 class="text-[9px] font-black uppercase tracking-[0.5em] text-primary mb-1 relative z-10">
+                            Excellence</h4>
+                        <p class="text-xs font-bold leading-tight italic relative z-10">"The Gold Standard <br> in
+                            Quality"</p>
                         <div class="mt-4 h-0.5 w-12 bg-primary/40 rounded-full relative z-10"></div>
                     </div>
 

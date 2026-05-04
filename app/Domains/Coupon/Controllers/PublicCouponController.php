@@ -5,8 +5,9 @@ namespace App\Domains\Coupon\Controllers;
 use App\Http\Controllers\Controller;
 use App\Domains\Coupon\Services\CouponValidationService;
 use App\Helpers\ApiResponse;
-use Illuminate\Http\Request;
 use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PublicCouponController extends Controller
 {
@@ -18,25 +19,24 @@ class PublicCouponController extends Controller
         CouponValidationService $service
     ) {
         $request->validate([
-            'code' => 'required|string',
-            'order_amount' => 'required|numeric|min:0'
+            'code'         => 'required|string',
+            'order_amount' => 'required|numeric|min:0',
         ]);
 
         try {
-            $result = $service->validate(
+            // CouponValidationService::validate() uses lockForUpdate() which
+            // only works correctly inside a transaction.
+            $result = DB::transaction(fn() => $service->validate(
                 $request->code,
-                $request->order_amount
-            );
+                (float) $request->order_amount,
+            ));
 
-            // Using our standard success envelope
             return ApiResponse::success([
-                'valid' => true,
-                'discount' => $result['discount'],
-                'coupon_id' => $result['coupon']->id, // Useful for the checkout payload
+                'valid'     => true,
+                'discount'  => $result['discount'],
+                'coupon_id' => $result['coupon']->id,
             ], 'Coupon validated successfully');
         } catch (Exception $e) {
-            // We use 422 (Unprocessable Entity) for logical validation failures
-            // Like "Coupon expired" or "Amount too low"
             return ApiResponse::error(
                 $e->getMessage(),
                 ['valid' => false],

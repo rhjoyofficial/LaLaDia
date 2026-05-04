@@ -52,16 +52,63 @@ class CheckoutPricingService
         $subtotal       = 0;
         $tierDiscountTotal = 0;
 
+        $freeShippingOverride = false;
+        $autoGifts = [];
+
         foreach ($items as $item) {
             if (!empty($item['combo_id'])) {
                 $result = $this->processComboItem($item, $variants);
             } else {
                 $result = $this->processVariantItem($item, $variants);
+                
+                // Process Free Shipping Override
+                if (!empty($result['free_shipping'])) {
+                    $zones = $result['free_shipping_zones'] ?? [];
+                    if (empty($zones) || (is_array($zones) && in_array($zoneId, $zones))) {
+                        $freeShippingOverride = true;
+                    }
+                }
+                
+                // Collect Auto Gifts
+                if (!empty($result['gifts'])) {
+                    foreach ($result['gifts'] as $gift) {
+                        $autoGifts[] = $gift;
+                    }
+                }
             }
 
             $lineItems[]       = $result['line_item'];
             $subtotal         += $result['line_subtotal'];
             $tierDiscountTotal += $result['discount_amount'];
+        }
+        
+        // Add gift line items; track any that are skipped due to stock exhaustion
+        $skippedGifts = [];
+        foreach ($autoGifts as $gift) {
+            $giftVariant = $variants->get($gift['variant_id']);
+            if ($giftVariant && $giftVariant->hasStock($gift['quantity'])) {
+                $lineItems[] = [
+                    'combo_id'                => null,
+                    'variant_id'              => $giftVariant->id,
+                    'product_id'              => $giftVariant->product->id,
+                    'sku_snapshot'            => $giftVariant->sku,
+                    'product_name_snapshot'   => $giftVariant->product->name,
+                    'variant_title_snapshot'  => $giftVariant->title,
+                    'quantity'                => $gift['quantity'],
+                    'original_unit_price'     => 0,
+                    'unit_price'              => 0,
+                    'total_price'             => 0,
+                    'discount_type_snapshot'  => 'Free Gift',
+                    'discount_value_snapshot' => 0,
+                ];
+            } else {
+                // Gift stock exhausted — keep the tier discount but note the skip
+                $skippedGifts[] = [
+                    'variant_id'   => $gift['variant_id'],
+                    'quantity'     => $gift['quantity'],
+                    'product_name' => $giftVariant?->product?->name ?? 'Gift product',
+                ];
+            }
         }
 
         // 3. Coupon (applied to subtotal AFTER tier discounts)
@@ -76,11 +123,14 @@ class CheckoutPricingService
             $couponDiscount = $couponResult['discount'];
         }
 
-        // 4. Shipping (evaluated against subtotal after tier discounts, before coupon)
         $shippingCost = 0;
         if ($zoneId) {
-            $zone = ShippingZone::findOrFail($zoneId);
-            $shippingCost = $this->shippingCalculator->calculate($zone, $discountedSubtotal);
+            if ($freeShippingOverride) {
+                $shippingCost = 0;
+            } else {
+                $zone = ShippingZone::findOrFail($zoneId);
+                $shippingCost = $this->shippingCalculator->calculate($zone, $discountedSubtotal);
+            }
         }
 
         // 5. Grand total
@@ -95,6 +145,7 @@ class CheckoutPricingService
             shippingCost: $shippingCost,
             grandTotal: $grandTotal,
             lockedVariants: $variants,
+            skippedGifts: $skippedGifts,
         );
     }
 
@@ -157,6 +208,24 @@ class CheckoutPricingService
         // NOT variant.price directly. This ensures sale discounts are included in subtotal.
         $lineSubtotal = $pricing['original_unit_price'] * $qty;
 
+        // Determine if tier grants free shipping or gifts
+        $tier = $pricing['tier'] ?? null;
+        $freeShipping = false;
+        $freeShippingZones = [];
+        $gifts = [];
+
+        if ($tier) {
+            $freeShipping = $tier->has_free_delivery ?? false;
+            $freeShippingZones = $tier->free_delivery_zones ?? [];
+            
+            if (!empty($tier->gift_product_variant_id)) {
+                $gifts[] = [
+                    'variant_id' => $tier->gift_product_variant_id,
+                    'quantity' => $tier->gift_quantity ?? 1,
+                ];
+            }
+        }
+
         return [
             'line_item' => [
                 'combo_id'               => null,
@@ -174,6 +243,9 @@ class CheckoutPricingService
             ],
             'line_subtotal'   => $lineSubtotal,
             'discount_amount' => $pricing['discount_amount'],
+            'free_shipping'   => $freeShipping,
+            'free_shipping_zones' => $freeShippingZones,
+            'gifts'           => $gifts,
         ];
     }
 
@@ -192,6 +264,16 @@ class CheckoutPricingService
                 ->pluck('product_variant_id');
 
             $variantIds = $variantIds->merge($comboVariantIds)->unique();
+        }
+
+        // Fetch gift variants linked to the active tiers of the main variants
+        if ($variantIds->isNotEmpty()) {
+            $giftVariantIds = DB::table('product_tier_prices')
+                ->whereIn('variant_id', $variantIds)
+                ->whereNotNull('gift_product_variant_id')
+                ->pluck('gift_product_variant_id');
+                
+            $variantIds = $variantIds->merge($giftVariantIds)->unique();
         }
 
         $query = ProductVariant::query()

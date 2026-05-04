@@ -127,6 +127,7 @@ export default class CartPageRenderer {
     }
 
     _row(i) {
+        const isGift = !!i.is_gift;
         const isCombo = !!i.combo_name_snapshot;
         const displayName = isCombo
             ? i.combo_name_snapshot
@@ -137,26 +138,56 @@ export default class CartPageRenderer {
         const imageUrl = i.image_url || "/images/placeholder.png";
         const lineTotal = (i.unit_price * i.quantity).toFixed(2);
 
-        const tierNudge = !isCombo
+        const tierNudge = (!isCombo && !isGift)
             ? `<div class="mt-2">${this._tierHtml(i)}</div>`
             : "";
 
-        const priceSection =
-            !isCombo && i.tier_saving && i.original_unit_price
-                ? `<div class="text-right font-bengali">
+        let priceSection = "";
+        
+        if (isGift) {
+            priceSection = `<div class="text-right font-bengali">
+                   <p class="text-base font-bold text-emerald-600 font-bengali uppercase text-xs tracking-wider">Free Gift</p>
+               </div>`;
+        } else if (!isCombo && i.tier_saving && i.original_unit_price) {
+            priceSection = `<div class="text-right font-bengali">
                    <p class="text-xs text-gray-400 line-through leading-none">৳${i.original_unit_price} × ${i.quantity}</p>
                    <p class="text-xs text-emerald-600 font-semibold font-bengali leading-none mt-0.5">৳${i.unit_price} × ${i.quantity}</p>
                    <p class="text-base font-bold text-gray-900 font-bengali mt-0.5">৳${lineTotal}</p>
-               </div>`
-                : `<div class="text-right font-bengali">
+               </div>`;
+        } else {
+            priceSection = `<div class="text-right font-bengali">
                    <p class="text-xs text-gray-400">৳${i.unit_price} × ${i.quantity}</p>
                    <p class="text-base font-bold text-gray-900 font-bengali">৳${lineTotal}</p>
                </div>`;
+        }
+        
+        const controlsHtml = isGift ? `
+            <div class="flex items-center border border-emerald-100 rounded-xl overflow-hidden bg-emerald-50 shadow-sm px-4 py-1.5">
+                <span class="text-sm font-bold text-emerald-700">Qty: ${i.quantity}</span>
+            </div>
+        ` : `
+            <div class="flex items-center border border-gray-200 rounded-xl overflow-hidden bg-white shadow-sm">
+                <button class="pageMinus cursor-pointer w-9 h-9 flex items-center justify-center text-gray-400 hover:bg-gray-50 hover:text-gray-700 transition-colors font-bold text-lg border-r border-gray-200">−</button>
+                <div class="w-10 h-9 flex items-center justify-center text-sm font-bold text-gray-800 select-none">${i.quantity}</div>
+                <button class="pagePlus cursor-pointer w-9 h-9 flex items-center justify-center text-gray-400 hover:bg-gray-50 hover:text-gray-700 transition-colors font-bold text-lg border-l border-gray-200">+</button>
+            </div>
+        `;
+        
+        const removeHtml = isGift ? `` : `
+            <button class="pageRemoveBtn shrink-0 w-8 h-8 flex items-center justify-center rounded-full text-gray-300 hover:text-red-500 hover:bg-red-50 transition-all" title="Remove">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                </svg>
+            </button>
+        `;
+        
+        const rowClass = isGift ? "bg-emerald-50/20" : "hover:bg-gray-50/50";
 
         return `
-        <div class="pageCartRow flex items-start gap-5 py-5 border-b border-gray-100 last:border-0 last:pb-0 group" data-item-id="${i.id}">
+        <div class="pageCartRow flex items-start gap-5 py-5 border-b border-gray-100 last:border-0 last:pb-0 group transition-all ${rowClass}" data-item-id="${i.id}">
             <!-- Image -->
-            <div class="w-20 h-20 rounded-xl bg-gray-50 overflow-hidden shrink-0 border border-gray-100">
+            <div class="w-20 h-20 rounded-xl bg-gray-50 overflow-hidden shrink-0 border border-gray-100 relative">
+                ${isGift ? '<div class="absolute top-0 left-0 bg-emerald-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-br uppercase z-10 shadow-sm tracking-wider">Gift</div>' : ''}
                 <img src="${imageUrl}" alt="${displayName}" class="w-full h-full object-cover">
             </div>
 
@@ -168,20 +199,12 @@ export default class CartPageRenderer {
                         <p class="text-gray-400 text-sm mt-0.5 font-bengali">${displayVariant ?? ""}</p>
                         ${tierNudge}
                     </div>
-                    <button class="pageRemoveBtn shrink-0 w-8 h-8 flex items-center justify-center rounded-full text-gray-300 hover:text-red-500 hover:bg-red-50 transition-all" title="Remove">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                        </svg>
-                    </button>
+                    ${removeHtml}
                 </div>
 
                 <div class="flex items-center justify-between mt-3">
                     <!-- Qty control -->
-                    <div class="flex items-center border border-gray-200 rounded-xl overflow-hidden bg-white shadow-sm">
-                        <button class="pageMinus cursor-pointer w-9 h-9 flex items-center justify-center text-gray-400 hover:bg-gray-50 hover:text-gray-700 transition-colors font-bold text-lg border-r border-gray-200">−</button>
-                        <div class="w-10 h-9 flex items-center justify-center text-sm font-bold text-gray-800 select-none">${i.quantity}</div>
-                        <button class="pagePlus cursor-pointer w-9 h-9 flex items-center justify-center text-gray-400 hover:bg-gray-50 hover:text-gray-700 transition-colors font-bold text-lg border-l border-gray-200">+</button>
-                    </div>
+                    ${controlsHtml}
 
                     <!-- Price -->
                     ${priceSection}
@@ -194,34 +217,33 @@ export default class CartPageRenderer {
         this.itemsContainer.querySelectorAll(".pageCartRow").forEach((row) => {
             const itemId = row.dataset.itemId;
 
-            row.querySelector(".pagePlus").onclick = () => {
-                const item = this._getItem(itemId);
-                if (item)
-                    window.Cart.update(itemId, parseInt(item.quantity) + 1);
-            };
+            const plusBtn = row.querySelector(".pagePlus");
+            if (plusBtn) {
+                plusBtn.onclick = () => {
+                    const item = this._getItem(itemId);
+                    if (item)
+                        window.Cart.update(itemId, parseInt(item.quantity) + 1);
+                };
+            }
 
-            // row.querySelector(".pageMinus").onclick = () => {
-            //     const item = this._getItem(itemId);
-            //     if (!item) return;
-            //     if (item.quantity <= 1) {
-            //         window.Cart.remove(itemId);
-            //     } else {
-            //         window.Cart.update(itemId, parseInt(item.quantity) - 1);
-            //     }
-            // };
+            const minusBtn = row.querySelector(".pageMinus");
+            if (minusBtn) {
+                minusBtn.onclick = () => {
+                    const item = this._getItem(itemId);
+                    if (!item) return;
+                    if (item.quantity <= 1) {
+                        return;
+                    }
+                    window.Cart.update(itemId, parseInt(item.quantity) - 1);
+                };
+            }
 
-            row.querySelector(".pageMinus").onclick = () => {
-                const item = this._getItem(itemId);
-                if (!item) return;
-                if (item.quantity <= 1) {
-                    return;
-                }
-                window.Cart.update(itemId, parseInt(item.quantity) - 1);
-            };
-
-            row.querySelector(".pageRemoveBtn").onclick = () => {
-                window.Cart.remove(itemId);
-            };
+            const removeBtn = row.querySelector(".pageRemoveBtn");
+            if (removeBtn) {
+                removeBtn.onclick = () => {
+                    window.Cart.remove(itemId);
+                };
+            }
         });
     }
 

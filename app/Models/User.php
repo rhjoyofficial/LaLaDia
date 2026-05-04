@@ -33,8 +33,9 @@ class User extends Authenticatable
 
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'is_guest' => 'boolean',
-        'last_login_at' => 'datetime'
+        'is_guest'          => 'boolean',
+        'is_active'         => 'boolean',
+        'last_login_at'     => 'datetime',
     ];
 
     public function orders()
