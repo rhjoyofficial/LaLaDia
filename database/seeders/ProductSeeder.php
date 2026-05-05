@@ -192,86 +192,111 @@ class ProductSeeder extends Seeder
 
         // 6. Mango Products
         $mangoes = [
-            ['name' => 'Gopalbhog Mango (গোপালভোগ আম)', 'price' => 110, 'desc' => 'The earliest premium mango of the season, famous for its sweet honey-like taste and bright yellow pulp.'],
-            ['name' => 'Himsagar Mango (হিমসাগর আম)', 'price' => 120, 'desc' => 'Known for its sweet aroma and fiber-less pulp. The king of Bengal mangoes.'],
-            ['name' => 'Langra Mango (ল্যাংড়া আম)', 'price' => 110, 'desc' => 'Famous for its unique taste and thin skin. A favorite across Bangladesh.'],
-            ['name' => 'Amrapali Mango (আম্রপালি আম)', 'price' => 140, 'desc' => 'Exceptionally sweet and deep orange in color. Sourced from Rajshahi.'],
-            ['name' => 'Nag Fazli Mango (নাগ ফজলি আম)', 'price' => 90, 'desc' => 'A elongated variety known for its sweetness and late arrival in the season.'],
-            ['name' => 'Surma Fazli Mango (সুরমা ফজলি আম)', 'price' => 95, 'desc' => 'A large, juicy variety with a distinct flavor and pleasant aroma.'],
-            ['name' => 'Fazli Mango (ফজলি আম)', 'price' => 80, 'desc' => 'The giant of mangoes, known for its size and sweet, aromatic flesh.'],
+            [
+                'name' => 'Himsagar Mango (হিমসাগর আম)',
+                'slug' => 'himsagar-mango',
+                'image' => 'himsagar.jpg',
+                'price' => 100,
+                'desc' => 'The king of Bengal mangoes, famous for its sweet aroma and fiber-less pulp. Sourced directly from Satkhira/Rajshahi.'
+            ],
+            [
+                'name' => 'Harivanga Mango (হাঁড়ি ভাঙ্গা আম)',
+                'slug' => 'harivanga-mango',
+                'image' => 'harivanga.jpg',
+                'price' => 90,
+                'desc' => 'A specialty of Rangpur, known for its distinct fiber-less texture and incredibly sweet taste.'
+            ],
+            [
+                'name' => 'Langra Mango (ল্যাংড়া আম)',
+                'slug' => 'langra-mango',
+                'image' => 'langra.jpg',
+                'price' => 95,
+                'desc' => 'Famous for its unique aroma, thin skin, and melt-in-the-mouth texture. A favorite aromatic variety.'
+            ],
+            [
+                'name' => 'Amrapali Mango (আমরুপালি আম)',
+                'slug' => 'amrapali-mango',
+                'image' => 'amrapali.jpg',
+                'price' => 85,
+                'desc' => 'Exceptionally sweet and deep orange in color. These are high in pulp and rich in flavor.'
+            ],
+            [
+                'name' => 'Banana Mango (ব্যানানা আম)',
+                'slug' => 'banana-mango',
+                'image' => 'banana-mango.jpg',
+                'price' => 150,
+                'desc' => 'A premium elongated variety that looks like a banana. It has a tiny seed and thick, sweet pulp.'
+            ],
+            [
+                'name' => 'Gourmati Mango (গোড়মতি আম)',
+                'slug' => 'gourmati-mango',
+                'image' => 'gourmati.jpg',
+                'price' => 200,
+                'desc' => 'A late-season premium variety. It is extremely sweet, has a long shelf life, and is highly sought after.'
+            ],
         ];
 
         foreach ($mangoes as $m) {
             $product = Product::create([
                 'category_id' => $getCatId('fruits'),
                 'name' => $m['name'],
-                'slug' => Str::slug($m['name']),
+                'slug' => $m['slug'],
                 'base_price' => $m['price'],
-                'thumbnail' => 'products/mango-' . Str::slug($m['name']) . '.jpg',
-                'short_description' => 'Fresh, carbide-free premium mangoes direct from the orchards.',
+                'thumbnail' => 'products/' . $m['image'],
+                'short_description' => 'Fresh, carbide-free premium ' . $m['name'] . ' direct from the orchards.',
                 'description' => $m['desc'] . ' Our mangoes are picked at the perfect ripeness and delivered fresh. We guarantee carbide-free and chemical-free products for your safety and enjoyment.',
                 'is_active' => true,
-                'is_trending' => in_array($m['name'], [
-                    'Himsagar Mango (হিমসাগর আম)',
-                    'Amrapali Mango (আম্রপালি আম)',
-                    'Langra Mango (ল্যাংড়া আম)',
-                    'Gopalbhog Mango (গোপালভোগ আম)'
-                ]),
+                'is_featured' => true,
+                'is_trending' => true,
             ]);
 
-            $v1kg = $product->variants()->create(['title' => '1KG', 'sku' => Str::slug($m['name']) . '-1KG', 'price' => $m['price'], 'stock' => 5000, 'weight_grams' => 1000, 'is_active' => true]);
-            $v5kg = $product->variants()->create(['title' => '5KG', 'sku' => Str::slug($m['name']) . '-5KG', 'price' => $m['price'] * 5 * 0.95, 'stock' => 1000, 'weight_grams' => 5000, 'is_active' => true]);
-            $v10kg = $product->variants()->create(['title' => '10KG', 'sku' => Str::slug($m['name']) . '-10KG', 'price' => $m['price'] * 10 * 0.90, 'stock' => 500, 'weight_grams' => 10000, 'is_active' => true]);
-
-            // Tier prices for 1KG variant (multi-tier wholesale ladder)
-            $v1kg->tierPrices()->createMany([
-                // Tier 1: Buy 5+ → 5% off
-                ['min_quantity' => 5,  'discount_type' => 'percentage', 'discount_value' => 5],
-                // Tier 2: Buy 10+ → 10% off (overlapping escalation test)
-                ['min_quantity' => 10, 'discount_type' => 'percentage', 'discount_value' => 10],
-                // Tier 3: Buy 20+ → 15% off + free delivery on all zones
-                [
-                    'min_quantity'    => 20,
-                    'discount_type'   => 'percentage',
-                    'discount_value'  => 15,
-                    'has_free_delivery' => true,
-                ],
+            // 1KG Variant
+            $v1kg = $product->variants()->create([
+                'title' => '1KG',
+                'sku' => strtoupper($m['slug']) . '-1KG',
+                'price' => $m['price'],
+                'stock' => 5000,
+                'weight_grams' => 1000,
+                'is_active' => true
             ]);
 
-            // Tier for 5KG: Buy 2 (10KG) → ৳50 off + free gift honey + free delivery
-            if ($m['name'] === 'Himsagar Mango (হিমসাগর আম)') {
-                $honeyVariantId = $honey->variants->first()->id;
-                $v5kg->tierPrices()->createMany([
-                    // Tier 1: Buy 1×5KG → ৳20 fixed off
-                    ['min_quantity' => 1, 'discount_type' => 'fixed', 'discount_value' => 20],
-                    // Tier 2: Buy 2×5KG → ৳50 off + free honey gift + free delivery (QA: overlapping gift+delivery)
-                    [
-                        'min_quantity'            => 2,
-                        'discount_type'           => 'fixed',
-                        'discount_value'          => 50,
-                        'has_free_delivery'       => true,
-                        'gift_product_variant_id' => $honeyVariantId,
-                        'gift_quantity'           => 1,
-                    ],
-                    // Tier 3: Buy 4×5KG → ৳150 off + 2 honey gifts + free delivery (QA: higher gift qty)
-                    [
-                        'min_quantity'            => 4,
-                        'discount_type'           => 'fixed',
-                        'discount_value'          => 150,
-                        'has_free_delivery'       => true,
-                        'gift_product_variant_id' => $honeyVariantId,
-                        'gift_quantity'           => 2,
-                    ],
-                ]);
-            }
+            // 5KG Variant (approx 5% discount)
+            $v5kg = $product->variants()->create([
+                'title' => '5KG',
+                'sku' => strtoupper($m['slug']) . '-5KG',
+                'price' => round($m['price'] * 5 * 0.95),
+                'stock' => 1000,
+                'weight_grams' => 5000,
+                'is_active' => true
+            ]);
 
-            // Tier for 10KG: Buy 3+ → 12% off + free delivery (QA: large-qty threshold)
-            $v10kg->tierPrices()->create([
-                'min_quantity'    => 3,
-                'discount_type'   => 'percentage',
-                'discount_value'  => 12,
+            // 10KG Variant (approx 10% discount)
+            $v10kg = $product->variants()->create([
+                'title' => '10KG',
+                'sku' => strtoupper($m['slug']) . '-10KG',
+                'price' => round($m['price'] * 10 * 0.90),
+                'stock' => 500,
+                'weight_grams' => 10000,
+                'is_active' => true
+            ]);
+
+            // Tier Price & Free Delivery for 5KG (1+ qty)
+            $v5kg->tierPrices()->create([
+                'min_quantity' => 1,
+                'discount_type' => 'fixed',
+                'discount_value' => 0,
                 'has_free_delivery' => true,
             ]);
+
+            // Tier Price & Free Delivery for 10KG (1+ qty)
+            $v10kg->tierPrices()->create([
+                'min_quantity' => 1,
+                'discount_type' => 'fixed',
+                'discount_value' => 0,
+                'has_free_delivery' => true,
+            ]);
+
+            $product->certifications()->attach($certs->pluck('id'));
         }
 
         // ── QA Scenario: Ghee with zone-restricted free delivery ────────────

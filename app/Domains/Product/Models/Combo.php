@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Combo extends Model
 {
-    protected $fillable = ['title', 'slug', 'description', 'image', 'pricing_mode', 'manual_price', 'discount_type', 'discount_value', 'is_active', 'is_featured', 'is_landing_enabled', 'landing_slug'];
+    protected $fillable = ['title', 'slug', 'description', 'image', 'pricing_mode', 'manual_price', 'discount_type', 'discount_value', 'has_free_delivery', 'free_delivery_zones', 'is_active', 'is_featured', 'is_landing_enabled', 'landing_slug'];
 
     protected $casts = [
         'is_active'          => 'boolean',
@@ -15,6 +15,8 @@ class Combo extends Model
         'is_landing_enabled' => 'boolean',
         'manual_price'       => 'decimal:2',
         'discount_value'     => 'decimal:2',
+        'has_free_delivery'  => 'boolean',
+        'free_delivery_zones' => 'array',
     ];
 
     public function items()

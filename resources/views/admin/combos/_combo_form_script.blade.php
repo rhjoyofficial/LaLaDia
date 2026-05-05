@@ -10,7 +10,10 @@ function comboForm(comboId) {
             pricing_mode: 'auto', manual_price: '',
             discount_type: '', discount_value: '',
             is_active: true, is_featured: false,
+            has_free_delivery: false, free_delivery_zones: [],
         },
+
+        shippingZones: [],
 
         // Image
         imageFile: null,
@@ -39,7 +42,31 @@ function comboForm(comboId) {
         },
 
         async init() {
+            await this.loadShippingZones();
             if (this.comboId) await this.loadCombo();
+        },
+
+        async loadShippingZones() {
+            try {
+                const r = await fetch('/api/v1/admin/shipping-zones', {
+                    headers: { 'Accept': 'application/json' }
+                });
+                const data = await r.json();
+                this.shippingZones = data.data ?? [];
+            } catch (e) {
+                console.error('Failed to load shipping zones', e);
+            }
+        },
+
+        toggleZone(zoneId, checked) {
+            if (!this.form.free_delivery_zones) this.form.free_delivery_zones = [];
+            if (checked) {
+                if (!this.form.free_delivery_zones.includes(zoneId)) {
+                    this.form.free_delivery_zones.push(zoneId);
+                }
+            } else {
+                this.form.free_delivery_zones = this.form.free_delivery_zones.filter(id => id !== zoneId);
+            }
         },
 
         async loadCombo() {
@@ -62,6 +89,8 @@ function comboForm(comboId) {
                     discount_value: c.discount_value ?? '',
                     is_active:      c.is_active,
                     is_featured:    c.is_featured,
+                    has_free_delivery: c.has_free_delivery ?? false,
+                    free_delivery_zones: c.free_delivery_zones ?? [],
                 };
 
                 this.imagePreview = c.image ?? null;
@@ -170,6 +199,13 @@ function comboForm(comboId) {
                 if (this.form.discount_type) {
                     fd.append('discount_type',  this.form.discount_type);
                     fd.append('discount_value', this.form.discount_value ?? 0);
+                }
+
+                fd.append('has_free_delivery', this.form.has_free_delivery ? '1' : '0');
+                if (this.form.free_delivery_zones && this.form.free_delivery_zones.length > 0) {
+                    this.form.free_delivery_zones.forEach((zoneId, i) => {
+                        fd.append(`free_delivery_zones[${i}]`, zoneId);
+                    });
                 }
 
                 // Items

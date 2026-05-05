@@ -32,6 +32,7 @@ class ComboSeeder extends Seeder
                 'manual_price' => 1999,
                 'is_active' => true,
                 'is_featured' => true,
+                'has_free_delivery' => true,
             ])->items()->createMany([
                 ['product_variant_id' => $beefPickle->id, 'quantity' => 1],
                 ['product_variant_id' => $hilsaPickle->id, 'quantity' => 1],

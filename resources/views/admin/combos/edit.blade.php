@@ -244,6 +244,45 @@
                         </div>
                     </div>
 
+                    {{-- ── Incentives ──────────────────────────────────── --}}
+                    <div class="bg-white border border-champagne rounded-xl p-5 space-y-4">
+                        <h3 class="font-semibold text-brown text-sm">Incentives</h3>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <label class="block text-xs font-semibold text-muted mb-0.5">Free Delivery Override</label>
+                                <p class="text-[10px] text-taupe">If enabled, this combo grants free shipping regardless of order total.</p>
+                            </div>
+                            <button type="button" @click="form.has_free_delivery = !form.has_free_delivery"
+                                class="relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors"
+                                :class="form.has_free_delivery ? 'bg-primary' : 'bg-gray-300'">
+                                <span class="pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow transition"
+                                    :class="form.has_free_delivery ? 'translate-x-4' : 'translate-x-0'"></span>
+                            </button>
+                        </div>
+
+                        <div x-show="form.has_free_delivery" x-cloak class="mt-2 border border-champagne rounded-xl p-4 bg-cream">
+                            <h4 class="text-xs font-bold text-brown mb-2 uppercase tracking-wider">Limit to Shipping Zones</h4>
+                            <p class="text-[10px] text-taupe mb-3 italic">Leave all unchecked to apply free delivery to ALL zones.</p>
+                            
+                            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                                <template x-for="zone in shippingZones" :key="zone.id">
+                                    <label class="flex items-center gap-2.5 p-2 bg-white rounded-lg border border-champagne hover:border-gold-antique transition cursor-pointer">
+                                        <input type="checkbox"
+                                            :value="zone.id"
+                                            :checked="(form.free_delivery_zones || []).includes(zone.id)"
+                                            @change="toggleZone(zone.id, $event.target.checked)"
+                                            class="rounded border-champagne text-gold-antique focus:ring-gold-antique w-4 h-4">
+                                        <div class="min-w-0">
+                                            <p class="text-xs font-medium text-brown truncate" x-text="zone.name"></p>
+                                            <p class="text-[10px] text-taupe" x-text="'৳' + zone.base_charge"></p>
+                                        </div>
+                                    </label>
+                                </template>
+                            </div>
+                            <p x-show="shippingZones.length === 0" class="text-xs text-muted py-4 text-center">Loading shipping zones…</p>
+                        </div>
+                    </div>
+
                 </div>
 
                 {{-- ── RIGHT SIDEBAR ─────────────────────────────────── --}}

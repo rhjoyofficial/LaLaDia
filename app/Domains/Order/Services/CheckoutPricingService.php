@@ -60,26 +60,26 @@ class CheckoutPricingService
                 $result = $this->processComboItem($item, $variants);
             } else {
                 $result = $this->processVariantItem($item, $variants);
-                
-                // Process Free Shipping Override
-                if (!empty($result['free_shipping'])) {
-                    $zones = $result['free_shipping_zones'] ?? [];
-                    if (empty($zones) || (is_array($zones) && in_array($zoneId, $zones))) {
-                        $freeShippingOverride = true;
-                    }
-                }
-                
-                // Collect Auto Gifts
-                if (!empty($result['gifts'])) {
-                    foreach ($result['gifts'] as $gift) {
-                        $autoGifts[] = $gift;
-                    }
-                }
             }
 
             $lineItems[]       = $result['line_item'];
             $subtotal         += $result['line_subtotal'];
             $tierDiscountTotal += $result['discount_amount'];
+
+            // Process Free Shipping Override (from either combo or variant)
+            if (!empty($result['free_shipping'])) {
+                $zones = $result['free_shipping_zones'] ?? [];
+                if (empty($zones) || (is_array($zones) && in_array($zoneId, $zones))) {
+                    $freeShippingOverride = true;
+                }
+            }
+
+            // Collect Auto Gifts
+            if (!empty($result['gifts'])) {
+                foreach ($result['gifts'] as $gift) {
+                    $autoGifts[] = $gift;
+                }
+            }
         }
         
         // Add gift line items; track any that are skipped due to stock exhaustion
@@ -183,6 +183,8 @@ class CheckoutPricingService
             ],
             'line_subtotal'  => $comboPrice * $qty,
             'discount_amount' => 0,
+            'free_shipping'   => $combo->has_free_delivery ?? false,
+            'free_shipping_zones' => $combo->free_delivery_zones ?? [],
         ];
     }
 
