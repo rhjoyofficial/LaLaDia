@@ -11,9 +11,9 @@
               html5    → data-video-src is a direct video file URL
               iframe   → data-video-src is any embed URL
         --}}
-        <div data-video data-video-type="youtube" data-video-src="543FzXHt8es"
+        <div data-video data-video-type="youtube" data-video-src="dRgKI0p9a9w"
             data-video-thumbnail="{{ asset('assets/video/video-thumbnail.jpg') }}" data-video-badge="Brand Film"
-            data-video-title="Experience the Bionic Garden" data-video-subtitle="100% Organic &amp; Naturally Sourced"
+            data-video-title="A Luxurious Experience on the LaLaDia" data-video-subtitle="Savor the Authenticity"
             data-video-lazy="true" style="border-radius:1.5rem;">
         </div>
 
@@ -21,13 +21,3 @@
 </section>
 
 {{-- No @push('scripts') needed — VideoManager is bundled inside app.js via Vite --}}
-
-
-
-
-
-
-
-
-
-

@@ -18,7 +18,27 @@ class ComboSeeder extends Seeder
         ComboItem::truncate();
         Schema::enableForeignKeyConstraints();
 
-        // 1. Breakfast Delight (Honey + Ghee)
+        // 1. Pickle Duo Combo (Hilsa + Beef Pickle)
+        $beefPickle = ProductVariant::where('sku', 'PIC-BEEF-V1')->first();
+        $hilsaPickle = ProductVariant::where('sku', 'PIC-HIL-V1')->first();
+
+        if ($beefPickle && $hilsaPickle) {
+            Combo::create([
+                'title' => 'Pickle Duo Combo',
+                'slug' => 'pickle-duo-combo',
+                'description' => 'The ultimate pickle lover’s duo: Royal Beef Pickle and Hilsa Fish Pickle. A flavorful blast for your taste buds.',
+                'image' => 'combos/pickle-duo.jpg',
+                'pricing_mode' => 'manual',
+                'manual_price' => 1999,
+                'is_active' => true,
+                'is_featured' => true,
+            ])->items()->createMany([
+                ['product_variant_id' => $beefPickle->id, 'quantity' => 1],
+                ['product_variant_id' => $hilsaPickle->id, 'quantity' => 1],
+            ]);
+        }
+
+        // 2. Breakfast Delight (Honey + Ghee)
         $honeyVariant = ProductVariant::where('sku', 'HON-MAN-V1')->first();
         $gheeVariant = ProductVariant::where('sku', 'GHE-ROY-V1')->first();
 
@@ -40,7 +60,7 @@ class ComboSeeder extends Seeder
             ]);
         }
 
-        // 2. Traditional Bengali Feast (Pickle Duo + Shutki)
+        // 3. Traditional Bengali Feast (Pickle Duo + Shutki)
         $beefPickle = ProductVariant::where('sku', 'PIC-BEEF-V1')->first();
         $hilsaPickle = ProductVariant::where('sku', 'PIC-HIL-V1')->first();
         $loittaShutki = ProductVariant::where('sku', 'loitta-shutki-125G')->first();
@@ -64,7 +84,7 @@ class ComboSeeder extends Seeder
             ]);
         }
 
-        // 3. Mango Summer Special (Amrapali + Himsagar)
+        // 4. Mango Summer Special (Amrapali + Himsagar)
         $amrapali = ProductVariant::where('sku', 'LIKE', 'amrapali%5KG')->first();
         $himsagar = ProductVariant::where('sku', 'LIKE', 'himsagar%5KG')->first();
 

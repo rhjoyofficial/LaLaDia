@@ -2,7 +2,7 @@
 @import "./flash.css";
 
 [x-cloak] {
-  display: none !important;
+    display: none !important;
 }
 
 /* =========================================
@@ -13,79 +13,77 @@
    ========================================= */
 
 :root {
-
-  /* ── GOLD SCALE ─────────────────────────────────
+    /* ── GOLD SCALE ─────────────────────────────────
      10 stops from near-white tint to near-black shade.
      The star: #D4A017 — pure, vivid, jewellery-grade.  */
-  --gold-25: #FFFFF5;
-  /* Barely-there gold tint — ghost bg        */
-  --gold-50: #FFFBEA;
-  /* Warm white-gold — softest surface tint    */
-  --gold-100: #FFF3C4;
-  /* Pale gold — hover surface                 */
-  --gold-200: #FFE066;
-  /* Light bright gold                         */
-  --gold-300: #F5C518;
-  /* Vivid cinema gold (Amazon-star gold)      */
-  --gold-400: #D4A017;
-  /* TRUE PRIMARY — rich, pure satin gold      */
-  --gold-500: #B8860B;
-  /* Dark goldenrod — primary hover            */
-  --gold-600: #96680A;
-  /* Deep antique gold                         */
-  --gold-700: #6B4A07;
-  /* Burnished bronze-gold                     */
-  --gold-800: #3D2B04;
-  /* Very dark gold — text on light gold bg    */
-  --gold-900: #1A1200;
-  /* Near-black warm gold — deepest shade      */
-  --gold-antique: #AF9642;
-  /* Muted, classic antique gold               */
+    --gold-25: #fffff5;
+    /* Barely-there gold tint — ghost bg        */
+    --gold-50: #fffbea;
+    /* Warm white-gold — softest surface tint    */
+    --gold-100: #fff3c4;
+    /* Pale gold — hover surface                 */
+    --gold-200: #ffe066;
+    /* Light bright gold                         */
+    --gold-300: #f5c518;
+    /* Vivid cinema gold (Amazon-star gold)      */
+    --gold-400: #d4a017;
+    /* TRUE PRIMARY — rich, pure satin gold      */
+    --gold-500: #b8860b;
+    /* Dark goldenrod — primary hover            */
+    --gold-600: #96680a;
+    /* Deep antique gold                         */
+    --gold-700: #6b4a07;
+    /* Burnished bronze-gold                     */
+    --gold-800: #3d2b04;
+    /* Very dark gold — text on light gold bg    */
+    --gold-900: #1a1200;
+    /* Near-black warm gold — deepest shade      */
+    --gold-antique: #af9642;
+    /* Muted, classic antique gold               */
 
-  /* ── WHITE SCALE ────────────────────────────────
+    /* ── WHITE SCALE ────────────────────────────────
      Warm whites only — a whisper of gold in every shade.
      Against these, gold glows instead of blending in.   */
-  --white-pure: #FFFFFF;
-  /* Absolute white — pure floating surfaces   */
-  --white-warm: #FDFCF8;
-  /* Main BG — barely warm, never clinical     */
-  --white-soft: #FAF8F2;
-  /* Soft off-white — card backgrounds         */
-  --white-ivory: #F5F1E8;
-  /* Ivory — divider backgrounds, chips        */
-  --white-stone: #EDE8DC;
-  /* Warm stone — borders & ruled lines        */
-  --white-linen: #E0D9CA;
-  /* Linen — stronger borders, separators      */
+    --white-pure: #ffffff;
+    /* Absolute white — pure floating surfaces   */
+    --white-warm: #fdfcf8;
+    /* Main BG — barely warm, never clinical     */
+    --white-soft: #faf8f2;
+    /* Soft off-white — card backgrounds         */
+    --white-ivory: #f5f1e8;
+    /* Ivory — divider backgrounds, chips        */
+    --white-stone: #ede8dc;
+    /* Warm stone — borders & ruled lines        */
+    --white-linen: #e0d9ca;
+    /* Linen — stronger borders, separators      */
 
-  /* ── BLACK SCALE ────────────────────────────────
+    /* ── BLACK SCALE ────────────────────────────────
      Warm blacks — the tiniest gold undertone in every stop.
      They pair perfectly with warm whites & never clash.  */
-  --black-rich: #0A0800;
-  /* Richest black — hero headings             */
-  --black-deep: #181510;
-  /* Deep warm black — h1/h2                   */
-  --black-strong: #2C2820;
-  /* Strong charcoal — h3/body strong           */
-  --black-mid: #4A4438;
-  /* Mid charcoal — body text                   */
-  --black-muted: #706860;
-  /* Warm grey — secondary / muted text         */
-  --black-soft: #9A9088;
-  /* Soft warm grey — captions                  */
-  --black-ghost: #C4BAB0;
-  /* Ghost grey — placeholders / disabled       */
-  --black-whisper: #E2DDD8;
-  /* Whisper — skeleton shimmer light stop      */
+    --black-rich: #0a0800;
+    /* Richest black — hero headings             */
+    --black-deep: #181510;
+    /* Deep warm black — h1/h2                   */
+    --black-strong: #2c2820;
+    /* Strong charcoal — h3/body strong           */
+    --black-mid: #4a4438;
+    /* Mid charcoal — body text                   */
+    --black-muted: #706860;
+    /* Warm grey — secondary / muted text         */
+    --black-soft: #9a9088;
+    /* Soft warm grey — captions                  */
+    --black-ghost: #c4bab0;
+    /* Ghost grey — placeholders / disabled       */
+    --black-whisper: #e2ddd8;
+    /* Whisper — skeleton shimmer light stop      */
 
-  /* ── STATUS (minimal, on-brand) ─────────────────  */
-  --danger: #C0392B;
-  /* Deep warm red — stays on-palette            */
-  --success: #276749;
-  /* Deep forest green                           */
-  --info: #1A5276;
-  /* Deep navy info                              */
-
+    /* ── STATUS (minimal, on-brand) ─────────────────  */
+    --danger: #c0392b;
+    /* Deep warm red — stays on-palette            */
+    --success: #276749;
+    /* Deep forest green                           */
+    --info: #1a5276;
+    /* Deep navy info                              */
 }
 
 /* =========================================
@@ -93,65 +91,63 @@
    ========================================= */
 
 :root {
+    /* ── BRAND / GOLD ────────────────────────────── */
+    --color-primary: var(--gold-400);
+    /* #D4A017  — satin gold        */
+    --color-primary-rgb: 212, 160, 23;
+    /* for rgba() usage             */
+    --color-primary-light: var(--gold-200);
+    /* #FFE066  — bright light gold */
+    --color-primary-hover: var(--gold-500);
+    /* #B8860B  — depth on hover    */
+    --color-primary-deep: var(--gold-600);
+    /* #96680A  — pressed state     */
+    --color-accent: var(--gold-300);
+    /* #F5C518  — vivid pop accent  */
+    --color-accent-subtle: var(--gold-100);
+    /* #FFF3C4  — tinted badge bg   */
 
-  /* ── BRAND / GOLD ────────────────────────────── */
-  --color-primary: var(--gold-400);
-  /* #D4A017  — satin gold        */
-  --color-primary-rgb: 212, 160, 23;
-  /* for rgba() usage             */
-  --color-primary-light: var(--gold-200);
-  /* #FFE066  — bright light gold */
-  --color-primary-hover: var(--gold-500);
-  /* #B8860B  — depth on hover    */
-  --color-primary-deep: var(--gold-600);
-  /* #96680A  — pressed state     */
-  --color-accent: var(--gold-300);
-  /* #F5C518  — vivid pop accent  */
-  --color-accent-subtle: var(--gold-100);
-  /* #FFF3C4  — tinted badge bg   */
+    /* ── BACKGROUND  ─────────────────────────────── */
+    --color-bg: var(--white-warm);
+    /* #FDFCF8  — crisp warm main   */
+    --color-bg-rgb: 253, 252, 248;
+    --color-bg-soft: var(--white-soft);
+    /* #FAF8F2  — card layer        */
+    --color-surface: var(--white-pure);
+    /* #FFFFFF  — floating / modals */
+    --color-surface-warm: var(--gold-25);
+    /* #FFFFF5  — warm hover tint   */
+    --color-surface-gold: var(--gold-50);
+    /* #FFFBEA  — gold-tinted chip  */
 
-  /* ── BACKGROUND  ─────────────────────────────── */
-  --color-bg: var(--white-warm);
-  /* #FDFCF8  — crisp warm main   */
-  --color-bg-rgb: 253, 252, 248;
-  --color-bg-soft: var(--white-soft);
-  /* #FAF8F2  — card layer        */
-  --color-surface: var(--white-pure);
-  /* #FFFFFF  — floating / modals */
-  --color-surface-warm: var(--gold-25);
-  /* #FFFFF5  — warm hover tint   */
-  --color-surface-gold: var(--gold-50);
-  /* #FFFBEA  — gold-tinted chip  */
+    /* ── BORDER  ─────────────────────────────────── */
+    --color-border: var(--white-stone);
+    /* #EDE8DC  — standard rule     */
+    --color-border-soft: var(--white-ivory);
+    /* #F5F1E8  — ghost border      */
+    --color-border-strong: var(--white-linen);
+    /* #E0D9CA  — visible separator */
+    --color-border-gold: rgba(212, 160, 23, 0.3);
+    /* gold-tinted border           */
 
-  /* ── BORDER  ─────────────────────────────────── */
-  --color-border: var(--white-stone);
-  /* #EDE8DC  — standard rule     */
-  --color-border-soft: var(--white-ivory);
-  /* #F5F1E8  — ghost border      */
-  --color-border-strong: var(--white-linen);
-  /* #E0D9CA  — visible separator */
-  --color-border-gold: rgba(212, 160, 23, 0.3);
-  /* gold-tinted border           */
+    /* ── TEXT ─────────────────────────────────────  */
+    --color-text: var(--black-deep);
+    /* #181510  — h1/h2 headings   */
+    --color-text-secondary: var(--black-strong);
+    /* #2C2820  — h3/strong body   */
+    --color-text-body: var(--black-mid);
+    /* #4A4438  — body paragraphs  */
+    --color-text-muted: var(--black-muted);
+    /* #706860  — secondary info   */
+    --color-text-soft: var(--black-soft);
+    /* #9A9088  — captions, meta   */
+    --color-text-placeholder: var(--black-ghost);
+    /* #C4BAB0  — input placeholdr */
 
-  /* ── TEXT ─────────────────────────────────────  */
-  --color-text: var(--black-deep);
-  /* #181510  — h1/h2 headings   */
-  --color-text-secondary: var(--black-strong);
-  /* #2C2820  — h3/strong body   */
-  --color-text-body: var(--black-mid);
-  /* #4A4438  — body paragraphs  */
-  --color-text-muted: var(--black-muted);
-  /* #706860  — secondary info   */
-  --color-text-soft: var(--black-soft);
-  /* #9A9088  — captions, meta   */
-  --color-text-placeholder: var(--black-ghost);
-  /* #C4BAB0  — input placeholdr */
-
-  /* ── STATE  ──────────────────────────────────── */
-  --color-disabled: var(--black-ghost);
-  --color-danger: var(--danger);
-  --color-success: var(--success);
-
+    /* ── STATE  ──────────────────────────────────── */
+    --color-disabled: var(--black-ghost);
+    --color-danger: var(--danger);
+    --color-success: var(--success);
 }
 
 /* =========================================
@@ -161,56 +157,56 @@
    ========================================= */
 
 @theme {
-  --font-sans: "Inter", "Noto Sans Bengali", ui-sans-serif, system-ui;
-  --font-heading: "Plus Jakarta Sans", sans-serif;
+    --font-sans: "Inter", "Noto Sans Bengali", ui-sans-serif, system-ui;
+    --font-heading: "Plus Jakarta Sans", sans-serif;
 
-  /* ── Brand ─── */
-  --color-primary: var(--color-primary);
-  --color-secondary: var(--color-primary-hover);
-  --color-accent: var(--color-accent);
-  --color-brand: var(--color-text);
-  /* text-brand = deep black     */
+    /* ── Brand ─── */
+    --color-primary: var(--color-primary);
+    --color-secondary: var(--color-primary-hover);
+    --color-accent: var(--color-accent);
+    --color-brand: var(--color-text);
+    /* text-brand = deep black     */
 
-  /* ── Backgrounds (old names → new values) ─── */
-  --color-ivory: var(--color-bg);
-  /* bg-ivory = warm white main  */
-  --color-cream: var(--color-bg-soft);
-  /* bg-cream = off-white card   */
-  --color-champagne: var(--color-border);
-  /* border-champagne = stone    */
-  --color-sand: var(--color-border-soft);
-  /* border-sand = ivory border  */
-  --color-surface: var(--color-surface);
-  --color-warm: var(--color-surface-warm);
-  /* bg-warm = gold-25 hover     */
+    /* ── Backgrounds (old names → new values) ─── */
+    --color-ivory: var(--color-bg);
+    /* bg-ivory = warm white main  */
+    --color-cream: var(--color-bg-soft);
+    /* bg-cream = off-white card   */
+    --color-champagne: var(--color-border);
+    /* border-champagne = stone    */
+    --color-sand: var(--color-border-soft);
+    /* border-sand = ivory border  */
+    --color-surface: var(--color-surface);
+    --color-warm: var(--color-surface-warm);
+    /* bg-warm = gold-25 hover     */
 
-  /* ── Typography (old names → new values) ─── */
-  --color-ink: var(--color-text);
-  --color-brown: var(--color-text-secondary);
-  --color-muted: var(--color-text-muted);
-  --color-taupe: var(--color-text-soft);
-  --color-disabled: var(--color-disabled);
+    /* ── Typography (old names → new values) ─── */
+    --color-ink: var(--color-text);
+    --color-brown: var(--color-text-secondary);
+    --color-muted: var(--color-text-muted);
+    --color-taupe: var(--color-text-soft);
+    --color-disabled: var(--color-disabled);
 
-  /* ── Gold shades for direct Tailwind use ─── */
-  --color-gold-25: var(--gold-25);
-  --color-gold-50: var(--gold-50);
-  --color-gold-100: var(--gold-100);
-  --color-gold-200: var(--gold-200);
-  --color-gold-300: var(--gold-300);
-  --color-gold-400: var(--gold-400);
-  --color-gold-500: var(--gold-500);
-  --color-gold-600: var(--gold-600);
-  --color-gold-700: var(--gold-700);
-  --color-gold-antique: var(--gold-antique);
+    /* ── Gold shades for direct Tailwind use ─── */
+    --color-gold-25: var(--gold-25);
+    --color-gold-50: var(--gold-50);
+    --color-gold-100: var(--gold-100);
+    --color-gold-200: var(--gold-200);
+    --color-gold-300: var(--gold-300);
+    --color-gold-400: var(--gold-400);
+    --color-gold-500: var(--gold-500);
+    --color-gold-600: var(--gold-600);
+    --color-gold-700: var(--gold-700);
+    --color-gold-antique: var(--gold-antique);
 
-  /* ── Black shades for direct Tailwind use ─── */
-  --color-black-rich: var(--black-rich);
-  --color-black-deep: var(--black-deep);
-  --color-black-strong: var(--black-strong);
-  --color-black-mid: var(--black-mid);
-  --color-black-muted: var(--black-muted);
-  --color-black-soft: var(--black-soft);
-  --color-black-ghost: var(--black-ghost);
+    /* ── Black shades for direct Tailwind use ─── */
+    --color-black-rich: var(--black-rich);
+    --color-black-deep: var(--black-deep);
+    --color-black-strong: var(--black-strong);
+    --color-black-mid: var(--black-mid);
+    --color-black-muted: var(--black-muted);
+    --color-black-soft: var(--black-soft);
+    --color-black-ghost: var(--black-ghost);
 }
 
 /* =========================================
@@ -218,21 +214,21 @@
    ========================================= */
 
 @layer base {
-  body {
-    @apply font-sans;
-    background: var(--color-bg);
-    color: var(--color-text);
-  }
+    body {
+        @apply font-sans;
+        background: var(--color-bg);
+        color: var(--color-text);
+    }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    @apply font-heading font-semibold tracking-tight;
-    color: var(--color-text);
-  }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        @apply font-heading font-semibold tracking-tight;
+        color: var(--color-text);
+    }
 }
 
 /* =========================================
@@ -241,45 +237,45 @@
 
 /* BUTTONS */
 .btn-primary {
-  background: var(--color-primary);
-  color: white;
-  border-radius: 12px;
-  transition: all 0.3s ease;
+    background: var(--color-primary);
+    color: white;
+    border-radius: 12px;
+    transition: all 0.3s ease;
 }
 
 .btn-primary:hover {
-  background: var(--color-primary-hover);
+    background: var(--color-primary-hover);
 }
 
 .btn-outline {
-  border: 1px solid var(--color-primary);
-  color: var(--color-primary);
-  background: transparent;
+    border: 1px solid var(--color-primary);
+    color: var(--color-primary);
+    background: transparent;
 }
 
 .btn-outline:hover {
-  background: var(--color-primary);
-  color: white;
+    background: var(--color-primary);
+    color: white;
 }
 
 /* CARDS */
 .card {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: 16px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
 }
 
 /* INPUT */
 .input {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  color: var(--color-text);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
 }
 
 /* BADGE */
 .badge-primary {
-  background: var(--color-primary);
-  color: white;
+    background: var(--color-primary);
+    color: white;
 }
 
 /* =========================================
@@ -287,25 +283,27 @@
    ========================================= */
 
 .bg-primary-soft {
-  background: rgba(var(--color-primary-rgb), 0.08);
+    background: rgba(var(--color-primary-rgb), 0.08);
 }
 
 .bg-gold-glow {
-  background: linear-gradient(135deg,
-      rgba(var(--color-primary-rgb), 0.14),
-      rgba(var(--color-primary-rgb), 0.04));
+    background: linear-gradient(
+        135deg,
+        rgba(var(--color-primary-rgb), 0.14),
+        rgba(var(--color-primary-rgb), 0.04)
+    );
 }
 
 .text-muted {
-  color: var(--color-text-muted);
+    color: var(--color-text-muted);
 }
 
 .border-soft {
-  border-color: var(--color-border-soft);
+    border-color: var(--color-border-soft);
 }
 
 .border-gold {
-  border-color: var(--color-border-gold);
+    border-color: var(--color-border-gold);
 }
 
 /* ---------------------------
@@ -313,27 +311,27 @@
 --------------------------- */
 
 @layer base {
-  body {
-    @apply font-sans text-brand bg-ivory;
-  }
+    body {
+        @apply font-sans text-brand bg-ivory;
+    }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    @apply font-heading font-medium tracking-tight;
-  }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        @apply font-heading font-medium tracking-tight;
+    }
 
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
 
-  .no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
+    .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
 }
 
 /* ---------------------------
@@ -342,95 +340,95 @@
 
 .swiper-button-next,
 .swiper-button-prev {
-  color: var(--color-primary);
+    color: var(--color-primary);
 }
 
 .mainHeroSwiper .swiper-button-next,
 .mainHeroSwiper .swiper-button-prev {
-  color: var(--color-primary);
+    color: var(--color-primary);
 }
 
 .swiper-button-next::after,
 .swiper-button-prev::after {
-  display: none !important;
+    display: none !important;
 }
 
 /* ---------------------------
    Stopping redirect to Youtube
    ---------------------------- */
 #videoContainer {
-  position: relative;
+    position: relative;
 }
 
 .yt-mask {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 150px;
-  height: 60px;
-  z-index: 50;
-  background: transparent;
-  pointer-events: auto;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 150px;
+    height: 60px;
+    z-index: 50;
+    background: transparent;
+    pointer-events: auto;
 }
 
 .media-container {
-  height: 220px;
+    height: 220px;
 }
 
 .media-frame {
-  height: 100%;
-  width: 100%;
-  border-radius: 16px;
-  overflow: hidden;
-  background: var(--color-bg-soft);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    height: 100%;
+    width: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--color-bg-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 @keyframes marquee-left {
-  from {
-    transform: translateX(0);
-  }
+    from {
+        transform: translateX(0);
+    }
 
-  to {
-    transform: translateX(-50%);
-  }
+    to {
+        transform: translateX(-50%);
+    }
 }
 
 @keyframes marquee-right {
-  from {
-    transform: translateX(-50%);
-  }
+    from {
+        transform: translateX(-50%);
+    }
 
-  to {
-    transform: translateX(0);
-  }
+    to {
+        transform: translateX(0);
+    }
 }
 
 .marquee-left {
-  animation: marquee-left 30s linear infinite;
+    animation: marquee-left 30s linear infinite;
 }
 
 .marquee-right {
-  animation: marquee-right 30s linear infinite;
+    animation: marquee-right 30s linear infinite;
 }
 
 .group:hover .marquee-left,
 .group:hover .marquee-right {
-  animation-play-state: paused;
+    animation-play-state: paused;
 }
 
 .cert-card {
-  @apply w-24 h-24 md:w-32 md:h-32 shrink-0 rounded-2xl border border-champagne bg-white shadow-sm hover:shadow-xl hover:scale-105 transition cursor-pointer overflow-hidden;
+    @apply w-24 h-24 md:w-32 md:h-32 shrink-0 rounded-2xl border border-champagne bg-white shadow-sm hover:shadow-xl hover:scale-105 transition cursor-pointer overflow-hidden;
 }
 
 .cert-canvas {
-  @apply w-full h-full flex items-center justify-center p-4;
+    @apply w-full h-full flex items-center justify-center p-4;
 }
 
 .cert-img {
-  @apply max-w-full max-h-full object-contain;
+    @apply max-w-full max-h-full object-contain;
 }
 
 /* ---------------------------
@@ -438,35 +436,35 @@
 --------------------------- */
 
 .animated-border-line {
-  stroke: var(--gold-100);
-  /* #FFF3C4 — pale gold trace  */
-  stroke-dasharray: 80 40;
-  stroke-width: 2px;
-  fill: none;
-  filter: drop-shadow(0 0 2px rgba(212, 160, 23, 0.3));
-  animation: svgAnimation 4s linear infinite;
+    stroke: #22d3ee;
+    /* #FFF3C4 — pale gold trace  */
+    stroke-dasharray: 80 40;
+    stroke-width: 2px;
+    fill: none;
+    filter: drop-shadow(0 0 2px rgba(34, 211, 238, 0.8));
+    animation: svgAnimation 4s linear infinite;
 }
 
 @keyframes svgAnimation {
-  from {
-    stroke-dashoffset: 0;
-  }
+    from {
+        stroke-dashoffset: 0;
+    }
 
-  to {
-    stroke-dashoffset: 480;
-  }
+    to {
+        stroke-dashoffset: 480;
+    }
 }
 
 /* Hover & Focus States */
-.variantSelect:focus~svg .animated-border-line,
+.variantSelect:focus ~ svg .animated-border-line,
 .group:hover .animated-border-line {
-  stroke: var(--gold-300);
-  /* #F5C518 — bright vivid gold */
-  stroke-width: 3px;
-  filter: drop-shadow(0 0 6px rgba(245, 197, 24, 0.85));
-  transition:
-    stroke 0.3s ease,
-    stroke-width 0.3s ease;
+    stroke: var(--gold-300);
+    /* #F5C518 — bright vivid gold */
+    stroke-width: 3px;
+    filter: drop-shadow(0 0 6px rgba(245, 197, 24, 0.85));
+    transition:
+        stroke 0.3s ease,
+        stroke-width 0.3s ease;
 }
 
 /* ---------------------------
@@ -474,24 +472,26 @@
 --------------------------- */
 
 @keyframes shimmer {
-  0% {
-    background-position: -600px 0;
-  }
+    0% {
+        background-position: -600px 0;
+    }
 
-  100% {
-    background-position: 600px 0;
-  }
+    100% {
+        background-position: 600px 0;
+    }
 }
 
 .skeleton-line {
-  /* gold-50 → stone → gold-50 — warm, on-palette shimmer */
-  background: linear-gradient(90deg,
-      var(--white-ivory) 25%,
-      var(--white-stone) 50%,
-      var(--white-ivory) 75%);
-  background-size: 600px 100%;
-  animation: shimmer 1.5s infinite;
-  border-radius: 6px;
+    /* gold-50 → stone → gold-50 — warm, on-palette shimmer */
+    background: linear-gradient(
+        90deg,
+        var(--white-ivory) 25%,
+        var(--white-stone) 50%,
+        var(--white-ivory) 75%
+    );
+    background-size: 600px 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 6px;
 }
 
 /* ---------------------------
@@ -499,19 +499,19 @@
 --------------------------- */
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(5px);
-  }
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
 
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .animate-fadeIn {
-  animation: fadeIn 0.4s ease-out forwards;
+    animation: fadeIn 0.4s ease-out forwards;
 }
 
 /* ---------------------------
@@ -519,41 +519,40 @@
 --------------------------- */
 
 @keyframes cart-bounce {
+    0%,
+    100% {
+        transform: translateY(-50%) scale(1);
+    }
 
-  0%,
-  100% {
-    transform: translateY(-50%) scale(1);
-  }
-
-  50% {
-    transform: translateY(-50%) scale(1.2);
-  }
+    50% {
+        transform: translateY(-50%) scale(1.2);
+    }
 }
 
 @keyframes cart-glow {
-  0% {
-    box-shadow: 0 0 0 0 rgba(192, 57, 43, 0.7);
-  }
+    0% {
+        box-shadow: 0 0 0 0 rgba(192, 57, 43, 0.7);
+    }
 
-  100% {
-    box-shadow: 0 0 20px 10px rgba(192, 57, 43, 0);
-  }
+    100% {
+        box-shadow: 0 0 20px 10px rgba(192, 57, 43, 0);
+    }
 }
 
 .animate-cart-hit {
-  animation: cart-glow 0.6s ease-out;
+    animation: cart-glow 0.6s ease-out;
 }
 
 .cart-particle {
-  position: fixed;
-  z-index: 9999;
-  pointer-events: none;
-  filter: drop-shadow(0 2px 6px rgba(212, 160, 23, 0.65));
-  transition:
-    left 1.1s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-    top 1.1s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-    transform 1s ease-in,
-    opacity 0.9s ease-in;
+    position: fixed;
+    z-index: 9999;
+    pointer-events: none;
+    filter: drop-shadow(0 2px 6px rgba(212, 160, 23, 0.65));
+    transition:
+        left 1.1s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+        top 1.1s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+        transform 1s ease-in,
+        opacity 0.9s ease-in;
 }
 
 /* ---------------------------
@@ -561,51 +560,49 @@
 --------------------------- */
 
 @keyframes badge-shake {
+    0%,
+    100% {
+        transform: scale(1) rotate(0deg);
+    }
 
-  0%,
-  100% {
-    transform: scale(1) rotate(0deg);
-  }
+    20% {
+        transform: scale(1.45) rotate(-14deg);
+    }
 
-  20% {
-    transform: scale(1.45) rotate(-14deg);
-  }
+    40% {
+        transform: scale(1.45) rotate(14deg);
+    }
 
-  40% {
-    transform: scale(1.45) rotate(14deg);
-  }
+    60% {
+        transform: scale(1.2) rotate(-8deg);
+    }
 
-  60% {
-    transform: scale(1.2) rotate(-8deg);
-  }
-
-  80% {
-    transform: scale(1.05) rotate(6deg);
-  }
+    80% {
+        transform: scale(1.05) rotate(6deg);
+    }
 }
 
 @keyframes badge-flash {
+    0%,
+    100% {
+        box-shadow: 0 0 0 2px white;
+    }
 
-  0%,
-  100% {
-    box-shadow: 0 0 0 2px white;
-  }
+    35% {
+        box-shadow:
+            0 0 0 4px rgba(192, 57, 43, 0.55),
+            0 0 16px rgba(192, 57, 43, 0.45);
+    }
 
-  35% {
-    box-shadow:
-      0 0 0 4px rgba(192, 57, 43, 0.55),
-      0 0 16px rgba(192, 57, 43, 0.45);
-  }
-
-  70% {
-    box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.3);
-  }
+    70% {
+        box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.3);
+    }
 }
 
 .badge-shake {
-  animation:
-    badge-shake 0.6s ease-out forwards,
-    badge-flash 0.65s ease-in-out forwards;
+    animation:
+        badge-shake 0.6s ease-out forwards,
+        badge-flash 0.65s ease-in-out forwards;
 }
 
 /* ---------------------------
@@ -614,86 +611,88 @@
    Pointer events disabled on track; thumbs only.
 --------------------------- */
 .catalog-range-wrapper {
-  position: relative;
-  height: 20px;
+    position: relative;
+    height: 20px;
 }
 
 .catalog-range-wrapper .range-track {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 100%;
-  height: 4px;
-  background: var(--white-stone);
-  /* #EDE8DC — warm stone track */
-  border-radius: 9999px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    height: 4px;
+    background: var(--white-stone);
+    /* #EDE8DC — warm stone track */
+    border-radius: 9999px;
 }
 
 .catalog-range-wrapper .range-highlight {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  height: 4px;
-  background: var(--color-primary);
-  border-radius: 9999px;
-  pointer-events: none;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 4px;
+    background: var(--color-primary);
+    border-radius: 9999px;
+    pointer-events: none;
 }
 
 .catalog-range-wrapper .range-input {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 100%;
-  height: 4px;
-  background: transparent;
-  appearance: none;
-  -webkit-appearance: none;
-  pointer-events: none;
-  outline: none;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    height: 4px;
+    background: transparent;
+    appearance: none;
+    -webkit-appearance: none;
+    pointer-events: none;
+    outline: none;
 }
 
 /* Webkit thumb */
 .catalog-range-wrapper .range-input::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  pointer-events: all;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: var(--color-primary);
-  border: 2px solid white;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.22);
-  cursor: pointer;
-  transition: box-shadow 0.15s ease, transform 0.15s ease;
+    -webkit-appearance: none;
+    appearance: none;
+    pointer-events: all;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    border: 2px solid white;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.22);
+    cursor: pointer;
+    transition:
+        box-shadow 0.15s ease,
+        transform 0.15s ease;
 }
 
 .catalog-range-wrapper .range-input::-webkit-slider-thumb:hover {
-  box-shadow: 0 0 0 6px rgba(212, 160, 23, 0.18);
-  transform: scale(1.1);
+    box-shadow: 0 0 0 6px rgba(212, 160, 23, 0.18);
+    transform: scale(1.1);
 }
 
 /* Firefox thumb */
 .catalog-range-wrapper .range-input::-moz-range-thumb {
-  pointer-events: all;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: var(--color-primary);
-  border: 2px solid white;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.22);
-  cursor: pointer;
-  transition: box-shadow 0.15s ease;
+    pointer-events: all;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    border: 2px solid white;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.22);
+    cursor: pointer;
+    transition: box-shadow 0.15s ease;
 }
 
 .catalog-range-wrapper .range-input::-moz-range-thumb:hover {
-  box-shadow: 0 0 0 6px rgba(212, 160, 23, 0.18);
+    box-shadow: 0 0 0 6px rgba(212, 160, 23, 0.18);
 }
 
 /* ---------------------------
    Catalog Filter — Mobile Drawer
 --------------------------- */
 #filterDrawer aside {
-  transition: transform 0.3s ease;
+    transition: transform 0.3s ease;
 }
 
 /* ---------------------------
@@ -702,136 +701,145 @@
 --------------------------- */
 
 .luxury-fire-bg {
-  /* Gold wave: vivid → satin → deep → vivid */
-  background: linear-gradient(120deg,
-      var(--gold-300),
-      var(--gold-400),
-      var(--gold-500),
-      var(--gold-300));
-  background-size: 300% 300%;
-  animation: waveMove 4s ease-in-out infinite;
-  position: relative;
+    /* Gold wave: vivid → satin → deep → vivid */
+    background: linear-gradient(
+        120deg,
+        var(--gold-300),
+        var(--gold-400),
+        var(--gold-500),
+        var(--gold-300)
+    );
+    background-size: 300% 300%;
+    animation: waveMove 4s ease-in-out infinite;
+    position: relative;
 }
 
 .luxury-fire-bg::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at 20% 50%, rgba(245, 197, 24, 0.4), transparent 50%),
-    radial-gradient(circle at 80% 50%, rgba(150, 104, 10, 0.3), transparent 50%);
-  mix-blend-mode: overlay;
-  animation: pulseGlow 2s infinite alternate;
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(
+            circle at 20% 50%,
+            rgba(245, 197, 24, 0.4),
+            transparent 50%
+        ),
+        radial-gradient(
+            circle at 80% 50%,
+            rgba(150, 104, 10, 0.3),
+            transparent 50%
+        );
+    mix-blend-mode: overlay;
+    animation: pulseGlow 2s infinite alternate;
 }
 
 @keyframes waveMove {
-  0% {
-    background-position: 0% 50%;
-  }
+    0% {
+        background-position: 0% 50%;
+    }
 
-  50% {
-    background-position: 100% 50%;
-  }
+    50% {
+        background-position: 100% 50%;
+    }
 
-  100% {
-    background-position: 0% 50%;
-  }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 @keyframes pulseGlow {
-  0% {
-    opacity: 0.6;
-    transform: scale(1);
-  }
+    0% {
+        opacity: 0.6;
+        transform: scale(1);
+    }
 
-  100% {
-    opacity: 1;
-    transform: scale(1.05);
-  }
+    100% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
 }
 
 .star-glow {
-  filter: drop-shadow(0 0 2px rgba(212, 160, 23, 0.5));
-  animation: starPulse 2s infinite ease-in-out;
+    filter: drop-shadow(0 0 2px rgba(212, 160, 23, 0.5));
+    animation: starPulse 2s infinite ease-in-out;
 }
 
 @keyframes starPulse {
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
 
-  0%,
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-
-  50% {
-    transform: scale(1.1);
-    opacity: 0.85;
-    filter: drop-shadow(0 0 7px rgba(245, 197, 24, 0.95));
-  }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.85;
+        filter: drop-shadow(0 0 7px rgba(245, 197, 24, 0.95));
+    }
 }
 
 .animate-soft-pulse {
-  animation: softPulse 2s infinite;
+    animation: softPulse 2s infinite;
 }
 
 @keyframes softPulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(212, 160, 23, 0.45);
-  }
+    0% {
+        box-shadow: 0 0 0 0 rgba(212, 160, 23, 0.45);
+    }
 
-  70% {
-    box-shadow: 0 0 0 10px rgba(212, 160, 23, 0);
-  }
+    70% {
+        box-shadow: 0 0 0 10px rgba(212, 160, 23, 0);
+    }
 
-  100% {
-    box-shadow: 0 0 0 0 rgba(212, 160, 23, 0);
-  }
+    100% {
+        box-shadow: 0 0 0 0 rgba(212, 160, 23, 0);
+    }
 }
 
 .btn-shimmer {
-  position: relative;
-  overflow: hidden;
+    position: relative;
+    overflow: hidden;
 }
 
 .btn-shimmer::after {
-  content: "";
-  position: absolute;
-  top: -50%;
-  left: -60%;
-  width: 20%;
-  height: 200%;
-  background: rgba(255, 255, 255, 0.25);
-  transform: rotate(30deg);
-  animation: shimmer-btn 3s infinite;
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -60%;
+    width: 20%;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.25);
+    transform: rotate(30deg);
+    animation: shimmer-btn 3s infinite;
 }
 
 @keyframes shimmer-btn {
-  0% {
-    left: -60%;
-  }
+    0% {
+        left: -60%;
+    }
 
-  20% {
-    left: 120%;
-  }
+    20% {
+        left: 120%;
+    }
 
-  100% {
-    left: 120%;
-  }
+    100% {
+        left: 120%;
+    }
 }
 
 @keyframes luxury-spiral {
-  0% {
-    transform: rotate(0deg) scale(1.5);
-    opacity: 0;
-  }
+    0% {
+        transform: rotate(0deg) scale(1.5);
+        opacity: 0;
+    }
 
-  50% {
-    transform: rotate(180deg) scale(0.8);
-    opacity: 0.3;
-  }
+    50% {
+        transform: rotate(180deg) scale(0.8);
+        opacity: 0.3;
+    }
 
-  100% {
-    transform: rotate(360deg) scale(0);
-    opacity: 0;
-  }
+    100% {
+        transform: rotate(360deg) scale(0);
+        opacity: 0;
+    }
 }

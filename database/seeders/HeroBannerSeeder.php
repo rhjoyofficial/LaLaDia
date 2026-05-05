@@ -60,7 +60,7 @@ class HeroBannerSeeder extends Seeder
                 'subtitle'    => 'The Perfect Meal Companion',
                 'description' => 'Hand-crafted pickles using age-old recipes, premium meat/fish, and cold-pressed mustard oil.',
                 'button_text' => 'View Pickles',
-                'button_url'  => '/shop?category=pickles',
+                'button_url'  => '/combos/pickle-duo-combo',
                 'image'       => 'banners/banner-pickle.png',
                 'sort_order'  => 3,
                 'is_active'   => true,

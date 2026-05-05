@@ -58,6 +58,11 @@ class ProductSeeder extends Seeder
             'is_active' => true,
         ]);
         $honey->certifications()->attach($certs->pluck('id'));
+        $honey->variants->first()->tierPrices()->create([
+            'min_quantity' => 2,
+            'discount_type' => 'fixed',
+            'discount_value' => 60,
+        ]);
 
         // 2. Royal Essence Ghee
         $ghee = Product::create([
@@ -82,10 +87,17 @@ class ProductSeeder extends Seeder
         $ghee->variants()->create([
             'title' => '350gm',
             'sku' => 'GHE-ROY-V1',
-            'price' => 870,
+            'price' => 1050,
+            'discount_type' => 'fixed',
+            'discount_value' => 180, // 15% off
             'stock' => 300,
             'weight_grams' => 350,
             'is_active' => true,
+        ])->tierPrices()->create([
+            'min_quantity' => 2,
+            'discount_type' => 'fixed',
+            'discount_value' => 0,
+            'has_free_delivery' => true,
         ]);
         $ghee->certifications()->attach($certs->where('name', '!=', 'Halal Certified')->pluck('id'));
 
@@ -105,10 +117,17 @@ class ProductSeeder extends Seeder
         $beefPickle->variants()->create([
             'title' => '400gm',
             'sku' => 'PIC-BEEF-V1',
-            'price' => 999,
+            'price' => 1350,
+            'discount_type' => 'fixed',
+            'discount_value' => 351, // ~26% off to hit a psychological price
             'stock' => 200,
             'weight_grams' => 400,
             'is_active' => true,
+        ])->tierPrices()->create([
+            'min_quantity' => 2,
+            'discount_type' => 'fixed',
+            'discount_value' => 0,
+            'has_free_delivery' => true,
         ]);
         $beefPickle->certifications()->attach($certs->pluck('id'));
 
@@ -128,10 +147,17 @@ class ProductSeeder extends Seeder
         $hilsaPickle->variants()->create([
             'title' => '400gm',
             'sku' => 'PIC-HIL-V1',
-            'price' => 999,
+            'price' => 1350,
+            'discount_type' => 'fixed',
+            'discount_value' => 351,
             'stock' => 150,
             'weight_grams' => 400,
             'is_active' => true,
+        ])->tierPrices()->create([
+            'min_quantity' => 2,
+            'discount_type' => 'fixed',
+            'discount_value' => 0,
+            'has_free_delivery' => true,
         ]);
         $hilsaPickle->certifications()->attach($certs->pluck('id'));
 
@@ -186,8 +212,8 @@ class ProductSeeder extends Seeder
                 'description' => $m['desc'] . ' Our mangoes are picked at the perfect ripeness and delivered fresh. We guarantee carbide-free and chemical-free products for your safety and enjoyment.',
                 'is_active' => true,
                 'is_trending' => in_array($m['name'], [
-                    'Himsagar Mango (হিমসাগর আম)', 
-                    'Amrapali Mango (আম্রপালি আম)', 
+                    'Himsagar Mango (হিমসাগর আম)',
+                    'Amrapali Mango (আম্রপালি আম)',
                     'Langra Mango (ল্যাংড়া আম)',
                     'Gopalbhog Mango (গোপালভোগ আম)'
                 ]),
