@@ -7,21 +7,21 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     {{-- Dynamic SEO & Open Graph Meta Tags --}}
-    <meta name="description" content="@yield('meta_description', 'Bionic Garden - Premium Quality Dates, Nuts, and Organic Foods.')">
-    <meta name="keywords" content="@yield('meta_keywords', 'Bionic Garden, organic food, dates, nuts, healthy snacks')">
+    <meta name="description" content="@yield('meta_description', 'Laladia - Premium Quality Dates, Nuts, and Organic Foods.')">
+    <meta name="keywords" content="@yield('meta_keywords', 'Laladia, organic food, dates, nuts, healthy snacks')">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:title"
-        content="{{ config('app.name', 'Bionic Garden') }} @hasSection('title')
+        content="{{ config('app.name', 'Laladia') }} @hasSection('title')
 — @yield('title')
 @endif">
-    <meta property="og:description" content="@yield('meta_description', 'Bionic Garden - Premium Quality Dates, Nuts, and Organic Foods.')">
+    <meta property="og:description" content="@yield('meta_description', 'Laladia Garden - Premium Quality Dates, Nuts, and Organic Foods.')">
     <meta property="og:image" content="@yield('meta_image', asset('favicon.png'))">
 
     <link rel="icon" href="{{ asset('favicon.png') }}">
 
     <title>
-        {{ config('app.name', 'Bionic Garden') }}
+        {{ config('app.name', 'Laladia Garden') }}
         @hasSection('title')
             — @yield('title')
         @endif
@@ -137,13 +137,3 @@
 </body>
 
 </html>
-
-
-
-
-
-
-
-
-
-

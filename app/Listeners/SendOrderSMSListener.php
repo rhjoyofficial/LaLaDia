@@ -17,7 +17,7 @@ class SendOrderSMSListener implements ShouldQueue
     {
         $order = $event->order;
 
-        $message = "Dear {$order->customer_name}, your order {$order->order_number} has been received. Thank you for shopping with Bionic.";
+        $message = "Dear {$order->customer_name}, your order {$order->order_number} has been received. Thank you for shopping with Laladia.";
 
         SendSMSJob::dispatch(
             $order->customer_phone,

@@ -1,4 +1,4 @@
-# Bionic — Laravel eCommerce Platform
+# Laladia — Laravel eCommerce Platform
 
 A production-ready, full-featured eCommerce platform built on **Laravel 12**. Ships a customer-facing storefront, a public JSON API, a full admin dashboard, and a rich event-driven backend — all in one repository.
 
@@ -252,8 +252,8 @@ BionicProject/
 ### 1. Clone
 
 ```bash
-git clone <your-repo-url> bionic
-cd bionic
+git clone <your-repo-url> laladia
+cd laladia
 ```
 
 ### 2. Install dependencies

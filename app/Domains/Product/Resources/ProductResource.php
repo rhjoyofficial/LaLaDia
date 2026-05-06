@@ -34,6 +34,7 @@ class ProductResource extends JsonResource
             'variants' => $this->relationLoaded('allVariants')
                 ? ProductVariantResource::collection($this->allVariants)
                 : ProductVariantResource::collection($this->whenLoaded('variants')),
+            'certifications' => \App\Domains\Certification\Resources\CertificationResource::collection($this->whenLoaded('certifications')),
             'created_at' => $this->created_at?->toDateTimeString(),
         ];
     }

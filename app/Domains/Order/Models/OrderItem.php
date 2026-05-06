@@ -13,6 +13,7 @@ class OrderItem extends Model
         'combo_id',
         'sku_snapshot',
         'product_name_snapshot',
+        'combo_name_snapshot',
         'variant_title_snapshot',
         'original_unit_price',
         'discount_type_snapshot',

@@ -31,7 +31,7 @@ class WebhookService
       );
 
       Http::withHeaders([
-        'X-Bionic-Signature' => $signature
+        'X-Laladia-Signature' => $signature
       ])->post($hook->url, [
 
         'event' => $event,

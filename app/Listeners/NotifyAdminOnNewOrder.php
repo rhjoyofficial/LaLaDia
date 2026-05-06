@@ -36,8 +36,8 @@ class NotifyAdminOnNewOrder implements ShouldQueue
     public function handle(OrderCreated $event): void
     {
         $order      = $event->order;
-        $adminPhone = config('bionic.admin_phone');
-        $adminEmail = config('bionic.admin_email');
+        $adminPhone = config('laladia.admin_phone');
+        $adminEmail = config('laladia.admin_email');
 
         $smsBody = sprintf(
             '[%s] New order #%s | %s | ৳%s | %s',

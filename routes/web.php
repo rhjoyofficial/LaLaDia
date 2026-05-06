@@ -188,6 +188,10 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'admin'])->group(function ()
     Route::get('/categories', fn() => view('admin.categories.index'))->name('admin.categories')
         ->middleware('permission:category.view');
 
+    // Certifications
+    Route::get('/certifications', fn() => view('admin.certifications.index'))->name('admin.certifications')
+        ->middleware('permission:certification.view');
+
     // Orders
     Route::get('/orders', fn() => view('admin.orders.index'))->name('admin.orders')
         ->middleware('permission:order.view');

@@ -28,10 +28,17 @@ class ProductService
             $variants = $data['variants'] ?? [];
             unset($data['variants']);
 
+            $certifications = $data['certifications'] ?? null;
+            unset($data['certifications']);
+
             $product = Product::create($data);
             $product->variants()->createMany($variants);
 
-            return $product->load('variants');
+            if (isset($certifications)) {
+                $product->certifications()->sync($certifications);
+            }
+
+            return $product->load(['variants', 'certifications']);
         });
     }
 
@@ -66,6 +73,9 @@ class ProductService
             $variants = $data['variants'] ?? null;
             unset($data['variants']);
 
+            $certifications = $data['certifications'] ?? null;
+            unset($data['certifications']);
+
             $product->update($data);
 
             if ($variants !== null) {
@@ -91,7 +101,11 @@ class ProductService
                 // Variant deletion is intentionally handled via a separate explicit bulk action or endpoint if ever needed.
             }
 
-            return $product->load('variants');
+            if ($certifications !== null) {
+                $product->certifications()->sync($certifications);
+            }
+
+            return $product->load(['variants', 'certifications']);
         });
     }
 

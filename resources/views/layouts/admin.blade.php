@@ -38,7 +38,7 @@
 
         {{-- Brand --}}
         <div class="flex items-center gap-3 px-5 h-16 border-b border-gray-800">
-            <img src="{{ asset('assets/images/bionic-logo.png') }}" alt=""
+            <img src="{{ asset('assets/images/laladia-logo.png') }}" alt=""
                 class="h-8 w-auto brightness-0 invert">
             <span class="text-white font-bold text-base tracking-tight">Admin</span>
         </div>
@@ -88,6 +88,12 @@
                         'route' => 'admin.combos',
                         'icon' => 'fa-cubes',
                         'permission' => 'product.view',
+                    ],
+                    [
+                        'label' => 'Certifications',
+                        'route' => 'admin.certifications',
+                        'icon' => 'fa-certificate',
+                        'permission' => 'certification.view',
                     ],
                     [
                         'label' => 'Coupons',
@@ -237,13 +243,3 @@
 </body>
 
 </html>
-
-
-
-
-
-
-
-
-
-

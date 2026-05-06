@@ -128,7 +128,7 @@
                     <div>
                         <p class="font-semibold mb-0.5">HMAC Signature</p>
                         <p class="text-indigo-500">Every request includes an <code
-                                class="bg-indigo-100 px-1 rounded">X-Bionic-Signature</code> header — an HMAC-SHA256 of the
+                                class="bg-indigo-100 px-1 rounded">X-Laladia-Signature</code> header — an HMAC-SHA256 of the
                             JSON body signed with your secret. Verify it on your end to confirm authenticity.</p>
                     </div>
                 </div>
@@ -192,7 +192,7 @@
                             Endpoint URL <span class="text-red-500">*</span>
                         </label>
                         <input x-model="createModal.url" type="url"
-                            placeholder="https://your-app.com/webhooks/bionic"
+                            placeholder="https://your-app.com/webhooks/laladia"
                             class="w-full text-sm border rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none"
                             :class="createModal.errors.url ? 'border-red-400' : 'border-champagne'">
                         <p x-show="createModal.errors.url" class="text-xs text-red-500 mt-1"

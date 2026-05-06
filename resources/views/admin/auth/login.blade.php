@@ -23,7 +23,7 @@
             {{-- Logo --}}
             <div class="text-center mb-8">
                 <a href="{{ url('/') }}">
-                    <img src="{{ asset('assets/images/bionic-logo.png') }}" alt="{{ config('app.name') }}"
+                    <img src="{{ asset('assets/images/laladia-logo.png') }}" alt="{{ config('app.name') }}"
                         class="h-14 mx-auto">
                 </a>
                 <h1 class="mt-4 text-xl font-bold text-brown">Admin Panel</h1>
@@ -105,13 +105,3 @@
 </body>
 
 </html>
-
-
-
-
-
-
-
-
-
-

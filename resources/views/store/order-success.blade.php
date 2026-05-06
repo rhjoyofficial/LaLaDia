@@ -43,15 +43,15 @@
                     class="flex flex-col md:flex-row justify-between items-start md:items-center border-b-2 border-champagne pb-6 mb-8 gap-6">
                     <div>
                         <a href="/" class="shrink-0 block mb-2">
-                            <img src="{{ asset('assets/images/bionic-logo.png') }}" class="w-32 object-contain"
-                                alt="Bionic Logo">
+                            <img src="{{ asset('assets/images/laladia-logo.png') }}" class="w-32 object-contain"
+                                alt="Laladia Logo">
                         </a>
                         <div class="text-sm text-muted space-y-0.5">
-                            <p class="font-medium text-brown">Bionic Garden</p>
+                            <p class="font-medium text-brown">Laladia</p>
                             <p>65, Feroza Garden, Shahid Smriti Sarak</p>
                             <p>Barguna-8700</p>
                             <p>Phone: +8801334943785</p>
-                            <p>Email: care@bionic.garden</p>
+                            <p>Email: care@laladia.com</p>
                         </div>
                     </div>
                     <div class="text-left md:text-right">
@@ -195,7 +195,7 @@
                 <div class="mt-12 pt-6 border-t border-champagne text-center">
                     <p class="text-sm font-medium text-secondary">Thank you for your business!</p>
                     <p class="text-xs text-taupe mt-1">If you have any questions about this invoice, please contact
-                        care@bionic.garden</p>
+                        care@laladia.com</p>
                 </div>
 
             </div>
@@ -258,14 +258,16 @@
 
     @push('scripts')
         @if (!empty($purchaseEvent))
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            window.dataLayer.push({ ecommerce: null });
-            window.dataLayer.push({
-                event: 'purchase',
-                ecommerce: @json($purchaseEvent),
-            });
-        </script>
+            <script>
+                window.dataLayer = window.dataLayer || [];
+                window.dataLayer.push({
+                    ecommerce: null
+                });
+                window.dataLayer.push({
+                    event: 'purchase',
+                    ecommerce: @json($purchaseEvent),
+                });
+            </script>
         @endif
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
@@ -334,13 +336,3 @@
         </script>
     @endpush
 @endsection
-
-
-
-
-
-
-
-
-
-

@@ -30,7 +30,7 @@
                 ];
                 $links = [
                     $navLink('Home', 'home'),
-                    $navLink('Products', 'shop', ['catalog', 'product.show']),
+                    $navLink('Products', 'products', ['catalog', 'product.show']),
                     $navLink('Combos', 'combos.index', ['combos.*']),
                 ];
             @endphp

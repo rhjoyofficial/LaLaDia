@@ -62,7 +62,7 @@ return [
             'timeout' => null,
             'local_domain' => env('MAIL_EHLO_DOMAIN', parse_url((string) env('APP_URL', 'http://localhost'), PHP_URL_HOST)),
             'from' => [
-                'address' => env('NOREPLY_MAIL_FROM_ADDRESS', 'no-reply@bionic.garden'),
+                'address' => env('NOREPLY_MAIL_FROM_ADDRESS', 'no-reply@laladia.com'),
                 'name'    => env('NOREPLY_MAIL_FROM_NAME', ''),
             ],
         ],

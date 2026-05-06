@@ -49,20 +49,10 @@
                 <div class="mt-20 pt-12 border-t border-champagne text-center">
                     <p class="text-lg text-muted mb-6 font-light">If you have any questions about this
                         {{ strtolower($data['title']) }}, please contact us:</p>
-                    <a href="mailto:privacy@bionic.garden"
-                        class="text-primary font-bold text-xl hover:text-brand transition-colors duration-300">privacy@bionic.garden</a>
+                    <a href="mailto:privacy@laladia.com"
+                        class="text-primary font-bold text-xl hover:text-brand transition-colors duration-300">privacy@laladia.com</a>
                 </div>
             </div>
         </div>
     </div>
 @endsection
-
-
-
-
-
-
-
-
-
-

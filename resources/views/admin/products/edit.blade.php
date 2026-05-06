@@ -421,6 +421,30 @@
                     <p x-show="errors.thumbnail" class="mt-1 text-xs text-red-600" x-text="errors.thumbnail?.[0]"></p>
                 </div>
 
+                {{-- Certifications --}}
+                <div class="bg-white border border-champagne rounded-xl p-5">
+                    <h3 class="text-sm font-bold text-brown mb-3">Certifications</h3>
+                    <div class="space-y-2 max-h-60 overflow-y-auto no-scrollbar pr-2">
+                        <template x-for="cert in availableCertifications" :key="cert.id">
+                            <label class="flex items-center gap-3 p-2 rounded-lg border border-transparent hover:border-champagne hover:bg-cream transition cursor-pointer group">
+                                <input type="checkbox" 
+                                    :value="cert.id" 
+                                    x-model="form.certifications"
+                                    class="w-4 h-4 rounded border-champagne text-gold-antique focus:ring-gold-antique">
+                                <div class="flex items-center gap-2 flex-1">
+                                    <template x-if="cert.logo_url">
+                                        <img :src="cert.logo_url" class="w-6 h-6 object-contain bg-white rounded border border-champagne p-0.5">
+                                    </template>
+                                    <span class="text-sm text-brown group-hover:text-gold-antique transition" x-text="cert.name"></span>
+                                </div>
+                            </label>
+                        </template>
+                        <template x-if="availableCertifications.length === 0">
+                            <p class="text-xs text-muted italic">No certifications available.</p>
+                        </template>
+                    </div>
+                </div>
+
                 {{-- Gallery --}}
                 <div class="bg-white border border-champagne rounded-xl p-5">
                     <div class="flex items-center justify-between mb-3">
@@ -505,7 +529,9 @@ function productForm(productId) {
             meta_keywords: '',
             landing_slug: '',
             is_landing_enabled: false,
+            certifications: [],
         },
+        availableCertifications: [],
 
         thumbnail: null,
         thumbnailPreview: null,
@@ -519,7 +545,11 @@ function productForm(productId) {
         _giftSearchTimers: {},
 
         async init() {
-            await Promise.all([this.loadCategories(), this.loadShippingZones()]);
+            await Promise.all([
+                this.loadCategories(), 
+                this.loadShippingZones(),
+                this.loadAvailableCertifications()
+            ]);
             if (this.isEdit) {
                 await this.loadProduct();
             } else {
@@ -582,6 +612,16 @@ function productForm(productId) {
             } catch (e) { console.error(e); }
         },
 
+        async loadAvailableCertifications() {
+            try {
+                const r = await fetch('/api/v1/admin/certifications/all', {
+                    headers: { 'Accept': 'application/json' }
+                });
+                const data = await r.json();
+                this.availableCertifications = data.data ?? [];
+            } catch (e) { console.error(e); }
+        },
+
         async loadProduct() {
             try {
                 const r = await fetch(`/api/v1/admin/products/${this.productId}`, {
@@ -610,6 +650,7 @@ function productForm(productId) {
                     meta_keywords: p.meta_keywords ?? '',
                     landing_slug: p.landing_slug ?? '',
                     is_landing_enabled: p.is_landing_enabled ?? false,
+                    certifications: (p.certifications ?? []).map(c => c.id),
                 };
 
                 this.thumbnailPreview = p.image_url ?? null;
@@ -845,6 +886,10 @@ function productForm(productId) {
             this.submitError = null;
 
             const fd = this.buildFormData();
+            this.form.certifications.forEach(id => {
+                fd.append('certifications[]', id);
+            });
+
             const url = this.isEdit
                 ? `/api/v1/admin/products/${this.productId}`
                 : '/api/v1/admin/products';

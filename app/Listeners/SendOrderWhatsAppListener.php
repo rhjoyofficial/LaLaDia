@@ -17,7 +17,7 @@ class SendOrderWhatsAppListener implements ShouldQueue
         $order = $event->order;
 
         $message =
-            "Hello {$order->customer_name}, your order {$order->order_number} has been received. Thank you for shopping with Bionic.";
+            "Hello {$order->customer_name}, your order {$order->order_number} has been received. Thank you for shopping with Laladia.";
 
         SendWhatsAppJob::dispatch(
             $order->customer_phone,

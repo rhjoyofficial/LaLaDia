@@ -11,9 +11,9 @@ class PageController extends Controller
     {
         $data = [
             'title' => 'Victory of Wellness',
-            'brand_name' => 'Bionic',
+            'brand_name' => 'Laladia',
             'slogan' => 'Victory of Wellness',
-            'description' => 'Bionic is our nature-powered wellness brand, created to make toxin-free, functional foods accessible without compromising on purity or design. Every product is crafted to nourish body and mind while honoring the planet.',
+            'description' => 'Laladia is our nature-powered wellness brand, created to make toxin-free, functional foods accessible without compromising on purity or design. Every product is crafted to nourish body and mind while honoring the planet.',
             'values_tags' => ['Affordable premium', 'Toxin-free', 'Nature-driven'],
             'offerings' => [
                 [
@@ -33,7 +33,7 @@ class PageController extends Controller
                 ],
                 [
                     'title' => 'Multi-Channel Presence',
-                    'items' => 'Online (Bionic.garden), Retail Partners, and Curated Pop-ups.',
+                    'items' => 'Online (Laladia.com), Retail Partners, and Curated Pop-ups.',
                     'icon' => 'fa-solid fa-store'
                 ]
             ],
@@ -55,7 +55,7 @@ class PageController extends Controller
             'gallery_link' => route('gallery'),
             'videos' => [
                 [
-                    'title' => 'The Journey of Bionic',
+                    'title' => 'The Journey of Laladia',
                     'badge' => 'Documentary',
                     'thumbnail' => 'https://images.unsplash.com/photo-1505935428862-770b6f24f629?auto=format&fit=crop&q=80&w=600',
                     'type' => 'youtube',
@@ -127,7 +127,7 @@ class PageController extends Controller
         $data = [
             'title' => 'Contact Us',
             'subtitle' => 'We are here to help you on your health journey',
-            'email' => 'care@bionic.garden',
+            'email' => 'care@laladia.com',
             'phone' => '+8801733358158',
             'address' => '65, Feroza Garden, Shahid Smriti Sarak, Barguna-8700',
             'map_embed' => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7390.790966773862!2d90.12808499696692!3d22.149013013259335!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30aa998d2befec69%3A0x98060f6912c647bd!2sSANGRAM%20(Sangathita%20Gramunnyan%20Karmasuchi)!5e0!3m2!1sen!2sbd!4v1777365377648!5m2!1sen!2sbd'
@@ -199,7 +199,7 @@ class PageController extends Controller
                 ],
                 [
                     'heading' => 'Intellectual Property',
-                    'content' => 'All content on this website, including text, images, and logos, is the property of Bionic Project.'
+                    'content' => 'All content on this website, including text, images, and logos, is the property of Laladia Project.'
                 ]
             ]
         ];
@@ -222,7 +222,7 @@ class PageController extends Controller
                 ],
                 [
                     'heading' => 'External Links',
-                    'content' => 'Bionic Project is not responsible for the content or accuracy of third-party websites linked from our store.'
+                    'content' => 'Laladia Project is not responsible for the content or accuracy of third-party websites linked from our store.'
                 ]
             ]
         ];
@@ -232,7 +232,7 @@ class PageController extends Controller
     public function blog()
     {
         $data = [
-            'title' => 'Bionic Health Blog',
+            'title' => 'Laladia Health Blog',
             'subtitle' => 'Latest insights on nutrition, wellness, and organic living',
             'posts' => [
                 [
@@ -280,7 +280,7 @@ class PageController extends Controller
                     'type' => 'video',
                     'src' => 'kc6Fl8U384g',
                     'thumbnail' => 'https://images.unsplash.com/photo-1505935428862-770b6f24f629?auto=format&fit=crop&q=80&w=800',
-                    'title' => 'The Journey of Bionic',
+                    'title' => 'The Journey of Laladia',
                     'badge' => 'Documentary'
                 ],
                 [

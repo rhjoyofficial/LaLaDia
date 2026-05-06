@@ -18,6 +18,7 @@ use App\Domains\Order\Controllers\AdminTransactionController;
 use App\Domains\Product\Controllers\ProductRelationController;
 use App\Domains\Landing\Controllers\AdminLandingPageController;
 use App\Domains\Webhook\Controllers\AdminWebhookController;
+use App\Domains\Certification\Controllers\AdminCertificationController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->middleware(['auth:sanctum', 'admin'])->group(function () {
@@ -249,6 +250,20 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'admin'])->group(function ()
         Route::put('/{landingPage}', [AdminLandingPageController::class, 'update'])->middleware('permission:landing-pages.update');
         Route::patch('/{landingPage}/toggle-active', [AdminLandingPageController::class, 'toggleActive'])->middleware('permission:landing-pages.update');
         Route::delete('/{landingPage}', [AdminLandingPageController::class, 'destroy'])->middleware('permission:landing-pages.delete');
+    });
+
+    // --- Certifications ---
+    Route::group(['prefix' => 'certifications'], function () {
+        Route::middleware('permission:certification.view')->group(function () {
+            Route::get('/', [AdminCertificationController::class, 'index']);
+            Route::get('/all', [AdminCertificationController::class, 'all']);
+            Route::get('/{certification}', [AdminCertificationController::class, 'show']);
+        });
+
+        Route::post('/', [AdminCertificationController::class, 'store'])->middleware('permission:certification.create');
+        Route::put('/{certification}', [AdminCertificationController::class, 'update'])->middleware('permission:certification.update');
+        Route::patch('/{certification}/toggle-active', [AdminCertificationController::class, 'toggleActive'])->middleware('permission:certification.update');
+        Route::delete('/{certification}', [AdminCertificationController::class, 'destroy'])->middleware('permission:certification.delete');
     });
 
     // --- Hero Banners ---

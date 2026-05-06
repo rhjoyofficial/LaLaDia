@@ -42,6 +42,8 @@ class StoreProductRequest extends FormRequest
             'meta_title'          => 'nullable|string|max:255',
             'meta_description'    => 'nullable|string',
             'meta_keywords'       => 'nullable|string',
+            'certifications'      => 'nullable|array',
+            'certifications.*'    => 'exists:certifications,id',
         ];
     }
 

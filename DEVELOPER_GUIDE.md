@@ -47,7 +47,7 @@
 │                                                                     │
 │  Middleware Stack                                                   │
 │    SecureHeaders (CSP, HSTS, X-Frame)                              │
-│    HandleCartSession (bionic_cart_token cookie)                     │
+│    HandleCartSession (laladia_cart_token cookie)                     │
 │    EnsureUserIsAdmin   (role guard)                                  │
 │    Spatie Permission   (granular permission checks)                 │
 │                                                                     │
@@ -161,7 +161,7 @@ LaLaDia/
 │   │   └── Middleware/
 │   │       ├── SecureHeaders.php      # CSP, HSTS, X-Frame-Options on every response
 │   │       ├── EnsureUserIsAdmin.php  # Blocks non-admin roles from /admin/*
-│   │       └── HandleCartSession.php  # Manages bionic_cart_token cookie
+│   │       └── HandleCartSession.php  # Manages laladia_cart_token cookie
 │   │
 │   ├── Infrastructure/            # Adapters for external systems
 │   │   ├── Courier/
@@ -214,7 +214,7 @@ LaLaDia/
 │   └── app.php                    # Laravel 12 bootstrap: routing, middleware, exception handler
 │
 ├── config/
-│   ├── bionic.php                 # ADMIN_PHONE, ADMIN_EMAIL
+│   ├── laladia.php                 # ADMIN_PHONE, ADMIN_EMAIL
 │   ├── courier.php                # Pathao, Steadfast, RedX, CarryBee credentials
 │   ├── firebase.php               # FCM server key
 │   ├── sms.php                    # GreenWeb SMS API token + URL
@@ -372,7 +372,7 @@ Browser
         │
         ▼
   HandleCartSession middleware
-    → reads/creates bionic_cart_token cookie
+    → reads/creates laladia_cart_token cookie
     → attaches cart_token to $request->attributes
         │
         ▼
@@ -659,7 +659,7 @@ All couriers implement `Infrastructure/Courier/CourierInterface.php`. The active
 
 ### Outgoing Webhooks
 
-Webhooks are stored in the `webhooks` table (managed via the admin UI). On any supported event, `DispatchOrderCreatedWebhook` (et al.) dispatch `SendWebhookJob`, which calls `WebhookService::dispatch()`. Each HTTP call is signed with `X-Bionic-Signature: HMAC-SHA256(json_payload, secret)`.
+Webhooks are stored in the `webhooks` table (managed via the admin UI). On any supported event, `DispatchOrderCreatedWebhook` (et al.) dispatch `SendWebhookJob`, which calls `WebhookService::dispatch()`. Each HTTP call is signed with `X-laladia-Signature: HMAC-SHA256(json_payload, secret)`.
 
 Supported webhook events: `order.created`, `order.status_changed`, `order.payment_updated`, `shipment.status_updated`, `customer.registered`, `coupon.expired`.
 

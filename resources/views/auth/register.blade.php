@@ -14,7 +14,7 @@
                 <h2 class="mt-6 text-3xl font-bold tracking-tight text-brand font-['Plus_Jakarta_Sans']">
                     Create Account
                 </h2>
-                <p class="mt-2 text-sm text-muted">Join Bionic Garden for a better shopping experience</p>
+                <p class="mt-2 text-sm text-muted">Join Laladia Garden for a better shopping experience</p>
             </div>
 
             {{-- Error Container --}}
