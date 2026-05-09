@@ -89,16 +89,26 @@ class CheckoutController extends Controller
                 $authUser,
             );
 
+            // Eager-load relations needed for GA4 item_category without N+1
+            $order->load(['items.variant.product.category', 'items.combo']);
+
             $request->session()->put('last_order_id', $order->id);
             $request->session()->put('pending_purchase_event', [
                 'transaction_id' => $order->order_number,
                 'value'          => (float) $order->grand_total,
                 'currency'       => 'BDT',
-                'items'          => $order->items->map(fn($item) => [
-                    'item_id'   => $item->variant_id ?? ('combo_' . $item->combo_id),
-                    'item_name' => $item->combo_name_snapshot ?? $item->product_name_snapshot,
-                    'price'     => (float) $item->unit_price,
-                    'quantity'  => $item->quantity,
+                'coupon'         => $request->input('coupon_code'),
+                'items'          => $order->items->map(fn ($item) => [
+                    'item_id'       => $item->sku_snapshot
+                                        ?? ($item->variant_id ? (string) $item->variant_id : null)
+                                        ?? ('combo_' . $item->combo_id),
+                    'item_name'     => $item->combo_name_snapshot ?? $item->product_name_snapshot,
+                    'item_variant'  => $item->variant_title_snapshot,
+                    'item_category' => $item->combo_id
+                                        ? 'Combo'
+                                        : ($item->variant?->product?->category?->name),
+                    'price'         => (float) $item->unit_price,
+                    'quantity'      => $item->quantity,
                 ])->toArray(),
             ]);
 

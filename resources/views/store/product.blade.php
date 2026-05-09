@@ -247,7 +247,13 @@
                     <div class="flex flex-col sm:flex-row gap-3 pt-1">
                         <button id="addToCartBtn" type="button"
                                 class="addToCartBtn btn-primary btn-shimmer animate-soft-pulse flex-1 py-3 font-bold text-sm flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:pointer-events-none"
-                                data-variant="{{ $initialVariant['id'] ?? '' }}">
+                                data-variant="{{ $initialVariant['id'] ?? '' }}"
+                                data-ga-item='@json([
+                                    "item_id"       => $product->sku ?? (string) ($initialVariant["id"] ?? ""),
+                                    "item_name"     => $product->name,
+                                    "item_category" => $product->category?->name,
+                                    "price"         => (float) ($initialVariant["final_price"] ?? 0),
+                                ])'>
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                       d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
@@ -480,6 +486,16 @@
             stockText.textContent   = `${v.available_stock} units`;
             addToCartBtn.dataset.variant = v.id;
             if (mobileStickyCartBtn) mobileStickyCartBtn.dataset.variant = v.id;
+
+            // Keep GA4 item data in sync with selected variant
+            const _gaItem = JSON.stringify({
+                item_id:       '{{ addslashes($product->sku ?? '') }}' || String(v.id),
+                item_name:     '{{ addslashes($product->name) }}',
+                item_category: '{{ addslashes($product->category?->name ?? '') }}' || null,
+                price:         parseFloat(v.final_price ?? 0),
+            });
+            addToCartBtn.dataset.gaItem = _gaItem;
+            if (mobileStickyCartBtn) mobileStickyCartBtn.dataset.gaItem = _gaItem;
             if (mobileStickyPrice)   mobileStickyPrice.textContent = `৳${Number(v.final_price).toLocaleString('en-BD')}`;
 
             if (v.discount_percent) {

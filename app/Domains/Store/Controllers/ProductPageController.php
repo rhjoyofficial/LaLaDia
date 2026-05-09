@@ -57,9 +57,22 @@ class ProductPageController extends Controller
             ->take(12)
             ->values();
 
+        $defaultVariant = $product->variants->first();
+        $ga4 = [
+            'event' => 'view_item',
+            'item'  => [
+                'item_id'       => $product->sku ?? (string) ($defaultVariant?->id ?? $product->id),
+                'item_name'     => $product->name,
+                'item_category' => $product->category?->name,
+                'price'         => (float) ($defaultVariant?->final_price ?? $product->base_price),
+                'quantity'      => 1,
+            ],
+        ];
+
         return view('store.product', [
-            'product' => $product,
+            'product'         => $product,
             'relatedProducts' => $relatedProducts,
+            'ga4'             => $ga4,
         ]);
     }
 }

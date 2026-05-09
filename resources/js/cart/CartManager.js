@@ -117,6 +117,7 @@ export default class CartManager {
             "/add",
             { variant_id: variantId, quantity: qty },
             button,
+            qty,
         );
     }
 
@@ -125,6 +126,7 @@ export default class CartManager {
             "/add-combo",
             { combo_id: comboId, quantity: qty },
             button,
+            qty,
         );
     }
 
@@ -141,7 +143,7 @@ export default class CartManager {
         return headers;
     }
 
-    async _performCartAction(endpoint, data, button) {
+    async _performCartAction(endpoint, data, button, qty = 1) {
         if (this.pending) return;
         this.pending = true;
 
@@ -156,6 +158,14 @@ export default class CartManager {
             if (typeof flash === "function" && !res.data.prices_updated)
                 window.flash?.("Item Added to cart", "success", 2000);
             this.animateFlyToCart(button);
+
+            // GA4: add_to_cart — item metadata lives on the button via data-ga-item
+            if (button?.dataset?.gaItem) {
+                try {
+                    const gaItem = JSON.parse(button.dataset.gaItem);
+                    window.Analytics?.addToCart(gaItem, qty);
+                } catch { /* malformed data-ga-item — skip silently */ }
+            }
             // this.open();
         } catch (e) {
             if (typeof flash === "function")

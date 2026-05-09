@@ -1,5 +1,6 @@
 import "./bootstrap";
 import "./flash";
+import Analytics from "./analytics/AnalyticsManager";
 import "./search-suggestion";
 import "./filter/categoryFilter";
 import CatalogFilter from "./filter/catalogFilter";
@@ -99,19 +100,41 @@ document.addEventListener("DOMContentLoaded", () => {
     /* ===========================
        CART BOOT (global — every non-auth page)
     ============================ */
+    window.Analytics = Analytics;
     window.Cart = new CartManager();
     window.CartUI = new CartRenderer(); // sidebar drawer
 
     bindAddToCart();
     initProductCards();
 
+    // Fire page-level GA4 events injected by PHP controllers (view_item, etc.)
+    Analytics.autoFire();
+
     /* ===========================
        PAGE-SPECIFIC BOOTS
     ============================ */
 
-    // /cart page
+    // /cart page — fire view_cart once cart state is hydrated
     if (document.getElementById("pageCartItems")) {
         window.CartPage = new CartPageRenderer();
+
+        const _fireViewCart = () => {
+            const items = window.Cart?.state?.items ?? [];
+            if (!items.length) return;
+            const ga4Items = items
+                .filter((i) => !i.is_gift)
+                .map((i, idx) => Analytics._cartItemToGa4(i, idx));
+            const value = items
+                .filter((i) => !i.is_gift)
+                .reduce((s, i) => s + parseFloat(i.unit_price ?? 0) * i.quantity, 0);
+            Analytics.viewCart(ga4Items, value);
+        };
+
+        if (window.Cart?.initialized) {
+            _fireViewCart();
+        } else {
+            window.addEventListener("cart:updated", _fireViewCart, { once: true });
+        }
     }
 
     // /checkout page

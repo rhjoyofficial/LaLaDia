@@ -7,7 +7,10 @@
 
 {{-- Main Card - Named as group/card --}}
 <div class="product-card group/card flex flex-col h-full border border-champagne rounded-2xl p-2 md:p-4 transition-all duration-300 hover:shadow-lg hover:border-primary/20 bg-white"
-    data-variants='@json($frontendVariants)'>
+    data-variants='@json($frontendVariants)'
+    data-product-name="{{ $product->name }}"
+    data-product-category="{{ $product->category?->name }}"
+    data-product-sku="{{ $product->sku }}">
 
     {{-- IMAGE --}}
     <div class="relative aspect-square overflow-hidden rounded-xl bg-cream mb-4">
@@ -94,7 +97,13 @@
         <button
             class="addToCartBtn {{ $first?->available_stock <= 0 ? 'hidden' : '' }}
             w-full flex items-center justify-center gap-2 px-2.5 py-1.5 md:py-2.5 rounded-lg md:rounded-xl bg-primary/10 text-primary font-semibold hover:bg-primary hover:text-white! transition-all duration-300 active:scale-95 cursor-pointer focus:outline-none"
-            data-variant="{{ $first?->id }}">
+            data-variant="{{ $first?->id }}"
+            data-ga-item='@json([
+                "item_id"       => $product->sku ?? (string) $first?->id,
+                "item_name"     => $product->name,
+                "item_category" => $product->category?->name,
+                "price"         => (float) $first?->final_price,
+            ])'>
             Add To Cart
         </button>
 

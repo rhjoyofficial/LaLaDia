@@ -56,6 +56,9 @@
                             comboId: {{ $item->combo_id ?? 'null' }},
                             basePrice: {{ $price }},
                             tierPrices: @json($tierPrices->map(fn($t) => ['min_qty' => $t->min_qty, 'price' => $t->price])->values()),
+                            itemName: @json($name),
+                            itemCategory: @json($isVariant ? ($item->variant->product->category->name ?? null) : 'Combo'),
+                            itemId: @json($isVariant ? (string) $item->product_variant_id : 'combo_' . $item->combo_id),
                         })"
                             class="bg-white rounded-2xl shadow-sm border border-champagne overflow-hidden flex flex-col hover:shadow-md transition-shadow">
 
@@ -168,7 +171,10 @@
             variantId,
             comboId,
             basePrice,
-            tierPrices
+            tierPrices,
+            itemName,
+            itemCategory,
+            itemId,
         }) {
             return {
                 isVariant,
@@ -176,6 +182,9 @@
                 comboId,
                 basePrice,
                 tierPrices,
+                itemName,
+                itemCategory,
+                itemId,
                 quantity: 1,
                 adding: false,
                 added: false,
@@ -202,6 +211,14 @@
                         } else {
                             await window.cart.addCombo(this.comboId, this.quantity, btn);
                         }
+                        // GA4: price is dynamic (tier pricing), so we fire here rather
+                        // than relying on data-ga-item which would have a stale price
+                        window.Analytics?.addToCart({
+                            item_id:       this.itemId,
+                            item_name:     this.itemName,
+                            item_category: this.itemCategory,
+                            price:         this.effectivePrice(),
+                        }, this.quantity);
                         this.added = true;
                         setTimeout(() => {
                             this.added = false;

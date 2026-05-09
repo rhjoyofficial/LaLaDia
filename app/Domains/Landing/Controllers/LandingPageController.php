@@ -41,10 +41,52 @@ class LandingPageController extends Controller
             default                   => [],
         });
 
+        $ga4 = $this->buildGa4Context($landing, $data);
+
         return view($landing->resolveView(), array_merge($data, [
             'landing' => $landing,
             'zones'   => $zones,
+            'ga4'     => $ga4,
         ]));
+    }
+
+    /**
+     * Builds the window.__ga4__ context for view_item events on landing pages.
+     * Only TYPE_PRODUCT and TYPE_COMBO emit view_item.
+     * Sales/listing types have multiple items — no single item to represent.
+     */
+    private function buildGa4Context(LandingPage $landing, array $data): ?array
+    {
+        if ($landing->type === LandingPage::TYPE_PRODUCT && isset($data['product'])) {
+            $product = $data['product'];
+            $variant = $product->variants->first();
+            return [
+                'event' => 'view_item',
+                'item'  => [
+                    'item_id'       => $product->sku ?? (string) ($variant?->id ?? $product->id),
+                    'item_name'     => $product->name,
+                    'item_category' => $product->category?->name,
+                    'price'         => (float) ($variant?->final_price ?? $product->base_price),
+                    'quantity'      => 1,
+                ],
+            ];
+        }
+
+        if ($landing->type === LandingPage::TYPE_COMBO && isset($data['combo'])) {
+            $combo = $data['combo'];
+            return [
+                'event' => 'view_item',
+                'item'  => [
+                    'item_id'       => 'combo_' . $combo->id,
+                    'item_name'     => $combo->name,
+                    'item_category' => 'Combo',
+                    'price'         => (float) $combo->final_price,
+                    'quantity'      => 1,
+                ],
+            ];
+        }
+
+        return null;
     }
 
     /**

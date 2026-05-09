@@ -66,6 +66,29 @@ export default class CheckoutManager {
 
         // Fetch server-authoritative pricing
         await this.fetchPreview();
+
+        // GA4: begin_checkout — fire once per page load after items + pricing confirmed
+        this._fireBeginCheckout();
+    }
+
+    _fireBeginCheckout() {
+        if (!window.Analytics) return;
+        const items = this._checkoutItems().filter((i) => !i.is_gift);
+        if (!items.length) return;
+
+        const ga4Items = items.map((i, idx) =>
+            window.Analytics._cartItemToGa4(i, idx),
+        );
+        const value = items.reduce(
+            (s, i) => s + parseFloat(i.unit_price ?? 0) * (i.quantity ?? 1),
+            0,
+        );
+
+        window.Analytics.beginCheckout(
+            ga4Items,
+            value,
+            this.coupon?.code ?? null,
+        );
     }
 
     // ── Cart ────────────────────────────────────────────────────

@@ -69,6 +69,14 @@ export default function initProductCards() {
             // 5. Update the Data Attribute for the Add to Cart logic
             if (addBtn) {
                 addBtn.dataset.variant = v.id;
+
+                // Keep GA4 item metadata in sync with the selected variant
+                addBtn.dataset.gaItem = JSON.stringify({
+                    item_id:       card.dataset.productSku || String(v.id),
+                    item_name:     card.dataset.productName ?? '',
+                    item_category: card.dataset.productCategory ?? null,
+                    price:         parseFloat(v.final_price ?? 0),
+                });
             }
         }
 

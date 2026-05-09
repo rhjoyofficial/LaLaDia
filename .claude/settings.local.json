@@ -36,7 +36,10 @@
       "Bash(php -l app/Domains/Order/Requests/CheckoutPreviewRequest.php)",
       "Bash(php -l app/Domains/Order/Controllers/CheckoutController.php)",
       "Bash(Get-ChildItem -Path \"f:\\\\LaLaDia\\\\app\\\\Providers\" -Name)",
-      "Bash(xargs grep *)"
+      "Bash(xargs grep *)",
+      "Bash(node -e ' *)",
+      "Bash(php -r ' *)",
+      "Bash(npm run *)"
     ]
   }
 }

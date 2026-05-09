@@ -49,9 +49,21 @@ class ComboPageController extends Controller
                 ->get()
         );
 
+        $ga4 = [
+            'event' => 'view_item',
+            'item'  => [
+                'item_id'       => 'combo_' . $combo->id,
+                'item_name'     => $combo->name,
+                'item_category' => 'Combo',
+                'price'         => (float) $combo->final_price,
+                'quantity'      => 1,
+            ],
+        ];
+
         return view('store.combo', [
             'combo'         => $combo,
             'relatedCombos' => $relatedCombos,
+            'ga4'           => $ga4,
         ]);
     }
 }
