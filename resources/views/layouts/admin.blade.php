@@ -21,6 +21,28 @@
         }
     </style>
     @stack('styles')
+
+    {{--
+        Global fetch interceptor — patches window.fetch so every request from the admin
+        panel automatically includes:
+          • credentials: 'same-origin'  → sends the session cookie for Sanctum stateful auth
+          • X-CSRF-TOKEN header         → satisfies CSRF protection on mutating requests
+        This fixes the 401 Unauthorized errors returned by /api/v1/admin/* without
+        needing to touch every individual fetch() call in the admin blade views.
+    --}}
+    <script>
+        (function () {
+            const _csrfToken = document.querySelector('meta[name="csrf-token"]')?.content ?? '';
+            const _origFetch = window.fetch.bind(window);
+            window.fetch = function (input, init = {}) {
+                init.credentials = init.credentials ?? 'same-origin';
+                init.headers = Object.assign({
+                    'X-CSRF-TOKEN': _csrfToken,
+                }, init.headers ?? {});
+                return _origFetch(input, init);
+            };
+        })();
+    </script>
 </head>
 
 <body class="h-full bg-cream font-[Inter] antialiased no-scrollbar" x-data="{ sidebarOpen: false }">
@@ -236,7 +258,7 @@
     </div>
 
     {{-- Alpine.js via CDN (lightweight, no build step needed for admin) --}}
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.csp.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     @stack('scripts')
 </body>
 

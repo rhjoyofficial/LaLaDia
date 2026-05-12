@@ -26,13 +26,17 @@ class SecureHeaders
             ? " http://127.0.0.1:* http://localhost:* ws://127.0.0.1:* ws://localhost:*"
             : '';
 
+        // Admin panel uses the standard Alpine.js CDN build, which internally calls
+        // new Function() to evaluate expressions — this requires 'unsafe-eval'.
+        // We scope this to admin routes only to keep the storefront CSP strict.
+        $isAdminRoute = $request->is('admin/*') || $request->is('admin');
+        $evalDirective = $isAdminRoute ? " 'unsafe-eval'" : '';
+
         // 'unsafe-inline' is required while inline <script> blocks and Alpine.js
         // x-on handlers exist. Migrate to nonce-based CSP to remove it long-term.
-        // 'unsafe-eval' is NOT included — GSAP 3.x, Alpine.js, and all bundled
-        // libraries work without eval. Removed to restore meaningful XSS protection.
         $csp = implode('; ', [
             "default-src 'self'",
-            "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://connect.facebook.net https://www.google-analytics.com https://cdn.jsdelivr.net https://www.youtube.com https://s.ytimg.com https://player.vimeo.com{$devSources}",
+            "script-src 'self' 'unsafe-inline'{$evalDirective} https://www.googletagmanager.com https://connect.facebook.net https://www.google-analytics.com https://cdn.jsdelivr.net https://www.youtube.com https://s.ytimg.com https://player.vimeo.com{$devSources}",
             "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net{$devSources}",
             "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com",
             "img-src 'self' data: blob: https:",

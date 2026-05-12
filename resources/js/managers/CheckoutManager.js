@@ -108,16 +108,18 @@ export default class CheckoutManager {
      * Returns the parsed item object, or null when not in buy-now mode.
      */
     _consumeBuyNowItem() {
-        const isBuyNow = new URLSearchParams(window.location.search).has('buyNow');
+        const isBuyNow = new URLSearchParams(window.location.search).has(
+            "buyNow",
+        );
         if (!isBuyNow) return null;
 
         try {
-            const raw = sessionStorage.getItem('bionic_buy_now');
+            const raw = sessionStorage.getItem("bionic_buy_now");
             if (!raw) return null;
-            sessionStorage.removeItem('bionic_buy_now');
+            sessionStorage.removeItem("bionic_buy_now");
             return JSON.parse(raw);
         } catch {
-            sessionStorage.removeItem('bionic_buy_now');
+            sessionStorage.removeItem("bionic_buy_now");
             return null;
         }
     }
@@ -155,7 +157,9 @@ export default class CheckoutManager {
                 const lineTotal = (i.unit_price * i.quantity).toFixed(2);
                 const imageUrl = i.image_url || "/images/placeholder.png";
 
-                const giftBadge = isGift ? '<div class="absolute top-0 left-0 bg-emerald-500 text-white text-[8px] font-bold px-1 py-0.5 rounded-br uppercase z-10 shadow-sm">Gift</div>' : '';
+                const giftBadge = isGift
+                    ? '<div class="absolute top-0 left-0 bg-emerald-500 text-white text-[8px] font-bold px-1 py-0.5 rounded-br uppercase z-10 shadow-sm">Gift</div>'
+                    : "";
 
                 return `<div class="flex items-center gap-3 py-3 border-b border-gray-100 last:border-0 relative">
                 <div class="w-12 h-12 rounded-lg bg-gray-50 overflow-hidden shrink-0 border border-gray-100 relative">
@@ -166,7 +170,7 @@ export default class CheckoutManager {
                     <p class="text-sm font-semibold text-gray-800 truncate font-bengali">${name}</p>
                     <p class="text-xs text-gray-400">${variant ?? ""} × ${i.quantity}</p>
                 </div>
-                <p class="text-sm font-bold text-gray-800 font-bengali shrink-0">${isGift ? '<span class="text-emerald-600 text-[11px] uppercase tracking-wider">Free Gift</span>' : '৳' + lineTotal}</p>
+                <p class="text-sm font-bold text-gray-800 font-bengali shrink-0">${isGift ? '<span class="text-emerald-600 text-[11px] uppercase tracking-wider">Free Gift</span>' : "৳" + lineTotal}</p>
             </div>`;
             })
             .join("");
@@ -198,8 +202,8 @@ export default class CheckoutManager {
                 this.shippingEl.textContent = !this.selectedZone
                     ? "Select zone"
                     : p.shipping_cost === 0
-                        ? "Free"
-                        : "৳" + p.shipping_cost.toFixed(2);
+                      ? "Free"
+                      : "৳" + p.shipping_cost.toFixed(2);
             }
 
             if (this.totalEl) {
@@ -301,7 +305,6 @@ export default class CheckoutManager {
                     <div class="flex flex-wrap items-center gap-2 mt-0.5">
                         <span class="text-xs text-gray-500">৳${zone.base_charge} base charge</span>
                         ${freeNote ? `<span class="text-[10px] text-gray-300">·</span>${freeNote.replace('class="', 'class="text-xs ')}` : ""}
-                        ${days ? `<span class="text-[10px] text-gray-300">·</span><span class="text-xs text-gray-500">${days}</span>` : ""}
                     </div>
                 </div>
             </label>`;
@@ -428,8 +431,8 @@ export default class CheckoutManager {
             (type === "success"
                 ? "text-green-600"
                 : type === "error"
-                    ? "text-red-500"
-                    : "hidden");
+                  ? "text-red-500"
+                  : "hidden");
     }
 
     _setCouponLoading(loading) {
@@ -438,8 +441,8 @@ export default class CheckoutManager {
         this.couponBtn.textContent = loading
             ? "Checking…"
             : this.coupon
-                ? "Remove"
-                : "Apply";
+              ? "Remove"
+              : "Apply";
     }
 
     // ── Submit ──────────────────────────────────────────────────
@@ -551,12 +554,15 @@ export default class CheckoutManager {
 
         if (!this.selectedZone) {
             // window.flash?.("Please select a delivery zone.", "error");
-            this.zonesModule?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            this.zonesModule?.classList.add('ring-2', 'ring-red-500');
+            this.zonesModule?.scrollIntoView({
+                behavior: "smooth",
+                block: "center",
+            });
+            this.zonesModule?.classList.add("ring-2", "ring-red-500");
             setTimeout(() => {
-                this.zonesModule?.classList.remove('ring-2', 'ring-red-500');
+                this.zonesModule?.classList.remove("ring-2", "ring-red-500");
             }, 2000);
-            
+
             return {
                 valid: false,
                 message: "Please select a delivery zone.",
