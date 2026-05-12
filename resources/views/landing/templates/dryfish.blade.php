@@ -54,7 +54,7 @@
 
 @section('content')
     <section class="relative bg-white py-16 md:py-24 overflow-hidden">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 <div class="text-center lg:text-left order-2 lg:order-1">
                     <div
@@ -125,7 +125,7 @@
     </section>
 
     <section class="py-16 md:py-24 bg-white overflow-hidden">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col lg:flex-row items-center gap-12">
                 <div class="w-full lg:w-1/2 order-2 lg:order-1">
                     <div class="relative">
@@ -208,7 +208,7 @@
     </section>
 
     <section class="py-16 md:py-24 bg-white relative overflow-hidden">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="text-center max-w-3xl mx-auto mb-16">
                 <h2 class="text-3xl md:text-4xl font-bold text-dark font-noto mb-4">
                     সব শুঁটকি কি
@@ -367,7 +367,7 @@
     </section>
 
     <section id="natural-promise" class="py-16 md:py-24 bg-amber-50/50 relative overflow-hidden">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 <div class="order-2 lg:order-1">
                     <h2 class="text-3xl md:text-4xl font-bold text-dark font-noto mb-6 leading-tight">
@@ -471,7 +471,7 @@
     </section>
 
     <section id="drying-tech" class="py-16 md:py-24 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-3xl mx-auto mb-16">
                 <h2 class="text-3xl md:text-4xl font-bold text-dark font-noto mb-4">
                     উন্নত প্রযুক্তি: ধুলোবালি ও
@@ -536,7 +536,7 @@
     </section>
 
     <section id="hygiene-packaging" class="py-16 md:py-20 bg-slate-50 overflow-hidden relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 <div class="order-1 lg:order-2 space-y-6">
                     <div
@@ -593,7 +593,7 @@
     </section>
 
     <section id="portion-logic" class="py-16 md:py-24 bg-white overflow-hidden">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col lg:flex-row items-center gap-12">
                 <div class="w-full lg:w-1/2 relative group">
                     <div

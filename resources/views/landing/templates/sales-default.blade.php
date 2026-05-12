@@ -8,7 +8,7 @@
 
         {{-- Hero Section --}}
         <div class="relative bg-linear-to-br from-brand via-brown to-gold-antique text-white overflow-hidden">
-            <div class="max-w-7xl mx-auto px-4 py-12 md:py-20 text-center">
+            <div class="max-w-8xl mx-auto px-4 py-12 md:py-20 text-center">
                 @if ($landing->hero_image)
                     <img src="{{ asset('storage/' . $landing->hero_image) }}" alt="{{ $landing->title }}"
                         class="max-w-md w-full mx-auto mb-8 rounded-2xl shadow-2xl">
@@ -225,13 +225,3 @@
                 })->values());
     </script>
 @endsection
-
-
-
-
-
-
-
-
-
-

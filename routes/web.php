@@ -30,7 +30,7 @@ Route::get('/shop', function () {
     return redirect()->route('home');
 })->name('shop');
 
-Route::get('/products', [CatalogController::class, 'index'])->name('products.index');
+Route::get('/products', [CatalogController::class, 'index'])->name('product.index');
 Route::get('/category/{slug}', [CatalogController::class, 'category'])->name('category.view');
 Route::get('/product/{slug}', [ProductPageController::class, 'show'])->name('product.show');
 Route::get('/combos', [ComboPageController::class, 'index'])->name('combos.index');
@@ -40,7 +40,6 @@ Route::get('/combos/{slug}', [ComboPageController::class, 'show'])->name('combos
 Route::get('/product-page/{slug}', [LandingPageController::class, 'show'])->name('landing.page');
 // Sales/listing landing pages live under /p/ to avoid a catch-all conflict
 Route::get('/page/{slug}', [LandingPageController::class, 'show'])->name('landing.p');
-
 
 /*
 |--------------------------------------------------------------------------
@@ -66,9 +65,6 @@ Route::get('/order-success/{order}', function ($orderNumber) {
     return view('store.order-success', compact('order', 'purchaseEvent'));
 })->name('order.success');
 Route::get('/order-failed', [OrderController::class, 'failed'])->name('order.failed');
-
-
-
 
 /*
 |--------------------------------------------------------------------------
@@ -99,9 +95,9 @@ Route::prefix('account')->middleware('auth:sanctum')->group(function () {
 
 Route::middleware('guest:sanctum')->group(function () {
     // GET — render forms
-    Route::get('/login',          fn() => view('auth.login'))->name('login');
-    Route::get('/register',       fn() => view('auth.register'))->name('register');
-    Route::get('/forgot-password', fn() => view('auth.forgot-password'))->name('password.request');
+    Route::get('/login', fn () => view('auth.login'))->name('login');
+    Route::get('/register', fn () => view('auth.register'))->name('register');
+    Route::get('/forgot-password', fn () => view('auth.forgot-password'))->name('password.request');
     Route::get('/password/reset/{token}', function (string $token) {
         return view('auth.reset-password', [
             'token' => $token,
@@ -110,7 +106,7 @@ Route::middleware('guest:sanctum')->group(function () {
     })->name('password.reset');
 
     // POST — handle form submissions (session-based)
-    Route::post('/login',    [WebAuthController::class, 'login'])->name('web.login')
+    Route::post('/login', [WebAuthController::class, 'login'])->name('web.login')
         ->middleware('throttle:10,1');
     Route::post('/register', [WebAuthController::class, 'register'])->name('web.register')
         ->middleware('throttle:5,1');
@@ -143,7 +139,7 @@ Route::get('/gallery', [PageController::class, 'gallery'])->name('gallery');
 */
 
 Route::prefix('admin')->group(function () {
-    Route::get('/login',  [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
+    Route::get('/login', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
     Route::post('/login', [AdminAuthController::class, 'login'])->name('admin.login.submit')
         ->middleware('throttle:5,1');
 });
@@ -167,82 +163,82 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'admin'])->group(function ()
     Route::get('/dashboard', AdminDashboardController::class)->name('admin.dashboard');
 
     // Products
-    Route::get('/products', fn() => view('admin.products.index'))->name('admin.products')
+    Route::get('/products', fn () => view('admin.product.index'))->name('admin.products')
         ->middleware('permission:product.view');
-    Route::get('/products/create', fn() => view('admin.products.create'))->name('admin.products.create')
+    Route::get('/products/create', fn () => view('admin.products.create'))->name('admin.products.create')
         ->middleware('permission:product.create');
     Route::get('/products/{product}/edit', function (\App\Domains\Product\Models\Product $product) {
         return view('admin.products.edit', ['productId' => $product->id]);
     })->name('admin.products.edit')->middleware('permission:product.update');
 
     // Combos
-    Route::get('/combos', fn() => view('admin.combos.index'))->name('admin.combos')
+    Route::get('/combos', fn () => view('admin.combos.index'))->name('admin.combos')
         ->middleware('permission:product.view');
-    Route::get('/combos/create', fn() => view('admin.combos.create'))->name('admin.combos.create')
+    Route::get('/combos/create', fn () => view('admin.combos.create'))->name('admin.combos.create')
         ->middleware('permission:product.create');
     Route::get('/combos/{combo}/edit', function (\App\Domains\Product\Models\Combo $combo) {
         return view('admin.combos.edit', ['comboId' => $combo->id]);
     })->name('admin.combos.edit')->middleware('permission:product.update');
 
     // Categories — all CRUD handled inline via Alpine.js modals on the index page
-    Route::get('/categories', fn() => view('admin.categories.index'))->name('admin.categories')
+    Route::get('/categories', fn () => view('admin.categories.index'))->name('admin.categories')
         ->middleware('permission:category.view');
 
     // Certifications
-    Route::get('/certifications', fn() => view('admin.certifications.index'))->name('admin.certifications')
+    Route::get('/certifications', fn () => view('admin.certifications.index'))->name('admin.certifications')
         ->middleware('permission:certification.view');
 
     // Orders
-    Route::get('/orders', fn() => view('admin.orders.index'))->name('admin.orders')
+    Route::get('/orders', fn () => view('admin.orders.index'))->name('admin.orders')
         ->middleware('permission:order.view');
-    Route::get('/orders/create', fn() => view('admin.orders.create'))->name('admin.orders.create')
+    Route::get('/orders/create', fn () => view('admin.orders.create'))->name('admin.orders.create')
         ->middleware('permission:order.create');
     Route::get('/orders/{order}', function (\App\Domains\Order\Models\Order $order) {
         return view('admin.orders.show', ['orderId' => $order->id]);
     })->name('admin.orders.show')->middleware('permission:order.view');
 
     // Customers
-    Route::get('/customers', fn() => view('admin.customers.index'))->name('admin.customers')
+    Route::get('/customers', fn () => view('admin.customers.index'))->name('admin.customers')
         ->middleware('permission:customer.view');
     Route::get('/customers/{user}', function (\App\Models\User $user) {
         return view('admin.customers.show', ['customerId' => $user->id]);
     })->name('admin.customers.show')->middleware('permission:customer.view');
 
     // Coupons (create/edit via modal on index)
-    Route::get('/coupons', fn() => view('admin.coupons.index'))->name('admin.coupons')
+    Route::get('/coupons', fn () => view('admin.coupons.index'))->name('admin.coupons')
         ->middleware('permission:coupon.view');
 
     // Shipping
-    Route::get('/shipping', fn() => view('admin.shipping.index'))->name('admin.shipping')
+    Route::get('/shipping', fn () => view('admin.shipping.index'))->name('admin.shipping')
         ->middleware('permission:shipping.view');
 
     // Transactions & Reconciliation
-    Route::get('/transactions', fn() => view('admin.transactions.index'))->name('admin.transactions')
+    Route::get('/transactions', fn () => view('admin.transactions.index'))->name('admin.transactions')
         ->middleware('permission:order.view');
 
     // Access Control
-    Route::get('/access-control', fn() => view('admin.access-control.index'))->name('admin.access-control')
+    Route::get('/access-control', fn () => view('admin.access-control.index'))->name('admin.access-control')
         ->middleware('permission:role.manage');
 
     // Notifications
-    Route::get('/notifications', fn() => view('admin.notifications.index'))->name('admin.notifications')
+    Route::get('/notifications', fn () => view('admin.notifications.index'))->name('admin.notifications')
         ->middleware('permission:notification.view');
 
     // Webhooks
-    Route::get('/webhooks', fn() => view('admin.webhooks.index'))->name('admin.webhooks')
+    Route::get('/webhooks', fn () => view('admin.webhooks.index'))->name('admin.webhooks')
         ->middleware('permission:system.webhooks');
 
     // Landing Pages
-    Route::get('/landing-pages', fn() => view('admin.landing-pages.index'))->name('admin.landing-pages')
+    Route::get('/landing-pages', fn () => view('admin.landing-pages.index'))->name('admin.landing-pages')
         ->middleware('permission:landing-pages.view');
-    Route::get('/landing-pages/create', fn() => view('admin.landing-pages.create'))->name('admin.landing-pages.create')
+    Route::get('/landing-pages/create', fn () => view('admin.landing-pages.create'))->name('admin.landing-pages.create')
         ->middleware('permission:landing-pages.create');
     Route::get('/landing-pages/{landingPage}/edit', function (LandingPage $landingPage) {
         return view('admin.landing-pages.edit', ['landingPageId' => $landingPage->id]);
     })->name('admin.landing-pages.edit')->middleware('permission:landing-pages.update');
 
     // Hero Banners
-    Route::get('/hero-banners', fn() => view('admin.hero-banners.index'))->name('admin.hero-banners')
+    Route::get('/hero-banners', fn () => view('admin.hero-banners.index'))->name('admin.hero-banners')
         ->middleware('permission:hero.view');
 
     // Activity Log
@@ -250,6 +246,6 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'admin'])->group(function ()
         ->middleware('permission:system.activity_log');
 
     // Settings & System Health
-    Route::get('/settings', fn() => view('admin.settings.index'))->name('admin.settings')
+    Route::get('/settings', fn () => view('admin.settings.index'))->name('admin.settings')
         ->middleware('permission:system.settings');
 });

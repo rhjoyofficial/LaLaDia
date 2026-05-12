@@ -8,7 +8,7 @@
 
         {{-- Hero Section --}}
         <div class="relative bg-linear-to-br from-brand via-brown to-gold-antique text-white overflow-hidden">
-            <div class="max-w-7xl mx-auto px-4 py-12 md:py-20">
+            <div class="max-w-8xl mx-auto px-4 py-12 md:py-20">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
                     {{-- Combo Image --}}
                     <div class="flex justify-center">
@@ -143,13 +143,3 @@
         }];
     </script>
 @endsection
-
-
-
-
-
-
-
-
-
-

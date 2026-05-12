@@ -1,68 +1,132 @@
 @extends('layouts.app')
 
 @php
-    $variants       = $product->variants->map->toFrontend()->values();
+    $variants = $product->variants->map->toFrontend()->values();
     $initialVariant = $variants->first();
-    $gallery        = collect($product->gallery ?? [])->filter()->values();
-    $mainImage      = $product->image_url;
+    $gallery = collect($product->gallery ?? [])
+        ->filter()
+        ->values();
+    $mainImage = $product->image_url;
     $certifications = $product->certifications;
+
+    $gaProductItem = [
+        'item_id' => $product->sku ?? (string) ($initialVariant['id'] ?? ''),
+        'item_name' => $product->name,
+        'item_category' => $product->category?->name,
+        'price' => (float) ($initialVariant['final_price'] ?? 0),
+    ];
 @endphp
 
 @section('title', $product->name)
 
 @push('styles')
-<style>
-    /* ── Variant button active/inactive states ── */
-    .variant-btn          { border: 2px solid var(--color-border); background: var(--color-surface); color: var(--color-text-muted); }
-    .variant-btn:hover    { border-color: var(--color-primary); color: var(--color-primary); }
-    .variant-btn.active   { border-color: var(--color-primary); color: var(--color-primary); background: var(--color-bg-soft); }
+    <style>
+        /* ── Variant button active/inactive states ── */
+        .variant-btn {
+            border: 2px solid var(--color-border);
+            background: var(--color-surface);
+            color: var(--color-text-muted);
+        }
 
-    /* ── Tab nav active ── */
-    .tab-btn              { border-bottom: 2px solid transparent; color: var(--color-text-muted); }
-    .tab-btn.active       { border-color: var(--color-primary); color: var(--color-primary); font-weight: 600; }
+        .variant-btn:hover {
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+        }
 
-    /* ── Thumbnail active ring ── */
-    .thumbBtn.active      { border-color: var(--color-primary) !important; }
+        .variant-btn.active {
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+            background: var(--color-bg-soft);
+        }
 
-    /* ── Qty stepper ── */
-    .qty-btn { width: 2.25rem; height: 2.25rem; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.1rem; font-weight: 700; border-right: 1px solid var(--color-border); transition: background 0.15s; }
-    .qty-btn:last-of-type { border-right: none; border-left: 1px solid var(--color-border); }
-    .qty-btn:hover { background: var(--color-bg-soft); color: var(--color-text-secondary); }
+        /* ── Tab nav active ── */
+        .tab-btn {
+            border-bottom: 2px solid transparent;
+            color: var(--color-text-muted);
+        }
 
-    /* ── Buy-now dark button ── */
-    .btn-dark { background: var(--color-text); color: white; border-radius: 12px; transition: all 0.3s ease; }
-    .btn-dark:hover { opacity: 0.88; }
+        .tab-btn.active {
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+            font-weight: 600;
+        }
 
-    /* ── Nutrition table row ── */
-    .nutrition-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--color-border); }
-    .nutrition-row:last-child { border-bottom: none; }
-</style>
+        /* ── Thumbnail active ring ── */
+        .thumbBtn.active {
+            border-color: var(--color-primary) !important;
+        }
+
+        /* ── Qty stepper ── */
+        .qty-btn {
+            width: 2.25rem;
+            height: 2.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-right: 1px solid var(--color-border);
+            transition: background 0.15s;
+        }
+
+        .qty-btn:last-of-type {
+            border-right: none;
+            border-left: 1px solid var(--color-border);
+        }
+
+        .qty-btn:hover {
+            background: var(--color-bg-soft);
+            color: var(--color-text-secondary);
+        }
+
+        /* ── Buy-now dark button ── */
+        .btn-dark {
+            background: var(--color-text);
+            color: white;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-dark:hover {
+            opacity: 0.88;
+        }
+
+        /* ── Nutrition table row ── */
+        .nutrition-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .nutrition-row:last-child {
+            border-bottom: none;
+        }
+    </style>
 @endpush
 
 @section('content')
 
     {{-- ══ BREADCRUMB ══ --}}
-    <nav class="max-w-7xl mx-auto px-4 pt-4 pb-0"
-         style="color: var(--color-text-muted); font-size: 0.75rem;">
+    <nav class="max-w-8xl mx-auto px-4 pt-4 pb-0" style="color: var(--color-text-muted); font-size: 0.75rem;">
         <ol class="flex items-center gap-1.5">
-            <li><a href="{{ route('home') }}"
-                   style="color: var(--color-text-muted);"
-                   onmouseover="this.style.color='var(--color-primary)'"
-                   onmouseout="this.style.color='var(--color-text-muted)'">Home</a></li>
+            <li><a href="{{ route('home') }}" style="color: var(--color-text-muted);"
+                    onmouseover="this.style.color='var(--color-primary)'"
+                    onmouseout="this.style.color='var(--color-text-muted)'">Home</a></li>
             <li style="color: var(--color-border);">›</li>
-            <li><a href="{{ route('products.index') }}"
-                   style="color: var(--color-text-muted);"
-                   onmouseover="this.style.color='var(--color-primary)'"
-                   onmouseout="this.style.color='var(--color-text-muted)'">Shop</a></li>
+            <li><a href="{{ route('product.index') }}" style="color: var(--color-text-muted);"
+                    onmouseover="this.style.color='var(--color-primary)'"
+                    onmouseout="this.style.color='var(--color-text-muted)'">Shop</a></li>
             @if ($product->category)
                 <li style="color: var(--color-border);">›</li>
-                <li><a href="{{ route('products.index', ['category' => $product->category->slug]) }}"
-                       style="color: var(--color-text-muted);"
-                       onmouseover="this.style.color='var(--color-primary)'"
-                       onmouseout="this.style.color='var(--color-text-muted)'">{{ $product->category->name }}</a></li>
+                <li><a href="{{ route('product.index', ['category' => $product->category->slug]) }}"
+                        style="color: var(--color-text-muted);" onmouseover="this.style.color='var(--color-primary)'"
+                        onmouseout="this.style.color='var(--color-text-muted)'">{{ $product->category->name }}</a></li>
             @endif
             <li style="color: var(--color-border);">›</li>
-            <li style="color: var(--color-text-secondary); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px;">
+            <li
+                style="color: var(--color-text-secondary); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px;">
                 {{ $product->name }}
             </li>
         </ol>
@@ -70,7 +134,7 @@
 
     {{-- ══ MAIN PRODUCT SECTION ══ --}}
     <section style="background: var(--color-bg);" class="pb-32 md:pb-16">
-        <div class="max-w-7xl mx-auto px-4 py-6 md:py-10">
+        <div class="max-w-8xl mx-auto px-4 py-6 md:py-10">
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[2fr_3fr] gap-6 md:gap-10 lg:gap-x-16">
 
@@ -78,30 +142,30 @@
                 <div class="space-y-4">
                     {{-- Main image --}}
                     <div class="aspect-square rounded-2xl overflow-hidden shadow-sm"
-                         style="background: var(--color-surface); border: 1px solid var(--color-border);">
+                        style="background: var(--color-surface); border: 1px solid var(--color-border);">
                         <img id="productMainImage" src="{{ $mainImage }}" alt="{{ $product->name }}"
-                             class="w-full h-full object-contain p-4 transition-opacity duration-300">
+                            class="w-full h-full object-contain p-4 transition-opacity duration-300">
                     </div>
 
                     {{-- Thumbnails --}}
                     @if ($gallery->isNotEmpty())
                         <div class="grid grid-cols-5 gap-2">
                             <button type="button"
-                                    class="thumbBtn active aspect-square rounded-xl overflow-hidden p-1 border-2 transition-all duration-200"
-                                    style="background: var(--color-surface); border-color: var(--color-primary);"
-                                    data-src="{{ $mainImage }}">
+                                class="thumbBtn active aspect-square rounded-xl overflow-hidden p-1 border-2 transition-all duration-200"
+                                style="background: var(--color-surface); border-color: var(--color-primary);"
+                                data-src="{{ $mainImage }}">
                                 <img src="{{ $mainImage }}" alt="thumbnail" loading="lazy"
-                                     class="w-full h-full object-cover rounded-lg">
+                                    class="w-full h-full object-cover rounded-lg">
                             </button>
                             @foreach ($gallery as $image)
                                 <button type="button"
-                                        class="thumbBtn aspect-square rounded-xl overflow-hidden p-1 border transition-all duration-200"
-                                        style="background: var(--color-surface); border-color: var(--color-border);"
-                                        onmouseover="this.style.borderColor='var(--color-primary)'"
-                                        onmouseout="if(!this.classList.contains('active')) this.style.borderColor='var(--color-border)'"
-                                        data-src="{{ asset('storage/' . $image) }}">
+                                    class="thumbBtn aspect-square rounded-xl overflow-hidden p-1 border transition-all duration-200"
+                                    style="background: var(--color-surface); border-color: var(--color-border);"
+                                    onmouseover="this.style.borderColor='var(--color-primary)'"
+                                    onmouseout="if(!this.classList.contains('active')) this.style.borderColor='var(--color-border)'"
+                                    data-src="{{ asset('storage/' . $image) }}">
                                     <img src="{{ asset('storage/' . $image) }}" alt="thumbnail" loading="lazy"
-                                         class="w-full h-full object-cover rounded-lg">
+                                        class="w-full h-full object-cover rounded-lg">
                                 </button>
                             @endforeach
                         </div>
@@ -114,19 +178,22 @@
                     {{-- Category + Stars --}}
                     <div class="flex items-center gap-4 flex-wrap">
                         @if ($product->category)
-                            <span class="luxury-fire-bg px-3 py-1 rounded text-white text-xs font-semibold uppercase tracking-wide">
+                            <span
+                                class="luxury-fire-bg px-3 py-1 rounded text-white text-xs font-semibold uppercase tracking-wide">
                                 {{ $product->category->name }}
                             </span>
                         @endif
                         <div class="flex items-center gap-0.5">
                             @for ($i = 1; $i <= 5; $i++)
                                 <svg class="w-4 h-4 star-glow" fill="currentColor" viewBox="0 0 20 20"
-                                     style="color: {{ $i <= ($product->rating ?? 5) ? 'var(--color-accent)' : 'var(--color-border)' }};">
-                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                    style="color: {{ $i <= ($product->rating ?? 5) ? 'var(--color-accent)' : 'var(--color-border)' }};">
+                                    <path
+                                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                                 </svg>
                             @endfor
                             @if (isset($product->reviews_count))
-                                <span class="text-xs ml-1" style="color: var(--color-text-muted);">({{ $product->reviews_count }})</span>
+                                <span class="text-xs ml-1"
+                                    style="color: var(--color-text-muted);">({{ $product->reviews_count }})</span>
                             @endif
                         </div>
                     </div>
@@ -139,7 +206,7 @@
                     {{-- Short description --}}
                     @if ($product->short_description)
                         <p class="text-sm md:text-base leading-relaxed line-clamp-2"
-                           style="color: var(--color-text-muted);">
+                            style="color: var(--color-text-muted);">
                             {{ $product->short_description }}
                         </p>
                     @endif
@@ -147,17 +214,17 @@
                     {{-- Price row --}}
                     <div class="flex items-center gap-3 flex-wrap">
                         <span id="variantFinalPrice" class="text-2xl font-bold font-bengali"
-                              style="color: var(--color-primary); font-weight: 700;">
+                            style="color: var(--color-primary); font-weight: 700;">
                             ৳{{ number_format($initialVariant['final_price'] ?? 0, 2) }}
                         </span>
                         <span id="variantOriginalPrice"
-                              class="text-base line-through font-bengali {{ !($initialVariant['discount_percent'] ?? null) ? 'hidden' : '' }}"
-                              style="color: var(--color-text-muted);">
+                            class="text-base line-through font-bengali {{ !($initialVariant['discount_percent'] ?? null) ? 'hidden' : '' }}"
+                            style="color: var(--color-text-muted);">
                             ৳{{ number_format($initialVariant['price'] ?? 0, 2) }}
                         </span>
                         <span id="variantDiscountBadge"
-                              class="text-xs px-2 py-0.5 rounded font-semibold {{ !($initialVariant['discount_percent'] ?? null) ? 'hidden' : '' }}"
-                              style="background: rgba(239,68,68,0.1); color: var(--color-danger);">
+                            class="text-xs px-2 py-0.5 rounded font-semibold {{ !($initialVariant['discount_percent'] ?? null) ? 'hidden' : '' }}"
+                            style="background: rgba(239,68,68,0.1); color: var(--color-danger);">
                             -{{ $initialVariant['discount_percent'] ?? 0 }}%
                         </span>
                     </div>
@@ -168,7 +235,8 @@
                     {{-- Variant selector --}}
                     @if ($product->variants->count() > 1)
                         <div>
-                            <p class="text-sm font-semibold mb-3" style="color: var(--color-text-secondary);">Select Size / Weight:</p>
+                            <p class="text-sm font-semibold mb-3" style="color: var(--color-text-secondary);">Select Size /
+                                Weight:</p>
                             <div class="flex flex-wrap gap-2" id="variantCapsuleContainer">
                                 @foreach ($product->variants as $variant)
                                     @php
@@ -176,14 +244,14 @@
                                         $hasDiscount = !empty($variantData['discount_percent']);
                                     @endphp
                                     <div class="relative">
-                                        <button type="button"
-                                                data-variant-id="{{ $variant->id }}"
-                                                class="variant-btn {{ $loop->first ? 'active' : '' }} px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 cursor-pointer select-none">
+                                        <button type="button" data-variant-id="{{ $variant->id }}"
+                                            class="variant-btn {{ $loop->first ? 'active' : '' }} px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 cursor-pointer select-none">
                                             {{ $variant->title }}
                                         </button>
                                         @if ($hasDiscount)
-                                            <span class="absolute -top-2 -right-2 text-[10px] font-bold px-1.5 py-0.5 rounded-lg shadow-sm"
-                                                  style="background: var(--color-danger); color: white;">
+                                            <span
+                                                class="absolute -top-2 -right-2 text-[10px] font-bold px-1.5 py-0.5 rounded-lg shadow-sm"
+                                                style="background: var(--color-danger); color: white;">
                                                 -{{ $variantData['discount_percent'] }}%
                                             </span>
                                         @endif
@@ -191,16 +259,16 @@
                                 @endforeach
                             </div>
                             <input type="hidden" id="variantSelect" name="variant_id"
-                                   value="{{ $product->variants->first()?->id }}">
+                                value="{{ $product->variants->first()?->id }}">
                         </div>
                     @else
                         <input type="hidden" id="variantSelect" name="variant_id"
-                               value="{{ $product->variants->first()?->id }}">
+                            value="{{ $product->variants->first()?->id }}">
                     @endif
 
                     {{-- Key values --}}
                     <div class="flex items-center gap-3 text-sm font-semibold flex-wrap"
-                         style="color: var(--color-primary);">
+                        style="color: var(--color-primary);">
                         <span>100% Natural</span>
                         <span style="color: var(--color-border);">•</span>
                         <span>No Preservatives</span>
@@ -214,9 +282,10 @@
                             @foreach ($certifications as $cert)
                                 @if ($cert->logo_path)
                                     <img src="{{ asset($cert->logo_url) }}" alt="{{ $cert->name }}"
-                                         class="h-12 w-12 object-contain">
+                                        class="h-12 w-12 object-contain">
                                 @else
-                                    <span class="text-xs font-medium" style="color: var(--color-text-secondary);">{{ $cert->name }}</span>
+                                    <span class="text-xs font-medium"
+                                        style="color: var(--color-text-secondary);">{{ $cert->name }}</span>
                                 @endif
                             @endforeach
                         </div>
@@ -233,12 +302,14 @@
                         <div class="flex items-center gap-2">
                             <span class="text-sm" style="color: var(--color-text-muted);">Qty:</span>
                             <div class="flex items-center rounded-xl overflow-hidden"
-                                 style="border: 1px solid var(--color-border); background: var(--color-surface);">
-                                <button id="qtyMinus" type="button" class="qty-btn" style="color: var(--color-text-muted);">−</button>
+                                style="border: 1px solid var(--color-border); background: var(--color-surface);">
+                                <button id="qtyMinus" type="button" class="qty-btn"
+                                    style="color: var(--color-text-muted);">−</button>
                                 <div id="qtyInput"
-                                     class="w-10 h-9 flex items-center justify-center text-sm font-bold select-none"
-                                     style="color: var(--color-text-secondary);">1</div>
-                                <button id="qtyPlus" type="button" class="qty-btn" style="color: var(--color-text-muted);">+</button>
+                                    class="w-10 h-9 flex items-center justify-center text-sm font-bold select-none"
+                                    style="color: var(--color-text-secondary);">1</div>
+                                <button id="qtyPlus" type="button" class="qty-btn"
+                                    style="color: var(--color-text-muted);">+</button>
                             </div>
                         </div>
                     </div>
@@ -246,53 +317,48 @@
                     {{-- Action buttons --}}
                     <div class="flex flex-col sm:flex-row gap-3 pt-1">
                         <button id="addToCartBtn" type="button"
-                                class="addToCartBtn btn-primary btn-shimmer animate-soft-pulse flex-1 py-3 font-bold text-sm flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:pointer-events-none"
-                                data-variant="{{ $initialVariant['id'] ?? '' }}"
-                                data-ga-item='@json([
-                                    "item_id"       => $product->sku ?? (string) ($initialVariant["id"] ?? ""),
-                                    "item_name"     => $product->name,
-                                    "item_category" => $product->category?->name,
-                                    "price"         => (float) ($initialVariant["final_price"] ?? 0),
-                                ])'>
+                            class="addToCartBtn btn-primary btn-shimmer animate-soft-pulse flex-1 py-3 font-bold text-sm flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:pointer-events-none"
+                            data-variant="{{ $initialVariant['id'] ?? '' }}" data-ga-item='@json($gaProductItem)'>
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                             </svg>
                             Add to Cart
                         </button>
                         <button id="buyNowBtn" type="button"
-                                class="btn-dark flex-1 py-3 font-bold text-sm cursor-pointer disabled:opacity-50 disabled:pointer-events-none">
+                            class="btn-dark flex-1 py-3 font-bold text-sm cursor-pointer disabled:opacity-50 disabled:pointer-events-none">
                             Buy Now
                         </button>
                     </div>
 
                     {{-- Trust elements --}}
-                    <div class="grid grid-cols-3 gap-3 pt-2"
-                         style="border-top: 1px solid var(--color-border);">
+                    <div class="grid grid-cols-3 gap-3 pt-2" style="border-top: 1px solid var(--color-border);">
                         <div class="flex flex-col items-center gap-1 text-center py-2">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                 style="color: var(--color-primary);">
+                                style="color: var(--color-primary);">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
-                                      d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                             </svg>
-                            <span class="text-xs font-medium" style="color: var(--color-text-muted);">Secure Checkout</span>
+                            <span class="text-xs font-medium" style="color: var(--color-text-muted);">Secure
+                                Checkout</span>
                         </div>
                         <div class="flex flex-col items-center gap-1 text-center py-2"
-                             style="border-left: 1px solid var(--color-border); border-right: 1px solid var(--color-border);">
+                            style="border-left: 1px solid var(--color-border); border-right: 1px solid var(--color-border);">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                 style="color: var(--color-primary);">
+                                style="color: var(--color-primary);">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
-                                      d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"/>
+                                    d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0" />
                             </svg>
                             <span class="text-xs font-medium" style="color: var(--color-text-muted);">Fast Delivery</span>
                         </div>
                         <div class="flex flex-col items-center gap-1 text-center py-2">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                 style="color: var(--color-primary);">
+                                style="color: var(--color-primary);">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
-                                      d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
+                                    d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
                             </svg>
-                            <span class="text-xs font-medium" style="color: var(--color-text-muted);">Quality Assured</span>
+                            <span class="text-xs font-medium" style="color: var(--color-text-muted);">Quality
+                                Assured</span>
                         </div>
                     </div>
 
@@ -302,17 +368,17 @@
             {{-- ══ DESCRIPTION / NUTRITION TABS ══ --}}
             @if ($product->description || $product->nutritional_info)
                 <div class="mt-12 rounded-2xl shadow-sm"
-                     style="background: var(--color-surface); border: 1px solid var(--color-border);">
+                    style="background: var(--color-surface); border: 1px solid var(--color-border);">
 
                     {{-- Tab nav --}}
                     <div style="border-bottom: 1px solid var(--color-border);" class="px-6 md:px-8">
                         <nav class="flex gap-6">
                             <button type="button" data-tab-target="description"
-                                    class="tab-btn active py-4 text-sm transition-all duration-200 cursor-pointer">
+                                class="tab-btn active py-4 text-sm transition-all duration-200 cursor-pointer">
                                 Description
                             </button>
                             <button type="button" data-tab-target="nutrition"
-                                    class="tab-btn py-4 text-sm transition-all duration-200 cursor-pointer">
+                                class="tab-btn py-4 text-sm transition-all duration-200 cursor-pointer">
                                 Nutritional Info
                             </button>
                         </nav>
@@ -321,7 +387,7 @@
                     {{-- Description --}}
                     <div id="description" class="tab-content block p-6 md:p-8 animate-fadeIn">
                         <div class="prose prose-sm max-w-none text-sm md:text-base leading-relaxed"
-                             style="color: var(--color-text-muted);">
+                            style="color: var(--color-text-muted);">
                             {!! $product->description !!}
                         </div>
                     </div>
@@ -336,8 +402,10 @@
                                 @foreach ($product->nutritional_info as $label => $value)
                                     @if ($label !== 'Serving Size' && !empty($value))
                                         <div class="nutrition-row">
-                                            <span class="text-sm" style="color: var(--color-text-muted);">{{ $label }}</span>
-                                            <span class="text-sm font-bold" style="color: var(--color-primary);">{{ $value }}</span>
+                                            <span class="text-sm"
+                                                style="color: var(--color-text-muted);">{{ $label }}</span>
+                                            <span class="text-sm font-bold"
+                                                style="color: var(--color-primary);">{{ $value }}</span>
                                         </div>
                                     @endif
                                 @endforeach
@@ -349,7 +417,7 @@
                     @else
                         <div id="nutrition" class="tab-content hidden p-6 md:p-8 animate-fadeIn">
                             <div class="max-w-lg py-8 text-center text-sm rounded-xl"
-                                 style="background: var(--color-bg-soft); color: var(--color-text-muted); border: 1px solid var(--color-border);">
+                                style="background: var(--color-bg-soft); color: var(--color-text-muted); border: 1px solid var(--color-border);">
                                 Nutritional information is currently unavailable for this product.
                             </div>
                         </div>
@@ -361,26 +429,27 @@
             @if ($relatedProducts->isNotEmpty())
                 <div class="mt-12">
                     <div class="flex items-center justify-between mb-6">
-                        <h2 class="text-xl md:text-2xl font-semibold flex items-center gap-2" style="color: var(--color-text);">
+                        <h2 class="text-xl md:text-2xl font-semibold flex items-center gap-2"
+                            style="color: var(--color-text);">
                             <span class="w-1 h-6 rounded-full" style="background: var(--color-primary);"></span>
                             You May Also Like
                         </h2>
                         <div class="flex items-center gap-2">
                             <button id="relatedPrev"
-                                    class="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer"
-                                    style="border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text-muted);"
-                                    onmouseover="this.style.background='var(--color-bg-soft)'"
-                                    onmouseout="this.style.background='var(--color-surface)'">‹</button>
+                                class="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer"
+                                style="border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text-muted);"
+                                onmouseover="this.style.background='var(--color-bg-soft)'"
+                                onmouseout="this.style.background='var(--color-surface)'">‹</button>
                             <button id="relatedNext"
-                                    class="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer"
-                                    style="border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text-muted);"
-                                    onmouseover="this.style.background='var(--color-bg-soft)'"
-                                    onmouseout="this.style.background='var(--color-surface)'">›</button>
+                                class="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer"
+                                style="border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text-muted);"
+                                onmouseover="this.style.background='var(--color-bg-soft)'"
+                                onmouseout="this.style.background='var(--color-surface)'">›</button>
                         </div>
                     </div>
 
                     <div id="relatedCarousel"
-                         class="grid grid-flow-col auto-cols-[82%] sm:auto-cols-[44%] lg:auto-cols-[30%] gap-4 overflow-x-auto snap-x snap-mandatory pb-4 no-scrollbar scroll-smooth">
+                        class="grid grid-flow-col auto-cols-[82%] sm:auto-cols-[44%] lg:auto-cols-[30%] gap-4 overflow-x-auto snap-x snap-mandatory pb-4 no-scrollbar scroll-smooth">
                         @foreach ($relatedProducts as $related)
                             <div class="snap-start">
                                 <x-ui.product-card :product="$related" />
@@ -395,227 +464,244 @@
 
     {{-- ══ MOBILE STICKY CTA ══ --}}
     <div class="fixed left-0 right-0 z-40 md:hidden flex items-center px-4 gap-3"
-         style="bottom: 64px; height: 70px; background: var(--color-surface); border-top: 1px solid var(--color-border); box-shadow: 0 -4px 16px rgba(0,0,0,0.06);">
+        style="bottom: 64px; height: 70px; background: var(--color-surface); border-top: 1px solid var(--color-border); box-shadow: 0 -4px 16px rgba(0,0,0,0.06);">
         <div class="flex-1">
             <p class="text-xs" style="color: var(--color-text-muted);">Price</p>
             <p id="mobileStickyPrice" class="text-base font-bold font-bengali leading-tight"
-               style="color: var(--color-primary);">
+                style="color: var(--color-primary);">
                 ৳{{ number_format($initialVariant['final_price'] ?? 0) }}
             </p>
         </div>
         <button id="mobileStickyCartBtn" type="button"
-                class="btn-primary btn-shimmer px-5 py-2.5 text-sm font-bold cursor-pointer active:scale-95 flex items-center gap-2"
-                data-variant="{{ $initialVariant['id'] ?? '' }}">
+            class="btn-primary btn-shimmer px-5 py-2.5 text-sm font-bold cursor-pointer active:scale-95 flex items-center gap-2"
+            data-variant="{{ $initialVariant['id'] ?? '' }}">
             <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
             </svg>
             Add to Cart
         </button>
     </div>
 
     @push('scripts')
-    <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        /* ─── Variant data ─── */
-        const detailBox  = document.getElementById('productDetailBox');
-        const variants   = JSON.parse(detailBox?.dataset.variants || '[]');
-        if (!variants.length) return;
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                /* ─── Variant data ─── */
+                const detailBox = document.getElementById('productDetailBox');
+                const variants = JSON.parse(detailBox?.dataset.variants || '[]');
+                if (!variants.length) return;
 
-        const variantBtns    = document.querySelectorAll('.variant-btn');
-        const variantSelect  = document.getElementById('variantSelect');
-        const finalPrice     = document.getElementById('variantFinalPrice');
-        const originalPrice  = document.getElementById('variantOriginalPrice');
-        const discountBadge  = document.getElementById('variantDiscountBadge');
-        const stockText      = document.getElementById('stockText');
-        const tierBox        = document.getElementById('tierBox');
-        const qtyDisplay     = document.getElementById('qtyInput');
-        const addToCartBtn   = document.getElementById('addToCartBtn');
-        const buyNowBtn      = document.getElementById('buyNowBtn');
-        const qtyMinus       = document.getElementById('qtyMinus');
-        const qtyPlus        = document.getElementById('qtyPlus');
-        const mobileStickyPrice   = document.getElementById('mobileStickyPrice');
-        const mobileStickyCartBtn = document.getElementById('mobileStickyCartBtn');
+                const variantBtns = document.querySelectorAll('.variant-btn');
+                const variantSelect = document.getElementById('variantSelect');
+                const finalPrice = document.getElementById('variantFinalPrice');
+                const originalPrice = document.getElementById('variantOriginalPrice');
+                const discountBadge = document.getElementById('variantDiscountBadge');
+                const stockText = document.getElementById('stockText');
+                const tierBox = document.getElementById('tierBox');
+                const qtyDisplay = document.getElementById('qtyInput');
+                const addToCartBtn = document.getElementById('addToCartBtn');
+                const buyNowBtn = document.getElementById('buyNowBtn');
+                const qtyMinus = document.getElementById('qtyMinus');
+                const qtyPlus = document.getElementById('qtyPlus');
+                const mobileStickyPrice = document.getElementById('mobileStickyPrice');
+                const mobileStickyCartBtn = document.getElementById('mobileStickyCartBtn');
 
-        /* ─── Thumbnail gallery ─── */
-        const mainImg  = document.getElementById('productMainImage');
-        const thumbBtns = document.querySelectorAll('.thumbBtn');
-        thumbBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                thumbBtns.forEach(b => {
-                    b.classList.remove('active');
-                    b.style.borderColor = 'var(--color-border)';
+                /* ─── Thumbnail gallery ─── */
+                const mainImg = document.getElementById('productMainImage');
+                const thumbBtns = document.querySelectorAll('.thumbBtn');
+                thumbBtns.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        thumbBtns.forEach(b => {
+                            b.classList.remove('active');
+                            b.style.borderColor = 'var(--color-border)';
+                        });
+                        btn.classList.add('active');
+                        btn.style.borderColor = 'var(--color-primary)';
+                        mainImg.src = btn.dataset.src;
+                    });
                 });
-                btn.classList.add('active');
-                btn.style.borderColor = 'var(--color-primary)';
-                mainImg.src = btn.dataset.src;
-            });
-        });
 
-        /* ─── Helpers ─── */
-        function activeVariant() {
-            return variants.find(v => String(v.id) === String(variantSelect.value)) || variants[0];
-        }
+                /* ─── Helpers ─── */
+                function activeVariant() {
+                    return variants.find(v => String(v.id) === String(variantSelect.value)) || variants[0];
+                }
 
-        function updateQtyBoundaries() {
-            const v = activeVariant();
-            const max = Math.max(1, Number(v.available_stock || 1));
-            let q = Number(qtyDisplay.textContent.trim() || 1);
-            if (isNaN(q) || q < 1) q = 1;
-            if (q > max) q = max;
-            qtyDisplay.textContent = q;
-        }
+                function updateQtyBoundaries() {
+                    const v = activeVariant();
+                    const max = Math.max(1, Number(v.available_stock || 1));
+                    let q = Number(qtyDisplay.textContent.trim() || 1);
+                    if (isNaN(q) || q < 1) q = 1;
+                    if (q > max) q = max;
+                    qtyDisplay.textContent = q;
+                }
 
-        function renderTierInfo(v) {
-            if (!v.tiers?.length) { tierBox.innerHTML = ''; return; }
-            tierBox.innerHTML = `
+                function renderTierInfo(v) {
+                    if (!v.tiers?.length) {
+                        tierBox.innerHTML = '';
+                        return;
+                    }
+                    tierBox.innerHTML = `
                 <div class="flex flex-wrap gap-2">
                     ${v.tiers.map(t => `
-                        <span style="background: var(--color-bg-soft); color: var(--color-primary); border: 1px solid var(--color-border);"
-                              class="inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold font-bengali">
-                            Buy ${t.qty}+ → Save ${t.type === 'percentage' ? t.value + '%' : '৳' + t.value}/unit
-                        </span>`).join('')}
+                                <span style="background: var(--color-bg-soft); color: var(--color-primary); border: 1px solid var(--color-border);"
+                                      class="inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold font-bengali">
+                                    Buy ${t.qty}+ → Save ${t.type === 'percentage' ? t.value + '%' : '৳' + t.value}/unit
+                                </span>`).join('')}
                 </div>`;
-        }
+                }
 
-        function renderVariant() {
-            const v = activeVariant();
+                function renderVariant() {
+                    const v = activeVariant();
 
-            finalPrice.textContent  = `৳${Number(v.final_price).toFixed(2)}`;
-            originalPrice.textContent = `৳${Number(v.price).toFixed(2)}`;
-            stockText.textContent   = `${v.available_stock} units`;
-            addToCartBtn.dataset.variant = v.id;
-            if (mobileStickyCartBtn) mobileStickyCartBtn.dataset.variant = v.id;
+                    finalPrice.textContent = `৳${Number(v.final_price).toFixed(2)}`;
+                    originalPrice.textContent = `৳${Number(v.price).toFixed(2)}`;
+                    stockText.textContent = `${v.available_stock} units`;
+                    addToCartBtn.dataset.variant = v.id;
+                    if (mobileStickyCartBtn) mobileStickyCartBtn.dataset.variant = v.id;
 
-            // Keep GA4 item data in sync with selected variant
-            const _gaItem = JSON.stringify({
-                item_id:       '{{ addslashes($product->sku ?? '') }}' || String(v.id),
-                item_name:     '{{ addslashes($product->name) }}',
-                item_category: '{{ addslashes($product->category?->name ?? '') }}' || null,
-                price:         parseFloat(v.final_price ?? 0),
-            });
-            addToCartBtn.dataset.gaItem = _gaItem;
-            if (mobileStickyCartBtn) mobileStickyCartBtn.dataset.gaItem = _gaItem;
-            if (mobileStickyPrice)   mobileStickyPrice.textContent = `৳${Number(v.final_price).toLocaleString('en-BD')}`;
+                    // Keep GA4 item data in sync with selected variant
+                    const _gaItem = JSON.stringify({
+                        item_id: '{{ addslashes($product->sku ?? '') }}' || String(v.id),
+                        item_name: '{{ addslashes($product->name) }}',
+                        item_category: '{{ addslashes($product->category?->name ?? '') }}' || null,
+                        price: parseFloat(v.final_price ?? 0),
+                    });
+                    addToCartBtn.dataset.gaItem = _gaItem;
+                    if (mobileStickyCartBtn) mobileStickyCartBtn.dataset.gaItem = _gaItem;
+                    if (mobileStickyPrice) mobileStickyPrice.textContent =
+                        `৳${Number(v.final_price).toLocaleString('en-BD')}`;
 
-            if (v.discount_percent) {
-                originalPrice.classList.remove('hidden');
-                discountBadge.classList.remove('hidden');
-                discountBadge.textContent = `-${v.discount_percent}%`;
-            } else {
-                originalPrice.classList.add('hidden');
-                discountBadge.classList.add('hidden');
-            }
+                    if (v.discount_percent) {
+                        originalPrice.classList.remove('hidden');
+                        discountBadge.classList.remove('hidden');
+                        discountBadge.textContent = `-${v.discount_percent}%`;
+                    } else {
+                        originalPrice.classList.add('hidden');
+                        discountBadge.classList.add('hidden');
+                    }
 
-            const outOfStock = Number(v.available_stock) <= 0;
-            [addToCartBtn, buyNowBtn, mobileStickyCartBtn].forEach(btn => {
-                if (!btn) return;
-                btn.disabled = outOfStock;
-                btn.classList.toggle('opacity-50', outOfStock);
-                btn.classList.toggle('pointer-events-none', outOfStock);
-            });
+                    const outOfStock = Number(v.available_stock) <= 0;
+                    [addToCartBtn, buyNowBtn, mobileStickyCartBtn].forEach(btn => {
+                        if (!btn) return;
+                        btn.disabled = outOfStock;
+                        btn.classList.toggle('opacity-50', outOfStock);
+                        btn.classList.toggle('pointer-events-none', outOfStock);
+                    });
 
-            renderTierInfo(v);
-            updateQtyBoundaries();
+                    renderTierInfo(v);
+                    updateQtyBoundaries();
 
-            /* Update variant button styles */
-            variantBtns.forEach(btn => {
-                const isActive = btn.dataset.variantId === String(v.id);
-                btn.classList.toggle('active', isActive);
-            });
-        }
+                    /* Update variant button styles */
+                    variantBtns.forEach(btn => {
+                        const isActive = btn.dataset.variantId === String(v.id);
+                        btn.classList.toggle('active', isActive);
+                    });
+                }
 
-        /* ─── Variant button clicks ─── */
-        variantBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                variantSelect.value = btn.dataset.variantId;
+                /* ─── Variant button clicks ─── */
+                variantBtns.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        variantSelect.value = btn.dataset.variantId;
+                        renderVariant();
+                    });
+                });
+
+                /* ─── Qty controls ─── */
+                qtyMinus?.addEventListener('click', () => {
+                    let qty = Number(qtyDisplay.textContent.trim() || 1);
+                    qtyDisplay.textContent = Math.max(1, qty - 1);
+                });
+                qtyPlus?.addEventListener('click', () => {
+                    const v = activeVariant();
+                    let qty = Number(qtyDisplay.textContent.trim() || 1);
+                    qtyDisplay.textContent = Math.min(Number(v.available_stock || 1), qty + 1);
+                });
+                qtyDisplay?.addEventListener('blur', updateQtyBoundaries);
+                variantSelect?.addEventListener('change', renderVariant);
+
+                /* ─── Cart actions ─── */
+                async function doAddToCart(btn) {
+                    const variantId = btn.dataset.variant;
+                    const qty = Math.max(1, Number(qtyDisplay.textContent.trim() || 1));
+                    const v = activeVariant();
+
+                    window.dataLayer = window.dataLayer || [];
+                    window.dataLayer.push({
+                        ecommerce: null
+                    });
+                    window.dataLayer.push({
+                        event: 'add_to_cart',
+                        ecommerce: {
+                            currency: 'BDT',
+                            value: parseFloat((v.final_price * qty).toFixed(2)),
+                            items: [{
+                                item_id: String(v.id),
+                                item_name: '{{ addslashes($product->name) }}',
+                                price: parseFloat(v.final_price),
+                                quantity: qty,
+                            }],
+                        },
+                    });
+
+                    await window.Cart?.add(variantId, qty, btn);
+                }
+
+                addToCartBtn?.addEventListener('click', () => doAddToCart(addToCartBtn));
+                mobileStickyCartBtn?.addEventListener('click', () => doAddToCart(mobileStickyCartBtn));
+
+                buyNowBtn?.addEventListener('click', () => {
+                    const v = activeVariant();
+                    const qty = Math.max(1, Number(qtyDisplay.textContent.trim() || 1));
+                    sessionStorage.setItem('bionic_buy_now', JSON.stringify({
+                        variant_id: v.id,
+                        quantity: qty,
+                        product_name_snapshot: '{{ $product->name }}',
+                        variant_title_snapshot: v.title,
+                        unit_price: v.final_price,
+                        image_url: mainImg?.src ?? '',
+                    }));
+                    window.location.href = '/checkout?buyNow=1';
+                });
+
+                /* ─── Related carousel buttons ─── */
+                const relatedCarousel = document.getElementById('relatedCarousel');
+                document.getElementById('relatedPrev')?.addEventListener('click', () => {
+                    relatedCarousel?.scrollBy({
+                        left: -280,
+                        behavior: 'smooth'
+                    });
+                });
+                document.getElementById('relatedNext')?.addEventListener('click', () => {
+                    relatedCarousel?.scrollBy({
+                        left: 280,
+                        behavior: 'smooth'
+                    });
+                });
+
+                /* ─── Tab switching ─── */
+                const tabBtns = document.querySelectorAll('.tab-btn');
+                const tabContents = document.querySelectorAll('.tab-content');
+                tabBtns.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const target = btn.dataset.tabTarget;
+                        tabBtns.forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        tabContents.forEach(c => {
+                            c.classList.add('hidden');
+                            c.classList.remove('block');
+                        });
+                        const el = document.getElementById(target);
+                        if (el) {
+                            el.classList.remove('hidden');
+                            el.classList.add('block');
+                        }
+                    });
+                });
+
+                /* ─── Init ─── */
                 renderVariant();
             });
-        });
-
-        /* ─── Qty controls ─── */
-        qtyMinus?.addEventListener('click', () => {
-            let qty = Number(qtyDisplay.textContent.trim() || 1);
-            qtyDisplay.textContent = Math.max(1, qty - 1);
-        });
-        qtyPlus?.addEventListener('click', () => {
-            const v = activeVariant();
-            let qty = Number(qtyDisplay.textContent.trim() || 1);
-            qtyDisplay.textContent = Math.min(Number(v.available_stock || 1), qty + 1);
-        });
-        qtyDisplay?.addEventListener('blur', updateQtyBoundaries);
-        variantSelect?.addEventListener('change', renderVariant);
-
-        /* ─── Cart actions ─── */
-        async function doAddToCart(btn) {
-            const variantId = btn.dataset.variant;
-            const qty = Math.max(1, Number(qtyDisplay.textContent.trim() || 1));
-            const v = activeVariant();
-
-            window.dataLayer = window.dataLayer || [];
-            window.dataLayer.push({ ecommerce: null });
-            window.dataLayer.push({
-                event: 'add_to_cart',
-                ecommerce: {
-                    currency: 'BDT',
-                    value: parseFloat((v.final_price * qty).toFixed(2)),
-                    items: [{
-                        item_id:   String(v.id),
-                        item_name: '{{ addslashes($product->name) }}',
-                        price:     parseFloat(v.final_price),
-                        quantity:  qty,
-                    }],
-                },
-            });
-
-            await window.Cart?.add(variantId, qty, btn);
-        }
-
-        addToCartBtn?.addEventListener('click', () => doAddToCart(addToCartBtn));
-        mobileStickyCartBtn?.addEventListener('click', () => doAddToCart(mobileStickyCartBtn));
-
-        buyNowBtn?.addEventListener('click', () => {
-            const v = activeVariant();
-            const qty = Math.max(1, Number(qtyDisplay.textContent.trim() || 1));
-            sessionStorage.setItem('bionic_buy_now', JSON.stringify({
-                variant_id: v.id,
-                quantity: qty,
-                product_name_snapshot: '{{ $product->name }}',
-                variant_title_snapshot: v.title,
-                unit_price: v.final_price,
-                image_url: mainImg?.src ?? '',
-            }));
-            window.location.href = '/checkout?buyNow=1';
-        });
-
-        /* ─── Related carousel buttons ─── */
-        const relatedCarousel = document.getElementById('relatedCarousel');
-        document.getElementById('relatedPrev')?.addEventListener('click', () => {
-            relatedCarousel?.scrollBy({ left: -280, behavior: 'smooth' });
-        });
-        document.getElementById('relatedNext')?.addEventListener('click', () => {
-            relatedCarousel?.scrollBy({ left: 280, behavior: 'smooth' });
-        });
-
-        /* ─── Tab switching ─── */
-        const tabBtns     = document.querySelectorAll('.tab-btn');
-        const tabContents = document.querySelectorAll('.tab-content');
-        tabBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const target = btn.dataset.tabTarget;
-                tabBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                tabContents.forEach(c => { c.classList.add('hidden'); c.classList.remove('block'); });
-                const el = document.getElementById(target);
-                if (el) { el.classList.remove('hidden'); el.classList.add('block'); }
-            });
-        });
-
-        /* ─── Init ─── */
-        renderVariant();
-    });
-    </script>
+        </script>
     @endpush
 
 @endsection
-

@@ -8,7 +8,7 @@
 
         {{-- Hero Section --}}
         <div class="relative bg-linear-to-br from-brand via-brown to-gold-antique text-white overflow-hidden">
-            <div class="max-w-7xl mx-auto px-4 py-12 md:py-16 text-center">
+            <div class="max-w-8xl mx-auto px-4 py-12 md:py-16 text-center">
                 @if ($landing->hero_image)
                     <img src="{{ asset('storage/' . $landing->hero_image) }}" alt="{{ $landing->title }}"
                         class="max-w-xs w-full mx-auto mb-8 rounded-2xl shadow-2xl">
@@ -57,7 +57,7 @@
                             basePrice: {{ $price }},
                             tierPrices: @json($tierPrices->map(fn($t) => ['min_qty' => $t->min_qty, 'price' => $t->price])->values()),
                             itemName: @json($name),
-                            itemCategory: @json($isVariant ? ($item->variant->product->category->name ?? null) : 'Combo'),
+                            itemCategory: @json($isVariant ? $item->variant->product->category->name ?? null : 'Combo'),
                             itemId: @json($isVariant ? (string) $item->product_variant_id : 'combo_' . $item->combo_id),
                         })"
                             class="bg-white rounded-2xl shadow-sm border border-champagne overflow-hidden flex flex-col hover:shadow-md transition-shadow">
@@ -112,8 +112,7 @@
                                             class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-muted font-bold text-sm transition-all">
                                             &minus;
                                         </button>
-                                        <span class="w-8 text-center font-bold text-brown text-sm"
-                                            x-text="quantity"></span>
+                                        <span class="w-8 text-center font-bold text-brown text-sm" x-text="quantity"></span>
                                         <button @click="changeQty(1)" type="button"
                                             class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-muted font-bold text-sm transition-all">
                                             +
@@ -214,10 +213,10 @@
                         // GA4: price is dynamic (tier pricing), so we fire here rather
                         // than relying on data-ga-item which would have a stale price
                         window.Analytics?.addToCart({
-                            item_id:       this.itemId,
-                            item_name:     this.itemName,
+                            item_id: this.itemId,
+                            item_name: this.itemName,
                             item_category: this.itemCategory,
-                            price:         this.effectivePrice(),
+                            price: this.effectivePrice(),
                         }, this.quantity);
                         this.added = true;
                         setTimeout(() => {
@@ -231,13 +230,3 @@
         }
     </script>
 @endsection
-
-
-
-
-
-
-
-
-
-

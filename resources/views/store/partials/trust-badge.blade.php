@@ -1,5 +1,5 @@
 <section class="bg-surface border-y border-champagne">
-    <div class="max-w-7xl mx-auto px-4">
+    <div class="max-w-8xl mx-auto px-4">
 
         {{-- hairline-grid: gap-px + parent bg = thin gold-tinted separator lines --}}
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-px bg-champagne">

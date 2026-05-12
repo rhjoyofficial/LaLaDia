@@ -4,7 +4,7 @@
 
 @section('content')
     <section class="bg-ivory min-h-screen flex items-center justify-center py-12 px-4">
-        <div class="w-full max-w-7xl">
+        <div class="w-full max-w-8xl">
             <div class="bg-white rounded-lg shadow-lg p-8 text-center">
                 <h1 class="text-4xl font-bold text-red-600 mb-4">Order Failed</h1>
                 <p class="text-brown mb-6">Unfortunately, your order could not be processed at this time. Please try again
@@ -17,13 +17,3 @@
         </div>
     </section>
 @endsection
-
-
-
-
-
-
-
-
-
-

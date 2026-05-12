@@ -47,17 +47,17 @@
          5. MID-PAGE PROMO STRIP
     ══════════════════════════════════════════ --}}
     <section class="py-12 md:py-16 px-4 bg-ivory">
-        <div class="max-w-7xl mx-auto">
+        <div class="max-w-8xl mx-auto">
             <div
                 class="relative overflow-hidden rounded-[20px] bg-cream border border-champagne px-8 py-10 md:py-14 flex flex-col md:flex-row items-center justify-between gap-8">
 
-                {{-- Decorative gradient to replace promo-mid::before --}}
-                <div class="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent pointer-events-none"></div>
+                {{-- Decorative linear to replace promo-mid::before --}}
+                <div class="absolute inset-0 bg-linear-to-br from-primary/10 to-transparent pointer-events-none"></div>
 
                 <div class="relative z-10 text-center md:text-left">
                     <span
                         class="inline-flex items-center gap-2 text-[12px] font-bold tracking-widest uppercase text-primary mb-3">
-                        <span class="w-5 h-[2px] bg-primary rounded-full"></span>
+                        <span class="w-5 h-0.5 bg-primary rounded-full"></span>
                         Limited Bundles
                     </span>
                     <h2 class="font-heading text-2xl md:text-3xl font-bold mb-3 text-brand">
@@ -78,7 +78,7 @@
                                 d="M5 12h14m-7-7 7 7-7 7" />
                         </svg>
                     </a>
-                    <a href="{{ route('shop') }}"
+                    <a href="{{ route('product.index') }}"
                         class="btn-outline px-6 py-3 text-sm font-bold inline-flex items-center gap-2 transition-all duration-300 active:scale-95">
                         Browse All
                     </a>

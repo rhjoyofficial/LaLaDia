@@ -3,7 +3,7 @@
 @section('title', 'Order Details')
 
 @section('content')
-    <section class="max-w-7xl mx-auto px-4 md:px-8 py-8">
+    <section class="max-w-8xl mx-auto px-4 md:px-8 py-8">
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
             @include('customer.partials.nav')
 
@@ -53,8 +53,7 @@
                             <span>Discount</span>
                             <span>-৳{{ number_format($order->discount_total, 2) }}</span>
                         </div>
-                        <div
-                            class="flex items-center justify-between text-brand font-bold pt-2 border-t border-champagne">
+                        <div class="flex items-center justify-between text-brand font-bold pt-2 border-t border-champagne">
                             <span>Total</span>
                             <span>৳{{ number_format($order->grand_total, 2) }}</span>
                         </div>
@@ -64,13 +63,3 @@
         </div>
     </section>
 @endsection
-
-
-
-
-
-
-
-
-
-

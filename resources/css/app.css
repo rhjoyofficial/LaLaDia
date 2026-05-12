@@ -160,6 +160,9 @@
     --font-sans: "Inter", "Noto Sans Bengali", ui-sans-serif, system-ui;
     --font-heading: "Plus Jakarta Sans", sans-serif;
 
+    --max-width-8xl: 88rem;
+    --max-width-9xl: 96rem;
+
     /* ── Brand ─── */
     --color-primary: var(--color-primary);
     --color-secondary: var(--color-primary-hover);

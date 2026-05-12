@@ -16,7 +16,7 @@
             class="absolute bottom-0 right-0 w-96 h-96 bg-orange-100/40 rounded-full blur-3xl translate-x-1/3 translate-y-1/3">
         </div>
 
-        <div class="max-w-7xl mx-auto px-6 relative z-10">
+        <div class="max-w-8xl mx-auto px-6 relative z-10">
             <div class="flex flex-col md:flex-row items-center gap-12">
                 <div class="md:w-1/2 text-center md:text-left">
                     <div
@@ -37,8 +37,7 @@
                     <div class="flex flex-col sm:flex-row items-center gap-5 justify-center md:justify-start mb-8">
                         <div
                             class="bg-white px-8 py-3 rounded-2xl shadow-sm border border-pink-100 flex flex-col items-center sm:items-start">
-                            <span
-                                class="text-xs text-taupe font-bold uppercase tracking-widest mb-1 font-bengali">পরিমাণ:
+                            <span class="text-xs text-taupe font-bold uppercase tracking-widest mb-1 font-bengali">পরিমাণ:
                                 ১০০০~ গ্রাম</span>
                             <div class="flex items-baseline gap-2 font-bengali">
                                 <span class="text-3xl font-black font-bengali text-brand">৳৮৯০</span>
@@ -87,7 +86,7 @@
     </section>
     <!-- ================= PRODUCT INTRODUCTION SECTION ================= -->
     <section class="py-16 md:py-24 bg-white font-bengali overflow-hidden">
-        <div class="max-w-7xl mx-auto px-6">
+        <div class="max-w-8xl mx-auto px-6">
             <div class="flex flex-col lg:flex-row items-center gap-12 md:gap-20">
                 <div class="lg:w-1/2 space-y-6">
                     <div class="flex items-center gap-3 text-pink-600 font-bold tracking-wide uppercase text-sm">
@@ -277,7 +276,7 @@
     </section>
     <!-- ================= CERTIFICATIONS SECTION ================= -->
     <section id="certifications" class="pb-6 md:pb-10 bg-white">
-        <div class="max-w-7xl mx-auto px-6">
+        <div class="max-w-8xl mx-auto px-6">
             <div class="text-center mb-6">
                 <h2 class="text-3xl md:text-4xl font-bold text-brand mb-4 font-bengali">
                     আন্তর্জাতিক মানের নিশ্চয়তা
@@ -299,7 +298,7 @@
     </section>
     <!-- ================= KEY BENEFITS SECTION ================= -->
     <section class="py-16 md:py-24 bg-pink-50/30 font-bengali">
-        <div class="max-w-7xl mx-auto px-6 text-center mb-16">
+        <div class="max-w-8xl mx-auto px-6 text-center mb-16">
             <span class="text-pink-600 font-bold uppercase tracking-widest text-sm mb-3 block">সুস্থতার চাবিকাঠি</span>
             <h2 class="text-3xl md:text-5xl font-black text-brand leading-tight">
                 হিমালয়ান পিঙ্ক সল্ট কেন
@@ -308,7 +307,7 @@
             <div class="w-20 h-1.5 bg-pink-600 mx-auto mt-6 rounded-full"></div>
         </div>
 
-        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="max-w-8xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <div
                 class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-pink-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group">
                 <div
@@ -413,7 +412,7 @@
     </section>
     <!-- ================= VERSATILE USES SECTION ================= -->
     <section class="py-16 md:py-24 bg-white font-bengali overflow-hidden">
-        <div class="max-w-7xl mx-auto px-6 mb-16 text-center">
+        <div class="max-w-8xl mx-auto px-6 mb-16 text-center">
             <h2 class="text-3xl md:text-5xl font-black text-brand leading-tight mb-4">
                 পিঙ্ক সল্টের
                 <span class="text-pink-600 italic underline underline-offset-8 decoration-pink-200">
@@ -496,7 +495,7 @@
 
     <!-- ================= ORDER FROM SECTION ================= -->
     <section id="order-form" class="py-10 md:py-14 bg-[#FFF5F5] overflow-hidden font-bengali">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6" data-lp-checkout data-lp-slug="{{ $landing->slug }}"
+        <div class="max-w-8xl mx-auto px-4 sm:px-6" data-lp-checkout data-lp-slug="{{ $landing->slug }}"
             data-lp-cart-mode="1">
 
             <div class="text-center mb-8 md:mb-10">
@@ -759,8 +758,7 @@
                             </div>
 
                             {{-- Order Summary --}}
-                            <div
-                                class="p-3 bg-cream rounded-xl border border-dashed border-champagne space-y-1.5 text-sm">
+                            <div class="p-3 bg-cream rounded-xl border border-dashed border-champagne space-y-1.5 text-sm">
                                 <div class="flex justify-between text-muted">
                                     <span>পণ্যের মূল্য</span>
                                     <span data-lp-display="subtotal" class="font-semibold text-brown">—</span>
@@ -840,7 +838,7 @@
 
     <!-- ================= TESTIMONIALS SECTION ================= -->
     <section class="py-16 md:py-24 bg-white font-hind overflow-hidden">
-        <div class="max-w-7xl mx-auto px-6">
+        <div class="max-w-8xl mx-auto px-6">
             <div class="text-center mb-16">
                 <span class="text-pink-600 font-bold uppercase tracking-widest text-sm mb-3 block italic">রিভিউ ও
                     অভিমত</span>
@@ -941,13 +939,3 @@
 @push('scripts')
     <script src="{{ asset('js/landing-checkout.js') }}"></script>
 @endpush
-
-
-
-
-
-
-
-
-
-

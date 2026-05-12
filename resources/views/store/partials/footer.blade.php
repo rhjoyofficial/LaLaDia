@@ -1,5 +1,5 @@
 <footer style="background: var(--color-surface); border-top: 1px solid var(--color-border);" class="pt-12 pb-6">
-    <div class="max-w-7xl mx-auto px-4 md:px-8">
+    <div class="max-w-8xl mx-auto px-4 md:px-8">
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
 
@@ -71,7 +71,7 @@
                     @php
                         $quickLinks = [
                             ['label' => 'Home', 'route' => 'home'],
-                            ['label' => 'Products', 'route' => 'products.index'],
+                            ['label' => 'Products', 'route' => 'product.index'],
                             ['label' => 'Combos', 'route' => 'combos.index'],
                             ['label' => 'Cart', 'route' => 'cart.view'],
                             ['label' => 'About Us', 'route' => 'about'],

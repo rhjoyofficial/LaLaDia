@@ -34,7 +34,7 @@
                                         </div>
 
                                         <div class="flex flex-col flex-wrap justify-start items-start gap-6">
-                                            <a href="{{ $banner->button_url ?? route('products.index') }}"
+                                            <a href="{{ $banner->button_url ?? route('product.index') }}"
                                                 class="bg-primary hover:opacity-90 text-white px-8 py-4 rounded-full font-bold flex items-center gap-3 transition-all transform hover:scale-105 active:scale-95 shadow-xl shadow-primary/20">
                                                 {{ $banner->button_text ?? 'Shop All Products' }}
                                                 <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
@@ -54,8 +54,8 @@
                     <!-- Next Button -->
                     <div
                         class="swiper-button-next after:hidden flex items-center justify-center bg-primary/10 hover:bg-primary/20 backdrop-blur w-10 h-10 rounded-full shadow-md transition-colors">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor" stroke-width="2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-primary" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
                         </svg>
                     </div>
@@ -63,8 +63,8 @@
                     <!-- Prev Button -->
                     <div
                         class="swiper-button-prev after:hidden flex items-center justify-center bg-primary/10 hover:bg-primary/20 backdrop-blur w-10 h-10 rounded-full shadow-md transition-colors">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor" stroke-width="2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-primary" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                         </svg>
                     </div>
@@ -174,7 +174,7 @@
                             </h4>
                         </div>
 
-                        <a href="{{ route('product.show', 'himsagar-mango-himsagr-am') }}"
+                        <a href="{{ route('product.show', 'himsagar-mango') }}"
                             class="w-9 h-9 rounded-full bg-cream flex items-center justify-center transition-all duration-300 group-hover:bg-primary group-hover:text-white cursor-pointer shadow-sm">
                             <svg class="w-5 h-5 group-hover:text-white" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg" fill="currentColor">
@@ -275,7 +275,7 @@
                         <h3 class="font-bold text-brown">More Products</h3>
                         <p class="text-xs text-taupe">20+ Natural Items</p>
                     </div>
-                    <a href="{{ route('products.index') }}"
+                    <a href="{{ route('product.index') }}"
                         class="w-9 h-9 rounded-full bg-cream flex items-center justify-center group transition-all duration-300 hover:bg-primary hover:text-white shadow-sm">
                         <svg class="w-5 h-5 hover:text-white rotate-45 group-hover:rotate-90 duration-300"
                             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor">

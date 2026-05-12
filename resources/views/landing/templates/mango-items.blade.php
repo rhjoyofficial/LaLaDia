@@ -20,7 +20,7 @@
         </div>
 
         <div
-            class="max-w-7xl w-full mx-auto flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12 relative z-10">
+            class="max-w-8xl w-full mx-auto flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12 relative z-10">
             <!-- Left Column: Text & CTA -->
             <div
                 class="w-full lg:w-1/2 flex flex-col items-start cinematic-element opacity-0 translate-y-10 transition-all duration-1000 ease-out">
@@ -196,7 +196,7 @@
 
     <!-- Features Section -->
     <section id="features" class="w-full bg-gradient-to-b from-[#eaf3e4] to-[#fbf8ee] px-6 sm:px-12 lg:px-24 py-10">
-        <div class="max-w-7xl mx-auto">
+        <div class="max-w-8xl mx-auto">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
                 <!-- Feature Card 1 -->
                 <div
@@ -272,7 +272,7 @@
 
     <!-- Product Grid Section -->
     <section id="shop" class="w-full bg-[#fbf8ee] px-6 sm:px-12 lg:px-24 py-12">
-        <div class="max-w-7xl mx-auto">
+        <div class="max-w-8xl mx-auto">
             <!-- Section Header -->
             <div
                 class="text-center max-w-2xl mx-auto mb-10 cinematic-element opacity-0 translate-y-10 transition-all duration-700 ease-out">
@@ -307,7 +307,7 @@
     </section>
     <!-- About Story Section -->
     <section id="about" class="w-full bg-[#fbf8ee] px-6 sm:px-12 lg:px-24 py-12 lg:py-16 overflow-hidden">
-        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
+        <div class="max-w-8xl mx-auto flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
             <!-- Left Column: Image -->
             <div
                 class="w-full lg:w-1/2 relative cinematic-element opacity-0 -translate-x-12 transition-all duration-1000 ease-out">

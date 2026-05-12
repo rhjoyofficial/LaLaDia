@@ -31,7 +31,7 @@
                     <i class="fa-solid fa-house text-xs"></i>
                     Back to Home
                 </a>
-                <a href="{{ route('products.index') }}"
+                <a href="{{ route('product.index') }}"
                     class="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-champagne bg-white hover:bg-cream text-brown font-semibold text-sm transition-all duration-200">
                     <i class="fa-solid fa-bag-shopping text-xs"></i>
                     Browse Products

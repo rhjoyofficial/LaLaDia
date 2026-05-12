@@ -6,7 +6,7 @@
         style="background: linear-gradient(to right, transparent, var(--color-primary), transparent);"></div>
 
     {{-- ══ MAIN HEADER ROW ══ --}}
-    <div class="max-w-7xl mx-auto px-4 flex items-center justify-between gap-4" style="height: 64px;">
+    <div class="max-w-8xl mx-auto px-4 flex items-center justify-between gap-4" style="height: 64px;">
 
         {{-- LEFT: Logo --}}
         <a href="{{ route('home') }}" class="shrink-0 flex items-center gap-2.5 group">
@@ -30,7 +30,7 @@
                 ];
                 $links = [
                     $navLink('Home', 'home'),
-                    $navLink('Products', 'products', ['catalog', 'product.show']),
+                    $navLink('Products', 'product.index', ['catalog', 'product.show']),
                     $navLink('Combos', 'combos.index', ['combos.*']),
                 ];
             @endphp

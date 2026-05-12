@@ -3,6 +3,13 @@
     $variants = $product->variants;
     $frontendVariants = $variants->map->toFrontend();
     $first = $variants->first();
+
+    $gaItem = [
+        "item_id"       => $product->sku ?? (string) ($first?->id),
+        "item_name"     => $product->name,
+        "item_category" => $product->category?->name,
+        "price"         => (float) ($first?->final_price),
+    ];
 @endphp
 
 {{-- Main Card - Named as group/card --}}
@@ -98,12 +105,7 @@
             class="addToCartBtn {{ $first?->available_stock <= 0 ? 'hidden' : '' }}
             w-full flex items-center justify-center gap-2 px-2.5 py-1.5 md:py-2.5 rounded-lg md:rounded-xl bg-primary/10 text-primary font-semibold hover:bg-primary hover:text-white! transition-all duration-300 active:scale-95 cursor-pointer focus:outline-none"
             data-variant="{{ $first?->id }}"
-            data-ga-item='@json([
-                "item_id"       => $product->sku ?? (string) $first?->id,
-                "item_name"     => $product->name,
-                "item_category" => $product->category?->name,
-                "price"         => (float) $first?->final_price,
-            ])'>
+            data-ga-item='@json($gaItem)'>
             Add To Cart
         </button>
 
