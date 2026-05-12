@@ -20,6 +20,7 @@ class CartMergeService
         DB::transaction(function () use ($sessionToken, $userId) {
             Log::info('CartMerge: started', ['session_token' => $sessionToken, 'user_id' => $userId]);
             // 1. Eager load both variant AND combo relationships to avoid N+1 queries during stock checks
+            // items.combo.items.variant: needed for stock checks AND Combo::final_price (auto_price)
             $guestCart = Cart::query()
                 ->where('session_token', $sessionToken)
                 ->with(['items.variant', 'items.combo.items.variant'])

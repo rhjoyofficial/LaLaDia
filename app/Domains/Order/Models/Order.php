@@ -56,6 +56,7 @@ class Order extends Model
         'shipped_at'       => 'datetime',
         'delivered_at'     => 'datetime',
         'cancelled_at'     => 'datetime',
+        'returned_at'      => 'datetime',
         'approved_at'      => 'datetime',
         'test_mode'        => 'boolean',
         'conversion_fired' => 'boolean',
@@ -181,10 +182,11 @@ class Order extends Model
      */
     public function getAmountInWordsAttribute()
     {
-        $number = $this->grand_total;
-        $f = new \NumberFormatter("en", \NumberFormatter::SPELLOUT);
-        $words = $f->format($number);
+        if (!extension_loaded('intl')) {
+            return strtoupper(number_format((float) $this->grand_total, 2) . ' TAKA ONLY');
+        }
 
-        return strtoupper($words . " TAKA ONLY");
+        $f = new \NumberFormatter("en", \NumberFormatter::SPELLOUT);
+        return strtoupper($f->format($this->grand_total) . " TAKA ONLY");
     }
 }

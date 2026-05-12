@@ -59,6 +59,24 @@ Route::get('/order-success/{order}', function ($orderNumber) {
         ->where('order_number', $orderNumber)
         ->firstOrFail();
 
+    // Ownership check: authenticated users must own the order.
+    // Guests are verified via the session key written by CheckoutController
+    // immediately after order creation — single-use, consumed on read.
+    $authUser = \Illuminate\Support\Facades\Auth::guard('web')->user();
+
+    if ($authUser) {
+        // Authenticated: the order must belong to this user.
+        // Guest orders (user_id = null) are accessible only via session.
+        if ($order->user_id && $order->user_id !== $authUser->id) {
+            abort(403);
+        }
+    } else {
+        // Guest: must have the order id in their session (set by CheckoutController).
+        if (session('last_order_id') !== $order->id) {
+            abort(403);
+        }
+    }
+
     // Pull removes the key from the session in one atomic step (read + delete)
     $purchaseEvent = session()->pull('pending_purchase_event');
 
@@ -163,7 +181,7 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'admin'])->group(function ()
     Route::get('/dashboard', AdminDashboardController::class)->name('admin.dashboard');
 
     // Products
-    Route::get('/products', fn () => view('admin.product.index'))->name('admin.products')
+    Route::get('/products', fn () => view('admin.products.index'))->name('admin.products')
         ->middleware('permission:product.view');
     Route::get('/products/create', fn () => view('admin.products.create'))->name('admin.products.create')
         ->middleware('permission:product.create');

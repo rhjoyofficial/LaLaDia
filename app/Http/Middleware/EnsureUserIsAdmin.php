@@ -8,16 +8,15 @@ use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Ensures the authenticated user holds at least one admin-level role.
+ * Ensures the authenticated user holds at least one explicitly-defined admin role.
  *
- * Any role other than "Customer" is considered admin-level. This avoids
- * hard-coding every role name and automatically picks up new roles added
- * to RoleSeeder in the future.
+ * Uses an allowlist rather than a blocklist so that newly-seeded roles are
+ * denied by default until they are deliberately granted admin access here.
  */
 class EnsureUserIsAdmin
 {
-    /** Roles that are NOT allowed through the admin gate. */
-    private const EXCLUDED_ROLES = ['Customer'];
+    /** Roles that ARE allowed through the admin gate. */
+    private const ALLOWED_ROLES = ['Super Admin', 'Admin', 'Manager', 'Operations'];
 
     public function handle(Request $request, Closure $next): Response
     {
@@ -39,10 +38,10 @@ class EnsureUserIsAdmin
             return redirect()->route('admin.login')->withErrors(['login' => 'Your account has been deactivated.']);
         }
 
-        // User must have at least one role that is not in the excluded list.
+        // User must have at least one role from the explicit allowlist.
         $hasAdminRole = $user->roles
             ->pluck('name')
-            ->diff(self::EXCLUDED_ROLES)
+            ->intersect(self::ALLOWED_ROLES)
             ->isNotEmpty();
 
         if (! $hasAdminRole) {

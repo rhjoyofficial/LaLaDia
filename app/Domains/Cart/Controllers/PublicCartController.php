@@ -19,12 +19,10 @@ class PublicCartController extends Controller
     {
         try {
             $sessionToken = $request->attributes->get('cart_token');
-            // dd($sessionToken);
             $cart = $this->cartService->getCart(Auth::id(), $sessionToken);
 
             $pricesUpdated = $this->cartService->syncCartPrices($cart);
             $cartData = $this->cartService->formatCartDetails($cart->fresh());
-            // dd($cartData);
             if ($pricesUpdated) {
                 flash('Prices in your cart have been updated based on current product pricing.', 'info');
             }

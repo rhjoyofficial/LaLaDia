@@ -43,7 +43,7 @@ class CartController extends Controller
 
             $request->validate([
                 'variant_id' => ['required', \Illuminate\Validation\Rule::exists('product_variants', 'id')->where('is_active', true)],
-                'quantity'   => 'required|integer|min:1',
+                'quantity'   => 'required|integer|min:1|max:999',
             ]);
 
 
@@ -71,7 +71,7 @@ class CartController extends Controller
         try {
             $request->validate([
                 'combo_id' => ['required', \Illuminate\Validation\Rule::exists('combos', 'id')->where('is_active', true)],
-                'quantity' => 'required|integer|min:1',
+                'quantity' => 'required|integer|min:1|max:999',
             ]);
 
             $cart = $this->resolveCart($request);
@@ -193,7 +193,7 @@ class CartController extends Controller
         return $this->cartService->getCart(null, $sessionToken);
     }
 
-    private function payload($cart)
+    private function payload(\App\Domains\Cart\Models\Cart $cart)
     {
         $cart->load(['items.variant.product', 'items.variant.tierPrices', 'items.combo']);
         

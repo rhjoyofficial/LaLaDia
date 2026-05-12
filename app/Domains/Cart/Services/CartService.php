@@ -43,7 +43,7 @@ class CartService
     public function addCombo(Cart $cart, int $comboId, int $qty = 1)
     {
         return DB::transaction(function () use ($cart, $comboId, $qty) {
-            $combo = Combo::with('items')->findOrFail($comboId);
+            $combo = Combo::with(['items.variant'])->findOrFail($comboId);
 
             $variants = ProductVariant::whereIn('id', $combo->items->pluck('product_variant_id'))
                 ->lockForUpdate()->get()->keyBy('id');
@@ -58,16 +58,19 @@ class CartService
 
             $cartItem = $cart->items()->where('combo_id', $comboId)->first();
 
+            // final_price uses auto_price which reads items.variant — already eager-loaded above
+            $finalPrice = $combo->final_price;
+
             if ($cartItem) {
                 $cartItem->update([
                     'quantity' => $cartItem->quantity + $qty,
-                    'unit_price_snapshot' => $combo->final_price,
+                    'unit_price_snapshot' => $finalPrice,
                 ]);
             } else {
                 $cartItem = $cart->items()->create([
                     'combo_id' => $comboId,
                     'quantity' => $qty,
-                    'unit_price_snapshot' => $combo->final_price,
+                    'unit_price_snapshot' => $finalPrice,
                     'combo_name_snapshot' => $combo->title,
                 ]);
             }
@@ -141,7 +144,7 @@ class CartService
     public function removeItem(Cart $cart, int $itemId)
     {
         return DB::transaction(function () use ($cart, $itemId) {
-            $item = $cart->items()->findOrFail($itemId);
+            $item = $cart->items()->with('combo.items')->findOrFail($itemId);
 
             if ($item->combo_id) {
                 foreach ($item->combo->items as $ci) {
@@ -210,7 +213,8 @@ class CartService
 
             // 1. Handle Combo Items (Usually fixed price, but we refresh the snapshot anyway)
             if ($item->combo_id) {
-                $combo = Combo::with('items')->findOrFail($item->combo_id);
+                // Load items.variant so final_price (auto_price) doesn't trigger N+1
+                $combo = Combo::with(['items.variant'])->findOrFail($item->combo_id);
 
                 if ($diff > 0 && $combo->available_stock < $diff) {
                     throw new Exception("Insufficient stock for bundle update.");
@@ -229,7 +233,7 @@ class CartService
                     }
                 }
 
-                // Refresh snapshot from the combo's current final price
+                // items.variant is loaded — final_price resolves without extra queries
                 $item->update([
                     'quantity' => $newQty,
                     'unit_price_snapshot' => $combo->final_price
@@ -307,7 +311,8 @@ class CartService
         $anyPriceChanged = false;
 
         DB::transaction(function () use ($cart, &$anyPriceChanged) {
-            $cart->load(['items.variant.tierPrices', 'items.combo']);
+            // items.combo.items.variant required so Combo::final_price (auto_price) avoids N+1
+            $cart->load(['items.variant.tierPrices', 'items.combo.items.variant']);
 
             foreach ($cart->items as $item) {
                 $currentPrice = $item->unit_price_snapshot;
@@ -334,18 +339,32 @@ class CartService
     public function reserveStock(Cart $cart)
     {
         DB::transaction(function () use ($cart) {
+            // Batch-collect all variant IDs first to avoid one lockForUpdate per item
+            $cart->load('items.combo.items');
+
+            $variantIds = collect();
             foreach ($cart->items as $item) {
-                if ($item->combo_id) {
-                    $combo = Combo::with('items')->find($item->combo_id);
-                    if ($combo) {
-                        foreach ($combo->items as $ci) {
-                            $variant = ProductVariant::lockForUpdate()->find($ci->product_variant_id);
-                            $variant?->increment('reserved_stock', $ci->quantity * $item->quantity);
-                        }
+                if ($item->combo_id && $item->combo) {
+                    $variantIds = $variantIds->merge($item->combo->items->pluck('product_variant_id'));
+                } elseif ($item->variant_id) {
+                    $variantIds->push($item->variant_id);
+                }
+            }
+
+            $variants = ProductVariant::whereIn('id', $variantIds->unique())
+                ->lockForUpdate()
+                ->get()
+                ->keyBy('id');
+
+            foreach ($cart->items as $item) {
+                if ($item->combo_id && $item->combo) {
+                    foreach ($item->combo->items as $ci) {
+                        $variants->get($ci->product_variant_id)
+                            ?->increment('reserved_stock', $ci->quantity * $item->quantity);
                     }
                 } elseif ($item->variant_id) {
-                    $variant = ProductVariant::lockForUpdate()->find($item->variant_id);
-                    $variant?->increment('reserved_stock', $item->quantity);
+                    $variants->get($item->variant_id)
+                        ?->increment('reserved_stock', $item->quantity);
                 }
             }
         });

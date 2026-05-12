@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Luxary Artisanal Foods')
+@section('title', 'Luxury Artisanal Foods')
 @section('meta_description',
     'LaLaDia — Pure Sundarbans honey, authentic Bengali pickles, Royal Essence Ghee, premium
     dates and seasonal mangoes. Trusted by 10,000+ customers across Bangladesh.')
@@ -113,3 +113,14 @@
     @include('store.partials.testimonial-showcase')
 
 @endsection
+
+@push('styles')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+@endpush
+
+@push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12/dist/ScrollTrigger.min.js"></script>
+    <script>gsap.registerPlugin(ScrollTrigger);</script>
+@endpush

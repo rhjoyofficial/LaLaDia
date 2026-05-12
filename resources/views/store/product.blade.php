@@ -19,6 +19,10 @@
 
 @section('title', $product->name)
 
+@push('head')
+    <script type="application/ld+json">{!! json_encode($jsonLd, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}</script>
+@endpush
+
 @push('styles')
     <style>
         /* ── Variant button active/inactive states ── */

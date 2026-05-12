@@ -46,7 +46,7 @@ class CheckoutRequest extends FormRequest
     {
         return [
             'customer_name'    => 'required|string|max:255',
-            'customer_phone'   => 'required|string|max:20',
+            'customer_phone'   => ['required', 'string', 'max:20', 'regex:/^(\+88)?01[3-9]\d{8}$/'],
             'customer_email'   => 'nullable|email|max:255',
             'address_line'     => 'required|string|max:500',
             'city'             => 'required|string|max:100',
@@ -58,7 +58,7 @@ class CheckoutRequest extends FormRequest
             'items'              => 'required|array|min:1',
             'items.*.variant_id' => ['nullable', Rule::exists('product_variants', 'id')->where('is_active', true)],
             'items.*.combo_id'   => ['nullable', Rule::exists('combos', 'id')->where('is_active', true)],
-            'items.*.quantity'   => 'required|integer|min:1',
+            'items.*.quantity'   => 'required|integer|min:1|max:999',
 
             'ga_client_id'   => 'nullable|string|max:100',
             'coupon_code'    => 'nullable|string|max:50',
@@ -88,8 +88,10 @@ class CheckoutRequest extends FormRequest
     public function messages(): array
     {
         return [
+            'customer_phone.regex'      => 'Phone must be a valid Bangladeshi number (e.g. 01712345678 or +8801712345678).',
             'items.*.quantity.required' => 'Quantity is required for each item.',
             'items.*.quantity.min'      => 'Quantity must be at least 1.',
+            'items.*.quantity.max'      => 'Quantity may not exceed 999 per item.',
             'zone_id.required'          => 'Please select a delivery zone.',
             'zone_id.exists'            => 'The selected delivery zone is invalid.',
             'payment_method.in'         => 'Invalid payment method selected.',

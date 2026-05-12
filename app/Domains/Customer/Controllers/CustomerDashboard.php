@@ -14,13 +14,18 @@ class CustomerDashboard extends Controller
     public function index(): View
     {
         $user = Auth::user();
+
+        $stats = Order::where('user_id', $user->id)
+            ->selectRaw('COUNT(*) as order_count, COALESCE(SUM(grand_total), 0) as total_spent')
+            ->first();
+
         $orders = Order::where('user_id', $user->id)->latest()->take(5)->get();
 
         return view('customer.dashboard', [
-            'user' => $user,
-            'orders' => $orders,
-            'orderCount' => Order::where('user_id', $user->id)->count(),
-            'totalSpent' => Order::where('user_id', $user->id)->sum('grand_total'),
+            'user'       => $user,
+            'orders'     => $orders,
+            'orderCount' => $stats->order_count,
+            'totalSpent' => $stats->total_spent,
         ]);
     }
 

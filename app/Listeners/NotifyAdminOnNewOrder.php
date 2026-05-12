@@ -63,7 +63,7 @@ class NotifyAdminOnNewOrder implements ShouldQueue
                 'Total:    ৳' . number_format($order->grand_total, 2),
                 'Payment:  ' . strtoupper($order->payment_method),
                 '',
-                'View order: ' . route('order.success', ['order' => $order->order_number]),
+                'View order: ' . route('admin.orders.show', $order->id),
             ]);
 
             Mail::mailer('noreply')->raw(

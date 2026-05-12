@@ -69,10 +69,32 @@ class ProductPageController extends Controller
             ],
         ];
 
+        $price       = (float) ($defaultVariant?->final_price ?? $product->base_price ?? 0);
+        $inStock     = $product->variants->some(fn ($v) => $v->available_stock > 0);
+        $jsonLd = [
+            '@context'    => 'https://schema.org',
+            '@type'       => 'Product',
+            'name'        => $product->name,
+            'description' => $product->short_description ?? $product->meta_description ?? '',
+            'image'       => $product->image_url,
+            'sku'         => $product->sku,
+            'brand'       => ['@type' => 'Brand', 'name' => config('app.name')],
+            'offers'      => [
+                '@type'         => 'Offer',
+                'priceCurrency' => 'BDT',
+                'price'         => $price,
+                'availability'  => $inStock
+                    ? 'https://schema.org/InStock'
+                    : 'https://schema.org/OutOfStock',
+                'url'           => url()->current(),
+            ],
+        ];
+
         return view('store.product', [
             'product'         => $product,
             'relatedProducts' => $relatedProducts,
             'ga4'             => $ga4,
+            'jsonLd'          => $jsonLd,
         ]);
     }
 }

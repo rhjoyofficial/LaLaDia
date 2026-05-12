@@ -3,15 +3,10 @@
 namespace App\Domains\Auth\Services;
 
 use App\Domains\Auth\Resources\UserResource;
-use App\Helpers\ApiResponse;
 use App\Models\User;
-use Exception;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\RateLimiter;
-use Illuminate\Support\Str;
 
 class AuthService
 {
@@ -61,7 +56,12 @@ class AuthService
     // Update the last login timestamp
     $user->update(['last_login_at' => now()]);
 
-    $abilities = $user->hasRole('Admin') ? ['admin:*'] : ['customer:*'];
+    // All explicitly-defined admin roles get admin token abilities.
+    // Must mirror the allowlist in EnsureUserIsAdmin middleware.
+    $adminRoles = ['Super Admin', 'Admin', 'Manager', 'Operations'];
+    $abilities   = $user->roles->pluck('name')->intersect($adminRoles)->isNotEmpty()
+        ? ['admin:*']
+        : ['customer:*'];
 
     $token = $user->createToken('bionic_token', $abilities,  now()->addDays(7))->plainTextToken;
     Auth::login($user);

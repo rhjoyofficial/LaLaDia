@@ -8,20 +8,29 @@
 
     <meta name="description" content="@yield('meta_description', 'LaLaDia — Premium Honey, Ghee, Pickles & Organic Foods from Bangladesh.')">
     <meta name="keywords" content="@yield('meta_keywords', 'LaLaDia, honey, ghee, pickles, organic food, Sundarbans, Bangladesh')">
+
+    @php
+        $pageTitle = config('app.name', 'LaLaDia') . ($__env->hasSection('title') ? ' — ' . $__env->yieldContent('title') : '');
+        $pageDesc  = $__env->hasSection('meta_description') ? $__env->yieldContent('meta_description') : 'LaLaDia — Premium Honey, Ghee, Pickles & Organic Foods from Bangladesh.';
+        $pageImage = $__env->hasSection('meta_image') ? $__env->yieldContent('meta_image') : asset('favicon.png');
+    @endphp
+
+    <link rel="canonical" href="{{ url()->current() }}">
+
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:title" content="{{ config('app.name', 'LaLaDia') }}@hasSection('title') — @yield('title')@endif">
-    <meta property="og:description" content="@yield('meta_description', 'LaLaDia — Premium Honey, Ghee, Pickles & Organic Foods from Bangladesh.')">
-    <meta property="og:image" content="@yield('meta_image', asset('favicon.png'))">
+    <meta property="og:title" content="{{ $pageTitle }}">
+    <meta property="og:description" content="{{ $pageDesc }}">
+    <meta property="og:image" content="{{ $pageImage }}">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $pageTitle }}">
+    <meta name="twitter:description" content="{{ $pageDesc }}">
+    <meta name="twitter:image" content="{{ $pageImage }}">
 
     <link rel="icon" href="{{ asset('favicon.png') }}">
 
-    <title>
-        {{ config('app.name', 'LaLaDia') }}
-        @hasSection('title')
-            — @yield('title')
-        @endif
-    </title>
+    <title>{{ $pageTitle }}</title>
 
     @include('partials.datalayer')
 
@@ -35,22 +44,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Plus+Jakarta+Sans:wght@200..800&family=Noto+Sans+Bengali:wght@100..900&family=Playfair+Display:ital,opsz,wght@0,42..52,400..900;1,42..52,400..900&display=swap" rel="stylesheet">
 
-    @unless (Route::is('login', 'register', 'password.*'))
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
-    @endunless
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
 
-    @if (config('services.meta.pixel_id'))
-        <script>
-            !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
-            fbq('init','{{ config('services.meta.pixel_id') }}');
-            fbq('track','PageView');
-        </script>
-        <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id={{ config('services.meta.pixel_id') }}&ev=PageView&noscript=1"></noscript>
-    @endif
 
     <style>
         /* ── Mobile bottom nav safe area ── */
@@ -70,6 +68,7 @@
             display: none;
         }
     </style>
+    @stack('head')
 </head>
 
 <body class="antialiased font-sans no-scrollbar" style="background: var(--color-bg); color: var(--color-text);">
@@ -84,8 +83,10 @@
 
         @unless (Route::is('login', 'register', 'password.*'))
             @include('store.partials.header')
-            @include('store.partials.cart-drawer')
-            @include('store.partials.cart-badge')
+            @unless (Route::is('checkout.*', 'order.success'))
+                @include('store.partials.cart-drawer')
+                @include('store.partials.cart-badge')
+            @endunless
         @endunless
 
         <x-flash-container />
@@ -212,13 +213,6 @@
             }
         </script>
 
-    @endunless
-
-    @unless (Route::is('login', 'register', 'password.*'))
-        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/gsap@3.12/dist/gsap.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/gsap@3.12/dist/ScrollTrigger.min.js"></script>
-        <script>gsap.registerPlugin(ScrollTrigger);</script>
     @endunless
 
     @stack('scripts')

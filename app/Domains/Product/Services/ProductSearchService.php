@@ -16,13 +16,18 @@ class ProductSearchService
         // Use collect() for cleaner filter handling
         $filters = collect($filters);
 
-        // Keyword search
+        // Keyword search — FULLTEXT index (avoids full-table LIKE '%q%' scan).
+        // Falls back to LIKE for very short terms (< 3 chars) which FULLTEXT skips.
         if ($filters->get('q')) {
-            $query->where(function ($q) use ($filters) {
-                $searchTerm = "%{$filters->get('q')}%";
-                $q->where('name', 'LIKE', $searchTerm)
-                    ->orWhere('short_description', 'LIKE', $searchTerm);
-            });
+            $term = trim($filters->get('q'));
+            if (mb_strlen($term) >= 3) {
+                $query->whereFullText(['name', 'short_description'], $term);
+            } else {
+                $query->where(function ($q) use ($term) {
+                    $q->where('name', 'LIKE', "{$term}%")
+                      ->orWhere('short_description', 'LIKE', "{$term}%");
+                });
+            }
         }
 
         // Category filter

@@ -32,13 +32,18 @@ class CatalogController extends Controller
             }
         }
 
-        // Search
+        // Search — FULLTEXT index for terms ≥ 3 chars; prefix LIKE for short terms.
+        // Mirrors ProductSearchService logic so all search paths use the same strategy.
         if ($request->filled('q')) {
-            $term = '%' . trim((string) $request->query('q')) . '%';
-            $query->where(function (Builder $search) use ($term) {
-                $search->where('name', 'like', $term)
-                    ->orWhere('short_description', 'like', $term);
-            });
+            $term = trim((string) $request->query('q'));
+            if (mb_strlen($term) >= 3) {
+                $query->whereFullText(['name', 'short_description'], $term);
+            } else {
+                $query->where(function (Builder $search) use ($term) {
+                    $search->where('name', 'LIKE', "{$term}%")
+                        ->orWhere('short_description', 'LIKE', "{$term}%");
+                });
+            }
         }
 
         $this->applyPriceFilter($query, $request);
@@ -68,13 +73,17 @@ class CatalogController extends Controller
             ->with(['variants.tierPrices', 'category'])
             ->where('category_id', $selectedCategory->id);
 
-        // Search still works within a category
+        // Search still works within a category — FULLTEXT same as index action
         if ($request->filled('q')) {
-            $term = '%' . trim((string) $request->query('q')) . '%';
-            $query->where(function (Builder $search) use ($term) {
-                $search->where('name', 'like', $term)
-                    ->orWhere('short_description', 'like', $term);
-            });
+            $term = trim((string) $request->query('q'));
+            if (mb_strlen($term) >= 3) {
+                $query->whereFullText(['name', 'short_description'], $term);
+            } else {
+                $query->where(function (Builder $search) use ($term) {
+                    $search->where('name', 'LIKE', "{$term}%")
+                        ->orWhere('short_description', 'LIKE', "{$term}%");
+                });
+            }
         }
 
         $this->applyPriceFilter($query, $request);
@@ -143,26 +152,24 @@ class CatalogController extends Controller
         $sort = $request->query('sort', 'latest');
 
         if ($sort === 'price_asc') {
-            $query->orderBy(
-                ProductVariant::select('price')
-                    ->whereColumn('product_id', 'products.id')
-                    ->where('is_active', true)
-                    ->orderBy('price')
-                    ->limit(1),
-                'asc'
-            );
+            $query
+                ->join(
+                    \Illuminate\Support\Facades\DB::raw('(SELECT product_id, MIN(price) AS min_price FROM product_variants WHERE is_active = 1 GROUP BY product_id) AS pv_min'),
+                    'products.id', '=', 'pv_min.product_id'
+                )
+                ->orderBy('pv_min.min_price', 'asc')
+                ->select('products.*');
             return;
         }
 
         if ($sort === 'price_desc') {
-            $query->orderBy(
-                ProductVariant::select('price')
-                    ->whereColumn('product_id', 'products.id')
-                    ->where('is_active', true)
-                    ->orderByDesc('price')
-                    ->limit(1),
-                'desc'
-            );
+            $query
+                ->join(
+                    \Illuminate\Support\Facades\DB::raw('(SELECT product_id, MAX(price) AS max_price FROM product_variants WHERE is_active = 1 GROUP BY product_id) AS pv_max'),
+                    'products.id', '=', 'pv_max.product_id'
+                )
+                ->orderBy('pv_max.max_price', 'desc')
+                ->select('products.*');
             return;
         }
 

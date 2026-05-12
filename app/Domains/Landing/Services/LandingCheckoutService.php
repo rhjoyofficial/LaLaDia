@@ -6,6 +6,7 @@ use App\Domains\Coupon\Models\Coupon;
 use App\Domains\Coupon\Models\CouponUsage;
 use App\Domains\Landing\Models\LandingPage;
 use App\Domains\Order\Models\Order;
+use App\Domains\Admin\Services\DashboardStatsService;
 use App\Domains\Order\Services\CheckoutPricingService;
 use App\Domains\Product\Models\Combo;
 use App\Domains\Shipping\Models\ShippingZone;
@@ -165,9 +166,14 @@ class LandingCheckoutService
             }
 
             // 6. Reserve stock for user-submitted items
+            $comboIds = collect($data['items'])->pluck('combo_id')->filter()->unique();
+            $combos   = $comboIds->isNotEmpty()
+                ? Combo::with('items')->findMany($comboIds)->keyBy('id')
+                : collect();
+
             foreach ($data['items'] as $item) {
                 if (!empty($item['combo_id'])) {
-                    $combo = Combo::with('items')->findOrFail($item['combo_id']);
+                    $combo = $combos->get($item['combo_id']);
                     foreach ($combo->items as $comboItem) {
                         $pricing->lockedVariants
                             ->get($comboItem->product_variant_id)
@@ -199,6 +205,8 @@ class LandingCheckoutService
             // 8. Dispatch event
             $order->load('items');
             event(new \App\Events\OrderCreated($order));
+
+            DashboardStatsService::flush();
 
             return $order;
         });

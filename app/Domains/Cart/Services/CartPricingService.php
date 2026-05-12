@@ -2,6 +2,7 @@
 
 namespace App\Domains\Cart\Services;
 
+use App\Domains\Cart\Models\Cart;
 use App\Domains\Order\Services\CheckoutPricingService;
 
 class CartPricingService
@@ -10,9 +11,10 @@ class CartPricingService
         private CheckoutPricingService $checkoutPricing
     ) {}
 
-    public function calculate($cart)
+    public function calculate(Cart $cart)
     {
-        $cart->load(['items.variant.tierPrices', 'items.combo']);
+        // items.combo.items.variant ensures Combo::auto_price resolves without N+1
+        $cart->load(['items.variant.tierPrices', 'items.combo.items.variant']);
 
         $items = $cart->items->map(fn($item) => [
             'variant_id' => $item->variant_id,
