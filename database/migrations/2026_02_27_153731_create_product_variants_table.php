@@ -30,7 +30,8 @@ return new class extends Migration
             $table->boolean('is_active')->default(true);
 
             $table->timestamps();
-            $table->index(['product_id', 'is_active']);
+            $table->index(['product_id', 'is_active'], 'pv_product_id_is_active_index');
+            $table->index(['is_active', 'price'], 'pv_is_active_price_index');
         });
     }
 

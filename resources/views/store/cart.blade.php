@@ -2,64 +2,6 @@
 
 @section('title', 'Your Cart')
 
-@push('styles')
-    <style>
-        .qty-stepper {
-            display: flex;
-            align-items: center;
-            border: 1px solid var(--color-border);
-            border-radius: 10px;
-            overflow: hidden;
-            background: var(--color-surface);
-        }
-
-        .qty-stepper button {
-            width: 2rem;
-            height: 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background 0.15s;
-            color: var(--color-text-muted);
-        }
-
-        .qty-stepper button:hover {
-            background: var(--color-bg-soft);
-            color: var(--color-text-secondary);
-        }
-
-        .qty-stepper span {
-            width: 2rem;
-            text-align: center;
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: var(--color-text);
-        }
-
-        .coupon-wrap {
-            display: flex;
-            align-items: center;
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid var(--color-border);
-            background: var(--color-bg-soft);
-            transition: border-color 0.2s;
-        }
-
-        .coupon-wrap:focus-within {
-            border-color: var(--color-primary);
-        }
-
-        /* Discount row: flex when visible (JS toggles .hidden) */
-        #pageDiscountRow {
-            display: flex;
-            justify-content: space-between;
-        }
-    </style>
-@endpush
 
 @section('content')
     <div style="background: var(--color-bg);" class="min-h-screen">
@@ -143,24 +85,32 @@
 
                         <div class="space-y-3">
                             <div class="flex justify-between text-sm">
-                                <span style="color: var(--color-text-muted);">Subtotal</span>
-                                <span id="pageSubtotal" class="font-bold font-bengali"
-                                    style="color: var(--color-text);">৳0</span>
+                                <span class="text-gray-500">Subtotal</span>
+                                <span id="pageSubtotal" class="font-bold font-bengali text-gray-800">৳0</span>
                             </div>
 
-                            <div id="pageDiscountRow" class="hidden text-sm">
-                                <span style="color: var(--color-text-muted);">Coupon Discount</span>
-                                <span id="pageDiscountAmount" class="font-bold font-bengali"
-                                    style="color: var(--color-primary);">− ৳0</span>
+                            {{-- Tier Savings Row (shown by JS when tier discount is active) --}}
+                            <div id="pageTierSavingRow" class="hidden justify-between text-sm">
+                                <span class="flex items-center gap-1.5 text-emerald-600 font-semibold">
+                                    <svg class="w-3.5 h-3.5 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                    </svg>
+                                    Bulk Savings
+                                </span>
+                                <span id="pageTierSavingAmount" class="font-bold font-bengali text-emerald-600">− ৳0</span>
                             </div>
 
-                            <div style="border-top: 1px solid var(--color-border); margin: 8px 0;"></div>
+                            {{-- Coupon Discount Row (shown by JS when coupon applied) --}}
+                            <div id="pageDiscountRow" class="hidden justify-between text-sm">
+                                <span class="text-gray-500">Coupon Discount</span>
+                                <span id="pageDiscountAmount" class="font-bold font-bengali text-primary">− ৳0</span>
+                            </div>
 
-                            <div class="flex justify-between items-center">
-                                <span class="text-base font-semibold"
-                                    style="color: var(--color-text-secondary);">Total</span>
-                                <span id="pageTotal" class="text-2xl font-bold font-bengali"
-                                    style="color: var(--color-primary);">৳0</span>
+                            <div class="border-t border-gray-100 pt-3">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-base font-semibold text-gray-700">Total</span>
+                                    <span id="pageTotal" class="text-2xl font-bold font-bengali text-primary">৳0</span>
+                                </div>
                             </div>
                         </div>
 

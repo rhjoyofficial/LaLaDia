@@ -27,82 +27,24 @@
             background: var(--color-surface);
             color: var(--color-text-muted);
         }
-
-        .variant-btn:hover {
-            border-color: var(--color-primary);
-            color: var(--color-primary);
-        }
-
-        .variant-btn.active {
-            border-color: var(--color-primary);
-            color: var(--color-primary);
-            background: var(--color-bg-soft);
-        }
-
-        /* ── Tab nav active ── */
-        .tab-btn {
-            border-bottom: 2px solid transparent;
-            color: var(--color-text-muted);
-        }
-
-        .tab-btn.active {
-            border-color: var(--color-primary);
-            color: var(--color-primary);
-            font-weight: 600;
-        }
-
-        /* ── Thumbnail active ring ── */
-        .thumbBtn.active {
-            border-color: var(--color-primary) !important;
-        }
-
-        /* ── Qty stepper ── */
+        .variant-btn:hover { border-color: var(--color-primary); color: var(--color-primary); }
+        .variant-btn.active { border-color: var(--color-primary); color: var(--color-primary); background: var(--color-bg-soft); }
+        .tab-btn { border-bottom: 2px solid transparent; color: var(--color-text-muted); }
+        .tab-btn.active { border-color: var(--color-primary); color: var(--color-primary); font-weight: 600; }
+        .thumbBtn.active { border-color: var(--color-primary) !important; }
         .qty-btn {
-            width: 2.25rem;
-            height: 2.25rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 1.1rem;
-            font-weight: 700;
+            width: 2.25rem; height: 2.25rem;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; font-size: 1.1rem; font-weight: 700;
             border-right: 1px solid var(--color-border);
             transition: background 0.15s;
         }
-
-        .qty-btn:last-of-type {
-            border-right: none;
-            border-left: 1px solid var(--color-border);
-        }
-
-        .qty-btn:hover {
-            background: var(--color-bg-soft);
-            color: var(--color-text-secondary);
-        }
-
-        /* ── Buy-now dark button ── */
-        .btn-dark {
-            background: var(--color-text);
-            color: white;
-            border-radius: 12px;
-            transition: all 0.3s ease;
-        }
-
-        .btn-dark:hover {
-            opacity: 0.88;
-        }
-
-        /* ── Nutrition table row ── */
-        .nutrition-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px solid var(--color-border);
-        }
-
-        .nutrition-row:last-child {
-            border-bottom: none;
-        }
+        .qty-btn:last-of-type { border-right: none; border-left: 1px solid var(--color-border); }
+        .qty-btn:hover { background: var(--color-bg-soft); color: var(--color-text-secondary); }
+        .btn-dark { background: var(--color-text); color: white; border-radius: 12px; transition: all 0.3s ease; }
+        .btn-dark:hover { opacity: 0.88; }
+        .nutrition-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--color-border); }
+        .nutrition-row:last-child { border-bottom: none; }
     </style>
 @endpush
 
@@ -229,8 +171,11 @@
                         </span>
                     </div>
 
-                    {{-- Tier pricing --}}
+                    {{-- Tier pricing chips --}}
                     <div id="tierBox"></div>
+
+                    {{-- Live tier incentive nudge (updated reactively on qty change) --}}
+                    <div id="tierNudge" class="min-h-[1.75rem]"></div>
 
                     {{-- Variant selector --}}
                     @if ($product->variants->count() > 1)
@@ -505,6 +450,7 @@
                 const qtyPlus = document.getElementById('qtyPlus');
                 const mobileStickyPrice = document.getElementById('mobileStickyPrice');
                 const mobileStickyCartBtn = document.getElementById('mobileStickyCartBtn');
+                const tierNudge = document.getElementById('tierNudge');
 
                 /* ─── Thumbnail gallery ─── */
                 const mainImg = document.getElementById('productMainImage');
@@ -540,14 +486,48 @@
                         tierBox.innerHTML = '';
                         return;
                     }
+                    const sortedTiers = [...v.tiers].sort((a, b) => a.qty - b.qty);
                     tierBox.innerHTML = `
                 <div class="flex flex-wrap gap-2">
-                    ${v.tiers.map(t => `
-                                <span style="background: var(--color-bg-soft); color: var(--color-primary); border: 1px solid var(--color-border);"
-                                      class="inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold font-bengali">
-                                    Buy ${t.qty}+ → Save ${t.type === 'percentage' ? t.value + '%' : '৳' + t.value}/unit
-                                </span>`).join('')}
+                    ${sortedTiers.map(t => {
+                        const discount = t.type === 'percentage' ? `${t.value}% off` : `৳${t.value} off/unit`;
+                        const perks = [];
+                        if (t.free_delivery) perks.push('<span class="inline-flex items-center gap-0.5 text-[10px] font-bold text-sky-600 bg-sky-50 border border-sky-200 px-1.5 py-0.5 rounded-full">🚚 Free Delivery</span>');
+                        if (t.gift_variant_id) perks.push('<span class="inline-flex items-center gap-0.5 text-[10px] font-bold text-violet-600 bg-violet-50 border border-violet-200 px-1.5 py-0.5 rounded-full">🎁 Free Gift</span>');
+                        return `<span class="inline-flex flex-wrap items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold font-bengali bg-primary/5 text-primary border border-primary/20">
+                            Buy ${t.qty}+ ${t.value > 0 ? `&rarr; Save ${discount}` : ''}
+                            ${perks.join('')}
+                        </span>`;
+                    }).join('')}
                 </div>`;
+                }
+
+                function updateLivePricing() {
+                    const v = activeVariant();
+                    const qty = Number(qtyDisplay.textContent.trim() || 1);
+                    if (!v.tiers?.length) {
+                        if (tierNudge) tierNudge.innerHTML = '';
+                        return;
+                    }
+                    const sortedTiers = [...v.tiers].sort((a, b) => a.qty - b.qty);
+                    const activeTier = sortedTiers.filter(t => t.qty <= qty).pop() || null;
+                    const nextTier = sortedTiers.find(t => t.qty > qty) || null;
+                    let livePrice = parseFloat(v.final_price);
+                    if (activeTier) {
+                        const base = parseFloat(v.price);
+                        livePrice = activeTier.type === 'percentage' ? base * (1 - activeTier.value / 100) : Math.max(0, base - activeTier.value);
+                    }
+                    finalPrice.textContent = `৳${livePrice.toFixed(2)}`;
+                    if (mobileStickyPrice) mobileStickyPrice.textContent = `৳${livePrice.toFixed(2)}`;
+                    let nudgeHtml = '';
+                    if (activeTier) {
+                        const saving = ((parseFloat(v.price) - livePrice) * qty).toFixed(2);
+                        nudgeHtml = `<div class="mt-2 text-xs font-bold text-emerald-600 bg-emerald-50 p-2 rounded">Bulk deal active — saved ৳${saving} total</div>`;
+                    } else if (nextTier) {
+                        const need = nextTier.qty - qty;
+                        nudgeHtml = `<div class="mt-2 text-xs text-amber-600 bg-amber-50 p-2 rounded">Add ${need} more to unlock better pricing!</div>`;
+                    }
+                    if (tierNudge) tierNudge.innerHTML = nudgeHtml;
                 }
 
                 function renderVariant() {
@@ -590,12 +570,85 @@
 
                     renderTierInfo(v);
                     updateQtyBoundaries();
+                    updateLivePricing(); // recalculate for the reset qty after variant change
 
                     /* Update variant button styles */
                     variantBtns.forEach(btn => {
                         const isActive = btn.dataset.variantId === String(v.id);
                         btn.classList.toggle('active', isActive);
                     });
+                }
+
+                /**
+                 * Recalculates the displayed price and nudge message based on
+                 * the currently selected variant + current qty.
+                 * Mirrors the backend PricingService logic on the frontend.
+                 */
+                function updateLivePricing() {
+                    const v = activeVariant();
+                    const qty = Number(qtyDisplay.textContent.trim() || 1);
+                    const tierNudgeEl = document.getElementById('tierNudge');
+
+                    if (!v.tiers?.length) {
+                        if (tierNudgeEl) tierNudgeEl.innerHTML = '';
+                        return;
+                    }
+
+                    // Sort ascending — find best qualifying tier
+                    const sortedTiers = [...v.tiers].sort((a, b) => a.qty - b.qty);
+                    const activeTier = sortedTiers.filter(t => t.qty <= qty).pop() || null;
+                    const nextTier   = sortedTiers.find(t => t.qty > qty) || null;
+
+                    // Calculate live price
+                    let livePrice = parseFloat(v.final_price);
+                    let liveOriginal = parseFloat(v.price);
+
+                    if (activeTier) {
+                        const base = parseFloat(v.price); // always discount off base price
+                        if (activeTier.type === 'percentage') {
+                            livePrice = base * (1 - activeTier.value / 100);
+                        } else {
+                            livePrice = Math.max(0, base - activeTier.value);
+                        }
+                    }
+
+                    // Update displayed unit price
+                    finalPrice.textContent = `৳${livePrice.toFixed(2)}`;
+                    if (mobileStickyPrice) mobileStickyPrice.textContent = `৳${livePrice.toFixed(2)}`;
+
+                    // Show line total hint
+                    const lineTotal = (livePrice * qty).toFixed(2);
+
+                    // Build nudge message
+                    let nudgeHtml = '';
+                    if (activeTier) {
+                        const perks = [];
+                        if (activeTier.free_delivery) perks.push('🚚 Free Delivery');
+                        if (activeTier.gift_variant_id) perks.push('🎁 Free Gift included');
+                        const saving = ((parseFloat(v.price) - livePrice) * qty).toFixed(2);
+                        nudgeHtml = `
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="inline-flex items-center gap-1.5 bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-bold px-3 py-1.5 rounded-full font-bengali">
+                                    <svg class="w-3 h-3 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                                    Bulk deal active — saving ৳${saving} total
+                                </span>
+                                ${perks.map(p => `<span class="inline-flex items-center gap-1 text-xs font-semibold text-emerald-600 font-bengali">${p}</span>`).join('')}
+                            </div>`;
+                    } else if (nextTier) {
+                        const need = nextTier.qty - qty;
+                        const reward = nextTier.type === 'percentage' ? `${nextTier.value}% off` : `৳${nextTier.value} off/unit`;
+                        const perks = [];
+                        if (nextTier.free_delivery) perks.push('🚚 Free Delivery');
+                        if (nextTier.gift_variant_id) perks.push('🎁 Free Gift');
+                        const perkStr = perks.length ? ` + ${perks.join(' & ')}` : '';
+                        nudgeHtml = `
+                            <span class="inline-flex items-center gap-1.5 bg-amber-50 border border-amber-200 text-amber-700 text-xs font-bold px-3 py-1.5 rounded-full font-bengali">
+                                <svg class="w-3 h-3 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                Add ${need} more to unlock ${reward}${perkStr}
+                            </span>`;
+                    }
+
+                    if (tierNudgeEl) tierNudgeEl.innerHTML = nudgeHtml;
                 }
 
                 /* ─── Variant button clicks ─── */
@@ -610,11 +663,13 @@
                 qtyMinus?.addEventListener('click', () => {
                     let qty = Number(qtyDisplay.textContent.trim() || 1);
                     qtyDisplay.textContent = Math.max(1, qty - 1);
+                    updateLivePricing();
                 });
                 qtyPlus?.addEventListener('click', () => {
                     const v = activeVariant();
                     let qty = Number(qtyDisplay.textContent.trim() || 1);
-                    qtyDisplay.textContent = Math.min(Number(v.available_stock || 1), qty + 1);
+                    qtyDisplay.textContent = Math.min(Number(v.available_stock || 999), qty + 1);
+                    updateLivePricing();
                 });
                 qtyDisplay?.addEventListener('blur', updateQtyBoundaries);
                 variantSelect?.addEventListener('change', renderVariant);
@@ -700,6 +755,8 @@
 
                 /* ─── Init ─── */
                 renderVariant();
+                // Populate nudge on initial load
+                updateLivePricing();
             });
         </script>
     @endpush

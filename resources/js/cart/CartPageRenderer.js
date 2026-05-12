@@ -1,18 +1,20 @@
 export default class CartPageRenderer {
     constructor() {
         // Page-specific containers
-        this.itemsContainer = document.getElementById("pageCartItems");
-        this.itemCountEl = document.getElementById("pageCartCount");
-        this.subtotalEl = document.getElementById("pageSubtotal");
-        this.discountRowEl = document.getElementById("pageDiscountRow");
-        this.discountAmountEl = document.getElementById("pageDiscountAmount");
-        this.totalEl = document.getElementById("pageTotal");
-        this.checkoutBtn = document.getElementById("pageCheckoutBtn");
-        this.couponInput = document.getElementById("couponInput");
-        this.couponBtn = document.getElementById("couponApplyBtn");
-        this.couponFeedback = document.getElementById("couponFeedback");
-        this.emptyCta = document.getElementById("pageEmptyCta");
-        this.summaryBox = document.getElementById("pageSummaryBox");
+        this.itemsContainer    = document.getElementById("pageCartItems");
+        this.itemCountEl       = document.getElementById("pageCartCount");
+        this.subtotalEl        = document.getElementById("pageSubtotal");
+        this.tierSavingRowEl   = document.getElementById("pageTierSavingRow");
+        this.tierSavingAmountEl= document.getElementById("pageTierSavingAmount");
+        this.discountRowEl     = document.getElementById("pageDiscountRow");
+        this.discountAmountEl  = document.getElementById("pageDiscountAmount");
+        this.totalEl           = document.getElementById("pageTotal");
+        this.checkoutBtn       = document.getElementById("pageCheckoutBtn");
+        this.couponInput       = document.getElementById("couponInput");
+        this.couponBtn         = document.getElementById("couponApplyBtn");
+        this.couponFeedback    = document.getElementById("couponFeedback");
+        this.emptyCta          = document.getElementById("pageEmptyCta");
+        this.summaryBox        = document.getElementById("pageSummaryBox");
 
         // Coupon state
         this.coupon = null; // { id, code, discount }
@@ -104,25 +106,40 @@ export default class CartPageRenderer {
     _tierHtml(i) {
         if (!i.tiers || !i.tiers.length) return "";
 
-        if (i.tier_saving) {
+        // 1. Current Reward (Already active)
+        if (i.tier_saving || i.has_free_delivery || i.gift_variant_id) {
+            const perks = [];
+            if (i.tier_saving > 0) perks.push(`Saving ৳${i.tier_saving} per unit`);
+            if (i.has_free_delivery) perks.push("🚚 Free Delivery");
+            if (i.is_gift_active) perks.push("🎁 Gift included");
+
+            if (!perks.length) return "";
+
             return `<span class="font-bengali inline-flex items-center gap-1.5 bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-bold px-2.5 py-1 rounded-full">
                         <svg class="w-3 h-3 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-                        Bulk deal active — saving ৳${i.tier_saving} per unit
+                        ${perks.join(" + ")}
                     </span>`;
         }
 
+        // 2. Next Reward (Nudge)
         const nextTier = i.tiers.find((t) => t.qty > i.quantity);
         if (!nextTier) return "";
 
         const need = nextTier.qty - i.quantity;
-        const reward =
-            nextTier.type === "percentage"
-                ? `${nextTier.value}% off`
-                : `৳${nextTier.value} off/unit`;
+        const rewards = [];
+        if (nextTier.value > 0) {
+            rewards.push(nextTier.type === "percentage" ? `${nextTier.value}% off` : `৳${nextTier.value} off`);
+        }
+        if (nextTier.free_delivery) rewards.push("Free Delivery");
+        if (nextTier.gift_variant_id) rewards.push("Free Gift");
+
+        if (!rewards.length) return "";
+
+        const rewardText = rewards.join(" & ");
 
         return `<span class="font-bengali inline-flex items-center gap-1.5 bg-amber-50 border border-amber-200 text-amber-700 text-xs font-bold px-2.5 py-1 rounded-full">
                     <svg class="w-3 h-3 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                    Add ${need} more to unlock ${reward}
+                    Add ${need} more to unlock ${rewardText}
                 </span>`;
     }
 
@@ -248,22 +265,39 @@ export default class CartPageRenderer {
     }
 
     _renderTotals(subtotal) {
-        const discount = this.coupon?.discount ?? 0;
-        const total = Math.max(0, subtotal - discount);
+        const tierDiscount  = window.Cart?.state?.tierDiscount ?? 0;
+        const couponDiscount = this.coupon?.discount ?? 0;
+        // Use the server-calculated total when no coupon override is applied
+        const baseTotal     = window.Cart?.state?.total ?? subtotal;
+        const finalTotal    = Math.max(0, baseTotal - couponDiscount);
 
+        // Subtotal (always show full pre-discount price)
         if (this.subtotalEl)
             this.subtotalEl.textContent = "৳" + subtotal.toFixed(2);
 
-        if (discount > 0) {
+        // Tier savings row (green — only when tier discount is active)
+        if (this.tierSavingRowEl) {
+            if (tierDiscount > 0) {
+                this.tierSavingRowEl.classList.remove("hidden");
+                if (this.tierSavingAmountEl)
+                    this.tierSavingAmountEl.textContent = "− ৳" + tierDiscount.toFixed(2);
+            } else {
+                this.tierSavingRowEl.classList.add("hidden");
+            }
+        }
+
+        // Coupon discount row
+        if (couponDiscount > 0) {
             if (this.discountRowEl)
                 this.discountRowEl.classList.remove("hidden");
             if (this.discountAmountEl)
-                this.discountAmountEl.textContent = "− ৳" + discount.toFixed(2);
+                this.discountAmountEl.textContent = "− ৳" + couponDiscount.toFixed(2);
         } else {
             if (this.discountRowEl) this.discountRowEl.classList.add("hidden");
         }
 
-        if (this.totalEl) this.totalEl.textContent = "৳" + total.toFixed(2);
+        // Final payable total
+        if (this.totalEl) this.totalEl.textContent = "৳" + finalTotal.toFixed(2);
     }
 
     async applyCoupon() {

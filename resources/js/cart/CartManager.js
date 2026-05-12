@@ -96,9 +96,11 @@ export default class CartManager {
 
         const totals = payload.totals ?? {};
         this.state = {
-            items: payload.items || [],
-            subtotal: totals.subtotal || 0,
-            totalQty: totals.total_qty || 0,
+            items:        payload.items || [],
+            subtotal:     totals.subtotal     || 0,  // full pre-discount price
+            tierDiscount: totals.discount     || 0,  // tier savings total
+            total:        totals.total        || (totals.subtotal || 0),  // final payable
+            totalQty:     totals.total_qty    || 0,
         };
 
         if (this.badge) {

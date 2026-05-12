@@ -41,6 +41,7 @@ return new class extends Migration
             // Indexes for faster lookups
             $table->index('type');
             $table->index('is_active');
+            $table->index(['slug', 'is_active'], 'landing_pages_slug_is_active_index');
         });
     }
 

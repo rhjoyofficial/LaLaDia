@@ -18,6 +18,17 @@ return new class extends Migration
             $table->string('checkout_token')->nullable()->unique();
             $table->string('source', 30)->default('checkout'); // checkout, landing, admin
 
+            // Tracking & Analytics
+            $table->boolean('test_mode')->default(false);
+            $table->string('ip_address')->nullable();
+            $table->string('fbp')->nullable();
+            $table->string('fbc')->nullable();
+            $table->string('event_source_url')->nullable();
+            $table->string('user_agent')->nullable();
+            $table->string('ga_client_id')->nullable();
+            $table->boolean('conversion_fired')->default(false);
+            $table->timestamp('approved_at')->nullable();
+
             // 2. Foreign Keys
             $table->foreignId('user_id')->nullable()->constrained()->restrictOnDelete();
             $table->foreignId('landing_page_id')->nullable()->constrained()->nullOnDelete();
@@ -69,6 +80,7 @@ return new class extends Migration
             $table->index(['order_status', 'customer_phone']);
             $table->index(['placed_at', 'delivered_at']);
             $table->index('source');
+            $table->index('payment_status', 'orders_payment_status_index');
         });
     }
 

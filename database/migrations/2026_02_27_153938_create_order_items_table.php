@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('sku_snapshot')->nullable();
             $table->string('product_name_snapshot');
             $table->string('variant_title_snapshot')->nullable();
+            $table->string('combo_name_snapshot')->nullable();
 
             $table->decimal('original_unit_price', 10, 2); // price before any discount
             $table->string('discount_type_snapshot')->nullable(); // 'percentage', 'fixed', 'tier'

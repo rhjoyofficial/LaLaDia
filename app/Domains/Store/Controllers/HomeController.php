@@ -33,7 +33,7 @@ class HomeController extends Controller
             'home:trending_products',
             now()->addHours(6),
             fn() =>
-            Product::query()->active()->trending()->with(['variants.tierPrices'])->limit(12)->get()
+            Product::query()->active()->trending()->with(['variants.tierPrices', 'category'])->limit(12)->get()
         );
 
         $categoryProductsRaw = Cache::remember(

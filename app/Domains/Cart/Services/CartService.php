@@ -96,17 +96,18 @@ class CartService
             if ($item) {
                 $newQty = $item->quantity + $qty;
 
-                if (!$variant->hasStock($qty)) {
+                // Check if total new quantity is within available stock
+                if (!$variant->hasStock($newQty - $item->quantity)) {
                     throw new \Exception("Stock limit reached. Only {$variant->available_stock} more available.");
                 }
 
                 $pricing = $this->pricingService->calculate($variant, $newQty);
 
                 $item->update([
-                    'quantity' => $newQty,
-                    'unit_price_snapshot' => $pricing['unit_price'],
+                    'quantity'              => $newQty,
+                    'unit_price_snapshot'   => $pricing['unit_price'],
                     'product_name_snapshot' => $variant->product->name,
-                    'variant_title_snapshot' => $variant->title,
+                    'variant_title_snapshot'=> $variant->title,
                 ]);
 
                 $variant->increment('reserved_stock', $qty);

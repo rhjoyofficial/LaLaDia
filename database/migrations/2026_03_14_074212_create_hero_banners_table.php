@@ -31,6 +31,7 @@ return new class extends Migration
             // Indexes for better performance
             $table->index(['is_active', 'starts_at', 'ends_at']);
             $table->index('sort_order');
+            $table->index(['is_active', 'sort_order'], 'hero_banners_is_active_sort_order_index');
         });
     }
 

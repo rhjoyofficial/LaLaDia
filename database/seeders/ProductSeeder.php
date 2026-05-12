@@ -3,11 +3,11 @@
 namespace Database\Seeders;
 
 use App\Domains\Category\Models\Category;
-use App\Domains\Product\Models\Product;
 use App\Domains\Certification\Models\Certification;
+use App\Domains\Product\Models\Product;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 
 class ProductSeeder extends Seeder
 {
@@ -24,7 +24,7 @@ class ProductSeeder extends Seeder
         $certs = Certification::all();
 
         // Helper to grab category ID
-        $getCatId = fn($slug) => $categories[$slug]->id ?? Category::first()->id;
+        $getCatId = fn ($slug) => $categories[$slug]->id ?? Category::first()->id;
 
         // 1. Mangrove Gold Honey
         $honey = Product::create([
@@ -94,14 +94,91 @@ class ProductSeeder extends Seeder
             'weight_grams' => 350,
             'is_active' => true,
         ])->tierPrices()->create([
-            'min_quantity' => 2,
+            'min_quantity' => 3,
             'discount_type' => 'fixed',
             'discount_value' => 0,
             'has_free_delivery' => true,
         ]);
         $ghee->certifications()->attach($certs->where('name', '!=', 'Halal Certified')->pluck('id'));
 
-        // 3. Royal Beef Pickle
+        // 3. Dry Fish (Shutki) Items
+        // ---------------------------------------------------------------------
+
+        // 3a. Loitta Shutki
+        $loitta = Product::create([
+            'category_id' => $getCatId('dry-fish'),
+            'name' => 'Loitta Shutki (লইট্টা শুটকি)',
+            'slug' => 'loitta-shutki',
+            'base_price' => 260,
+            'thumbnail' => 'products/dry-fish-loitta-shutki.jpg',
+            'short_description' => 'Premium quality sun-dried loitta shutki from coastal regions.',
+            'description' => 'Our Loitta Shutki is sourced directly from the coastal drying yards. It is sun-dried naturally, ensuring authentic taste and aroma.',
+            'is_active' => true,
+            'is_trending' => true,
+        ]);
+        $vLoitta125 = $loitta->variants()->create(['title' => '125gm', 'sku' => 'loitta-125G', 'price' => 260, 'stock' => 1000, 'weight_grams' => 125, 'is_active' => true]);
+        $loitta->variants()->create(['title' => '500gm', 'sku' => 'loitta-500G', 'price' => 990, 'stock' => 500, 'weight_grams' => 500, 'is_active' => true]);
+        $vLoitta1k = $loitta->variants()->create(['title' => '1KG', 'sku' => 'loitta-1KG', 'price' => 1850, 'stock' => 200, 'weight_grams' => 1000, 'is_active' => true]);
+        $loitta->certifications()->attach($certs->whereIn('name', ['Halal Certified', 'GMP Quality Standards'])->pluck('id'));
+
+        // 3b. Churi Shutki
+        $churi = Product::create([
+            'category_id' => $getCatId('dry-fish'),
+            'name' => 'Churi Shutki (ছুরি শুটকি)',
+            'slug' => 'churi-shutki',
+            'base_price' => 360,
+            'thumbnail' => 'products/dry-fish-churi-shutki.jpg',
+            'short_description' => 'Premium quality sun-dried churi shutki from coastal regions.',
+            'description' => 'Our Churi Shutki is sourced directly from the coastal drying yards. It is sun-dried naturally, ensuring authentic taste and aroma.',
+            'is_active' => true,
+            'is_trending' => true,
+        ]);
+        $vChuri125 = $churi->variants()->create(['title' => '125gm', 'sku' => 'churi-125G', 'price' => 360, 'stock' => 1000, 'weight_grams' => 125, 'is_active' => true]);
+        $churi->variants()->create(['title' => '500gm', 'sku' => 'churi-500G', 'price' => 1350, 'stock' => 500, 'weight_grams' => 500, 'is_active' => true]);
+        $vChuri1k = $churi->variants()->create(['title' => '1KG', 'sku' => 'churi-1KG', 'price' => 2500, 'stock' => 200, 'weight_grams' => 1000, 'is_active' => true]);
+        $churi->certifications()->attach($certs->whereIn('name', ['Halal Certified', 'GMP Quality Standards'])->pluck('id'));
+
+        // 3c. Modhu Faisa
+        $faisa = Product::create([
+            'category_id' => $getCatId('dry-fish'),
+            'name' => 'Modhu Faisa (মধু ফাইস্যা)',
+            'slug' => 'modhu-faisa',
+            'base_price' => 240,
+            'thumbnail' => 'products/dry-fish-modhu-faisa.jpg',
+            'short_description' => 'Premium quality sun-dried modhu faisa from coastal regions.',
+            'description' => 'Our Modhu Faisa is sourced directly from the coastal drying yards. It is sun-dried naturally, ensuring authentic taste and aroma.',
+            'is_active' => true,
+        ]);
+        $vFaisa125 = $faisa->variants()->create(['title' => '125gm', 'sku' => 'faisa-125G', 'price' => 240, 'stock' => 1000, 'weight_grams' => 125, 'is_active' => true]);
+        $faisa->variants()->create(['title' => '500gm', 'sku' => 'faisa-500G', 'price' => 890, 'stock' => 500, 'weight_grams' => 500, 'is_active' => true]);
+        $vFaisa1k = $faisa->variants()->create(['title' => '1KG', 'sku' => 'faisa-1KG', 'price' => 1650, 'stock' => 200, 'weight_grams' => 1000, 'is_active' => true]);
+        $faisa->certifications()->attach($certs->whereIn('name', ['Halal Certified', 'GMP Quality Standards'])->pluck('id'));
+
+        // 3d. Mowrala Kachki
+        $kachki = Product::create([
+            'category_id' => $getCatId('dry-fish'),
+            'name' => 'Mowrala Kachki (মওরালা কাচকি)',
+            'slug' => 'mowrala-kachki',
+            'base_price' => 280,
+            'thumbnail' => 'products/dry-fish-mowrala-kachki.jpg',
+            'short_description' => 'Premium quality sun-dried mowrala kachki from coastal regions.',
+            'description' => 'Our Mowrala Kachki is sourced directly from the coastal drying yards. It is sun-dried naturally, ensuring authentic taste and aroma.',
+            'is_active' => true,
+        ]);
+        $vKachki125 = $kachki->variants()->create(['title' => '125gm', 'sku' => 'kachki-125G', 'price' => 280, 'stock' => 1000, 'weight_grams' => 125, 'is_active' => true]);
+        $kachki->variants()->create(['title' => '500gm', 'sku' => 'kachki-500G', 'price' => 1050, 'stock' => 500, 'weight_grams' => 500, 'is_active' => true]);
+        $vKachki1k = $kachki->variants()->create(['title' => '1KG', 'sku' => 'kachki-1KG', 'price' => 1950, 'stock' => 200, 'weight_grams' => 1000, 'is_active' => true]);
+        $kachki->certifications()->attach($certs->whereIn('name', ['Halal Certified', 'GMP Quality Standards'])->pluck('id'));
+
+        // ---------------------------------------------------------------------
+        // Shutki Tier Assignments
+        // ---------------------------------------------------------------------
+        $vLoitta1k->tierPrices()->create(['min_quantity' => 1, 'discount_type' => 'fixed', 'discount_value' => 0, 'gift_product_variant_id' => $vChuri125->id, 'gift_quantity' => 1]);
+        $vChuri1k->tierPrices()->create(['min_quantity' => 1, 'discount_type' => 'fixed', 'discount_value' => 0, 'gift_product_variant_id' => $vFaisa125->id, 'gift_quantity' => 1]);
+        $vFaisa1k->tierPrices()->create(['min_quantity' => 1, 'discount_type' => 'fixed', 'discount_value' => 0, 'gift_product_variant_id' => $vKachki125->id, 'gift_quantity' => 1]);
+        $vKachki1k->tierPrices()->create(['min_quantity' => 1, 'discount_type' => 'fixed', 'discount_value' => 0, 'gift_product_variant_id' => $vLoitta125->id, 'gift_quantity' => 1]);
+
+        // 4. Royal Beef Pickle
         $beefPickle = Product::create([
             'category_id' => $getCatId('pickles'),
             'name' => 'Royal Beef Pickle (রয়্যাল বিফ আচার)',
@@ -131,7 +208,7 @@ class ProductSeeder extends Seeder
         ]);
         $beefPickle->certifications()->attach($certs->pluck('id'));
 
-        // 4. Hilsa Fish Pickle
+        // 5. Hilsa Fish Pickle
         $hilsaPickle = Product::create([
             'category_id' => $getCatId('pickles'),
             'name' => 'Hilsa Fish Pickle (ইলিশ মাছের আচার)',
@@ -161,159 +238,113 @@ class ProductSeeder extends Seeder
         ]);
         $hilsaPickle->certifications()->attach($certs->pluck('id'));
 
-        // 5. Dry Fish Items
-        $dryFishes = [
-            ['name' => 'Loitta Shutki', 'price_125' => 260, 'price_500' => 990, 'price_1000' => 1850],
-            ['name' => 'Churi Shutki', 'price_125' => 360, 'price_500' => 1350, 'price_1000' => 2500],
-            ['name' => 'Modhu Faisa', 'price_125' => 240, 'price_500' => 890, 'price_1000' => 1650],
-            ['name' => 'Mowrala Kachki', 'price_125' => 280, 'price_500' => 1050, 'price_1000' => 1950],
-        ];
-
-        foreach ($dryFishes as $df) {
-            $product = Product::create([
-                'category_id' => $getCatId('dry-fish'),
-                'name' => $df['name'],
-                'slug' => Str::slug($df['name']),
-                'base_price' => $df['price_125'],
-                'thumbnail' => 'products/dry-fish-' . Str::slug($df['name']) . '.jpg',
-                'short_description' => 'Premium quality sun-dried ' . strtolower($df['name']) . ' from coastal regions.',
-                'description' => 'Our ' . $df['name'] . ' is sourced directly from the coastal drying yards. It is sun-dried naturally, ensuring authentic taste and aroma. We maintain strict hygiene during processing to provide you with the best quality shutki.',
-                'is_active' => true,
-                'is_trending' => in_array($df['name'], ['Loitta Shutki', 'Churi Shutki']),
-            ]);
-
-            $product->variants()->createMany([
-                ['title' => '125gm', 'sku' => Str::slug($df['name']) . '-125G', 'price' => $df['price_125'], 'stock' => 1000, 'weight_grams' => 125, 'is_active' => true],
-                ['title' => '500gm', 'sku' => Str::slug($df['name']) . '-500G', 'price' => $df['price_500'], 'stock' => 500, 'weight_grams' => 500, 'is_active' => true],
-                ['title' => '1KG', 'sku' => Str::slug($df['name']) . '-1KG', 'price' => $df['price_1000'], 'stock' => 200, 'weight_grams' => 1000, 'is_active' => true],
-            ]);
-            $product->certifications()->attach($certs->whereIn('name', ['Halal Certified', 'GMP Quality Standards'])->pluck('id'));
-        }
-
         // 6. Mango Products
-        $mangoes = [
-            [
-                'name' => 'Himsagar Mango (হিমসাগর আম)',
-                'slug' => 'himsagar-mango',
-                'image' => 'himsagar.jpg',
-                'price' => 100,
-                'desc' => 'The king of Bengal mangoes, famous for its sweet aroma and fiber-less pulp. Sourced directly from Satkhira/Rajshahi.'
-            ],
-            [
-                'name' => 'Harivanga Mango (হাঁড়ি ভাঙ্গা আম)',
-                'slug' => 'harivanga-mango',
-                'image' => 'harivanga.jpg',
-                'price' => 90,
-                'desc' => 'A specialty of Rangpur, known for its distinct fiber-less texture and incredibly sweet taste.'
-            ],
-            [
-                'name' => 'Langra Mango (ল্যাংড়া আম)',
-                'slug' => 'langra-mango',
-                'image' => 'langra.jpg',
-                'price' => 95,
-                'desc' => 'Famous for its unique aroma, thin skin, and melt-in-the-mouth texture. A favorite aromatic variety.'
-            ],
-            [
-                'name' => 'Amrapali Mango (আমরুপালি আম)',
-                'slug' => 'amrapali-mango',
-                'image' => 'amrapali.jpg',
-                'price' => 85,
-                'desc' => 'Exceptionally sweet and deep orange in color. These are high in pulp and rich in flavor.'
-            ],
-            [
-                'name' => 'Banana Mango (ব্যানানা আম)',
-                'slug' => 'banana-mango',
-                'image' => 'banana-mango.jpg',
-                'price' => 150,
-                'desc' => 'A premium elongated variety that looks like a banana. It has a tiny seed and thick, sweet pulp.'
-            ],
-            [
-                'name' => 'Gourmati Mango (গোড়মতি আম)',
-                'slug' => 'gourmati-mango',
-                'image' => 'gourmati.jpg',
-                'price' => 200,
-                'desc' => 'A late-season premium variety. It is extremely sweet, has a long shelf life, and is highly sought after.'
-            ],
-        ];
+        // ---------------------------------------------------------------------
 
-        foreach ($mangoes as $m) {
-            $product = Product::create([
-                'category_id' => $getCatId('fruits'),
-                'name' => $m['name'],
-                'slug' => $m['slug'],
-                'base_price' => $m['price'],
-                'thumbnail' => 'products/' . $m['image'],
-                'short_description' => 'Fresh, carbide-free premium ' . $m['name'] . ' direct from the orchards.',
-                'description' => $m['desc'] . ' Our mangoes are picked at the perfect ripeness and delivered fresh. We guarantee carbide-free and chemical-free products for your safety and enjoyment.',
-                'is_active' => true,
-                'is_featured' => true,
-                'is_trending' => true,
-            ]);
+        // 6a. Himsagar
+        $himsagar = Product::create([
+            'category_id' => $getCatId('fruits'),
+            'name' => 'Himsagar Mango (হিমসাগর আম)',
+            'slug' => 'himsagar-mango',
+            'base_price' => 100,
+            'thumbnail' => 'products/himsagar.jpg',
+            'short_description' => 'The king of Bengal mangoes, famous for its sweet aroma.',
+            'description' => 'Sourced directly from Satkhira/Rajshahi. Carbide-free.',
+            'is_active' => true, 'is_featured' => true, 'is_trending' => true,
+        ]);
+        $vHim1k = $himsagar->variants()->create(['title' => '1KG', 'sku' => 'HIM-1KG', 'price' => 100, 'stock' => 5000, 'weight_grams' => 1000, 'is_active' => true]);
+        $vHim5k = $himsagar->variants()->create(['title' => '5KG', 'sku' => 'HIM-5KG', 'price' => 475, 'stock' => 1000, 'weight_grams' => 5000, 'is_active' => true]);
+        $vHim10k = $himsagar->variants()->create(['title' => '10KG', 'sku' => 'HIM-10KG', 'price' => 900, 'stock' => 500, 'weight_grams' => 10000, 'is_active' => true]);
 
-            // 1KG Variant
-            $v1kg = $product->variants()->create([
-                'title' => '1KG',
-                'sku' => strtoupper($m['slug']) . '-1KG',
-                'price' => $m['price'],
-                'stock' => 5000,
-                'weight_grams' => 1000,
-                'is_active' => true
-            ]);
+        // 6b. Harivanga
+        $harivanga = Product::create([
+            'category_id' => $getCatId('fruits'),
+            'name' => 'Harivanga Mango (হাঁড়ি ভাঙ্গা আম)',
+            'slug' => 'harivanga-mango',
+            'base_price' => 90,
+            'thumbnail' => 'products/harivanga.jpg',
+            'short_description' => 'A specialty of Rangpur, known for its distinct fiber-less texture.',
+            'description' => 'Exceptionally sweet and deep orange in color.',
+            'is_active' => true, 'is_featured' => true, 'is_trending' => true,
+        ]);
+        $vHar1k = $harivanga->variants()->create(['title' => '1KG', 'sku' => 'HAR-1KG', 'price' => 90, 'stock' => 5000, 'weight_grams' => 1000, 'is_active' => true]);
+        $vHar5k = $harivanga->variants()->create(['title' => '5KG', 'sku' => 'HAR-5KG', 'price' => 428, 'stock' => 1000, 'weight_grams' => 5000, 'is_active' => true]);
+        $vHar10k = $harivanga->variants()->create(['title' => '10KG', 'sku' => 'HAR-10KG', 'price' => 810, 'stock' => 500, 'weight_grams' => 10000, 'is_active' => true]);
 
-            // 5KG Variant (approx 5% discount)
-            $v5kg = $product->variants()->create([
-                'title' => '5KG',
-                'sku' => strtoupper($m['slug']) . '-5KG',
-                'price' => round($m['price'] * 5 * 0.95),
-                'stock' => 1000,
-                'weight_grams' => 5000,
-                'is_active' => true
-            ]);
+        // 6c. Langra
+        $langra = Product::create([
+            'category_id' => $getCatId('fruits'),
+            'name' => 'Langra Mango (ল্যাংড়া আম)',
+            'slug' => 'langra-mango',
+            'base_price' => 95,
+            'thumbnail' => 'products/langra.jpg',
+            'short_description' => 'Famous for its unique aroma, thin skin, and melt-in-the-mouth texture.',
+            'description' => 'A favorite aromatic variety.',
+            'is_active' => true, 'is_featured' => true, 'is_trending' => true,
+        ]);
+        $vLan1k = $langra->variants()->create(['title' => '1KG', 'sku' => 'LAN-1KG', 'price' => 95, 'stock' => 5000, 'weight_grams' => 1000, 'is_active' => true]);
+        $vLan5k = $langra->variants()->create(['title' => '5KG', 'sku' => 'LAN-5KG', 'price' => 451, 'stock' => 1000, 'weight_grams' => 5000, 'is_active' => true]);
+        $vLan10k = $langra->variants()->create(['title' => '10KG', 'sku' => 'LAN-10KG', 'price' => 855, 'stock' => 500, 'weight_grams' => 10000, 'is_active' => true]);
 
-            // 10KG Variant (approx 10% discount)
-            $v10kg = $product->variants()->create([
-                'title' => '10KG',
-                'sku' => strtoupper($m['slug']) . '-10KG',
-                'price' => round($m['price'] * 10 * 0.90),
-                'stock' => 500,
-                'weight_grams' => 10000,
-                'is_active' => true
-            ]);
+        // 6d. Amrapali
+        $amrapali = Product::create([
+            'category_id' => $getCatId('fruits'),
+            'name' => 'Amrapali Mango (আমরুপালি আম)',
+            'slug' => 'amrapali-mango',
+            'base_price' => 85,
+            'thumbnail' => 'products/amrapali.jpg',
+            'short_description' => 'Exceptionally sweet and deep orange in color.',
+            'description' => 'High in pulp and rich in flavor.',
+            'is_active' => true, 'is_featured' => true, 'is_trending' => true,
+        ]);
+        $vAmr1k = $amrapali->variants()->create(['title' => '1KG', 'sku' => 'AMR-1KG', 'price' => 85, 'stock' => 5000, 'weight_grams' => 1000, 'is_active' => true]);
+        $vAmr5k = $amrapali->variants()->create(['title' => '5KG', 'sku' => 'AMR-5KG', 'price' => 404, 'stock' => 1000, 'weight_grams' => 5000, 'is_active' => true]);
+        $vAmr10k = $amrapali->variants()->create(['title' => '10KG', 'sku' => 'AMR-10KG', 'price' => 765, 'stock' => 500, 'weight_grams' => 10000, 'is_active' => true]);
 
-            // Tier Price & Free Delivery for 5KG (1+ qty)
-            $v5kg->tierPrices()->create([
-                'min_quantity' => 1,
-                'discount_type' => 'fixed',
-                'discount_value' => 0,
-                'has_free_delivery' => true,
-            ]);
+        // 6e. Banana Mango
+        $banana = Product::create([
+            'category_id' => $getCatId('fruits'),
+            'name' => 'Banana Mango (ব্যানানা আম)',
+            'slug' => 'banana-mango',
+            'base_price' => 150,
+            'thumbnail' => 'products/banana-mango.jpg',
+            'short_description' => 'A premium elongated variety that looks like a banana.',
+            'description' => 'Tiny seed and thick, sweet pulp.',
+            'is_active' => true, 'is_featured' => true, 'is_trending' => true,
+        ]);
+        $vBan1k = $banana->variants()->create(['title' => '1KG', 'sku' => 'BAN-1KG', 'price' => 150, 'stock' => 5000, 'weight_grams' => 1000, 'is_active' => true]);
+        $vBan5k = $banana->variants()->create(['title' => '5KG', 'sku' => 'BAN-5KG', 'price' => 713, 'stock' => 1000, 'weight_grams' => 5000, 'is_active' => true]);
+        $vBan10k = $banana->variants()->create(['title' => '10KG', 'sku' => 'BAN-10KG', 'price' => 1350, 'stock' => 500, 'weight_grams' => 10000, 'is_active' => true]);
 
-            // Tier Price & Free Delivery for 10KG (1+ qty)
-            $v10kg->tierPrices()->create([
-                'min_quantity' => 1,
-                'discount_type' => 'fixed',
-                'discount_value' => 0,
-                'has_free_delivery' => true,
-            ]);
+        // 6f. Gourmati
+        $gourmati = Product::create([
+            'category_id' => $getCatId('fruits'),
+            'name' => 'Gourmati Mango (গোড়মতি আম)',
+            'slug' => 'gourmati-mango',
+            'base_price' => 200,
+            'thumbnail' => 'products/gourmati.jpg',
+            'short_description' => 'A late-season premium variety.',
+            'description' => 'Extremely sweet, long shelf life.',
+            'is_active' => true, 'is_featured' => true, 'is_trending' => true,
+        ]);
+        $vGou1k = $gourmati->variants()->create(['title' => '1KG', 'sku' => 'GOU-1KG', 'price' => 200, 'stock' => 5000, 'weight_grams' => 1000, 'is_active' => true]);
+        $vGou5k = $gourmati->variants()->create(['title' => '5KG', 'sku' => 'GOU-5KG', 'price' => 950, 'stock' => 1000, 'weight_grams' => 5000, 'is_active' => true]);
+        $vGou10k = $gourmati->variants()->create(['title' => '10KG', 'sku' => 'GOU-10KG', 'price' => 1800, 'stock' => 500, 'weight_grams' => 10000, 'is_active' => true]);
 
-            $product->certifications()->attach($certs->pluck('id'));
-        }
+        // ---------------------------------------------------------------------
+        // Mango Tier Assignments (Buy 15+ 1KG units -> Get different variety gift)
+        // ---------------------------------------------------------------------
+        // No Free Delivery as per request
+        $vHim1k->tierPrices()->create(['min_quantity' => 15, 'discount_type' => 'fixed', 'discount_value' => 0, 'gift_product_variant_id' => $vHar1k->id, 'gift_quantity' => 1]);
+        $vHar1k->tierPrices()->create(['min_quantity' => 15, 'discount_type' => 'fixed', 'discount_value' => 0, 'gift_product_variant_id' => $vLan1k->id, 'gift_quantity' => 1]);
+        $vLan1k->tierPrices()->create(['min_quantity' => 15, 'discount_type' => 'fixed', 'discount_value' => 0, 'gift_product_variant_id' => $vAmr1k->id, 'gift_quantity' => 1]);
+        $vAmr1k->tierPrices()->create(['min_quantity' => 15, 'discount_type' => 'fixed', 'discount_value' => 0, 'gift_product_variant_id' => $vBan1k->id, 'gift_quantity' => 1]);
+        $vBan1k->tierPrices()->create(['min_quantity' => 15, 'discount_type' => 'fixed', 'discount_value' => 0, 'gift_product_variant_id' => $vGou1k->id, 'gift_quantity' => 1]);
+        $vGou1k->tierPrices()->create(['min_quantity' => 15, 'discount_type' => 'fixed', 'discount_value' => 0, 'gift_product_variant_id' => $vHim1k->id, 'gift_quantity' => 1]);
 
-        // ── QA Scenario: Ghee with zone-restricted free delivery ────────────
-        // Tests the "free_delivery_zones" constraint path in CheckoutPricingService.
-        $gheeVariant = $ghee->variants->first();
-        if ($gheeVariant) {
-            $firstZoneId = \App\Domains\Shipping\Models\ShippingZone::orderBy('id')->value('id');
-            if ($firstZoneId) {
-                $gheeVariant->tierPrices()->create([
-                    'min_quantity'        => 3,
-                    'discount_type'       => 'percentage',
-                    'discount_value'      => 8,
-                    'has_free_delivery'   => true,
-                    // Free delivery only for the first zone — all others still pay shipping
-                    'free_delivery_zones' => [$firstZoneId],
-                ]);
-            }
+        // Attach certifications
+        foreach ([$himsagar, $harivanga, $langra, $amrapali, $banana, $gourmati] as $mProd) {
+            $mProd->certifications()->attach($certs->pluck('id'));
         }
     }
 }

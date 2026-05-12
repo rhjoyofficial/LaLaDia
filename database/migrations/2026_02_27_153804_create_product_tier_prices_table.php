@@ -19,6 +19,15 @@ return new class extends Migration
             $table->integer('min_quantity');
             $table->enum('discount_type', ['percentage', 'fixed']);
             $table->decimal('discount_value', 10, 2);
+            $table->boolean('has_free_delivery')->default(false);
+            $table->json('free_delivery_zones')->nullable();
+
+            $table->foreignId('gift_product_variant_id')
+                ->nullable()
+                ->constrained('product_variants')
+                ->nullOnDelete();
+
+            $table->integer('gift_quantity')->default(1);
 
             $table->timestamps();
 

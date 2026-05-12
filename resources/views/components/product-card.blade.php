@@ -41,10 +41,24 @@
                         <p class="text-[9px] md:text-[10px] font-bold leading-tight uppercase tracking-tight">
                             {{ $tier->min_quantity }}+ Items
                         </p>
-                        <p class="text-[11px] md:text-[12px] font-black leading-tight">
-                            Save
-                            {{ $tier->discount_type === 'percentage' ? $tier->discount_value . '%' : '৳' . $tier->discount_value }}
-                        </p>
+                        @if ($tier->discount_value > 0)
+                            <p class="text-[11px] md:text-[12px] font-black leading-tight">
+                                Save
+                                {{ $tier->discount_type === 'percentage' ? $tier->discount_value . '%' : '৳' . $tier->discount_value }}
+                            </p>
+                        @endif
+
+                        {{-- Perk Icons in Blade --}}
+                        @if ($tier->has_free_delivery || $tier->gift_product_variant_id)
+                            <div class="flex flex-wrap gap-0.5 mt-0.5">
+                                @if ($tier->has_free_delivery)
+                                    <span class="inline-flex items-center gap-0.5 text-[8px] font-bold text-sky-600 bg-sky-50 border border-sky-200 px-1 py-0.5 rounded leading-none">🚚 Free Delivery</span>
+                                @endif
+                                @if ($tier->gift_product_variant_id)
+                                    <span class="inline-flex items-center gap-0.5 text-[8px] font-bold text-violet-600 bg-violet-50 border border-violet-200 px-1 py-0.5 rounded leading-none">🎁 Gift</span>
+                                @endif
+                            </div>
+                        @endif
                     </div>
                 @endforeach
             @endif
@@ -60,15 +74,13 @@
             {{ $product->name }}
         </a>
 
-        {{-- VARIANT SELECT --}}
+        {{-- VARIANT SELECT (multi-variant products) --}}
         @if ($variants->count() > 1)
             <div class="relative mb-2 group">
-                {{-- The Animated SVG Border - Positioned behind the select --}}
                 <svg class="absolute inset-0 w-full h-full pointer-events-none" xmlns="http://www.w3.org/2000/svg">
                     <rect rx="12" ry="12" class="animated-border-line" height="100%" width="100%"
                         fill="transparent" stroke-linejoin="round" />
                 </svg>
-
                 <select
                     class="variantSelect relative z-10 w-full appearance-none bg-cream/40 border border-champagne hover:bg-white/80 rounded-xl px-4 py-2 text-sm font-medium text-brand font-bengali focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all cursor-pointer">
                     @foreach ($variants as $v)
@@ -77,22 +89,21 @@
                         </option>
                     @endforeach
                 </select>
-
-                {{-- Chevron Icon --}}
                 <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-primary z-20">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                     </svg>
                 </div>
             </div>
-        @else
-            {{-- PRICE (Only shows if there is 1 variant) --}}
+        @endif
+
+        {{-- PRICE — only shown for single-variant products (multi-variant shows price in dropdown) --}}
+        @if ($variants->count() <= 1)
             <div class="priceBox flex items-center gap-2 mt-auto mb-2 md:mb-4 font-bengali">
                 <span class="finalPrice text-sm md:text-lg font-bold text-brand">
                     ৳{{ number_format($first?->final_price) }}
                 </span>
-                <span
-                    class="oldPrice text-xs md:text-sm text-taupe line-through {{ $first?->discount_percent ? '' : 'hidden' }}">
+                <span class="oldPrice text-xs md:text-sm text-taupe line-through {{ $first?->discount_percent ? '' : 'hidden' }}">
                     ৳{{ number_format($first?->price) }}
                 </span>
             </div>

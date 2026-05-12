@@ -12,7 +12,7 @@ export default function initProductCards() {
         const contactBtn = card.querySelector(".contactBtn");
 
         function render(v) {
-            // 1. Update Prices (only if elements exist - Single Variant Mode)
+            // 1. Update Prices — if priceBox is present (single-variant products)
             if (price) {
                 price.innerText = "৳" + v.final_price;
             }
@@ -26,7 +26,7 @@ export default function initProductCards() {
                 }
             }
 
-            // 2. Update Discount Badge (always exists)
+            // 2. Update Discount Badge
             if (badge) {
                 if (v.discount_percent) {
                     badge.innerText = "-" + v.discount_percent + "%";
@@ -45,19 +45,38 @@ export default function initProductCards() {
                 contactBtn?.classList.add("hidden");
             }
 
-            // 4. Update Tier Pricing Preview
+            // 4. Update Tier Pricing Preview — ascending order, with perk icons
             if (tier) {
-                if (v.tiers?.length) {
-                    tier.innerHTML = v.tiers
+                const sortedTiers = (v.tiers || [])
+                    .slice()
+                    .sort((a, b) => a.qty - b.qty);
+                if (sortedTiers.length) {
+                    console.log("Sorted Tiers:", sortedTiers);
+                    tier.innerHTML = sortedTiers
                         .map((t) => {
                             const val =
                                 t.type === "percentage"
                                     ? `${t.value}%`
                                     : `৳${t.value}`;
+
+                            // Build perk indicators
+                            const perks = [];
+                            if (t.free_delivery) {
+                                perks.push(
+                                    `<span class="inline-flex items-center gap-0.5 text-[8px] font-bold text-sky-600 bg-sky-50 border border-sky-200 px-1 py-0.5 rounded leading-none">🚚 Free Delivery</span>`,
+                                );
+                            }
+                            if (t.gift_variant_id) {
+                                perks.push(
+                                    `<span class="inline-flex items-center gap-0.5 text-[8px] font-bold text-violet-600 bg-violet-50 border border-violet-200 px-1 py-0.5 rounded leading-none">🎁 Gift</span>`,
+                                );
+                            }
+
                             return `
-                                <div class="bg-white/80 backdrop-blur-md border border-primary/20 text-primary px-2 py-1 rounded-md shadow-sm">
+                                <div class="bg-white/90 backdrop-blur-sm border border-primary/20 text-primary px-2 py-1 rounded-md shadow-sm">
                                     <p class="text-[9px] font-bold uppercase tracking-tight leading-none">Buy ${t.qty}+</p>
-                                    <p class="text-[11px] font-black leading-tight mt-1 text-primary">Save ${val}</p>
+                                    ${t.value > 0 ? `<p class="text-[11px] font-black leading-tight mt-0.5">Save ${val}</p>` : ""}
+                                    ${perks.length ? `<div class="flex flex-wrap gap-0.5 mt-0.5">${perks.join("")}</div>` : ""}
                                 </div>`;
                         })
                         .join("");
@@ -72,10 +91,10 @@ export default function initProductCards() {
 
                 // Keep GA4 item metadata in sync with the selected variant
                 addBtn.dataset.gaItem = JSON.stringify({
-                    item_id:       card.dataset.productSku || String(v.id),
-                    item_name:     card.dataset.productName ?? '',
+                    item_id: card.dataset.productSku || String(v.id),
+                    item_name: card.dataset.productName ?? "",
                     item_category: card.dataset.productCategory ?? null,
-                    price:         parseFloat(v.final_price ?? 0),
+                    price: parseFloat(v.final_price ?? 0),
                 });
             }
         }

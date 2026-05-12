@@ -26,6 +26,8 @@ return new class extends Migration
             // 3. Discounting
             $table->enum('discount_type', ['percentage', 'fixed'])->nullable();
             $table->decimal('discount_value', 10, 2)->nullable();
+            $table->boolean('has_free_delivery')->default(false);
+            $table->json('free_delivery_zones')->nullable();
 
             // 4. Status & Visibility Flags
             $table->boolean('is_active')->default(true);
@@ -38,6 +40,7 @@ return new class extends Migration
             // Indexing for common queries
             $table->index('is_active');
             $table->index('is_featured');
+            $table->index(['is_active', 'created_at'], 'combos_is_active_created_at_index');
         });
     }
 

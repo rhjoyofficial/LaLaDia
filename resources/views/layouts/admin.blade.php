@@ -37,10 +37,8 @@
         :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'">
 
         {{-- Brand --}}
-        <div class="flex items-center gap-3 px-5 h-16 border-b border-gray-800">
-            <img src="{{ asset('assets/images/laladia-logo.png') }}" alt=""
-                class="h-8 w-auto brightness-0 invert">
-            <span class="text-white font-bold text-base tracking-tight">Admin</span>
+        <div class="flex items-center justify-center px-5 h-16 border-b border-gray-800">
+            <img src="{{ asset('assets/images/laladia-logo.png') }}" alt="LaLaDia Logo" class="h-10 w-auto">
         </div>
 
         {{-- Navigation --}}

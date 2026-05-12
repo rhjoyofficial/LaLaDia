@@ -45,6 +45,12 @@ return new class extends Migration
             $table->index('base_price');
             $table->index('is_featured');
             $table->index('name');
+
+            // Composite indexes for common query patterns
+            $table->index(['is_active', 'is_trending'], 'products_is_active_is_trending_index');
+            $table->index(['is_active', 'category_id'], 'products_is_active_category_id_index');
+            $table->index(['is_active', 'created_at'], 'products_is_active_created_at_index');
+            $table->index('landing_slug', 'products_landing_slug_index');
         });
     }
 

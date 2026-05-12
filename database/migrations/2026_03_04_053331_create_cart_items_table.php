@@ -25,8 +25,8 @@ return new class extends Migration
 
             $table->timestamps();
 
-            $table->index(['cart_id', 'variant_id']);
-            $table->unique(['cart_id', 'variant_id']);
+            $table->index(['cart_id', 'variant_id'], 'cart_items_cart_variant_idx');
+            $table->index(['cart_id', 'combo_id'],   'cart_items_cart_combo_idx');
         });
     }
 

@@ -51,19 +51,36 @@
     <div class="px-5 pt-4 pb-5 sticky bottom-0"
          style="border-top: 1px solid var(--color-border); background: var(--color-surface);">
 
-        {{-- Subtotal row --}}
-        <div class="flex items-center justify-between mb-4">
-            <div>
-                <p class="text-xs" style="color: var(--color-text-muted);">Subtotal</p>
-                <p id="cartSubtotal" class="font-bold text-xl font-bengali"
-                   style="color: var(--color-primary);">৳0</p>
+        {{-- Summary rows --}}
+        <div class="space-y-1.5 mb-4">
+            {{-- Subtotal --}}
+            <div class="flex items-center justify-between text-sm">
+                <span class="text-gray-500">Subtotal</span>
+                <span id="cartSubtotal" class="font-semibold font-bengali text-gray-700">৳0</span>
             </div>
 
+            {{-- Tier Savings (shown only when a tier discount is active) --}}
+            <div id="cartSavingsRow" class="hidden flex items-center justify-between text-sm">
+                <span class="flex items-center gap-1 text-emerald-600 font-semibold">
+                    <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    Bulk Savings
+                </span>
+                <span id="cartSavingsAmount" class="font-bold text-emerald-600 font-bengali">− ৳0</span>
+            </div>
+
+            {{-- Divider --}}
+            <div class="border-t border-gray-100 pt-1.5 flex items-center justify-between">
+                <span class="text-sm font-bold text-gray-800">Total</span>
+                <span id="cartTotal" class="font-bold text-xl font-bengali text-primary">৳0</span>
+            </div>
+        </div>
+
+        {{-- Clear cart link --}}
+        <div class="flex justify-end mb-3">
             <button onclick="window.Cart.clear()"
-                    class="flex items-center gap-1.5 text-xs font-medium px-2.5 py-1.5 rounded-lg cursor-pointer transition-all duration-200"
-                    style="color: var(--color-danger); background: rgba(239,68,68,0.06);"
-                    onmouseover="this.style.background='rgba(239,68,68,0.12)'"
-                    onmouseout="this.style.background='rgba(239,68,68,0.06)'">
+                    class="flex items-center gap-1.5 text-xs font-medium px-2.5 py-1.5 rounded-lg cursor-pointer transition-all duration-200 text-red-500 bg-red-50 hover:bg-red-100">
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                           d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
@@ -71,6 +88,7 @@
                 Clear Cart
             </button>
         </div>
+
 
         {{-- CTA Buttons --}}
         <div class="flex gap-3">

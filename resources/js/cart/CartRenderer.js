@@ -1,7 +1,10 @@
 export default class CartRenderer {
     constructor() {
-        this.container = document.getElementById("cartItems");
-        this.subtotalBox = document.getElementById("cartSubtotal");
+        this.container    = document.getElementById("cartItems");
+        this.subtotalBox  = document.getElementById("cartSubtotal");
+        this.savingsRow   = document.getElementById("cartSavingsRow");
+        this.savingsBox   = document.getElementById("cartSavingsAmount");
+        this.totalBox     = document.getElementById("cartTotal");
         window.addEventListener("cart:updated", () => this.render());
     }
 
@@ -40,8 +43,34 @@ export default class CartRenderer {
         }
 
         this.container.innerHTML = items.map((i) => this.row(i)).join("");
-        this.subtotalBox.innerText = "৳" + window.Cart.state.subtotal;
+        this._renderTotals();
         this.bind();
+    }
+
+    _renderTotals() {
+        const subtotal     = window.Cart.state.subtotal     || 0;
+        const tierDiscount = window.Cart.state.tierDiscount || 0;
+        const total        = window.Cart.state.total        || subtotal;
+
+        // Subtotal (always visible)
+        if (this.subtotalBox) {
+            this.subtotalBox.innerText = "৳" + subtotal.toFixed(2);
+        }
+
+        // Tier savings row (show only when active)
+        if (this.savingsRow) {
+            if (tierDiscount > 0) {
+                this.savingsRow.classList.remove("hidden");
+                if (this.savingsBox) this.savingsBox.innerText = "− ৳" + tierDiscount.toFixed(2);
+            } else {
+                this.savingsRow.classList.add("hidden");
+            }
+        }
+
+        // Final total
+        if (this.totalBox) {
+            this.totalBox.innerText = "৳" + total.toFixed(2);
+        }
     }
 
     /**
@@ -53,37 +82,50 @@ export default class CartRenderer {
     tierHtml(i, compact = true) {
         if (!i.tiers || !i.tiers.length) return "";
 
-        // Tier currently applied
-        if (i.tier_saving) {
+        // 1. Current Reward (what the user is ALREADY getting)
+        if (i.tier_saving || i.has_free_delivery || i.gift_variant_id) {
+            const perks = [];
+            if (i.tier_saving > 0) perks.push(`Saving ৳${i.tier_saving}/unit`);
+            if (i.has_free_delivery) perks.push("🚚 Free Delivery");
+            if (i.is_gift_active) perks.push("🎁 Gift included"); // is_gift_active would be set by backend/service
+
+            if (!perks.length) return "";
+
             return compact
                 ? `<span class="font-bengali inline-flex items-center gap-1 bg-emerald-50 border border-emerald-200 text-emerald-700 text-[10px] font-bold px-1.5 py-0.5 rounded-full leading-none whitespace-nowrap">
                        <svg class="w-2.5 h-2.5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-                       Saving ৳${i.tier_saving}/unit
+                       ${perks[0]}
                    </span>`
                 : `<span class="font-bengali inline-flex items-center gap-1.5 bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-bold px-2.5 py-1 rounded-full">
                        <svg class="w-3 h-3 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-                       Bulk deal active — saving ৳${i.tier_saving} per unit
+                       ${perks.join(" + ")}
                    </span>`;
         }
 
-        // Find the next tier the customer hasn't unlocked yet
+        // 2. Next Reward (Nudge)
         const nextTier = i.tiers.find((t) => t.qty > i.quantity);
         if (!nextTier) return "";
 
         const need = nextTier.qty - i.quantity;
-        const reward =
-            nextTier.type === "percentage"
-                ? `${nextTier.value}% off`
-                : `৳${nextTier.value} off/unit`;
+        const rewards = [];
+        if (nextTier.value > 0) {
+            rewards.push(nextTier.type === "percentage" ? `${nextTier.value}% off` : `৳${nextTier.value} off`);
+        }
+        if (nextTier.free_delivery) rewards.push("Free Delivery");
+        if (nextTier.gift_variant_id) rewards.push("Free Gift");
+
+        if (!rewards.length) return "";
+
+        const rewardText = rewards.join(" & ");
 
         return compact
             ? `<span class="font-bengali inline-flex items-center gap-1 bg-amber-50 border border-amber-200 text-amber-700 text-[10px] font-bold px-1.5 py-0.5 rounded-full leading-none whitespace-nowrap">
                    <svg class="w-2.5 h-2.5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                   Add ${need} more → ${reward}
+                   Add ${need} more for ${rewardText}
                </span>`
             : `<span class="font-bengali inline-flex items-center gap-1.5 bg-amber-50 border border-amber-200 text-amber-700 text-xs font-bold px-2.5 py-1 rounded-full">
                    <svg class="w-3 h-3 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                   Add ${need} more to unlock ${reward}
+                   Add ${need} more to unlock ${rewardText}
                </span>`;
     }
 

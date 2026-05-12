@@ -16,6 +16,8 @@ class PricingService
         $total = $basePrice * $quantity;
         $tiers = $tiers ?? $variant->tierPrices;
 
+        // Find the best (highest min_quantity) tier that the quantity qualifies for.
+        // Tiers are pre-sorted ascending from DB; we reverse here to get the most generous match.
         $tier = $tiers
             ?->where('min_quantity', '<=', $quantity)
             ->sortByDesc('min_quantity')
