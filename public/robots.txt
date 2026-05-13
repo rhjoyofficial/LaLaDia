@@ -8,3 +8,7 @@ Disallow: /login
 Disallow: /register
 Disallow: /forgot-password
 Disallow: /password/
+Disallow: /order-success/
+Disallow: /dashboard
+
+Sitemap: https://laladia.com/sitemap.xml

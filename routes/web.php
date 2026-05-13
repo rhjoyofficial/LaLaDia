@@ -15,6 +15,7 @@ use App\Domains\Store\Controllers\ComboPageController;
 use App\Domains\Store\Controllers\HomeController;
 use App\Domains\Store\Controllers\PageController;
 use App\Domains\Store\Controllers\ProductPageController;
+use App\Domains\Store\Controllers\SitemapController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,6 +25,7 @@ use Illuminate\Support\Facades\Route;
 */
 // 1. Give the route a name
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 
 // 2. Redirect using that name
 Route::get('/shop', function () {

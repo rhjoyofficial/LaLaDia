@@ -5,6 +5,7 @@ use App\Console\Commands\CheckCodCancellations;
 use App\Console\Commands\ExpireCoupons;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Schedule;
 
 Artisan::command('inspire', function () {
@@ -65,3 +66,9 @@ Schedule::command('queue:work --stop-when-empty --tries=3 --timeout=60 --max-job
 Schedule::command('session:gc')
     ->daily()
     ->description('Prune expired database sessions');
+
+// Bust the sitemap cache daily so new/updated products appear in Google within 24 h.
+// The SitemapController rebuilds and re-caches on the next request after this clears it.
+Schedule::call(fn () => Cache::forget('sitemap_xml'))
+    ->dailyAt('03:00')
+    ->description('Refresh sitemap cache');
