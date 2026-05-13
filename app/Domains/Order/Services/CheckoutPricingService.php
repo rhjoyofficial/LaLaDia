@@ -151,12 +151,12 @@ class CheckoutPricingService
     }
 
     /**
-     * Process a combo item: validate stock, compute price, return line item snapshot.
+     * Process a combo item: validate stock, apply tier pricing, return line item snapshot.
      */
     private function processComboItem(array $item, Collection $variants): array
     {
-        $combo      = Combo::with('items')->findOrFail($item['combo_id']);
-        $comboPrice = $combo->final_price;
+        $combo      = Combo::with(['items', 'tierPrices'])->findOrFail($item['combo_id']);
+        $basePrice  = $combo->final_price;
         $qty        = $item['quantity'];
 
         // Validate stock for every component
@@ -164,6 +164,44 @@ class CheckoutPricingService
             $component = $variants->get($comboItem->product_variant_id);
             if (!$component || !$component->hasStock($comboItem->quantity * $qty)) {
                 throw new Exception("Component stock exhausted for bundle: {$combo->title}");
+            }
+        }
+
+        // Find the best applicable tier (highest min_quantity that is <= $qty)
+        $activeTier = $combo->tierPrices
+            ->where('min_quantity', '<=', $qty)
+            ->sortByDesc('min_quantity')
+            ->first();
+
+        $unitPrice      = $basePrice;
+        $discountAmount = 0;
+        $discountType   = null;
+        $discountValue  = null;
+        $freeShipping   = $combo->has_free_delivery ?? false;
+        $freeShippingZones = $combo->free_delivery_zones ?? [];
+        $gifts          = [];
+
+        if ($activeTier) {
+            if ($activeTier->discount_type === 'percentage') {
+                $unitPrice = round($basePrice - ($basePrice * ($activeTier->discount_value / 100)), 2);
+            } else {
+                $unitPrice = max(0, $basePrice - $activeTier->discount_value);
+            }
+
+            $discountAmount   = ($basePrice - $unitPrice) * $qty;
+            $discountType     = $activeTier->discount_type;
+            $discountValue    = $activeTier->discount_value;
+
+            if ($activeTier->has_free_delivery) {
+                $freeShipping      = true;
+                $freeShippingZones = $activeTier->free_delivery_zones ?? [];
+            }
+
+            if (!empty($activeTier->gift_product_variant_id)) {
+                $gifts[] = [
+                    'variant_id' => $activeTier->gift_product_variant_id,
+                    'quantity'   => $activeTier->gift_quantity ?? 1,
+                ];
             }
         }
 
@@ -177,16 +215,17 @@ class CheckoutPricingService
                 'combo_name_snapshot'    => $combo->title,
                 'variant_title_snapshot' => 'Bundle',
                 'quantity'               => $qty,
-                'original_unit_price'    => $comboPrice,
-                'unit_price'             => $comboPrice,
-                'total_price'            => $comboPrice * $qty,
-                'discount_type_snapshot' => null,
-                'discount_value_snapshot' => null,
+                'original_unit_price'    => $basePrice,
+                'unit_price'             => $unitPrice,
+                'total_price'            => $unitPrice * $qty,
+                'discount_type_snapshot' => $discountType,
+                'discount_value_snapshot' => $discountValue,
             ],
-            'line_subtotal'  => $comboPrice * $qty,
-            'discount_amount' => 0,
-            'free_shipping'   => $combo->has_free_delivery ?? false,
-            'free_shipping_zones' => $combo->free_delivery_zones ?? [],
+            'line_subtotal'       => $basePrice * $qty,
+            'discount_amount'     => $discountAmount,
+            'free_shipping'       => $freeShipping,
+            'free_shipping_zones' => $freeShippingZones,
+            'gifts'               => $gifts,
         ];
     }
 
@@ -277,8 +316,18 @@ class CheckoutPricingService
                 ->whereIn('variant_id', $variantIds)
                 ->whereNotNull('gift_product_variant_id')
                 ->pluck('gift_product_variant_id');
-                
+
             $variantIds = $variantIds->merge($giftVariantIds)->unique();
+        }
+
+        // Fetch gift variants linked to the active tiers of any combo items
+        if ($comboIds->isNotEmpty()) {
+            $comboGiftVariantIds = DB::table('combo_tier_prices')
+                ->whereIn('combo_id', $comboIds)
+                ->whereNotNull('gift_product_variant_id')
+                ->pluck('gift_product_variant_id');
+
+            $variantIds = $variantIds->merge($comboGiftVariantIds)->unique();
         }
 
         $query = ProductVariant::query()

@@ -155,7 +155,7 @@ export default class CartPageRenderer {
         const imageUrl = i.image_url || "/images/placeholder.png";
         const lineTotal = (i.unit_price * i.quantity).toFixed(2);
 
-        const tierNudge = (!isCombo && !isGift)
+        const tierNudge = !isGift
             ? `<div class="mt-2">${this._tierHtml(i)}</div>`
             : "";
 
@@ -165,7 +165,7 @@ export default class CartPageRenderer {
             priceSection = `<div class="text-right font-bengali">
                    <p class="text-base font-bold text-emerald-600 font-bengali uppercase text-xs tracking-wider">Free Gift</p>
                </div>`;
-        } else if (!isCombo && i.tier_saving && i.original_unit_price) {
+        } else if (i.tier_saving && i.original_unit_price) {
             priceSection = `<div class="text-right font-bengali">
                    <p class="text-xs text-gray-400 line-through leading-none">৳${i.original_unit_price} × ${i.quantity}</p>
                    <p class="text-xs text-emerald-600 font-semibold font-bengali leading-none mt-0.5">৳${i.unit_price} × ${i.quantity}</p>

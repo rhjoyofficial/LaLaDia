@@ -14,7 +14,7 @@ class CartPricingService
     public function calculate(Cart $cart)
     {
         // items.combo.items.variant ensures Combo::auto_price resolves without N+1
-        $cart->load(['items.variant.tierPrices', 'items.combo.items.variant']);
+        $cart->load(['items.variant.tierPrices', 'items.combo.items.variant', 'items.combo.tierPrices']);
 
         $items = $cart->items->map(fn($item) => [
             'variant_id' => $item->variant_id,

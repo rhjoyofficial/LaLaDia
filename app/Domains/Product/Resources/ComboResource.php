@@ -34,6 +34,21 @@ class ComboResource extends JsonResource
             'final_price'     => $this->when($itemsWithVar, fn() => (float) $this->final_price),
             'available_stock' => $this->when($itemsWithVar, fn() => (int) $this->available_stock),
 
+            // Tier prices — only when relation loaded
+            'tier_prices' => $this->when(
+                $this->relationLoaded('tierPrices'),
+                fn() => $this->tierPrices->map(fn($t) => [
+                    'id'                      => $t->id,
+                    'min_quantity'            => (int)   $t->min_quantity,
+                    'discount_type'           =>         $t->discount_type,
+                    'discount_value'          => (float) $t->discount_value,
+                    'has_free_delivery'       => (bool)  $t->has_free_delivery,
+                    'free_delivery_zones'     =>         $t->free_delivery_zones ?? [],
+                    'gift_product_variant_id' =>         $t->gift_product_variant_id,
+                    'gift_quantity'           => (int)   $t->gift_quantity,
+                ])->values()
+            ),
+
             // Full items list — only when relation loaded
             'items' => $this->when($itemsLoaded, fn() => $this->items->map(fn($item) => [
                 'id'       => $item->id,

@@ -124,23 +124,56 @@
                         </thead>
                         <tbody class="divide-y divide-gray-200">
                             @forelse ($order->items as $index => $item)
-                                <tr class="hover:bg-cream">
+                                @php
+                                    $isGift      = $item->discount_type_snapshot === 'Free Gift';
+                                    $isCombo     = !is_null($item->combo_id);
+                                    $displayName = $item->combo_name_snapshot ?: $item->product_name_snapshot;
+                                    $mrp         = (float) ($item->original_unit_price ?? $item->unit_price);
+                                    $unitDiscount= max(0, $mrp - (float) $item->unit_price);
+                                    $totalDiscount = $unitDiscount * $item->quantity;
+                                    $rowBg       = $isGift ? 'bg-emerald-50' : 'hover:bg-cream';
+                                @endphp
+                                <tr class="{{ $rowBg }}">
                                     <td class="py-3 px-4 text-center text-muted">{{ $index + 1 }}</td>
                                     <td class="py-3 px-4">
-                                        <p class="font-bold text-brown font-bengali">
-                                            {{ $item->combo_name_snapshot ?: $item->product_name_snapshot }}</p>
-                                        <p class="text-xs text-muted mt-0.5">SKU: {{ $item->sku ?? 'N/A' }}</p>
+                                        <div class="flex items-center gap-2">
+                                            @if ($isGift)
+                                                <span class="inline-block bg-emerald-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider">Gift</span>
+                                            @elseif ($isCombo)
+                                                <span class="inline-block bg-primary/10 text-primary text-[9px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider">Bundle</span>
+                                            @endif
+                                            <p class="font-bold text-brown font-bengali">{{ $displayName }}</p>
+                                        </div>
+                                        @if (!$isCombo && $item->variant_title_snapshot && $item->variant_title_snapshot !== 'Bundle')
+                                            <p class="text-xs text-muted mt-0.5">{{ $item->variant_title_snapshot }}</p>
+                                        @endif
+                                        @if ($item->sku_snapshot)
+                                            <p class="text-xs text-muted mt-0.5">SKU: {{ $item->sku_snapshot }}</p>
+                                        @endif
                                     </td>
                                     <td class="py-3 px-4 text-center font-medium">{{ $item->quantity }}</td>
                                     <td class="py-3 px-4 text-right text-muted">
-                                        {{ number_format(($item->total_price + ($item->discount ?? 0)) / $item->quantity, 2) }}
-                                        ৳
+                                        @if ($isGift)
+                                            —
+                                        @else
+                                            {{ number_format($mrp, 2) }} ৳
+                                        @endif
                                     </td>
                                     <td class="py-3 px-4 text-right text-amber-600">
-                                        {{ $item->discount > 0 ? '-' . number_format($item->discount, 2) . ' ৳' : '-' }}
+                                        @if ($isGift)
+                                            <span class="text-emerald-600 font-semibold text-xs">Free Gift</span>
+                                        @elseif ($totalDiscount > 0)
+                                            -{{ number_format($totalDiscount, 2) }} ৳
+                                        @else
+                                            -
+                                        @endif
                                     </td>
                                     <td class="py-3 px-4 text-right font-bold text-brown">
-                                        {{ number_format($item->total_price, 2) }} ৳
+                                        @if ($isGift)
+                                            <span class="text-emerald-600">৳0.00</span>
+                                        @else
+                                            {{ number_format($item->total_price, 2) }} ৳
+                                        @endif
                                     </td>
                                 </tr>
                             @empty
@@ -173,8 +206,13 @@
                             </div>
                             <div class="flex justify-between text-muted">
                                 <span>Shipping Fee</span>
-                                <span
-                                    class="font-medium">{{ $order->shipping_cost == 0 ? 'Free' : number_format($order->shipping_cost, 2) . ' ৳' }}</span>
+                                @if ($order->shipping_cost == 0)
+                                    <span class="font-semibold text-emerald-600 flex items-center gap-1">
+                                        🚚 Free Shipping
+                                    </span>
+                                @else
+                                    <span class="font-medium">{{ number_format($order->shipping_cost, 2) }} ৳</span>
+                                @endif
                             </div>
                             @if ($order->discount_total > 0)
                                 <div class="flex justify-between text-primary">
@@ -202,7 +240,7 @@
 
             {{-- Bottom Call to Actions (Hidden on Print/PDF) --}}
             <div class="flex flex-col sm:flex-row justify-center gap-4 mt-8 no-print">
-                <a href="{{ route('shop') }}"
+                <a href="{{ route('product.index') }}"
                     class="flex items-center justify-center gap-2 bg-primary text-white px-8 py-3 rounded-full font-bold text-sm hover:bg-secondary transition-all shadow-md">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

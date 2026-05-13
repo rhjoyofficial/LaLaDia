@@ -24,6 +24,11 @@ class Combo extends Model
         return $this->hasMany(ComboItem::class);
     }
 
+    public function tierPrices()
+    {
+        return $this->hasMany(ComboTierPrice::class)->orderBy('min_quantity');
+    }
+
     public function getAutoPriceAttribute()
     {
         return $this->items->sum(function ($item) {

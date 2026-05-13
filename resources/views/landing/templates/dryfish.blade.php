@@ -53,6 +53,7 @@
 @endphp
 
 @section('content')
+    {{-- Static Design Sections Start --}}
     <section class="relative bg-white py-16 md:py-24 overflow-hidden">
         <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -140,7 +141,7 @@
                             <div class="absolute inset-0 bg-linear-to-t from-dark/60 to-transparent flex items-end p-6">
                                 <p class="text-white font-medium flex items-center gap-2">
                                     <i class="fa-solid fa-location-dot text-secondary"></i>
-                                    পাথরঘাটা, বরগুনা — ল্যালদিয়া উপকূল
+                                    পাথরঘাটা, বরগুনা — লালদিয়া উপকূল
                                 </p>
                             </div>
                         </div>
@@ -695,6 +696,8 @@
             </div>
         </div>
     </section>
+    {{-- Static Design Sections End --}}
+
     <section id="checkout" class="py-16 bg-gray-50 font-noto relative min-h-screen">
         <div class="max-w-6xl mx-auto px-4">
             <div class="grid lg:grid-cols-2 gap-10">

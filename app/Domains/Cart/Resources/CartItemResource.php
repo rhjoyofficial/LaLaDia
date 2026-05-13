@@ -32,6 +32,26 @@ class CartItemResource extends JsonResource
         ])
         ->values()
         ->toArray();
+    } elseif ($this->combo_id && $this->combo && $this->combo->relationLoaded('tierPrices')) {
+      $originalUnitPrice = (float) $this->combo->final_price;
+      $diff = $originalUnitPrice - (float) $this->unit_price_snapshot;
+      if ($diff > 0.001) {
+        $tierSaving = round($diff, 2);
+      }
+
+      $tiers = $this->combo->tierPrices
+        ->sortBy('min_quantity')
+        ->map(fn($t) => [
+          'qty'            => (int)   $t->min_quantity,
+          'type'           =>         $t->discount_type,
+          'value'          => (float) $t->discount_value,
+          'free_delivery'  => (bool)  $t->has_free_delivery,
+          'delivery_zones' =>         $t->free_delivery_zones ?? [],
+          'gift_variant_id'=>         $t->gift_product_variant_id,
+          'gift_qty'       =>         $t->gift_quantity,
+        ])
+        ->values()
+        ->toArray();
     }
 
     return [

@@ -25,6 +25,9 @@ function comboForm(comboId) {
         variantResults: [],
         variantSearching: false,
 
+        // Tier Prices
+        tierPrices: [],
+
         // Computed
         autoPrice: 0,
 
@@ -104,6 +107,21 @@ function comboForm(comboId) {
                     product_thumbnail: item.variant?.product?.thumbnail ?? null,
                 }));
 
+                this.tierPrices = (c.tier_prices ?? []).map(t => ({
+                    id:                      t.id,
+                    min_quantity:            t.min_quantity,
+                    discount_type:           t.discount_type,
+                    discount_value:          t.discount_value,
+                    has_free_delivery:       t.has_free_delivery,
+                    free_delivery_zones:     t.free_delivery_zones ?? [],
+                    gift_product_variant_id: t.gift_product_variant_id ?? null,
+                    gift_quantity:           t.gift_quantity ?? 1,
+                    gift_label:              t.gift_product_variant_id ? 'Variant #' + t.gift_product_variant_id : '',
+                    giftResults:             [],
+                    saveError:               null,
+                    saveSuccess:             false,
+                }));
+
                 this.computeAutoPrice();
             } catch (e) {
                 console.error('Failed to load combo', e);
@@ -176,6 +194,112 @@ function comboForm(comboId) {
                 (sum, item) => sum + (parseFloat(item.unit_price) * parseInt(item.quantity || 1)),
                 0
             );
+        },
+
+        // ── Tier Prices ───────────────────────────────────────────────────
+        addTierPrice() {
+            this.tierPrices.push({
+                id:                      null,
+                min_quantity:            2,
+                discount_type:           'percentage',
+                discount_value:          0,
+                has_free_delivery:       false,
+                free_delivery_zones:     [],
+                gift_product_variant_id: null,
+                gift_quantity:           1,
+                gift_label:              '',
+                giftResults:             [],
+                saveError:               null,
+                saveSuccess:             false,
+            });
+        },
+
+        async saveTierPrice(tIndex) {
+            const tier = this.tierPrices[tIndex];
+            tier.saveError = null;
+            tier.saveSuccess = false;
+
+            const payload = {
+                min_quantity:            tier.min_quantity,
+                discount_type:           tier.discount_type,
+                discount_value:          tier.discount_value,
+                has_free_delivery:       tier.has_free_delivery ? 1 : 0,
+                free_delivery_zones:     tier.free_delivery_zones ?? [],
+                gift_product_variant_id: tier.gift_product_variant_id ?? null,
+                gift_quantity:           tier.gift_quantity ?? 1,
+            };
+
+            try {
+                const r = await fetch(`/api/v1/admin/combos/${this.comboId}/tier-prices`, {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    },
+                    body: JSON.stringify(payload),
+                });
+
+                const data = await r.json();
+
+                if (!r.ok) {
+                    tier.saveError = data.message ?? Object.values(data.errors ?? {}).flat().join(' ');
+                    return;
+                }
+
+                tier.id = data.data?.id ?? tier.id;
+                tier.saveSuccess = true;
+                setTimeout(() => { tier.saveSuccess = false; }, 2500);
+            } catch (e) {
+                tier.saveError = 'Network error — please retry.';
+            }
+        },
+
+        async removeTierPrice(tIndex) {
+            const tier = this.tierPrices[tIndex];
+
+            if (tier.id) {
+                try {
+                    await fetch(`/api/v1/admin/combos/${this.comboId}/tier-prices/${tier.id}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Accept': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                        },
+                    });
+                } catch (e) {
+                    console.error('Failed to delete tier price', e);
+                }
+            }
+
+            this.tierPrices.splice(tIndex, 1);
+        },
+
+        async searchGiftVariant(tIndex, query) {
+            const tier = this.tierPrices[tIndex];
+            if (!query || query.trim().length < 2) { tier.giftResults = []; return; }
+
+            try {
+                const r = await fetch(`/api/v1/admin/orders/search-products?q=${encodeURIComponent(query)}&per_page=8`, {
+                    headers: { 'Accept': 'application/json' }
+                });
+                const data = await r.json();
+                tier.giftResults = data.data ?? [];
+            } catch (e) {
+                tier.giftResults = [];
+            }
+        },
+
+        toggleTierZone(tIndex, zoneId, checked) {
+            const tier = this.tierPrices[tIndex];
+            if (!tier.free_delivery_zones) tier.free_delivery_zones = [];
+            if (checked) {
+                if (!tier.free_delivery_zones.includes(zoneId)) {
+                    tier.free_delivery_zones.push(zoneId);
+                }
+            } else {
+                tier.free_delivery_zones = tier.free_delivery_zones.filter(id => id !== zoneId);
+            }
         },
 
         // ── Submit ────────────────────────────────────────────────────────

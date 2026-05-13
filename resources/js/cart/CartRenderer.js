@@ -144,7 +144,7 @@ export default class CartRenderer {
                 ? "assets/combo-products/combo.jpg"
                 : "/images/product-placeholder.png");
 
-        const tierNudge = (!isCombo && !isGift)
+        const tierNudge = !isGift
             ? `<div class="mt-1">${this.tierHtml(i, true)}</div>`
             : "";
 
@@ -153,7 +153,7 @@ export default class CartRenderer {
         
         if (isGift) {
             priceHtml = `<p class="text-sm font-bold text-emerald-600 font-bengali uppercase text-[11px] tracking-wider">Free Gift</p>`;
-        } else if (!isCombo && i.tier_saving && i.original_unit_price) {
+        } else if (i.tier_saving && i.original_unit_price) {
             priceHtml = `<p class="text-[10px] text-gray-400 line-through leading-none">৳${i.original_unit_price} x ${i.quantity}</p>
                <p class="text-[10px] text-emerald-600 font-semibold leading-none">৳${i.unit_price} x ${i.quantity}</p>
                <p class="text-sm font-bold text-primary font-bengali">৳${(i.unit_price * i.quantity).toFixed(2)}</p>`;

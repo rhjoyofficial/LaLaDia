@@ -42,7 +42,11 @@
       "Bash(npm run *)",
       "Bash(Remove-Item \"d:\\\\WORK\\\\LALADIA\\\\LaLaDia\\\\app\\\\Domains\\\\Order\\\\Actions\\\\CreateOrderAction.php\")",
       "Bash(find \"d:\\\\\\\\WORK\\\\\\\\LALADIA\\\\\\\\LaLaDia\\\\\\\\app\\\\\\\\Domains\" -name \"*Service*\" -type f)",
-      "Bash(find \"d:\\\\\\\\WORK\\\\\\\\LALADIA\\\\\\\\LaLaDia\\\\\\\\app\\\\\\\\Domains\" -name \"*Observer*\" -type f)"
+      "Bash(find \"d:\\\\\\\\WORK\\\\\\\\LALADIA\\\\\\\\LaLaDia\\\\\\\\app\\\\\\\\Domains\" -name \"*Observer*\" -type f)",
+      "Bash(find \"d:\\\\\\\\WORK\\\\\\\\LALADIA\\\\\\\\LaLaDia\\\\\\\\database\\\\\\\\migrations\" -name \"*tier*\" -type f)",
+      "Bash(find \"d:\\\\\\\\WORK\\\\\\\\LALADIA\\\\\\\\LaLaDia\\\\\\\\resources\" -name \"*tier*\" -o -name \"*TierPrice*\")",
+      "Bash(ls -la \"d:\\\\\\\\WORK\\\\\\\\LALADIA\\\\\\\\LaLaDia\\\\\\\\resources\")",
+      "Bash(find \"d:\\\\\\\\WORK\\\\\\\\LALADIA\\\\\\\\LaLaDia\\\\\\\\resources\\\\\\\\views\" -type d -name \"*admin*\")"
     ]
   }
 }

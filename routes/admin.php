@@ -10,6 +10,7 @@ use App\Domains\Customer\Controllers\AdminCustomerController;
 use App\Domains\Notification\Controllers\AdminNotificationController;
 use App\Domains\Product\Controllers\AdminComboController;
 use App\Domains\Product\Controllers\AdminProductController;
+use App\Domains\Product\Controllers\ComboTierPriceController;
 use App\Domains\Product\Controllers\ProductTierPriceController;
 use App\Domains\Shipping\Controllers\AdminShippingZoneController;
 use App\Domains\Coupon\Controllers\AdminCouponController;
@@ -64,6 +65,9 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'admin'])->group(function ()
     Route::group(['middleware' => 'permission:product.update'], function () {
         Route::post('products/{variant}/tier-prices', [ProductTierPriceController::class, 'store']);
         Route::delete('products/{variant}/tier-prices/{tierId}', [ProductTierPriceController::class, 'destroy']);
+
+        Route::post('combos/{combo}/tier-prices', [ComboTierPriceController::class, 'store']);
+        Route::delete('combos/{combo}/tier-prices/{tierId}', [ComboTierPriceController::class, 'destroy']);
 
         // Product Relations 
         Route::post('/product-relations', [ProductRelationController::class, 'store']);

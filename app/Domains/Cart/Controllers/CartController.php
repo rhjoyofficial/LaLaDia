@@ -196,8 +196,8 @@ class CartController extends Controller
 
     private function payload(\App\Domains\Cart\Models\Cart $cart)
     {
-        $cart->load(['items.variant.product', 'items.variant.tierPrices', 'items.combo']);
-        
+        $cart->load(['items.variant.product', 'items.variant.tierPrices', 'items.combo.tierPrices']);
+
         $totals = $this->cartPricingService->calculate($cart);
         $items = CartItemResource::collection($cart->items)->resolve();
         

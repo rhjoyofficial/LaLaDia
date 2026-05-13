@@ -49,7 +49,7 @@ class AdminComboController extends Controller
     public function show(Combo $combo): JsonResponse
     {
         try {
-            $combo->load(['items.variant.product']);
+            $combo->load(['items.variant.product', 'tierPrices']);
 
             return ApiResponse::success(new ComboResource($combo));
         } catch (Exception $e) {
@@ -84,7 +84,7 @@ class AdminComboController extends Controller
             });
 
             if ($combo) {
-                $combo->load(['items.variant.product']);
+                $combo->load(['items.variant.product', 'tierPrices']);
                 AdminLogger::log('products', "Combo {$combo->title} created", $combo, [], 'created');
             }
 
@@ -125,7 +125,7 @@ class AdminComboController extends Controller
                 }
             });
 
-            $combo->load(['items.variant.product']);
+            $combo->load(['items.variant.product', 'tierPrices']);
 
             AdminLogger::log('products', "Combo {$combo->title} updated", $combo, [], 'updated');
 

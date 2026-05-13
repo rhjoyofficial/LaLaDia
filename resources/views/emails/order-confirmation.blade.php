@@ -70,15 +70,42 @@
             </thead>
             <tbody>
                 @foreach ($order->items as $item)
-                <tr>
+                @php
+                    $isGift  = $item->discount_type_snapshot === 'Free Gift';
+                    $isCombo = !is_null($item->combo_id);
+                    $displayName = $item->combo_name_snapshot ?: $item->product_name_snapshot;
+                    $mrp     = (float) ($item->original_unit_price ?? $item->unit_price);
+                    $unitDiscount = max(0, $mrp - (float) $item->unit_price);
+                    $hasDiscount  = $unitDiscount > 0.001;
+                @endphp
+                <tr style="{{ $isGift ? 'background:#f0fdf4;' : '' }}">
                     <td>
-                        <div class="item-name">{{ $item->product_name_snapshot }}</div>
-                        <div class="item-variant">
-                            {{ $item->combo_name_snapshot ? 'Bundle' : $item->variant_title_snapshot }}
+                        <div class="item-name">
+                            @if ($isGift)
+                                <span style="display:inline-block;background:#16a34a;color:#fff;font-size:9px;font-weight:700;padding:1px 6px;border-radius:999px;text-transform:uppercase;margin-right:4px;">Gift</span>
+                            @elseif ($isCombo)
+                                <span style="display:inline-block;background:#1a5c2e20;color:#1a5c2e;font-size:9px;font-weight:700;padding:1px 6px;border-radius:999px;text-transform:uppercase;margin-right:4px;">Bundle</span>
+                            @endif
+                            {{ $displayName }}
                         </div>
+                        @if (!$isCombo && $item->variant_title_snapshot && $item->variant_title_snapshot !== 'Bundle')
+                            <div class="item-variant">{{ $item->variant_title_snapshot }}</div>
+                        @endif
+                        @if ($hasDiscount && !$isGift)
+                            <div style="font-size:11px;color:#16a34a;margin-top:3px;">✓ Saving ৳{{ number_format($unitDiscount, 2) }}/unit</div>
+                        @endif
                     </td>
                     <td>{{ $item->quantity }}</td>
-                    <td>৳{{ number_format($item->total_price, 2) }}</td>
+                    <td>
+                        @if ($isGift)
+                            <span style="color:#16a34a;font-weight:600;">Free Gift</span>
+                        @elseif ($hasDiscount)
+                            <span style="text-decoration:line-through;color:#9ca3af;font-size:11px;">৳{{ number_format($mrp * $item->quantity, 2) }}</span><br>
+                            <span style="font-weight:700;">৳{{ number_format($item->total_price, 2) }}</span>
+                        @else
+                            ৳{{ number_format($item->total_price, 2) }}
+                        @endif
+                    </td>
                 </tr>
                 @endforeach
             </tbody>
@@ -93,13 +120,17 @@
             </div>
             @if ($order->discount_total > 0)
             <div class="totals-row discount">
-                <span>Discount</span>
+                <span>Discount (Tier + Coupon)</span>
                 <span class="value">−৳{{ number_format($order->discount_total, 2) }}</span>
             </div>
             @endif
             <div class="totals-row">
                 <span>Shipping</span>
-                <span class="value">{{ $order->shipping_cost == 0 ? 'Free' : '৳' . number_format($order->shipping_cost, 2) }}</span>
+                @if ($order->shipping_cost == 0)
+                    <span class="value" style="color:#16a34a;">🚚 Free Shipping</span>
+                @else
+                    <span class="value">৳{{ number_format($order->shipping_cost, 2) }}</span>
+                @endif
             </div>
             <div class="totals-row grand">
                 <span>Total</span>

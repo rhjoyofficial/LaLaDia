@@ -186,6 +186,20 @@ export default class CheckoutManager {
                     ? '<div class="absolute top-0 left-0 bg-emerald-500 text-white text-[8px] font-bold px-1 py-0.5 rounded-br uppercase z-10 shadow-sm">Gift</div>'
                     : "";
 
+                let priceHtml;
+                if (isGift) {
+                    priceHtml = '<span class="text-emerald-600 text-[11px] font-bold uppercase tracking-wider">Free Gift</span>';
+                } else if (i.tier_saving && i.original_unit_price) {
+                    const originalTotal = (i.original_unit_price * i.quantity).toFixed(2);
+                    priceHtml = `<span class="text-gray-400 line-through text-xs block leading-none">৳${originalTotal}</span><span class="text-sm font-bold text-gray-800 font-bengali">৳${lineTotal}</span>`;
+                } else {
+                    priceHtml = `<span class="text-sm font-bold text-gray-800 font-bengali">৳${lineTotal}</span>`;
+                }
+
+                const tierBadge = (!isGift && i.tier_saving)
+                    ? `<span class="inline-flex items-center gap-1 bg-emerald-50 border border-emerald-200 text-emerald-700 text-[10px] font-bold px-1.5 py-0.5 rounded-full">✓ Saving ৳${i.tier_saving}/unit</span>`
+                    : "";
+
                 return `<div class="flex items-center gap-3 py-3 border-b border-gray-100 last:border-0 relative">
                 <div class="w-12 h-12 rounded-lg bg-gray-50 overflow-hidden shrink-0 border border-gray-100 relative">
                     ${giftBadge}
@@ -194,8 +208,9 @@ export default class CheckoutManager {
                 <div class="flex-1 min-w-0">
                     <p class="text-sm font-semibold text-gray-800 truncate font-bengali">${name}</p>
                     <p class="text-xs text-gray-400">${variant ?? ""} × ${i.quantity}</p>
+                    ${tierBadge ? `<div class="mt-0.5">${tierBadge}</div>` : ""}
                 </div>
-                <p class="text-sm font-bold text-gray-800 font-bengali shrink-0">${isGift ? '<span class="text-emerald-600 text-[11px] uppercase tracking-wider">Free Gift</span>' : "৳" + lineTotal}</p>
+                <div class="text-right shrink-0">${priceHtml}</div>
             </div>`;
             })
             .join("");
