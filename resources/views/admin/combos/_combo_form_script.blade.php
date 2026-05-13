@@ -256,6 +256,7 @@ function comboForm(comboId) {
         },
 
         async removeTierPrice(tIndex) {
+            if (!confirm('Are you sure you want to delete this tier price?')) return;
             const tier = this.tierPrices[tIndex];
 
             if (tier.id) {
@@ -284,7 +285,7 @@ function comboForm(comboId) {
                     headers: { 'Accept': 'application/json' }
                 });
                 const data = await r.json();
-                tier.giftResults = data.data ?? [];
+                tier.giftResults = (data.data ?? []).filter(item => item.type === 'variant');
             } catch (e) {
                 tier.giftResults = [];
             }

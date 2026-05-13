@@ -46,7 +46,7 @@ class ProductSeeder extends Seeder
                 'protein' => '0.3g',
                 'minerals' => 'Rich in Potassium, Magnesium, and Iron',
             ],
-            'is_landing_enabled' => true,
+            'is_landing_enabled' => false,
             'landing_slug' => 'sundarbans-mangrove-honey',
         ]);
         $honey->variants()->create([
