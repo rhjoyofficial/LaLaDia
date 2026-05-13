@@ -18,6 +18,8 @@
 @endphp
 
 @section('title', $product->name)
+@section('meta_description', Str::limit(strip_tags($product->short_description ?? $product->name), 155))
+@section('meta_image', $product->image_url ?? asset('favicon.png'))
 
 @push('head')
     <script type="application/ld+json">{!! json_encode($jsonLd, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}</script>
@@ -337,7 +339,7 @@
                     <div id="description" class="tab-content block p-6 md:p-8 animate-fadeIn">
                         <div class="prose prose-sm max-w-none text-sm md:text-base leading-relaxed"
                             style="color: var(--color-text-muted);">
-                            {!! $product->description !!}
+                            {!! clean($product->description) !!}
                         </div>
                     </div>
 

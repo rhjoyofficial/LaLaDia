@@ -190,16 +190,6 @@
                                     My Account
                                 </a>
 
-                                <a href="#"
-                                    class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150"
-                                    style="color: var(--color-text-muted);"
-                                    onmouseover="this.style.background='var(--color-bg)'; this.style.color='var(--color-text)';"
-                                    onmouseout="this.style.background='transparent'; this.style.color='var(--color-text-muted)';">
-                                    <i class="fa-regular fa-clock w-4 text-center"
-                                        style="color: var(--color-text-placeholder);"></i>
-                                    Track Order
-                                </a>
-
                                 <a href="{{ route('customer.orders') }}"
                                     class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150"
                                     style="color: var(--color-text-muted);"

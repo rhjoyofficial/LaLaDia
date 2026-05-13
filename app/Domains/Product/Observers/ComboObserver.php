@@ -11,6 +11,8 @@ class ComboObserver
     {
         Cache::forget('home:combos');
         Cache::forget("landing:data:combo:{$combo->id}");
+        Cache::forget("combo:page:{$combo->slug}");
+        Cache::forget("combo:related:{$combo->id}");
     }
 
     public function created(Combo $combo): void { $this->clearCache($combo); }

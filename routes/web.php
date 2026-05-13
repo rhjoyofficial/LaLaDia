@@ -65,9 +65,10 @@ Route::get('/order-success/{order}', function ($orderNumber) {
     $authUser = \Illuminate\Support\Facades\Auth::guard('web')->user();
 
     if ($authUser) {
-        // Authenticated: the order must belong to this user.
-        // Guest orders (user_id = null) are accessible only via session.
-        if ($order->user_id && $order->user_id !== $authUser->id) {
+        // Authenticated: the order must strictly belong to this user.
+        // Guest orders (user_id = null) must not be accessible to any auth user
+        // — they are owned by the session, not by an account.
+        if ($order->user_id !== $authUser->id) {
             abort(403);
         }
     } else {

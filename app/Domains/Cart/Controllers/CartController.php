@@ -11,6 +11,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 
 class CartController extends Controller
 {
@@ -238,6 +239,14 @@ class CartController extends Controller
 
     private function fail(Exception $e, string $msg)
     {
+        if ($e instanceof ValidationException) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+                'errors'  => $e->errors(),
+            ], 422);
+        }
+
         Log::error($msg . ': ' . $e->getMessage());
 
         return ApiResponse::error(

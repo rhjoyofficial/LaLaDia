@@ -97,7 +97,7 @@
         @if ($landing->content)
             <div class="max-w-4xl mx-auto px-4 py-12">
                 <div class="prose prose-green max-w-none bg-white rounded-2xl shadow-sm border border-champagne p-8">
-                    {!! $landing->content !!}
+                    {!! clean($landing->content) !!}
                 </div>
             </div>
         @endif

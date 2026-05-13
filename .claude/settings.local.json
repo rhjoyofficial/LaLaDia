@@ -39,7 +39,10 @@
       "Bash(xargs grep *)",
       "Bash(node -e ' *)",
       "Bash(php -r ' *)",
-      "Bash(npm run *)"
+      "Bash(npm run *)",
+      "Bash(Remove-Item \"d:\\\\WORK\\\\LALADIA\\\\LaLaDia\\\\app\\\\Domains\\\\Order\\\\Actions\\\\CreateOrderAction.php\")",
+      "Bash(find \"d:\\\\\\\\WORK\\\\\\\\LALADIA\\\\\\\\LaLaDia\\\\\\\\app\\\\\\\\Domains\" -name \"*Service*\" -type f)",
+      "Bash(find \"d:\\\\\\\\WORK\\\\\\\\LALADIA\\\\\\\\LaLaDia\\\\\\\\app\\\\\\\\Domains\" -name \"*Observer*\" -type f)"
     ]
   }
 }

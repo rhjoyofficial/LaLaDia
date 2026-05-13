@@ -61,6 +61,7 @@ class CheckoutRequest extends FormRequest
             'items.*.quantity'   => 'required|integer|min:1|max:999',
 
             'ga_client_id'   => 'nullable|string|max:100',
+            'is_buy_now'     => 'nullable|boolean',
             'coupon_code'    => 'nullable|string|max:50',
             'checkout_token' => [
                 Auth::check() ? 'nullable' : 'required',

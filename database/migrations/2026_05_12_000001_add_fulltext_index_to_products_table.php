@@ -8,6 +8,12 @@ return new class extends Migration
 {
     public function up(): void
     {
+        // FULLTEXT indexes require MySQL/MariaDB InnoDB — SQLite does not support them.
+        // CI environments using SQLite skip this migration gracefully.
+        if (config('database.default') === 'sqlite') {
+            return;
+        }
+
         Schema::table('products', function (Blueprint $table) {
             // FULLTEXT index replaces the B-tree index('name') which cannot serve LIKE '%q%' queries.
             // Requires MySQL 5.6+ InnoDB (standard on all modern hosts).
@@ -23,6 +29,10 @@ return new class extends Migration
 
     public function down(): void
     {
+        if (config('database.default') === 'sqlite') {
+            return;
+        }
+
         Schema::table('products', function (Blueprint $table) {
             $table->dropFullText('products_fulltext_search');
             $table->index('name');

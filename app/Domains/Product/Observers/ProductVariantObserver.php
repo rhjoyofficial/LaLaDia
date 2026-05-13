@@ -19,6 +19,7 @@ class ProductVariantObserver
         Cache::forget("product:api:{$product->slug}");
         Cache::forget('home:trending_products');
         Cache::forget('home:category_products');
+        Cache::forget('catalog:price_range');
 
         if ($product->landing_slug) {
             Cache::forget("landing:meta:{$product->landing_slug}");

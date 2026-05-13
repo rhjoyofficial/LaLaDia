@@ -24,7 +24,7 @@ class AuthServiceTest extends TestCase
         $service = new AuthService();
 
         $result = $service->authenticate([
-            'login' => 'text@example.com',
+            'login' => 'test@example.com',
             'password' => 'password',
         ], '127.0.0.1');
         $this->assertTrue($result['success']);

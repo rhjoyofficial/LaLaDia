@@ -203,6 +203,12 @@ class CheckoutController extends Controller
     private function resolveCheckoutCart(CheckoutRequest $request, ?User $authUser): mixed
     {
         try {
+            // Buy-now mode: items are explicitly supplied by the frontend — no cart
+            // to resolve or clear. The customer's existing cart must not be touched.
+            if ($request->boolean('is_buy_now')) {
+                return null;
+            }
+
             // Authenticated user: find cart by user ID (ignores session token).
             if ($authUser) {
                 return $this->cartService->getCart($authUser->id, null);

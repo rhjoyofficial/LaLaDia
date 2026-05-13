@@ -365,7 +365,7 @@
                     <div id="comboDescription" class="tab-content block animate-fadeIn">
                         <div class="text-sm md:text-base leading-relaxed max-w-4xl font-bengali"
                             style="color: var(--color-text-muted);">
-                            {!! $combo->description !!}
+                            {!! clean($combo->description) !!}
                         </div>
                     </div>
                 </div>

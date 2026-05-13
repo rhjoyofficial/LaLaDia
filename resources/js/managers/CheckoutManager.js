@@ -14,6 +14,11 @@ export default class CheckoutManager {
         // normal visit to /checkout uses the real cart instead.
         this.buyNowItem = this._consumeBuyNowItem();
 
+        // ── Per-checkout idempotency token ─────────────────────
+        // A UUID scoped to this checkout attempt (not the long-lived cart token).
+        // Rotated after a successful order so a repeat visit generates a new one.
+        this.checkoutToken = this._getOrCreateCheckoutToken();
+
         // ── DOM: Form fields ───────────────────────────────────
         this.form = document.getElementById("checkoutForm");
         this.nameInput = document.getElementById("co_name");
@@ -122,6 +127,26 @@ export default class CheckoutManager {
             sessionStorage.removeItem("bionic_buy_now");
             return null;
         }
+    }
+
+    /**
+     * Returns a per-checkout-attempt UUID stored in sessionStorage.
+     * A new token is created for each fresh checkout visit, ensuring the
+     * idempotency key only repeats on genuine network retries — not on
+     * a later, different order from the same browser.
+     */
+    _getOrCreateCheckoutToken() {
+        let token = sessionStorage.getItem("bionic_checkout_token");
+        if (!token) {
+            token =
+                typeof crypto !== "undefined" && crypto.randomUUID
+                    ? crypto.randomUUID()
+                    : Date.now().toString(36) +
+                      "-" +
+                      Math.random().toString(36).slice(2);
+            sessionStorage.setItem("bionic_checkout_token", token);
+        }
+        return token;
     }
 
     /**
@@ -500,8 +525,9 @@ export default class CheckoutManager {
                     ?.value ?? "cod",
             notes: this.notesInput?.value?.trim() || null,
             coupon_code: this.coupon?.code ?? null,
-            checkout_token: window.Cart.token,
+            checkout_token: this.checkoutToken,
             ga_client_id: this._getGaClientId(),
+            is_buy_now: !!this.buyNowItem,
             items,
         };
 
@@ -522,7 +548,8 @@ export default class CheckoutManager {
             const json = await res.json();
             if (!res.ok) throw new Error(json.message || "Order failed");
 
-            // Clean up sessionStorage, then redirect
+            // Rotate checkout token so the next visit gets a fresh idempotency key
+            sessionStorage.removeItem("bionic_checkout_token");
             sessionStorage.removeItem("bionic_coupon");
             window.flash?.("Order placed successfully!", "success", 3000);
             window.location.href = json.data.redirect_url;

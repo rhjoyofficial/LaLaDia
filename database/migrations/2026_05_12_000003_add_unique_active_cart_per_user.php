@@ -9,6 +9,12 @@ return new class extends Migration
 {
     public function up(): void
     {
+        // MySQL-specific: multi-table DELETE and IF()-based generated columns are not
+        // supported by SQLite. CI environments running SQLite skip this migration.
+        if (config('database.default') === 'sqlite') {
+            return;
+        }
+
         // Remove duplicate active carts per user before adding the constraint.
         // Keep the most recent one (highest id).
         DB::statement("
@@ -37,6 +43,10 @@ return new class extends Migration
 
     public function down(): void
     {
+        if (config('database.default') === 'sqlite') {
+            return;
+        }
+
         Schema::table('carts', function (Blueprint $table) {
             $table->dropUnique('carts_one_active_per_user');
             $table->dropColumn('active_marker');

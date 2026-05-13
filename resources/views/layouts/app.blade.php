@@ -105,9 +105,9 @@
 
         @php
             $isHome    = request()->routeIs('home');
-            $isShop    = request()->routeIs('shop', 'catalog', 'product.show', 'products.*') && !request()->has('q');
+            $isShop    = request()->routeIs('product.index', 'product.show', 'category.view', 'combos.*') && !request()->has('q');
             $isCart    = request()->routeIs('cart.*');
-            $isSearch  = request()->routeIs('shop', 'catalog') && request()->has('q');
+            $isSearch  = request()->routeIs('product.index', 'category.view') && request()->has('q');
             $isAccount = request()->routeIs('customer.*');
         @endphp
 
@@ -126,7 +126,7 @@
             </a>
 
             {{-- Products --}}
-            <a href="{{ route('shop') }}"
+            <a href="{{ route('product.index') }}"
                class="flex flex-col items-center justify-center gap-1 flex-1 px-1"
                style="color: {{ $isShop ? 'var(--color-primary)' : 'var(--color-text-muted)' }};">
                 <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">

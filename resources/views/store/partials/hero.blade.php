@@ -20,7 +20,7 @@
                                     <div>
                                         <h1
                                             class="font-heading text-3xl sm:text-4xl lg:text-5xl lg:text-[52px] text-brand leading-[1.1] mb-6">
-                                            {!! $banner->title !!}
+                                            {!! clean($banner->title) !!}
                                         </h1>
 
                                         <div class="flex items-center gap-4 mb-8">

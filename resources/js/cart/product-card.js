@@ -51,7 +51,6 @@ export default function initProductCards() {
                     .slice()
                     .sort((a, b) => a.qty - b.qty);
                 if (sortedTiers.length) {
-                    console.log("Sorted Tiers:", sortedTiers);
                     tier.innerHTML = sortedTiers
                         .map((t) => {
                             const val =

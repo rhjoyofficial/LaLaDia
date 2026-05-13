@@ -157,7 +157,7 @@
             @if ($landing->content && $listingItems->isNotEmpty())
                 <div class="mt-12 max-w-4xl mx-auto">
                     <div class="prose prose-green max-w-none bg-white rounded-2xl shadow-sm border border-champagne p-8">
-                        {!! $landing->content !!}
+                        {!! clean($landing->content) !!}
                     </div>
                 </div>
             @endif
