@@ -16,7 +16,14 @@ use Symfony\Component\HttpFoundation\Response;
 class EnsureUserIsAdmin
 {
     /** Roles that ARE allowed through the admin gate. */
-    private const ALLOWED_ROLES = ['Super Admin', 'Admin', 'Manager', 'Operations'];
+    private const ALLOWED_ROLES = [
+        'Super Admin',
+        'Admin',
+        'Order Manager',
+        'Inventory Clerk',
+        'Marketing',
+        'Customer Support'
+    ];
 
     public function handle(Request $request, Closure $next): Response
     {

@@ -36,7 +36,14 @@
             </div>
         </div>
 
-        <div class="swiper testimonial-swiper overflow-visible">
+        {{--
+            overflow: visible must be an inline style, not a Tailwind class.
+            Swiper's CDN CSS sets .swiper { overflow: hidden } and loads via
+            @stack('styles') which comes after @vite() in <head>, so it wins the
+            cascade over any Tailwind utility class. An inline style has higher
+            specificity than any stylesheet rule and always takes effect.
+        --}}
+        <div class="swiper testimonial-swiper" style="overflow: visible;">
             <div class="swiper-wrapper items-stretch pb-4">
 
                 {{-- Slide 1: Image review --}}

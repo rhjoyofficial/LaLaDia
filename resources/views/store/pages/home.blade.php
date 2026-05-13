@@ -118,9 +118,16 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
 @endpush
 
-@push('scripts')
+{{--
+    @prepend (not @push) so CDN scripts land at the TOP of @stack('scripts').
+    All partials included inside @section('content') above push their Swiper/GSAP
+    init scripts BEFORE this file's own push is evaluated, which means @push here
+    would appear AFTER the init scripts — producing "Swiper is not defined".
+    @prepend inserts at the front of the stack regardless of evaluation order.
+--}}
+@prepend('scripts')
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12/dist/ScrollTrigger.min.js"></script>
     <script>gsap.registerPlugin(ScrollTrigger);</script>
-@endpush
+@endprepend
