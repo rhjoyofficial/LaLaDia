@@ -106,7 +106,7 @@ class OrderService
                     ...$data,
                     'user_id'              => $user?->id,  // null for guest orders
                     'checkout_token'       => $data['checkout_token'] ?? null,
-                    'order_number'         => 'BNC-' . now()->format('Ymd') . '-' . strtoupper(Str::random(10)),
+                    'order_number'         => 'LLD-' . now()->format('Ymd') . '-' . strtoupper(Str::random(10)),
                     'subtotal'             => $pricing->subtotal,
                     'discount_total'       => $pricing->tierDiscountTotal + $pricing->couponDiscount,
                     'shipping_cost'        => $pricing->shippingCost,

@@ -121,7 +121,7 @@ class LandingCheckoutService
             $order = Order::create([
                 'user_id'              => $user?->id,
                 'checkout_token'       => (string) Str::uuid(),
-                'order_number'         => 'BNC-' . now()->format('Ymd') . '-' . strtoupper(Str::random(8)),
+                'order_number'         => 'LLD-' . now()->format('Ymd') . '-' . strtoupper(Str::random(8)),
                 'customer_name'        => $data['customer_name'],
                 'customer_phone'       => $data['customer_phone'],
                 'customer_email'       => $data['customer_email'] ?? null,
