@@ -109,7 +109,26 @@ class LandingCheckoutController extends Controller
                 'test_mode'        => !app()->isProduction(),
             ]);
 
-            $order = $this->checkoutService->checkout($validated, $landing, $user);
+            // Resolve cart to selectively remove purchased items later.
+            $cartToken = $request->cookie('bionic_cart_token')
+                ?? $request->header('X-Session-Token')
+                ?? $request->attributes->get('cart_token');
+
+            /** @var \App\Domains\Cart\Services\CartService $cartService */
+            $cartService = app(\App\Domains\Cart\Services\CartService::class);
+            
+            $cart = null;
+            try {
+                if ($user) {
+                    $cart = $cartService->getCart($user->id, null);
+                } elseif ($cartToken) {
+                    $cart = $cartService->getCart(null, $cartToken);
+                }
+            } catch (\Throwable $e) {
+                // Ignore missing carts
+            }
+
+            $order = $this->checkoutService->checkout($validated, $landing, $user, $cart);
 
             $request->session()->put('last_order_id', $order->id);
             $request->session()->put('pending_purchase_event', [

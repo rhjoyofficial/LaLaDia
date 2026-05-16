@@ -70,7 +70,7 @@ class CheckoutController extends Controller
         // Resolve the authenticated user once at the controller boundary.
         // Services must NOT call Auth:: internally — the controller is the auth boundary.
         /** @var User|null $authUser */
-        $authUser = Auth::guard('web')->user();
+        $authUser = Auth::guard('sanctum')->user() ?? Auth::guard('web')->user();
 
         try {
             $data = array_merge($request->validated(), [
@@ -203,11 +203,8 @@ class CheckoutController extends Controller
     private function resolveCheckoutCart(CheckoutRequest $request, ?User $authUser): mixed
     {
         try {
-            // Buy-now mode: items are explicitly supplied by the frontend — no cart
-            // to resolve or clear. The customer's existing cart must not be touched.
-            if ($request->boolean('is_buy_now')) {
-                return null;
-            }
+            // Buy-now mode: cart is resolved so we can selectively remove
+            // purchased items from it after order creation.
 
             // Authenticated user: find cart by user ID (ignores session token).
             if ($authUser) {

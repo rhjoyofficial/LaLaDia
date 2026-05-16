@@ -64,8 +64,29 @@ class OrderService
 
                 // 2. Release cart reserved stock (will be re-reserved by order)
                 if ($cart) {
-                    $this->cartService->clearCart($cart);
-                    $cart->update(['status' => 'converted']);
+                    if (!empty($data['is_buy_now'])) {
+                        // Buy Now: only remove the purchased items from the cart.
+                        foreach ($data['items'] as $purchasedItem) {
+                            $cartItemQuery = $cart->items();
+                            if (!empty($purchasedItem['variant_id'])) {
+                                $cartItemQuery->where('variant_id', $purchasedItem['variant_id']);
+                            } elseif (!empty($purchasedItem['combo_id'])) {
+                                $cartItemQuery->where('combo_id', $purchasedItem['combo_id']);
+                            }
+                            
+                            $cartItem = $cartItemQuery->first();
+                            if ($cartItem) {
+                                $this->cartService->removeItem($cart, $cartItem->id);
+                            }
+                        }
+                    } else {
+                        // Normal checkout: clear the entire cart and mark as converted.
+                        $this->cartService->clearCart($cart);
+                        $cart->update([
+                            'status' => 'converted',
+                            'session_token' => null
+                        ]);
+                    }
                 }
 
                 // 3. Run the SINGLE pricing engine (locks variants, validates stock, calculates everything)

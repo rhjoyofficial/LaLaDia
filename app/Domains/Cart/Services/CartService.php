@@ -31,13 +31,32 @@ class CartService
             throw new \InvalidArgumentException('A session token is required for guest carts.');
         }
 
-        return Cart::firstOrCreate([
-            'session_token' => $sessionToken,
-            'user_id'       => null,
-            'status'        => 'active',
-        ], [
-            'expires_at' => now()->addDays(7),
-        ]);
+        $cart = Cart::where('session_token', $sessionToken)
+            ->where('status', 'active')
+            ->whereNull('user_id')
+            ->first();
+
+        if ($cart) {
+            return $cart;
+        }
+
+        try {
+            return Cart::create([
+                'session_token' => $sessionToken,
+                'user_id'       => null,
+                'status'        => 'active',
+                'expires_at'    => now()->addDays(7),
+            ]);
+        } catch (\Illuminate\Database\UniqueConstraintViolationException | \Illuminate\Database\QueryException $e) {
+            if ($e instanceof \Illuminate\Database\QueryException && $e->errorInfo[1] !== 1062) {
+                throw $e;
+            }
+            usleep(50000);
+            return Cart::where('session_token', $sessionToken)
+                ->where('status', 'active')
+                ->whereNull('user_id')
+                ->firstOrFail();
+        }
     }
 
     public function addCombo(Cart $cart, int $comboId, int $qty = 1)

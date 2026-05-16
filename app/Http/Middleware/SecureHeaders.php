@@ -36,13 +36,13 @@ class SecureHeaders
         // x-on handlers exist. Migrate to nonce-based CSP to remove it long-term.
         $csp = implode('; ', [
             "default-src 'self'",
-            "script-src 'self' 'unsafe-inline'{$evalDirective} https://www.googletagmanager.com https://connect.facebook.net https://www.google-analytics.com https://cdn.jsdelivr.net https://www.youtube.com https://s.ytimg.com https://player.vimeo.com{$devSources}",
+            "script-src 'self' 'unsafe-inline'{$evalDirective} https://www.googletagmanager.com https://*.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://connect.facebook.net https://cdn.jsdelivr.net https://www.youtube.com https://s.ytimg.com https://player.vimeo.com{$devSources}",
             "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net{$devSources}",
-            "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com",
-            "img-src 'self' data: blob: https:",
+            "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com data:",
+            "img-src 'self' data: blob: https: https://*.googletagmanager.com https://*.google-analytics.com",
             "media-src 'self' blob:",
             "frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com https://player.vimeo.com",
-            "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://www.facebook.com https://www.youtube.com{$devSources}",
+            "connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://analytics.google.com https://*.analytics.google.com https://*.googletagmanager.com https://stats.g.doubleclick.net https://www.google.com https://www.facebook.com https://www.youtube.com https://cdn.jsdelivr.net https://mpc2-prod-28-is5qnl632q-ue.a.run.app https://demo-1.conversionsapigateway.com{$devSources}",
             "frame-ancestors 'none'",
             "base-uri 'self'",
             "form-action 'self'",
@@ -54,4 +54,3 @@ class SecureHeaders
         return $response;
     }
 }
-

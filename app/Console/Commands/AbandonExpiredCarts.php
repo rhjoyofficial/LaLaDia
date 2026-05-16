@@ -40,7 +40,8 @@ class AbandonExpiredCarts extends Command
                         app(CartService::class)->releaseReservedStock($cart);
 
                         $cart->update([
-                            'status' => 'abandoned'
+                            'status' => 'abandoned',
+                            'session_token' => null
                         ]);
                     });
                 }

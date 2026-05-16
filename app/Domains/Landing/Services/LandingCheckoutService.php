@@ -90,14 +90,14 @@ class LandingCheckoutService
      * @param  User|null   $user
      * @return Order
      */
-    public function checkout(array $data, LandingPage $landing, ?User $user = null): Order
+    public function checkout(array $data, LandingPage $landing, ?User $user = null, ?\App\Domains\Cart\Models\Cart $cart = null): Order
     {
         // Coupon requires auth (same business rule as main checkout)
         if (!empty($data['coupon_code']) && !$user) {
             throw new Exception('Please log in to apply a coupon code.');
         }
 
-        return DB::transaction(function () use ($data, $landing, $user) {
+        return DB::transaction(function () use ($data, $landing, $user, $cart) {
 
             // 1. Run pricing engine with locks
             $pricing = $this->pricingService->calculate(
@@ -200,6 +200,25 @@ class LandingCheckoutService
             // 7. Coupon usage
             if ($pricing->coupon && $user) {
                 $this->recordCouponUsage($pricing->coupon, $order, $pricing->couponDiscount, $user);
+            }
+
+            // 7b. Remove purchased items from active cart if they exist
+            if ($cart) {
+                /** @var \App\Domains\Cart\Services\CartService $cartService */
+                $cartService = app(\App\Domains\Cart\Services\CartService::class);
+                foreach ($data['items'] as $purchasedItem) {
+                    $cartItemQuery = $cart->items();
+                    if (!empty($purchasedItem['variant_id'])) {
+                        $cartItemQuery->where('variant_id', $purchasedItem['variant_id']);
+                    } elseif (!empty($purchasedItem['combo_id'])) {
+                        $cartItemQuery->where('combo_id', $purchasedItem['combo_id']);
+                    }
+                    
+                    $cartItem = $cartItemQuery->first();
+                    if ($cartItem) {
+                        $cartService->removeItem($cart, $cartItem->id);
+                    }
+                }
             }
 
             // 8. Dispatch event

@@ -28,7 +28,7 @@
         @endforeach
 
         <div class="pt-3 mt-3" style="border-top: 1px solid var(--color-border);">
-            <form method="POST" action="{{ route('logout') }}">
+            <form method="POST" action="{{ route('web.logout') }}">
                 @csrf
                 <button type="submit"
                         class="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer text-left"
