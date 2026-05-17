@@ -144,6 +144,7 @@ class LandingCheckoutService
                 'ip_address'       => $data['ip_address'] ?? null,
                 'fbp'              => $data['fbp'] ?? null,
                 'fbc'              => $data['fbc'] ?? null,
+                'ga_client_id'     => $data['ga_client_id'] ?? null,
                 'event_source_url' => $data['event_source_url'] ?? null,
                 'user_agent'       => $data['user_agent'] ?? null,
             ]);

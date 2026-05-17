@@ -55,6 +55,7 @@ class ComboPageController extends Controller
                 'item_id'       => 'combo_' . $combo->id,
                 'item_name'     => $combo->name,
                 'item_category' => 'Combo',
+                'item_brand'    => config('app.name', 'LaLaDia'),
                 'price'         => (float) $combo->final_price,
                 'quantity'      => 1,
             ],

@@ -64,6 +64,7 @@ class ProductPageController extends Controller
                 'item_id'       => $product->sku ?? (string) ($defaultVariant?->id ?? $product->id),
                 'item_name'     => $product->name,
                 'item_category' => $product->category?->name,
+                'item_brand'    => config('app.name', 'LaLaDia'),
                 'price'         => (float) ($defaultVariant?->final_price ?? $product->base_price),
                 'quantity'      => 1,
             ],

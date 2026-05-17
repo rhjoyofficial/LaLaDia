@@ -302,7 +302,8 @@
                     ecommerce: null
                 });
                 window.dataLayer.push({
-                    event: 'purchase',
+                    event:    'purchase',
+                    event_id: 'purchase_{{ $order->id }}',
                     ecommerce: @json($purchaseEvent),
                 });
             </script>

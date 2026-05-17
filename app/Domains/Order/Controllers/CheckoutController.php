@@ -94,6 +94,7 @@ class CheckoutController extends Controller
 
             $request->session()->put('last_order_id', $order->id);
             $request->session()->put('pending_purchase_event', [
+                'event_id'       => 'purchase_' . $order->id,
                 'transaction_id' => $order->order_number,
                 'value'          => (float) $order->grand_total,
                 'currency'       => 'BDT',

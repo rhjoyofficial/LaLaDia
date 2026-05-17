@@ -27,6 +27,8 @@
         @endif
     </title>
 
+    @include('partials.datalayer')
+
     {{-- Google Tag Manager - Head Script (Load as early as possible) --}}
     @if (config('services.gtm.id'))
         <script>

@@ -32,6 +32,19 @@
 
     <title>{{ $pageTitle }}</title>
 
+    {{-- Consent Mode v2: set defaults before GTM loads --}}
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        @php $consent = request()->cookie('laladia_consent') ?? 'denied'; @endphp
+        gtag('consent', 'default', {
+            ad_storage:          '{{ $consent === "granted" ? "granted" : "denied" }}',
+            analytics_storage:   '{{ $consent === "granted" ? "granted" : "denied" }}',
+            ad_user_data:        '{{ $consent === "granted" ? "granted" : "denied" }}',
+            ad_personalization:  '{{ $consent === "granted" ? "granted" : "denied" }}',
+        });
+    </script>
+
     @include('partials.datalayer')
 
     @if (config('services.gtm.id'))
@@ -89,6 +102,8 @@
             <iframe src="https://www.googletagmanager.com/ns.html?id={{ config('services.gtm.id') }}" height="0" width="0" style="display:none;visibility:hidden"></iframe>
         </noscript>
     @endif
+
+    @include('partials.cookie-consent')
 
     <div class="min-h-screen flex flex-col relative">
 

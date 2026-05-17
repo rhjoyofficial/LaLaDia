@@ -70,7 +70,7 @@ Route::get('/order-success/{order}', function ($orderNumber) {
         // Authenticated: the order must strictly belong to this user.
         // Guest orders (user_id = null) must not be accessible to any auth user
         // — they are owned by the session, not by an account.
-        if ($order->user_id !== $authUser->id) {
+        if ((int) $order->user_id !== (int) $authUser->id) {
             abort(403);
         }
     } else {

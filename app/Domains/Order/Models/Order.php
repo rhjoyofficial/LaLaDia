@@ -50,6 +50,7 @@ class Order extends Model
     ];
 
     protected $casts = [
+        'user_id'          => 'integer',
         'placed_at'        => 'datetime',
         'confirmed_at'     => 'datetime',
         'processing_at'    => 'datetime',

@@ -202,13 +202,13 @@
                 },
 
                 async addToCart(btn) {
-                    if (this.adding || !window.cart) return;
+                    if (this.adding || !window.Cart) return;
                     this.adding = true;
                     try {
                         if (this.isVariant) {
-                            await window.cart.add(this.variantId, this.quantity, btn);
+                            await window.Cart.add(this.variantId, this.quantity, btn);
                         } else {
-                            await window.cart.addCombo(this.comboId, this.quantity, btn);
+                            await window.Cart.addCombo(this.comboId, this.quantity, btn);
                         }
                         // GA4: price is dynamic (tier pricing), so we fire here rather
                         // than relying on data-ga-item which would have a stale price

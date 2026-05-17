@@ -22,7 +22,7 @@ class SendConversionEvents implements ShouldQueue
 
     public function handle(): void
     {
-        $order = $this->order->fresh(['items']);
+        $order = $this->order->fresh(['items.variant.product.category', 'items.combo', 'shippingAddress']);
 
         if ($this->shouldSkip($order)) {
             return;
@@ -86,6 +86,10 @@ class SendConversionEvents implements ShouldQueue
 
         if ($order->customer_phone) {
             $digits = preg_replace('/\D/', '', $order->customer_phone);
+            // Normalize Bangladeshi numbers to E.164: 01XXXXXXXXX → 8801XXXXXXXXX
+            if (strlen($digits) === 11 && str_starts_with($digits, '0')) {
+                $digits = '880' . substr($digits, 1);
+            }
             $userData['ph'] = [hash('sha256', $digits)];
         }
 
@@ -100,6 +104,21 @@ class SendConversionEvents implements ShouldQueue
         if ($order->fbc) {
             $userData['fbc'] = $order->fbc;
         }
+
+        // Split name into fn / ln (best effort)
+        $nameParts = explode(' ', trim($order->customer_name ?? ''), 2);
+        if (!empty($nameParts[0])) {
+            $userData['fn'] = [hash('sha256', strtolower(trim($nameParts[0])))];
+        }
+        if (!empty($nameParts[1])) {
+            $userData['ln'] = [hash('sha256', strtolower(trim($nameParts[1])))];
+        }
+
+        if ($order->shippingAddress?->city) {
+            $userData['ct'] = [hash('sha256', strtolower(trim($order->shippingAddress->city)))];
+        }
+
+        $userData['country'] = [hash('sha256', 'bd')];
 
         $payload = [
             'data' => [[
@@ -130,7 +149,7 @@ class SendConversionEvents implements ShouldQueue
 
         try {
             $response = Http::withToken($accessToken)
-                ->post("https://graph.facebook.com/v19.0/{$pixelId}/events", $payload);
+                ->post("https://graph.facebook.com/v21.0/{$pixelId}/events", $payload);
 
             if (!$response->successful()) {
                 Log::warning("Meta CAPI failed for order #{$order->order_number}", [
@@ -160,11 +179,17 @@ class SendConversionEvents implements ShouldQueue
                     'transaction_id' => $order->order_number,
                     'value'          => (float) $order->grand_total,
                     'currency'       => 'BDT',
-                    'items'          => $order->items->map(fn($item) => [
-                        'item_id'   => (string) ($item->variant_id ?? $item->combo_id),
-                        'item_name' => $item->combo_name_snapshot ?? $item->product_name_snapshot,
-                        'price'     => (float) $item->unit_price,
-                        'quantity'  => $item->quantity,
+                    'shipping'       => (float) $order->shipping_cost,
+                    'items'          => $order->items->map(fn ($item) => [
+                        'item_id'       => $item->sku_snapshot
+                                            ?? ($item->variant_id ? (string) $item->variant_id : null)
+                                            ?? ('combo_' . $item->combo_id),
+                        'item_name'     => $item->combo_name_snapshot ?? $item->product_name_snapshot,
+                        'item_category' => $item->combo_id
+                                            ? 'Combo'
+                                            : ($item->variant?->product?->category?->name),
+                        'price'         => (float) $item->unit_price,
+                        'quantity'      => $item->quantity,
                     ])->toArray(),
                 ],
             ]],

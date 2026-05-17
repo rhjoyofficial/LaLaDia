@@ -220,6 +220,7 @@
                 payment_method: 'cod',
                 items: [],
                 coupon_code: null,
+                ga_client_id: null,
             },
 
             pricing: {
@@ -251,6 +252,10 @@
                     this.form.zone_id = zones[0];
                     this.refreshPreview();
                 }
+
+                // Extract GA4 client ID from _ga cookie: GA1.1.<clientId>
+                const gaMatch = document.cookie.match(/_ga=GA\d+\.\d+\.(.+?)(?:;|$)/);
+                this.form.ga_client_id = gaMatch ? gaMatch[1] : null;
             },
 
             /**
