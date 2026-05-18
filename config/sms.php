@@ -2,7 +2,7 @@
 
 return [
 
-  'provider' => env('SMS_PROVIDER', 'greenweb'),
+  'provider' => env('SMS_PROVIDER', null),
 
   'url' => env('SMS_API_URL'),
 

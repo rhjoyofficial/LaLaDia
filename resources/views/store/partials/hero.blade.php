@@ -43,8 +43,10 @@
                                     </div>
                                     <div class="relative group">
                                         <img src="{{ $banner->image_url }}" alt="Raw Honey"
-                                            class="w-full h-full lg:min-w-md lg:max-w-md aspect-square object-cover group-hover:scale-105 duration-300 transform-all">
+                                            class="w-full h-full lg:min-w-md lg:max-w-md aspect-square object-cover group-hover:scale-105 duration-300 transition-all"
+                                            fetchpriority="high">
                                     </div>
+
                                 </div>
                             </div>
                         @endforeach
@@ -142,9 +144,10 @@
                                     <div
                                         class="w-16 h-16 rounded-full bg-ivory border border-secondary/50 md:border-champagne flex items-center justify-center group-hover:border-primary transition-all overflow-hidden">
                                         <img src="{{ $cat->image_url }}" alt="{{ $cat->name }}"
-                                            class="w-full h-full aspect-square object-contain group-hover:scale-110 duration-300 transform-all"
-                                            lazy="loading">
+                                            class="w-full h-full aspect-square object-contain group-hover:scale-110 duration-300 transition-all"
+                                            loading="lazy">
                                     </div>
+
                                     <span
                                         class="text-base font-medium text-taupe tracking-tighter">{{ $cat->name }}</span>
                                 </a>

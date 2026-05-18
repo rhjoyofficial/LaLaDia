@@ -1,7 +1,7 @@
 # LaLaDia — Complete Tracking & Analytics Developer Guide
 
 > **Project:** LaLaDia — Laravel + Vanilla JS / Alpine.js e-commerce  
-> **Stack:** Laravel 11, GTM, GA4, Meta Pixel + CAPI, Consent Mode v2  
+> **Stack:** Laravel 12, GTM, GA4, Meta Pixel + CAPI, Consent Mode v2  
 > **Last Updated:** 2026-05-17  
 > **Scope:** Everything. GTM, dataLayer, GA4 browser events, GA4 Measurement Protocol (server-side),
 > Meta Pixel browser events, Meta Conversions API (CAPI), Consent Mode v2, first-party cookies,

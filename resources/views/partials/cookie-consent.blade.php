@@ -28,14 +28,14 @@
     </div>
 </div>
 <script>
-function _setConsentCookie(value) {
+function _setConsentCookieWithHours(value, hours) {
     var d = new Date();
-    d.setFullYear(d.getFullYear() + 1);
-    document.cookie = 'laladia_consent=' + value + '; expires=' + d.toUTCString()
-        + '; path=/; SameSite=Lax';
+    d.setTime(d.getTime() + (hours * 60 * 60 * 1000)); 
+    document.cookie = 'laladia_consent=' + value + '; expires=' + d.toUTCString() + '; path=/; SameSite=Lax';
 }
+
 function consentAccept() {
-    _setConsentCookie('granted');
+    _setConsentCookieWithHours('granted', 365 * 24); // 1 Year in hours
     if (typeof gtag === 'function') {
         gtag('consent', 'update', {
             ad_storage:        'granted',
@@ -46,8 +46,9 @@ function consentAccept() {
     }
     document.getElementById('cookieConsentBanner').remove();
 }
+
 function consentDecline() {
-    _setConsentCookie('denied');
+    _setConsentCookieWithHours('denied', 1); // Re-show after 6 hours
     document.getElementById('cookieConsentBanner').remove();
 }
 </script>

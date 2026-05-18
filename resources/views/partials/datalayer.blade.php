@@ -7,7 +7,7 @@
         'page_type':   '{{ $pageType ?? 'other' }}'
     });
 
-    @if (!empty($ga4))
+    @if(!empty($ga4))
     window.__ga4__ = @json($ga4);
     @endif
 </script>

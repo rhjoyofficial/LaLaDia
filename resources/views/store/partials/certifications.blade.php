@@ -87,7 +87,7 @@
             </svg>
         </button>
 
-        <img id="certModalImg"
+        <img id="certModalImg" loading="lazy" alt="Certification Image"
             class="max-h-[85vh] max-w-full object-contain rounded-2xl shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-white/10 scale-90 transition-transform duration-500">
 
         <div class="absolute inset-0 border border-primary/20 rounded-2xl pointer-events-none"></div>
