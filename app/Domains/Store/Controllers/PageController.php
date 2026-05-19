@@ -164,7 +164,7 @@ class PageController extends Controller
     {
         $data = [
             'title' => 'Privacy Policy',
-            'last_updated' => 'Last Updated: April 28, 2026',
+            'last_updated' => 'Last Updated: May 19, 2026',
             'sections' => [
                 [
                     'heading' => 'Information Collection',
@@ -177,6 +177,10 @@ class PageController extends Controller
                 [
                     'heading' => 'Data Protection',
                     'content' => 'We implement high-level security measures, including SSL encryption, to protect your personal and financial data.'
+                ],
+                [
+                    'heading' => 'Cookies & Web Tracking',
+                    'content' => 'To optimize your shopping experience, we use tracking technologies (including Google Analytics 4, Google Tag Manager, and Meta Pixel) to collect anonymous data about how you interact with our website. By using our site, you agree to our collection of this data. If you prefer not to be tracked, you can block or manage cookies through your web browser\'s security and privacy settings.'
                 ]
             ]
         ];
@@ -187,7 +191,7 @@ class PageController extends Controller
     {
         $data = [
             'title' => 'Terms & Conditions',
-            'last_updated' => 'Last Updated: April 28, 2026',
+            'last_updated' => 'Last Updated: May 19, 2026',
             'sections' => [
                 [
                     'heading' => 'Account Terms',
@@ -200,6 +204,10 @@ class PageController extends Controller
                 [
                     'heading' => 'Intellectual Property',
                     'content' => 'All content on this website, including text, images, and logos, is the property of Laladia Project.'
+                ],
+                [
+                    'heading' => 'Implied Consent for Tracking',
+                    'content' => 'By accessing and navigating this website, you acknowledge and agree that we automatically deploy analytical and marketing cookies to enhance site functionality and run marketing campaigns. Please review our Privacy Policy for more information on the data we collect and how you can opt out via your browser settings.'
                 ]
             ]
         ];

@@ -36,7 +36,7 @@
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
-        @php $consent = request()->cookie('laladia_consent') ?? 'denied'; @endphp
+        @php $consent = 'granted'; @endphp
         gtag('consent', 'default', {
             ad_storage:          '{{ $consent === "granted" ? "granted" : "denied" }}',
             analytics_storage:   '{{ $consent === "granted" ? "granted" : "denied" }}',
@@ -95,7 +95,7 @@
         </noscript>
     @endif
 
-    @include('partials.cookie-consent')
+    {{-- Cookie consent banner disabled: implied consent via Privacy Policy / T&C --}}
 
     <div class="min-h-screen flex flex-col relative">
 
