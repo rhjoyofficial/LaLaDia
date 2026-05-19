@@ -20,6 +20,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->encryptCookies(except: [
             'bionic_cart_token',
+            'laladia_consent',
         ]);
         $middleware->append(\App\Http\Middleware\SecureHeaders::class);
 

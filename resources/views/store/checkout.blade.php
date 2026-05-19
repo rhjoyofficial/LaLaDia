@@ -446,55 +446,8 @@
             </form>
         </div>
     </div>
-    @push('scripts')
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                // Wait for CartManager to finish its refresh() call before reading state.
-                // cart:updated fires once refresh() completes; fall back to 1.5s timeout.
-                function pushBeginCheckout() {
-                    try {
-                        const cartItems = window.Cart?.state?.items ?? [];
-                        const items = cartItems
-                            .filter(function(i) {
-                                return !i.is_gift;
-                            })
-                            .map(function(i) {
-                                return {
-                                    item_id: String(i.variant_id ?? ('combo_' + i.combo_id)),
-                                    item_name: i.combo_name_snapshot ?? i.product_name_snapshot ?? '',
-                                    price: parseFloat(i.unit_price) || 0,
-                                    quantity: i.quantity,
-                                };
-                            });
-                        const value = items.reduce(function(s, i) {
-                            return s + i.price * i.quantity;
-                        }, 0);
-
-                        window.dataLayer = window.dataLayer || [];
-                        window.dataLayer.push({
-                            ecommerce: null
-                        });
-                        window.dataLayer.push({
-                            event: 'begin_checkout',
-                            ecommerce: {
-                                currency: 'BDT',
-                                value: parseFloat(value.toFixed(2)),
-                                items: items,
-                            },
-                        });
-                    } catch (e) {}
-                }
-
-                if (window.Cart?.initialized) {
-                    pushBeginCheckout();
-                } else {
-                    window.addEventListener('cart:updated', pushBeginCheckout, {
-                        once: true
-                    });
-                    setTimeout(pushBeginCheckout, 1500); // absolute fallback
-                }
-            });
-        </script>
-    @endpush
+    {{-- begin_checkout is fired by CheckoutManager._fireBeginCheckout() after fetchPreview()
+         completes, using Analytics.beginCheckout() which includes coupon data and the
+         ecommerce: null reset. No inline push needed here. --}}
 
 @endsection

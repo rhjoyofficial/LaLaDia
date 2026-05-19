@@ -1102,14 +1102,6 @@
                     });
                     const json = await res.json();
                     if (json.success) {
-                        // Fire GTM purchase event
-                        window.dataLayer = window.dataLayer || [];
-                        window.dataLayer.push({
-                            event: 'purchase',
-                            value: parseInt(document.getElementById('total').innerText) || 0,
-                            currency: 'BDT',
-                            content_category: 'dry_fish'
-                        });
                         document.getElementById('successModal').classList.remove('hidden');
                         setTimeout(() => {
                             window.location.href = json.data?.redirect_url || window.location.href;
