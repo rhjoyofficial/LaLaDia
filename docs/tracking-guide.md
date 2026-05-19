@@ -104,7 +104,7 @@ TRACKING_EXCLUDED_IPS=            # comma-separated, e.g. 192.168.1.100,10.0.0.1
 | `.env` Key | Config key | Read by |
 |---|---|---|
 | `GTM_ID` | `services.gtm.id` | `layouts/app.blade.php`, `layouts/guest.blade.php` |
-| `META_PIXEL_ID` | `services.meta.pixel_id` | `layouts/app.blade.php`, `layouts/guest.blade.php` |
+| `META_PIXEL_ID` | `tracking.meta_pixel_id` | `app/Jobs/SendConversionEvents.php` (CAPI only — GTM manages browser pixel) |
 | `META_ACCESS_TOKEN` | `tracking.meta_access_token` | `app/Jobs/SendConversionEvents.php` |
 | `META_TEST_EVENT_CODE` | `tracking.meta_test_event_code` | `app/Jobs/SendConversionEvents.php` |
 | `GA4_MEASUREMENT_ID` | `tracking.ga4_measurement_id` | `app/Jobs/SendConversionEvents.php` |
@@ -113,7 +113,7 @@ TRACKING_EXCLUDED_IPS=            # comma-separated, e.g. 192.168.1.100,10.0.0.1
 
 **Config files:**
 - [`config/tracking.php`](../config/tracking.php) — Meta CAPI, GA4 MP, excluded IPs
-- `config/services.php` — GTM ID, Meta Pixel ID (under `services.gtm.id` and `services.meta.pixel_id`)
+- `config/services.php` — GTM ID only (`services.gtm.id`). `services.meta.pixel_id` is no longer used in Blade layouts.
 
 ---
 
@@ -313,33 +313,27 @@ Every item object must follow this structure:
 
 ### What it does
 
-The Meta Pixel fires a `PageView` event on every page load and a `Purchase` event on the order success page (via GTM). Meta uses these to attribute ad campaigns.
+The Meta Pixel fires a `PageView` event on every page load and purchase/product events via GTM triggers. Meta uses these to attribute ad campaigns.
 
-### Where the Pixel is initialised
+### How the Pixel is loaded
 
-**File:** [`resources/views/layouts/app.blade.php`](../resources/views/layouts/app.blade.php) lines ~56-65
+**The Meta Pixel is loaded entirely through GTM.** There is no `fbq()` code in any Blade layout file. This is intentional — it allows Consent Mode to suppress the Pixel for users who decline cookies.
 
-```blade
-@if (config('services.meta.pixel_id'))
-    <script>
-        !function(f,b,e,v,...){ ... }
-        fbq('init', '{{ config('services.meta.pixel_id') }}');
-        fbq('track', 'PageView');
-    </script>
-@endif
+**GTM tag responsible:** `Meta Pixel - Base` — fires on All Pages trigger, runs:
+```js
+fbq('init', '871208752518827');
+fbq('track', 'PageView');
 ```
 
-Also in [`resources/views/layouts/guest.blade.php`](../resources/views/layouts/guest.blade.php) (for auth pages — login, register, forgot-password).
+See [`docs/gtm-setup-guide.md`](./gtm-setup-guide.md) for the exact GTM tag setup.
 
-### How Purchase fires via GTM
-
-The browser-side `Purchase` event is fired by a **GTM tag** — not directly in your code. Here's how:
+### How Purchase fires
 
 1. `order-success.blade.php` pushes `{ event: 'purchase', event_id: 'purchase_N', ecommerce: {...} }` to `dataLayer`
-2. GTM picks this up with a trigger on the `purchase` event
-3. The GTM tag calls `fbq('track', 'Purchase', { value: ..., currency: 'BDT' }, { eventID: {{DLV - event_id}} })`
+2. GTM trigger `GA4 - purchase` fires
+3. GTM tag `Meta Pixel - Purchase` calls `fbq('track', 'Purchase', {...}, { eventID: '{{DLV - event_id}}' })`
 
-**The `eventID` in the GTM tag is critical** — this is how Meta deduplicates against the CAPI event. See [Section 16](#16-gtm-configuration-you-must-do-manually) for the required GTM setup.
+**The `eventID` in the GTM tag is critical** — this is how Meta deduplicates the browser event against the server-side CAPI event. Both must send `purchase_{order_id}` as the event ID. See [`docs/gtm-setup-guide.md`](./gtm-setup-guide.md) Tag 4.2.
 
 ---
 
@@ -867,66 +861,27 @@ Explicitly deferred. TikTok has its own Pixel SDK and Events API. When you're re
 
 ## 16. GTM Configuration You Must Do Manually
 
-These things cannot be done in code — they require GTM UI changes.
+> **Full step-by-step GTM guide:** [`docs/gtm-setup-guide.md`](./gtm-setup-guide.md)
+>
+> That file has every variable, trigger, tag, and consent setting with exact field values
+> and copy-paste HTML for every Meta Pixel tag.
 
-### 1. Create a Data Layer Variable for `event_id`
+### Summary of what GTM must have
 
-In GTM: **Variables > User-Defined Variables > New**
+**Variables (Data Layer Variables):**
+`DLV - event_id`, `DLV - page_type`, `DLV - user_id`, `DLV - ecommerce`,
+`DLV - value`, `DLV - currency`, `DLV - coupon`, `DLV - transaction_id`
 
-- Type: **Data Layer Variable**
-- Data Layer Variable Name: `event_id`
-- Name it: `DLV - event_id`
+**Tags to create:**
+- `GA4 - Configuration` — fires All Pages, sets `user_id` field
+- `GA4 - view_item`, `add_to_cart`, `view_cart`, `begin_checkout`, `purchase` — GA4 event tags
+- `Meta Pixel - Base` — fires All Pages, replaces the removed hard-coded `fbq` init
+- `Meta Pixel - Purchase` — fires on `purchase` event, **must include `eventID: {{DLV - event_id}}`**
+- `Meta Pixel - ViewContent`, `AddToCart`, `InitiateCheckout` — optional but recommended
 
-This reads the `event_id` key from every `dataLayer.push()`.
-
-### 2. Configure the Meta Purchase tag to pass `eventID`
-
-In GTM: find your Meta Pixel tag that fires on the `purchase` event trigger.
-
-The tag currently probably calls:
-```js
-fbq('track', 'Purchase', { value: ..., currency: 'BDT' });
-```
-
-It must be updated to:
-```js
-fbq('track', 'Purchase', { value: ..., currency: 'BDT' }, { eventID: {{DLV - event_id}} });
-```
-
-The fourth argument `{ eventID: ... }` is how the browser Pixel tells Meta "this is the same event as the one CAPI sent with this ID." Without this, Meta counts every purchase twice.
-
-### 3. Verify Consent Mode is applied to all tags
-
-In GTM: **Admin > Container Settings > Consent Overview**
-
-Set consent requirements on tags:
-- GA4 Configuration tag: requires `analytics_storage`
-- GA4 Event tags: requires `analytics_storage`
-- Meta Pixel tag: requires `ad_storage` + `ad_user_data`
-
-### 4. Set up GTM environments (optional but recommended)
-
-Use GTM Environments to test changes in staging before publishing to production. This prevents tracking bugs from polluting your live data.
-
-### 5. Create `page_type` Data Layer Variable
-
-In GTM: **Variables > User-Defined Variables > New**
-
-- Type: **Data Layer Variable**
-- Data Layer Variable Name: `page_type`
-- Name it: `DLV - page_type`
-
-Use this variable to create page-type-specific triggers (e.g., fire a "Thank You page conversion tag" only when `page_type = thank-you`).
-
-### 6. Create `user_id` Data Layer Variable (for GA4 User-ID)
-
-In GTM: **Variables > User-Defined Variables > New**
-
-- Type: **Data Layer Variable**
-- Data Layer Variable Name: `user_id`
-- Name it: `DLV - user_id`
-
-In your GA4 Configuration tag: add **Fields to Set** → `user_id` → `{{DLV - user_id}}`. This enables User-ID reporting in GA4, which connects sessions across devices for logged-in users.
+**Consent settings (Admin → Container Settings → Consent Overview):**
+- All GA4 tags → `analytics_storage`
+- All Meta Pixel tags → `ad_storage` + `ad_user_data`
 
 ---
 
