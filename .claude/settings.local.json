@@ -46,7 +46,8 @@
       "Bash(find \"d:\\\\\\\\WORK\\\\\\\\LALADIA\\\\\\\\LaLaDia\\\\\\\\database\\\\\\\\migrations\" -name \"*tier*\" -type f)",
       "Bash(find \"d:\\\\\\\\WORK\\\\\\\\LALADIA\\\\\\\\LaLaDia\\\\\\\\resources\" -name \"*tier*\" -o -name \"*TierPrice*\")",
       "Bash(ls -la \"d:\\\\\\\\WORK\\\\\\\\LALADIA\\\\\\\\LaLaDia\\\\\\\\resources\")",
-      "Bash(find \"d:\\\\\\\\WORK\\\\\\\\LALADIA\\\\\\\\LaLaDia\\\\\\\\resources\\\\\\\\views\" -type d -name \"*admin*\")"
+      "Bash(find \"d:\\\\\\\\WORK\\\\\\\\LALADIA\\\\\\\\LaLaDia\\\\\\\\resources\\\\\\\\views\" -type d -name \"*admin*\")",
+      "Bash(grep -r \"use App\\\\\\\\Domains\\\\\\\\ActivityLog\" 'd:\\\\WORK\\\\LALADIA\\\\LaLaDia\\\\app' --include=\"*.php\")"
     ]
   }
 }

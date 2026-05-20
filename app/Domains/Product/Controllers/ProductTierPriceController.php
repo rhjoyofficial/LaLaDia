@@ -43,7 +43,7 @@ class ProductTierPriceController extends Controller
             );
 
             AdminLogger::log(
-                'product',
+                'products',
                 "Tier price upserted on variant #{$variant->id} ({$variant->sku}) — min_qty:{$validated['min_quantity']}",
                 $variant,
                 ['tier_id' => $tierPrice->id, 'data' => $validated],
@@ -72,7 +72,7 @@ class ProductTierPriceController extends Controller
             $tier->delete();
 
             AdminLogger::log(
-                'product',
+                'products',
                 "Tier price deleted on variant #{$variant->id} ({$variant->sku}) — tier_id:{$tierId}",
                 $variant,
                 ['deleted_tier' => $tierSnapshot],

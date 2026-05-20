@@ -35,10 +35,8 @@ Schedule::command(CheckCodCancellations::class)
 
 // ── Maintenance: prune growing tables ────────────────────────────────────────
 
-// Prune activity_log entries older than 90 days to keep the table manageable.
-// Spatie's activitylog ships this command — requires 'delete_records_older_than_days'
-// to be set in config/activitylog.php (or pass --days=90 directly).
-Schedule::command('activitylog:clean --days=90')
+// Prune activity_log entries older than 90 days (config/activitylog.php: delete_records_older_than_days).
+Schedule::command('activitylog:clean')
     ->monthly()
     ->description('Prune activity log entries older than 90 days');
 

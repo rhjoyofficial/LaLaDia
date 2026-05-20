@@ -41,7 +41,7 @@ class ComboTierPriceController extends Controller
             );
 
             AdminLogger::log(
-                'product',
+                'products',
                 "Combo tier price upserted on combo #{$combo->id} ({$combo->title}) — min_qty:{$validated['min_quantity']}",
                 $combo,
                 ['tier_id' => $tierPrice->id, 'data' => $validated],
@@ -66,7 +66,7 @@ class ComboTierPriceController extends Controller
             $tier->delete();
 
             AdminLogger::log(
-                'product',
+                'products',
                 "Combo tier price deleted on combo #{$combo->id} ({$combo->title}) — tier_id:{$tierId}",
                 $combo,
                 ['deleted_tier' => $snapshot],
