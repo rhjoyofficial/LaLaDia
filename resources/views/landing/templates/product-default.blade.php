@@ -4,7 +4,7 @@
 @section('meta_description', $landing->meta_description ?? $product->short_description)
 
 @section('content')
-    <section class="bg-ivory min-h-screen" x-data="productLanding()" x-init="init()">
+    <section class="bg-ivory min-h-screen">
 
         {{-- Hero Section --}}
         <div class="relative bg-linear-to-br from-brand via-brown to-gold-antique text-white overflow-hidden">
@@ -37,11 +37,9 @@
                                 <div class="flex flex-wrap gap-3">
                                     @foreach ($product->variants as $variant)
                                         <button type="button"
-                                            @click="selectVariant({{ $variant->id }}, {{ $variant->price }}, @json($variant->tierPrices->map(fn($t) => ['min_qty' => $t->min_qty, 'price' => $t->price])->values()))"
-                                            :class="selectedVariantId === {{ $variant->id }} ?
-                                                'bg-white text-gold-antique ring-2 ring-white' :
-                                                'bg-gold-antique/50 text-white hover:bg-primary/50'"
-                                            class="px-4 py-2 rounded-xl text-sm font-semibold transition-all">
+                                            data-product-variant-id="{{ $variant->id }}"
+                                            data-product-variant-price="{{ (float) $variant->price }}"
+                                            class="product-variant-btn px-4 py-2 rounded-xl text-sm font-semibold transition-all {{ $loop->first ? 'bg-white text-gold-antique ring-2 ring-white' : 'bg-gold-antique/50 text-white hover:bg-primary/50' }}">
                                             {{ $variant->name ?? $variant->sku }}
                                             &mdash; <span
                                                 class="font-bengali">&#2547;{{ number_format($variant->price, 0) }}</span>
@@ -52,26 +50,18 @@
                         @endif
 
                         {{-- Tier price hints for selected variant --}}
-                        <template x-if="tierPrices.length > 0">
-                            <div class="flex flex-wrap gap-1.5 mb-4">
-                                <template x-for="tier in tierPrices" :key="tier.min_qty">
-                                    <span
-                                        class="text-xs bg-white/20 text-white border border-white/30 rounded-full px-2.5 py-0.5 font-semibold"
-                                        x-text="tier.min_qty + '+ → ৳' + tier.price"></span>
-                                </template>
-                            </div>
-                        </template>
+                        <div id="productTierHints" class="flex flex-wrap gap-1.5 mb-4"></div>
 
                         {{-- Quantity --}}
                         <div class="mb-6">
                             <label class="block text-sm font-semibold text-champagne mb-2">Quantity</label>
                             <div class="flex items-center gap-3">
-                                <button @click="changeQty(-1)" type="button"
+                                <button id="productQtyMinus" type="button"
                                     class="w-10 h-10 rounded-full bg-gold-antique/50 hover:bg-primary/50 flex items-center justify-center text-white text-xl font-bold transition-all">
                                     &minus;
                                 </button>
-                                <span class="text-2xl font-bold w-12 text-center" x-text="quantity"></span>
-                                <button @click="changeQty(1)" type="button"
+                                <span id="productQty" class="text-2xl font-bold w-12 text-center">1</span>
+                                <button id="productQtyPlus" type="button"
                                     class="w-10 h-10 rounded-full bg-gold-antique/50 hover:bg-primary/50 flex items-center justify-center text-white text-xl font-bold transition-all">
                                     +
                                 </button>
@@ -80,13 +70,10 @@
 
                         {{-- Price Display --}}
                         <div class="flex items-baseline gap-3 flex-wrap">
-                            <span class="text-3xl font-bold font-bengali"
-                                x-text="'৳' + (effectivePrice() * quantity).toFixed(0)"></span>
-                            <span x-show="effectivePrice() < unitPrice"
-                                class="text-gold-warm text-base line-through font-bengali"
-                                x-text="'৳' + (unitPrice * quantity).toFixed(0)"></span>
-                            <span class="text-champagne text-sm" x-show="quantity > 1"
-                                x-text="'(' + quantity + ' × ৳' + effectivePrice().toFixed(0) + ' each)'"></span>
+                            <span id="productTotalPrice" class="text-3xl font-bold font-bengali">৳0</span>
+                            <span id="productComparePrice"
+                                class="hidden text-gold-warm text-base line-through font-bengali"></span>
+                            <span id="productUnitPriceText" class="hidden text-champagne text-sm"></span>
                         </div>
 
                         {{-- Scroll to checkout CTA --}}
@@ -119,56 +106,84 @@
     </section>
 
     <script>
-        function productLanding() {
-            return {
-                selectedVariantId: {{ $product->variants->first()?->id ?? 'null' }},
-                unitPrice: {{ $product->variants->first()?->price ?? 0 }},
-                tierPrices: @json(($product->variants->first()?->tierPrices ?? collect())->map(fn($t) => ['min_qty' => $t->min_qty, 'price' => $t->price])->sortBy('min_qty')->values()),
-                quantity: 1,
-
-                init() {
-                    this.syncItems();
-                },
-
-                effectivePrice() {
-                    if (!this.tierPrices.length) return this.unitPrice;
-                    const sorted = [...this.tierPrices].sort((a, b) => b.min_qty - a.min_qty);
-                    for (const tier of sorted) {
-                        if (this.quantity >= tier.min_qty) return tier.price;
-                    }
-                    return this.unitPrice;
-                },
-
-                selectVariant(id, price, tierPrices) {
-                    this.selectedVariantId = id;
-                    this.unitPrice = price;
-                    this.tierPrices = (tierPrices || []).slice().sort((a, b) => a.min_qty - b.min_qty);
-                    this.syncItems();
-                },
-
-                changeQty(delta) {
-                    this.quantity = Math.max(1, this.quantity + delta);
-                    this.syncItems();
-                },
-
-                syncItems() {
-                    if (!this.selectedVariantId) return;
-                    const items = [{
-                        variant_id: this.selectedVariantId,
-                        quantity: this.quantity
-                    }];
-                    window.initialItems = items;
-                    const checkout = document.getElementById('landingCheckout');
-                    if (checkout && checkout.__x) {
-                        checkout.__x.$data.updateItems(items);
-                    }
-                },
-            };
-        }
-
         var initialItems = [{
             variant_id: {{ $product->variants->first()?->id ?? 'null' }},
             quantity: 1
         }];
+
+        (() => {
+            const variants = @json(
+                $product->variants->map(fn($variant) => [
+                    'id' => $variant->id,
+                    'price' => (float) $variant->price,
+                    'tierPrices' => $variant->tierPrices->map(fn($tier) => [
+                        'min_qty' => $tier->min_qty,
+                        'price' => (float) $tier->price,
+                    ])->sortBy('min_qty')->values(),
+                ])->values()
+            );
+            let selectedVariantId = {{ $product->variants->first()?->id ?? 'null' }};
+            let unitPrice = {{ (float) ($product->variants->first()?->price ?? 0) }};
+            let tierPrices = variants[0]?.tierPrices || [];
+            let quantity = 1;
+
+            function effectivePrice() {
+                const sorted = [...tierPrices].sort((a, b) => b.min_qty - a.min_qty);
+                return sorted.find((tier) => quantity >= Number(tier.min_qty))?.price ?? unitPrice;
+            }
+
+            function render() {
+                const price = Number(effectivePrice());
+                document.getElementById('productQty').textContent = quantity;
+                document.getElementById('productTotalPrice').textContent = '৳' + (price * quantity).toFixed(0);
+
+                const compare = document.getElementById('productComparePrice');
+                compare.classList.toggle('hidden', price >= unitPrice);
+                compare.textContent = '৳' + (unitPrice * quantity).toFixed(0);
+
+                const unitText = document.getElementById('productUnitPriceText');
+                unitText.classList.toggle('hidden', quantity <= 1);
+                unitText.textContent = `(${quantity} × ৳${price.toFixed(0)} each)`;
+
+                const hints = document.getElementById('productTierHints');
+                hints.innerHTML = tierPrices.map((tier) =>
+                    `<span class="text-xs bg-white/20 text-white border border-white/30 rounded-full px-2.5 py-0.5 font-semibold">${tier.min_qty}+ → ৳${Number(tier.price).toFixed(0)}</span>`
+                ).join('');
+            }
+
+            function syncItems() {
+                if (!selectedVariantId) return;
+                const items = [{ variant_id: selectedVariantId, quantity }];
+                window.initialItems = items;
+                window.LandingCheckout?.updateItems(items);
+                render();
+            }
+
+            document.querySelectorAll('.product-variant-btn').forEach((button) => {
+                button.addEventListener('click', () => {
+                    selectedVariantId = Number(button.dataset.productVariantId);
+                    unitPrice = Number(button.dataset.productVariantPrice);
+                    tierPrices = variants.find((variant) => Number(variant.id) === selectedVariantId)?.tierPrices || [];
+                    document.querySelectorAll('.product-variant-btn').forEach((btn) => {
+                        btn.classList.remove('bg-white', 'text-gold-antique', 'ring-2', 'ring-white');
+                        btn.classList.add('bg-gold-antique/50', 'text-white', 'hover:bg-primary/50');
+                    });
+                    button.classList.remove('bg-gold-antique/50', 'text-white', 'hover:bg-primary/50');
+                    button.classList.add('bg-white', 'text-gold-antique', 'ring-2', 'ring-white');
+                    syncItems();
+                });
+            });
+
+            document.getElementById('productQtyMinus')?.addEventListener('click', () => {
+                quantity = Math.max(1, quantity - 1);
+                syncItems();
+            });
+            document.getElementById('productQtyPlus')?.addEventListener('click', () => {
+                quantity += 1;
+                syncItems();
+            });
+
+            syncItems();
+        })();
     </script>
 @endsection

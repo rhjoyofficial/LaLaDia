@@ -4,7 +4,7 @@
 @section('meta_description', $landing->meta_description ?? $combo->description)
 
 @section('content')
-    <section class="bg-ivory min-h-screen" x-data="comboLanding()" x-init="init()">
+    <section class="bg-ivory min-h-screen">
 
         {{-- Hero Section --}}
         <div class="relative bg-linear-to-br from-brand via-brown to-gold-antique text-white overflow-hidden">
@@ -52,12 +52,12 @@
                         <div class="mb-6">
                             <label class="block text-sm font-semibold text-champagne mb-2">Quantity</label>
                             <div class="flex items-center gap-3">
-                                <button @click="changeQty(-1)" type="button"
+                                <button id="comboQtyMinus" type="button"
                                     class="w-10 h-10 rounded-full bg-gold-antique/50 hover:bg-primary/50 flex items-center justify-center text-white text-xl font-bold transition-all">
                                     &minus;
                                 </button>
-                                <span class="text-2xl font-bold w-12 text-center" x-text="quantity"></span>
-                                <button @click="changeQty(1)" type="button"
+                                <span id="comboQty" class="text-2xl font-bold w-12 text-center">1</span>
+                                <button id="comboQtyPlus" type="button"
                                     class="w-10 h-10 rounded-full bg-gold-antique/50 hover:bg-primary/50 flex items-center justify-center text-white text-xl font-bold transition-all">
                                     +
                                 </button>
@@ -109,37 +109,33 @@
     </section>
 
     <script>
-        function comboLanding() {
-            return {
-                comboId: {{ $combo->id }},
-                quantity: 1,
-
-                init() {
-                    this.syncItems();
-                },
-
-                changeQty(delta) {
-                    this.quantity = Math.max(1, this.quantity + delta);
-                    this.syncItems();
-                },
-
-                syncItems() {
-                    const items = [{
-                        combo_id: this.comboId,
-                        quantity: this.quantity
-                    }];
-                    window.initialItems = items;
-                    const checkout = document.getElementById('landingCheckout');
-                    if (checkout && checkout.__x) {
-                        checkout.__x.$data.updateItems(items);
-                    }
-                },
-            };
-        }
-
         var initialItems = [{
             combo_id: {{ $combo->id }},
             quantity: 1
         }];
+
+        (() => {
+            const comboId = {{ $combo->id }};
+            let quantity = 1;
+
+            function syncItems() {
+                const items = [{ combo_id: comboId, quantity }];
+                window.initialItems = items;
+                window.LandingCheckout?.updateItems(items);
+                document.getElementById('comboQty').textContent = quantity;
+            }
+
+            document.getElementById('comboQtyMinus')?.addEventListener('click', () => {
+                quantity = Math.max(1, quantity - 1);
+                syncItems();
+            });
+
+            document.getElementById('comboQtyPlus')?.addEventListener('click', () => {
+                quantity += 1;
+                syncItems();
+            });
+
+            syncItems();
+        })();
     </script>
 @endsection

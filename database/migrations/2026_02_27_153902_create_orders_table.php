@@ -74,6 +74,7 @@ return new class extends Migration
             $table->timestamp('shipped_at')->nullable();
             $table->timestamp('delivered_at')->nullable();
             $table->timestamp('cancelled_at')->nullable();
+            $table->timestamp('returned_at')->nullable();
             $table->timestamps();
 
             // 8. Indexes for Performance
@@ -81,6 +82,7 @@ return new class extends Migration
             $table->index(['placed_at', 'delivered_at']);
             $table->index('source');
             $table->index('payment_status', 'orders_payment_status_index');
+            $table->index(['user_id', 'placed_at'], 'orders_user_placed_idx');
         });
     }
 

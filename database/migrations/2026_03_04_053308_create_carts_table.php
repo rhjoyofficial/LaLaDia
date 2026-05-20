@@ -20,6 +20,8 @@ return new class extends Migration
             $table->timestamp('expires_at')->nullable()->index();
             $table->timestamp('locked_at')->nullable();
             $table->timestamps();
+            $table->index(['status', 'user_id'], 'carts_status_user_idx');
+            $table->index(['status', 'session_token'], 'carts_status_session_idx');
         });
     }
 

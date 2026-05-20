@@ -50,16 +50,16 @@
                             $itemId = $isVariant ? 'v' . $item->product_variant_id : 'c' . $item->combo_id;
                         @endphp
 
-                        <div x-data="listingItem({
-                            isVariant: {{ $isVariant ? 'true' : 'false' }},
-                            variantId: {{ $item->product_variant_id ?? 'null' }},
-                            comboId: {{ $item->combo_id ?? 'null' }},
-                            basePrice: {{ $price }},
-                            tierPrices: @json($tierPrices->map(fn($t) => ['min_qty' => $t->min_qty, 'price' => $t->price])->values()),
-                            itemName: @json($name),
-                            itemCategory: @json($isVariant ? $item->variant->product->category->name ?? null : 'Combo'),
-                            itemId: @json($isVariant ? (string) $item->product_variant_id : 'combo_' . $item->combo_id),
-                        })"
+                        <div
+                            data-listing-item
+                            data-is-variant="{{ $isVariant ? '1' : '0' }}"
+                            data-variant-id="{{ $item->product_variant_id }}"
+                            data-combo-id="{{ $item->combo_id }}"
+                            data-base-price="{{ (float) $price }}"
+                            data-tier-prices='@json($tierPrices->map(fn($t) => ['min_qty' => $t->min_qty, 'price' => (float) $t->price])->values())'
+                            data-item-name="{{ e($name) }}"
+                            data-item-category="{{ e($isVariant ? $item->variant->product->category->name ?? '' : 'Combo') }}"
+                            data-item-id="{{ e($isVariant ? (string) $item->product_variant_id : 'combo_' . $item->combo_id) }}"
                             class="bg-white rounded-2xl shadow-sm border border-champagne overflow-hidden flex flex-col hover:shadow-md transition-shadow">
 
                             {{-- Image --}}
@@ -85,11 +85,10 @@
                                 {{-- Price + Tier Badges --}}
                                 <div class="mb-3">
                                     <div class="flex items-baseline gap-2">
-                                        <span class="text-lg font-bold text-gold-antique font-bengali"
-                                            x-text="'৳' + effectivePrice().toFixed(0)"></span>
-                                        <span x-show="quantity > 1 && effectivePrice() < basePrice"
-                                            class="text-xs text-taupe line-through font-bengali"
-                                            x-text="'৳' + basePrice.toFixed(0)"></span>
+                                        <span data-listing-price
+                                            class="text-lg font-bold text-gold-antique font-bengali">৳{{ number_format($price, 0) }}</span>
+                                        <span data-listing-compare
+                                            class="hidden text-xs text-taupe line-through font-bengali">৳{{ number_format($price, 0) }}</span>
                                     </div>
 
                                     {{-- Tier price hints --}}
@@ -108,42 +107,39 @@
                                 <div class="mt-auto space-y-2">
                                     {{-- Quantity stepper --}}
                                     <div class="flex items-center gap-2">
-                                        <button @click="changeQty(-1)" type="button"
+                                        <button data-listing-qty-delta="-1" type="button"
                                             class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-muted font-bold text-sm transition-all">
                                             &minus;
                                         </button>
-                                        <span class="w-8 text-center font-bold text-brown text-sm" x-text="quantity"></span>
-                                        <button @click="changeQty(1)" type="button"
+                                        <span data-listing-qty class="w-8 text-center font-bold text-brown text-sm">1</span>
+                                        <button data-listing-qty-delta="1" type="button"
                                             class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-muted font-bold text-sm transition-all">
                                             +
                                         </button>
-                                        <span class="text-xs text-taupe ml-1 font-bengali" x-show="quantity > 1"
-                                            x-text="'৳' + (effectivePrice() * quantity).toFixed(0) + ' total'"></span>
+                                        <span data-listing-line-total
+                                            class="hidden text-xs text-taupe ml-1 font-bengali"></span>
                                     </div>
 
                                     {{-- Add to Cart button --}}
-                                    <button @click="addToCart($el)" type="button" :disabled="adding"
+                                    <button data-listing-add type="button"
                                         class="w-full bg-gold-antique text-white py-2 rounded-xl font-semibold text-sm hover:bg-brand transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer">
-                                        <template x-if="adding">
-                                            <svg class="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg"
-                                                fill="none" viewBox="0 0 24 24">
-                                                <circle class="opacity-25" cx="12" cy="12" r="10"
-                                                    stroke="currentColor" stroke-width="4"></circle>
-                                                <path class="opacity-75" fill="currentColor"
-                                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
-                                            </svg>
-                                        </template>
-                                        <template x-if="!adding">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                                            </svg>
-                                        </template>
-                                        <span x-text="adding ? 'Adding...' : 'Add to Cart'"></span>
+                                        <svg data-listing-spinner class="hidden animate-spin h-4 w-4"
+                                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle class="opacity-25" cx="12" cy="12" r="10"
+                                                stroke="currentColor" stroke-width="4"></circle>
+                                            <path class="opacity-75" fill="currentColor"
+                                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                                        </svg>
+                                        <svg data-listing-cart-icon class="w-4 h-4" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                                        </svg>
+                                        <span data-listing-button-text>Add to Cart</span>
                                     </button>
 
                                     {{-- Added flash --}}
-                                    <p x-show="added" x-transition class="text-center text-xs text-primary font-semibold">
+                                    <p data-listing-added class="hidden text-center text-xs text-primary font-semibold">
                                         ✓ Added to cart!
                                     </p>
                                 </div>
@@ -165,68 +161,82 @@
     </section>
 
     <script>
-        function listingItem({
-            isVariant,
-            variantId,
-            comboId,
-            basePrice,
-            tierPrices,
-            itemName,
-            itemCategory,
-            itemId,
-        }) {
-            return {
-                isVariant,
-                variantId,
-                comboId,
-                basePrice,
-                tierPrices,
-                itemName,
-                itemCategory,
-                itemId,
-                quantity: 1,
-                adding: false,
-                added: false,
+        (() => {
+            document.querySelectorAll('[data-listing-item]').forEach((card) => {
+                const state = {
+                    isVariant: card.dataset.isVariant === '1',
+                    variantId: card.dataset.variantId ? Number(card.dataset.variantId) : null,
+                    comboId: card.dataset.comboId ? Number(card.dataset.comboId) : null,
+                    basePrice: Number(card.dataset.basePrice || 0),
+                    tierPrices: JSON.parse(card.dataset.tierPrices || '[]'),
+                    itemName: card.dataset.itemName || '',
+                    itemCategory: card.dataset.itemCategory || null,
+                    itemId: card.dataset.itemId || '',
+                    quantity: 1,
+                    adding: false,
+                };
 
-                effectivePrice() {
-                    if (!this.tierPrices.length) return this.basePrice;
-                    const sorted = [...this.tierPrices].sort((a, b) => b.min_qty - a.min_qty);
-                    for (const tier of sorted) {
-                        if (this.quantity >= tier.min_qty) return tier.price;
-                    }
-                    return this.basePrice;
-                },
+                function effectivePrice() {
+                    const sorted = [...state.tierPrices].sort((a, b) => Number(b.min_qty) - Number(a.min_qty));
+                    return Number(sorted.find((tier) => state.quantity >= Number(tier.min_qty))?.price ?? state.basePrice);
+                }
 
-                changeQty(delta) {
-                    this.quantity = Math.max(1, this.quantity + delta);
-                },
+                function render() {
+                    const price = effectivePrice();
+                    card.querySelector('[data-listing-price]').textContent = '৳' + price.toFixed(0);
+                    card.querySelector('[data-listing-qty]').textContent = state.quantity;
 
-                async addToCart(btn) {
-                    if (this.adding || !window.Cart) return;
-                    this.adding = true;
+                    const compare = card.querySelector('[data-listing-compare]');
+                    compare.classList.toggle('hidden', !(state.quantity > 1 && price < state.basePrice));
+
+                    const lineTotal = card.querySelector('[data-listing-line-total]');
+                    lineTotal.classList.toggle('hidden', state.quantity <= 1);
+                    lineTotal.textContent = '৳' + (price * state.quantity).toFixed(0) + ' total';
+
+                    const btn = card.querySelector('[data-listing-add]');
+                    btn.disabled = state.adding;
+                    card.querySelector('[data-listing-spinner]').classList.toggle('hidden', !state.adding);
+                    card.querySelector('[data-listing-cart-icon]').classList.toggle('hidden', state.adding);
+                    card.querySelector('[data-listing-button-text]').textContent = state.adding ? 'Adding...' : 'Add to Cart';
+                }
+
+                card.querySelectorAll('[data-listing-qty-delta]').forEach((button) => {
+                    button.addEventListener('click', () => {
+                        state.quantity = Math.max(1, state.quantity + Number(button.dataset.listingQtyDelta));
+                        render();
+                    });
+                });
+
+                card.querySelector('[data-listing-add]').addEventListener('click', async (event) => {
+                    if (state.adding || !window.Cart) return;
+                    state.adding = true;
+                    render();
+
                     try {
-                        if (this.isVariant) {
-                            await window.Cart.add(this.variantId, this.quantity, btn);
+                        if (state.isVariant) {
+                            await window.Cart.add(state.variantId, state.quantity, event.currentTarget);
                         } else {
-                            await window.Cart.addCombo(this.comboId, this.quantity, btn);
+                            await window.Cart.addCombo(state.comboId, state.quantity, event.currentTarget);
                         }
-                        // GA4: price is dynamic (tier pricing), so we fire here rather
-                        // than relying on data-ga-item which would have a stale price
+
                         window.Analytics?.addToCart({
-                            item_id: this.itemId,
-                            item_name: this.itemName,
-                            item_category: this.itemCategory,
-                            price: this.effectivePrice(),
-                        }, this.quantity);
-                        this.added = true;
-                        setTimeout(() => {
-                            this.added = false;
-                        }, 2500);
+                            item_id: state.itemId,
+                            item_name: state.itemName,
+                            item_category: state.itemCategory,
+                            price: effectivePrice(),
+                        }, state.quantity);
+
+                        const added = card.querySelector('[data-listing-added]');
+                        added.classList.remove('hidden');
+                        setTimeout(() => added.classList.add('hidden'), 2500);
                     } finally {
-                        this.adding = false;
+                        state.adding = false;
+                        render();
                     }
-                },
-            };
-        }
+                });
+
+                render();
+            });
+        })();
     </script>
 @endsection

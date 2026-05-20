@@ -1043,6 +1043,47 @@
 
             calculate();
 
+            function getGaClientId() {
+                const gaMatch = document.cookie.match(/_ga=GA\d+\.\d+\.(.+?)(?:;|$)/);
+                return gaMatch ? gaMatch[1] : null;
+            }
+
+            function selectedGa4Items() {
+                return ITEMS
+                    .filter(item => state.selected[item.key])
+                    .map((item, index) => {
+                        const weight = item.weights[state.weightIndex[item.key] ?? 0] ?? {};
+
+                        return {
+                            item_id: String(weight.variant_id ?? weight.item_id ?? item.key),
+                            item_name: item.name,
+                            item_variant: weight.label ?? null,
+                            item_category: 'Dry Fish',
+                            price: Number(weight.price ?? 0),
+                            quantity: Number(state.qty[item.key] ?? 1),
+                            index,
+                        };
+                    });
+            }
+
+            function pushLandingGa4(event, extra = {}) {
+                const ga4Items = selectedGa4Items();
+                if (!ga4Items.length) return;
+
+                const value = ga4Items.reduce((sum, item) => sum + (Number(item.price) * Number(item.quantity)), 0);
+                window.dataLayer = window.dataLayer || [];
+                window.dataLayer.push({ ecommerce: null });
+                window.dataLayer.push({
+                    event,
+                    ecommerce: {
+                        currency: 'BDT',
+                        value,
+                        items: ga4Items,
+                        ...extra,
+                    },
+                });
+            }
+
             async function handleOrder() {
                 const btn = document.getElementById('orderBtn');
                 const name = document.getElementById('custName').value.trim();
@@ -1078,6 +1119,11 @@
                     };
                 }).filter(i => i.variant_id);
 
+                pushLandingGa4('begin_checkout');
+                pushLandingGa4('add_shipping_info', {
+                    shipping_tier: String(state.zoneId),
+                });
+
                 const originalHTML = btn.innerHTML;
                 btn.innerHTML =
                     '<svg class="animate-spin h-6 w-6 text-white" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg> প্রসেসিং...';
@@ -1098,6 +1144,7 @@
                             zone_id: state.zoneId,
                             payment_method: 'cod',
                             items: items,
+                            ga_client_id: getGaClientId(),
                         })
                     });
                     const json = await res.json();

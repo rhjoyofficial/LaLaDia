@@ -4,7 +4,7 @@
 @section('meta_description', $landing->meta_description ?? 'Special offers on premium products')
 
 @section('content')
-    <section class="bg-ivory min-h-screen" x-data="salesLanding()" x-init="init()">
+    <section class="bg-ivory min-h-screen">
 
         {{-- Hero Section --}}
         <div class="relative bg-linear-to-br from-brand via-brown to-gold-antique text-white overflow-hidden">
@@ -38,8 +38,11 @@
                         $tierPrices = $isVariant ? $item->variant->tierPrices ?? collect() : collect();
                     @endphp
 
-                    <div class="bg-white rounded-2xl shadow-sm border border-champagne overflow-hidden transition-all hover:shadow-md"
-                        :class="isSelected('{{ $itemKey }}') ? 'ring-2 ring-primary' : ''">
+                    <div class="sales-item-card bg-white rounded-2xl shadow-sm border border-champagne overflow-hidden transition-all hover:shadow-md"
+                        data-sales-key="{{ $itemKey }}"
+                        data-sales-variant-id="{{ $isVariant ? $item->product_variant_id : '' }}"
+                        data-sales-combo-id="{{ !$isVariant ? $item->combo_id : '' }}"
+                        data-sales-label="{{ e($label) }}">
 
                         {{-- Image --}}
                         @if ($image)
@@ -73,20 +76,17 @@
                             {{-- Selection + Quantity --}}
                             <div class="flex items-center justify-between">
                                 <label class="flex items-center gap-2 cursor-pointer">
-                                    <input type="checkbox" :checked="isSelected('{{ $itemKey }}')"
-                                        @change="toggleItem('{{ $itemKey }}', {{ $isVariant ? $item->product_variant_id : 'null' }}, {{ !$isVariant ? $item->combo_id : 'null' }})"
-                                        class="w-5 h-5 rounded accent-green-700">
+                                    <input type="checkbox" class="sales-item-check w-5 h-5 rounded accent-green-700">
                                     <span class="text-sm font-semibold text-muted">Select</span>
                                 </label>
 
-                                <div x-show="isSelected('{{ $itemKey }}')" class="flex items-center gap-2">
-                                    <button @click="changeItemQty('{{ $itemKey }}', -1)" type="button"
+                                <div class="sales-qty-controls hidden items-center gap-2">
+                                    <button type="button" data-sales-qty-delta="-1"
                                         class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-muted font-bold transition-all">
                                         &minus;
                                     </button>
-                                    <span class="w-8 text-center font-bold text-brown"
-                                        x-text="getQty('{{ $itemKey }}')"></span>
-                                    <button @click="changeItemQty('{{ $itemKey }}', 1)" type="button"
+                                    <span class="sales-qty w-8 text-center font-bold text-brown">1</span>
+                                    <button type="button" data-sales-qty-delta="1"
                                         class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-muted font-bold transition-all">
                                         +
                                     </button>
@@ -98,19 +98,12 @@
             </div>
 
             {{-- Selected Items Summary --}}
-            <div x-show="Object.keys(selected).length > 0"
-                class="bg-white rounded-2xl shadow-sm border border-champagne p-5 mb-8">
+            <div id="salesSelectedSummary"
+                class="hidden bg-white rounded-2xl shadow-sm border border-champagne p-5 mb-8">
                 <h3 class="font-bold text-brown mb-3">
-                    Selected Items (<span x-text="Object.keys(selected).length"></span>)
+                    Selected Items (<span id="salesSelectedCount">0</span>)
                 </h3>
-                <div class="space-y-2">
-                    <template x-for="(item, key) in selected" :key="key">
-                        <div class="flex justify-between items-center text-sm text-muted py-1 border-b border-gray-50">
-                            <span x-text="item.label"></span>
-                            <span class="font-semibold" x-text="'x' + item.quantity"></span>
-                        </div>
-                    </template>
-                </div>
+                <div id="salesSelectedList" class="space-y-2"></div>
             </div>
         </div>
 
@@ -121,97 +114,6 @@
     </section>
 
     <script>
-        function salesLanding() {
-            return {
-                selected: {},
-
-                // Pre-selected items from the database
-                preselected: @json(
-                    $salesItems->filter(fn($i) => $i->is_preselected)->map(function ($item) {
-                            return [
-                                'key' => $item->product_variant_id ? 'v_' . $item->product_variant_id : 'c_' . $item->combo_id,
-                                'variant_id' => $item->product_variant_id,
-                                'combo_id' => $item->combo_id,
-                                'label' => $item->product_variant_id
-                                    ? ($item->variant->product->name ?? '') . ' - ' . ($item->variant->name ?? $item->variant->sku)
-                                    : $item->combo->name ?? 'Combo',
-                            ];
-                        })->values()),
-
-                init() {
-                    // Auto-select preselected items
-                    this.preselected.forEach(item => {
-                        this.selected[item.key] = {
-                            variant_id: item.variant_id,
-                            combo_id: item.combo_id,
-                            quantity: 1,
-                            label: item.label,
-                        };
-                    });
-                    this.syncItems();
-                },
-
-                isSelected(key) {
-                    return key in this.selected;
-                },
-
-                getQty(key) {
-                    return this.selected[key]?.quantity || 0;
-                },
-
-                toggleItem(key, variantId, comboId) {
-                    if (this.isSelected(key)) {
-                        delete this.selected[key];
-                    } else {
-                        // Find label from preselected or DOM
-                        const label = key;
-                        this.selected[key] = {
-                            variant_id: variantId,
-                            combo_id: comboId,
-                            quantity: 1,
-                            label: label,
-                        };
-                    }
-                    // Force Alpine reactivity
-                    this.selected = {
-                        ...this.selected
-                    };
-                    this.syncItems();
-                },
-
-                changeItemQty(key, delta) {
-                    if (!this.selected[key]) return;
-                    const newQty = this.selected[key].quantity + delta;
-                    if (newQty < 1) {
-                        delete this.selected[key];
-                        this.selected = {
-                            ...this.selected
-                        };
-                    } else {
-                        this.selected[key].quantity = newQty;
-                    }
-                    this.syncItems();
-                },
-
-                syncItems() {
-                    const items = Object.values(this.selected).map(s => {
-                        const item = {
-                            quantity: s.quantity
-                        };
-                        if (s.variant_id) item.variant_id = s.variant_id;
-                        if (s.combo_id) item.combo_id = s.combo_id;
-                        return item;
-                    });
-
-                    window.initialItems = items;
-                    const checkout = document.getElementById('landingCheckout');
-                    if (checkout && checkout.__x) {
-                        checkout.__x.$data.updateItems(items);
-                    }
-                },
-            };
-        }
-
         var initialItems = @json(
             $salesItems->filter(fn($i) => $i->is_preselected)->map(function ($item) {
                     $data = ['quantity' => 1];
@@ -223,5 +125,86 @@
                     }
                     return $data;
                 })->values());
+
+        (() => {
+            const preselected = @json(
+                $salesItems->filter(fn($i) => $i->is_preselected)->map(fn($item) => [
+                    'key' => $item->product_variant_id ? 'v_' . $item->product_variant_id : 'c_' . $item->combo_id,
+                ])->pluck('key')->values()
+            );
+            const selected = {};
+
+            function cardData(card) {
+                return {
+                    key: card.dataset.salesKey,
+                    variant_id: card.dataset.salesVariantId ? Number(card.dataset.salesVariantId) : null,
+                    combo_id: card.dataset.salesComboId ? Number(card.dataset.salesComboId) : null,
+                    label: card.dataset.salesLabel || card.dataset.salesKey,
+                };
+            }
+
+            function render() {
+                document.querySelectorAll('.sales-item-card').forEach((card) => {
+                    const key = card.dataset.salesKey;
+                    const active = Boolean(selected[key]);
+                    card.classList.toggle('ring-2', active);
+                    card.classList.toggle('ring-primary', active);
+                    card.querySelector('.sales-item-check').checked = active;
+                    card.querySelector('.sales-qty-controls').classList.toggle('hidden', !active);
+                    card.querySelector('.sales-qty-controls').classList.toggle('flex', active);
+                    card.querySelector('.sales-qty').textContent = selected[key]?.quantity || 1;
+                });
+
+                const entries = Object.values(selected);
+                document.getElementById('salesSelectedSummary').classList.toggle('hidden', entries.length === 0);
+                document.getElementById('salesSelectedCount').textContent = entries.length;
+                document.getElementById('salesSelectedList').innerHTML = entries.map((item) =>
+                    `<div class="flex justify-between items-center text-sm text-muted py-1 border-b border-gray-50"><span>${item.label}</span><span class="font-semibold">x${item.quantity}</span></div>`
+                ).join('');
+            }
+
+            function syncItems() {
+                const items = Object.values(selected).map((item) => {
+                    const payload = { quantity: item.quantity };
+                    if (item.variant_id) payload.variant_id = item.variant_id;
+                    if (item.combo_id) payload.combo_id = item.combo_id;
+                    return payload;
+                });
+                window.initialItems = items;
+                window.LandingCheckout?.updateItems(items);
+                render();
+            }
+
+            document.querySelectorAll('.sales-item-card').forEach((card) => {
+                const data = cardData(card);
+                if (preselected.includes(data.key)) {
+                    selected[data.key] = { ...data, quantity: 1 };
+                }
+
+                card.querySelector('.sales-item-check').addEventListener('change', (event) => {
+                    if (event.target.checked) {
+                        selected[data.key] = { ...data, quantity: 1 };
+                    } else {
+                        delete selected[data.key];
+                    }
+                    syncItems();
+                });
+
+                card.querySelectorAll('[data-sales-qty-delta]').forEach((button) => {
+                    button.addEventListener('click', () => {
+                        if (!selected[data.key]) return;
+                        const nextQty = selected[data.key].quantity + Number(button.dataset.salesQtyDelta);
+                        if (nextQty < 1) {
+                            delete selected[data.key];
+                        } else {
+                            selected[data.key].quantity = nextQty;
+                        }
+                        syncItems();
+                    });
+                });
+            });
+
+            syncItems();
+        })();
     </script>
 @endsection

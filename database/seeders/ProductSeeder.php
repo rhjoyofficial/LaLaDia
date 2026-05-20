@@ -105,7 +105,7 @@ class ProductSeeder extends Seeder
             'discount_value' => 0,
             'has_free_delivery' => true,
         ]);
-        $ghee->certifications()->attach($certs->where('name', '!=', 'Halal Certified')->pluck('id'));
+        $ghee->certifications()->attach($certs->whereIn('name', ['Halal Certified', 'GMP Quality Standards', 'ISO 22000', 'HACCP Certified'])->pluck('id'));
 
         // 3. Dry Fish (Shutki) Items
         // ---------------------------------------------------------------------

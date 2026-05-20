@@ -18,6 +18,9 @@ return new class extends Migration
             $table->string('event')->nullable();
             $table->uuid('batch_uuid')->nullable();
             $table->timestamps();
+
+            $table->index(['causer_type', 'causer_id', 'created_at'], 'al_causer_created_idx');
+            $table->index(['subject_type', 'subject_id'], 'al_subject_idx');
         });
     }
 
