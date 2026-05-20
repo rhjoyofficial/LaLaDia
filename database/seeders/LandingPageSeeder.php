@@ -103,5 +103,23 @@ class LandingPageSeeder extends Seeder
                 );
             }
         }
+
+        // ─── 3. PRODUCT TYPE — Royal Essence Ghee ────────
+        $gheeProduct = Product::where('slug', 'royal-essence-ghee')->first();
+        if ($gheeProduct) {
+            LandingPage::updateOrCreate(
+                ['slug' => 'royal-essence-ghee'],
+                [
+                    'type'             => LandingPage::TYPE_PRODUCT,
+                    'product_id'       => $gheeProduct->id,
+                    'title'            => 'রয়্যাল এসেন্স ঘি — প্রকৃতির উপহার, আপনার রান্নায়',
+                    'hero_image'       => 'assets/landing/royal-essence-hero.jpg',
+                    'blade_template'   => 'royalessenceghee',
+                    'content'          => '১০০% বিশুদ্ধ দেশি ঘি, রাজশাহীর সেরা গরুর দুধ থেকে তৈরি। স্বাস্থ্যকর রান্নার জন্য প্রাকৃতিক উপাদান ও পুষ্টিগুণে ভরপুর।',
+                    'meta_title'       => 'রয়্যাল এসেন্স ঘি | La La Dia',
+                    'meta_description' => '১০০% বিশুদ্ধ দেশি ঘি, রাজশাহীর সেরা গরুর দুধ থেকে তৈরি। স্বাস্থ্যকর রান্নার জন্য প্রাকৃতিক উপাদান ও পুষ্টিগুণে ভরপুর। সারা বাংলাদেশে ডেলিভারি।',
+                ]
+            );
+        }
     }
 }

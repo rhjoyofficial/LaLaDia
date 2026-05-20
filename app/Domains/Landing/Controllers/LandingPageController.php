@@ -20,7 +20,7 @@ class LandingPageController extends Controller
             LandingPage::where('slug', $slug)->where('is_active', true)->first()
         );
 
-        if (! $landing) {
+        if (!$landing) {
             abort(404);
         }
 

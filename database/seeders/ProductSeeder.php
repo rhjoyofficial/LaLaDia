@@ -21,10 +21,14 @@ class ProductSeeder extends Seeder
         Schema::enableForeignKeyConstraints();
 
         $categories = Category::all()->keyBy('slug');
+        if (Certification::doesntExist()) {
+            $this->call(CertificationSeeder::class);
+        }
+
         $certs = Certification::all();
 
         // Helper to grab category ID
-        $getCatId = fn ($slug) => $categories[$slug]->id ?? Category::first()->id;
+        $getCatId = fn($slug) => $categories[$slug]->id ?? Category::first()->id;
 
         // 1. Mangrove Gold Honey
         $honey = Product::create([
@@ -77,6 +81,8 @@ class ProductSeeder extends Seeder
             'is_active' => true,
             'is_featured' => true,
             'is_trending' => true,
+            'is_landing_enabled' => true,
+            'landing_slug' => 'royal-essence-ghee',
             'nutritional_info' => [
                 'fat' => '99.9g',
                 'saturated_fat' => '65g',
@@ -250,7 +256,9 @@ class ProductSeeder extends Seeder
             'thumbnail' => 'products/himsagar.jpg',
             'short_description' => 'The king of Bengal mangoes, famous for its sweet aroma.',
             'description' => 'Sourced directly from Satkhira/Rajshahi. Carbide-free.',
-            'is_active' => true, 'is_featured' => true, 'is_trending' => true,
+            'is_active' => true,
+            'is_featured' => true,
+            'is_trending' => true,
         ]);
         $vHim1k = $himsagar->variants()->create(['title' => '1KG', 'sku' => 'HIM-1KG', 'price' => 100, 'stock' => 5000, 'weight_grams' => 1000, 'is_active' => true]);
         $vHim5k = $himsagar->variants()->create(['title' => '5KG', 'sku' => 'HIM-5KG', 'price' => 475, 'stock' => 1000, 'weight_grams' => 5000, 'is_active' => true]);
@@ -265,7 +273,9 @@ class ProductSeeder extends Seeder
             'thumbnail' => 'products/harivanga.jpg',
             'short_description' => 'A specialty of Rangpur, known for its distinct fiber-less texture.',
             'description' => 'Exceptionally sweet and deep orange in color.',
-            'is_active' => true, 'is_featured' => true, 'is_trending' => true,
+            'is_active' => true,
+            'is_featured' => true,
+            'is_trending' => true,
         ]);
         $vHar1k = $harivanga->variants()->create(['title' => '1KG', 'sku' => 'HAR-1KG', 'price' => 90, 'stock' => 5000, 'weight_grams' => 1000, 'is_active' => true]);
         $vHar5k = $harivanga->variants()->create(['title' => '5KG', 'sku' => 'HAR-5KG', 'price' => 428, 'stock' => 1000, 'weight_grams' => 5000, 'is_active' => true]);
@@ -280,7 +290,9 @@ class ProductSeeder extends Seeder
             'thumbnail' => 'products/langra.jpg',
             'short_description' => 'Famous for its unique aroma, thin skin, and melt-in-the-mouth texture.',
             'description' => 'A favorite aromatic variety.',
-            'is_active' => true, 'is_featured' => true, 'is_trending' => true,
+            'is_active' => true,
+            'is_featured' => true,
+            'is_trending' => true,
         ]);
         $vLan1k = $langra->variants()->create(['title' => '1KG', 'sku' => 'LAN-1KG', 'price' => 95, 'stock' => 5000, 'weight_grams' => 1000, 'is_active' => true]);
         $vLan5k = $langra->variants()->create(['title' => '5KG', 'sku' => 'LAN-5KG', 'price' => 451, 'stock' => 1000, 'weight_grams' => 5000, 'is_active' => true]);
@@ -295,7 +307,9 @@ class ProductSeeder extends Seeder
             'thumbnail' => 'products/amrapali.jpg',
             'short_description' => 'Exceptionally sweet and deep orange in color.',
             'description' => 'High in pulp and rich in flavor.',
-            'is_active' => true, 'is_featured' => true, 'is_trending' => true,
+            'is_active' => true,
+            'is_featured' => true,
+            'is_trending' => true,
         ]);
         $vAmr1k = $amrapali->variants()->create(['title' => '1KG', 'sku' => 'AMR-1KG', 'price' => 85, 'stock' => 5000, 'weight_grams' => 1000, 'is_active' => true]);
         $vAmr5k = $amrapali->variants()->create(['title' => '5KG', 'sku' => 'AMR-5KG', 'price' => 404, 'stock' => 1000, 'weight_grams' => 5000, 'is_active' => true]);
@@ -310,7 +324,9 @@ class ProductSeeder extends Seeder
             'thumbnail' => 'products/banana-mango.jpg',
             'short_description' => 'A premium elongated variety that looks like a banana.',
             'description' => 'Tiny seed and thick, sweet pulp.',
-            'is_active' => true, 'is_featured' => true, 'is_trending' => true,
+            'is_active' => true,
+            'is_featured' => true,
+            'is_trending' => true,
         ]);
         $vBan1k = $banana->variants()->create(['title' => '1KG', 'sku' => 'BAN-1KG', 'price' => 150, 'stock' => 5000, 'weight_grams' => 1000, 'is_active' => true]);
         $vBan5k = $banana->variants()->create(['title' => '5KG', 'sku' => 'BAN-5KG', 'price' => 713, 'stock' => 1000, 'weight_grams' => 5000, 'is_active' => true]);
@@ -325,7 +341,9 @@ class ProductSeeder extends Seeder
             'thumbnail' => 'products/gourmati.jpg',
             'short_description' => 'A late-season premium variety.',
             'description' => 'Extremely sweet, long shelf life.',
-            'is_active' => true, 'is_featured' => true, 'is_trending' => true,
+            'is_active' => true,
+            'is_featured' => true,
+            'is_trending' => true,
         ]);
         $vGou1k = $gourmati->variants()->create(['title' => '1KG', 'sku' => 'GOU-1KG', 'price' => 200, 'stock' => 5000, 'weight_grams' => 1000, 'is_active' => true]);
         $vGou5k = $gourmati->variants()->create(['title' => '5KG', 'sku' => 'GOU-5KG', 'price' => 950, 'stock' => 1000, 'weight_grams' => 5000, 'is_active' => true]);
