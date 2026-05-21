@@ -4,10 +4,10 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
 
             {{-- ── Column 1: Brand ── --}}
-            <div class="space-y-5">
+            <div class="space-y-5 flex flex-col items-center md:items-start justify-center md:justify-start">
                 <a href="{{ route('home') }}" class="block">
                     <img src="{{ asset('assets/images/laladia-logo.png') }}" alt="LaLaDia"
-                        class="h-10 md:h-16 object-contain"
+                        class="h-16 md:h-20 object-contain"
                         onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
                     <span class="text-2xl font-heading font-bold hidden"
                         style="color: var(--color-primary);">LaLaDia</span>
@@ -17,17 +17,18 @@
                 </p>
                 {{-- Social icons --}}
                 <div>
-                    <p class="text-xs font-bold uppercase tracking-widest mb-3" style="color: var(--color-text-muted);">
+                    <p class="text-xs font-bold uppercase tracking-widest mb-3 text-center md:text-left"
+                        style="color: var(--color-text-muted);">
                         Follow Us</p>
                     <div class="flex gap-2">
                         @php
                             $socials = [
                                 'facebook' => [
-                                    'url' => 'https://www.facebook.com/LaLaDiaOfficial',
+                                    'url' => 'https://www.facebook.com/LaLaDiaGlobal',
                                     'label' => 'Facebook',
                                 ],
                                 'youtube' => [
-                                    'url' => 'https://www.youtube.com/@LaLaDiaOfficial',
+                                    'url' => 'https://www.youtube.com/@LaLaDiaGlobal',
                                     'label' => 'YouTube',
                                 ],
                                 'whatsapp' => ['url' => 'https://wa.me/8801733358158', 'label' => 'WhatsApp'],
@@ -186,9 +187,9 @@
 
                 {{-- Payment badges --}}
                 @if (file_exists(public_path('assets/images/footer-bank.png')))
-                    <div class="mt-5">
+                    <div class="mt-5 text-center overflow-hidden">
                         <img src="{{ asset('assets/images/footer-bank.png') }}" alt="Payment Methods"
-                            class="h-8 w-auto object-contain opacity-70">
+                            class="h-12 w-auto object-contain opacity-70">
                     </div>
                 @endif
             </div>

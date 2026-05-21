@@ -80,7 +80,7 @@
                         On:</span>
 
                     {{-- Facebook --}}
-                    <a href="https://www.facebook.com/BionicGardenOfficial" target="_blank"
+                    <a href="https://www.facebook.com/LaLaDiaGlobal" target="_blank"
                         class="w-8 h-8 md:w-12 md:h-12 rounded-full border border-secondary/50 md:border-champagne flex items-center justify-center hover:bg-[#1877f2] hover:border-[#1877f2] transition-colors group">
                         <svg class="w-4 h-4 md:w-5 md:h-5 fill-current text-taupe group-hover:text-white"
                             viewBox="0 0 320 512">
@@ -100,7 +100,7 @@
                     </a>
 
                     {{-- YouTube --}}
-                    <a href="https://www.youtube.com/@BionicGardenOfficial" target="_blank"
+                    <a href="https://www.youtube.com/@LaLaDiaGlobal" target="_blank"
                         class="w-8 h-8 md:w-12 md:h-12 rounded-full border border-secondary/50 md:border-champagne flex items-center justify-center hover:bg-[#ff0000] hover:border-[#ff0000] transition-colors group">
                         <svg class="w-4 h-4 md:w-5 md:h-5 fill-current text-taupe group-hover:text-white"
                             viewBox="0 0 576 512">

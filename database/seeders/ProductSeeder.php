@@ -212,7 +212,7 @@ class ProductSeeder extends Seeder
             'discount_value' => 0,
             'has_free_delivery' => true,
         ]);
-        $beefPickle->certifications()->attach($certs->pluck('id'));
+        $beefPickle->certifications()->attach($certs->whereIn('name', ['Halal Certified', 'GMP Quality Standards', 'ISO 22000', 'HACCP Certified'])->pluck('id'));
 
         // 5. Hilsa Fish Pickle
         $hilsaPickle = Product::create([
@@ -242,7 +242,7 @@ class ProductSeeder extends Seeder
             'discount_value' => 0,
             'has_free_delivery' => true,
         ]);
-        $hilsaPickle->certifications()->attach($certs->pluck('id'));
+        $hilsaPickle->certifications()->attach($certs->whereIn('name', ['Halal Certified', 'GMP Quality Standards', 'ISO 22000', 'HACCP Certified'])->pluck('id'));
 
         // 6. Mango Products
         // ---------------------------------------------------------------------

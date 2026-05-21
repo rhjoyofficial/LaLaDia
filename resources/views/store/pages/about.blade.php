@@ -3,240 +3,526 @@
 @section('title', $data['title'])
 
 @section('content')
-    <!-- Elegant, Light-Themed Cinematic Design -->
-    <div
-        class="bg-ivory min-h-screen text-muted font-light overflow-hidden selection:bg-primary/30 shadow-2xl border-x border-champagne">
+    <div class="bg-ivory text-brand overflow-hidden">
 
-        <section
-            class="relative h-100 flex items-center justify-center border-b border-champagne bg-primary overflow-hidden">
-            <div class="absolute inset-0 z-0">
-                <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&q=80&w=2000"
-                    loading="lazy" class="w-full h-full object-cover opacity-20 scale-105" alt="Nature">
-                <div class="absolute inset-0 bg-linear-to-b from-transparent via-primary/80 to-primary"></div>
-            </div>
+        {{-- ── HERO ─────────────────────────────────────────────────────────── --}}
+        <section class="relative px-4 lg:px-8 pt-10 pb-12 md:pt-14 md:pb-16 overflow-hidden">
+            <div class="max-w-8xl mx-auto">
 
-            <div class="z-10 text-center px-4 max-w-4xl mx-auto mt-4">
-                <p class="text-yellow-400 uppercase tracking-[0.4em] text-[10px] font-medium mb-3">{{ $data['brand_name'] }}
-                    • {{ $data['slogan'] }}</p>
+                {{-- Three-panel grid: [accent squares] | [text] | [tall portrait] --}}
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:h-[660px]">
 
-                <h1
-                    class="text-4xl md:text-5xl lg:text-6xl font-playfair text-white mb-4 leading-tight tracking-tight drop-shadow-2xl">
-                    Pure. Powerful. <br>
-                    <span class="italic text-cream">Nature-Driven.</span>
-                </h1>
+                    {{-- ── Panel 1: Two accent squares (desktop left, mobile bottom) ── --}}
+                    <div class="hidden lg:flex lg:col-span-3 flex-col gap-5">
 
-                <p class="text-sm md:text-base text-ivory max-w-lg mx-auto leading-relaxed mb-6 font-light line-clamp-2">
-                    {{ $data['description'] }}
-                </p>
-
-                <div class="flex flex-wrap justify-center gap-6">
-                    @foreach ($data['values_tags'] as $tag)
-                        <span class="text-[9px] uppercase tracking-[0.2em] text-white flex items-center gap-2">
-                            <span class="w-1 h-1 bg-yellow-400 rounded-full"></span>
-                            {{ $tag }}
-                        </span>
-                    @endforeach
-                </div>
-            </div>
-
-        </section>
-
-        <div class="max-w-8xl mx-auto px-4 py-12 space-y-16">
-
-            <!-- What We Offer -->
-            <section>
-                <div class="flex flex-col md:flex-row gap-8 items-end mb-12">
-                    <div class="md:w-1/3">
-                        <h2 class="text-4xl md:text-5xl font-playfair text-brand tracking-wide">What We Offer</h2>
-                        <div class="w-16 h-px bg-primary mt-6"></div>
-                    </div>
-                    <div class="md:w-2/3">
-                        <p
-                            class="text-lg leading-relaxed max-w-2xl text-muted font-light border-l border-champagne pl-6">
-                            Curating the finest natural elements to elevate your daily routine, uncompromising on purity and
-                            design.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-10 gap-y-12">
-                    @foreach ($data['offerings'] as $offering)
+                        {{-- Square accent 1 --}}
                         <div
-                            class="group border-t border-champagne pt-6 hover:border-primary transition-colors duration-700">
-                            <div
-                                class="text-2xl text-primary/70 mb-6 group-hover:text-primary transition-colors duration-700 transform group-hover:-translate-y-1">
-                                <i class="{{ $offering['icon'] }}"></i>
-                            </div>
-                            <h3 class="text-xl text-brand font-playfair mb-3 tracking-wide">{{ $offering['title'] }}
-                            </h3>
-                            <p class="text-sm leading-relaxed text-muted font-light uppercase tracking-wider">
-                                {{ $offering['items'] }}
-                            </p>
+                            class="flex-1 rounded-3xl border border-champagne bg-cream flex flex-col items-center justify-center gap-2.5 group hover:border-primary/30 transition-colors">
+                            <svg class="w-7 h-7 text-black-ghost group-hover:text-primary/50 transition-colors"
+                                fill="none" viewBox="0 0 24 24" stroke-width="1.2" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z" />
+                            </svg>
+                            <p class="font-mono text-[11px] text-muted">about-accent-1.jpg</p>
+                            <p class="text-[10px] text-taupe tracking-widest font-semibold">1 : 1</p>
                         </div>
-                    @endforeach
-                </div>
-            </section>
 
-            <!-- Parent Brand (Bor de Guna) -->
-            <section class="relative">
-                <div class="grid md:grid-cols-12 gap-12 items-center">
-                    <div class="md:col-span-5 relative group">
-                        <div class="aspect-3/4 overflow-hidden shadow-xl">
-                            <img src="{{ asset('assets/images/brand.jpg') }}" loading="lazy"
-                                class="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-[2s] scale-105 group-hover:scale-100"
-                                alt="Bor de Guna Vision">
+                        {{-- Square accent 2 --}}
+                        <div
+                            class="flex-1 rounded-3xl border border-champagne bg-cream flex flex-col items-center justify-center gap-2.5 group hover:border-primary/30 transition-colors">
+                            <svg class="w-7 h-7 text-black-ghost group-hover:text-primary/50 transition-colors"
+                                fill="none" viewBox="0 0 24 24" stroke-width="1.2" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z" />
+                            </svg>
+                            <p class="font-mono text-[11px] text-muted">about-accent-2.jpg</p>
+                            <p class="text-[10px] text-taupe tracking-widest font-semibold">1 : 1</p>
                         </div>
-                        <div class="absolute -bottom-6 -right-6 bg-white border border-champagne p-8 shadow-xl z-10">
-                            <p class="text-sm uppercase tracking-[0.2em] font-medium text-muted mb-2">Established</p>
-                            <p class="text-4xl font-playfair text-primary tracking-widest">
-                                {{ $data['parent_brand']['founded'] }}</p>
-                        </div>
+
                     </div>
-                    <div class="md:col-span-7 md:pl-12">
-                        <p class="text-sm font-semibold uppercase tracking-[0.3em] text-primary mb-6">Our Heritage</p>
-                        <h2
-                            class="text-4xl md:text-5xl lg:text-6xl font-playfair text-brand mb-8 leading-tight tracking-wide">
-                            A Sub-Brand of <br>
-                            <span class="italic text-primary">{{ $data['parent_brand']['name'] }}</span>
-                        </h2>
-                        <div class="space-y-6 text-lg leading-relaxed text-muted font-light max-w-xl">
-                            <p class="">{{ $data['parent_brand']['vision'] }}</p>
-                            <blockquote
-                                class="border-l-2 border-primary/40 pl-6 my-8 italic text-brown text-xl leading-relaxed">
-                                "{{ $data['parent_brand']['mission'] }}"
-                            </blockquote>
+
+                    {{-- ── Panel 2: Text center ── --}}
+                    <div
+                        class="lg:col-span-5 flex flex-col justify-center text-center lg:text-left px-0 lg:px-8 py-6 lg:py-0">
+
+                        {{-- Label chip --}}
+                        <div
+                            class="inline-flex self-center lg:self-start items-center gap-2.5 px-4 py-1.5 rounded-full border border-champagne bg-white mb-7">
+                            <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                            <span class="text-xs font-bold uppercase tracking-[0.35em] text-taupe">Luxury Artisanal
+                                Foods</span>
                         </div>
-                    </div>
-                </div>
-            </section>
 
-            <!-- Core Pillars -->
-            <section class="border-y border-champagne py-16 bg-white max-w-8xl mx-auto">
-                <div class="text-center mb-12">
-                    <h2 class="text-base font-bold font-sans text-primary tracking-[0.2em] uppercase mb-4">Core Pillars</h2>
-                </div>
-                <div class="flex flex-wrap justify-center gap-10 md:gap-16 max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
-                    @foreach ($data['pillars'] as $pillar)
-                        <div class="text-center group cursor-default">
-                            <p
-                                class="text-lg text-primary/50 tracking-widest mb-2 font-mono group-hover:text-primary transition-colors duration-500">
-                                0{{ $loop->iteration }}</p>
-                            <h3
-                                class="text-lg uppercase tracking-widest font-semibold text-muted group-hover:text-brand transition-colors duration-500">
-                                {{ $pillar }}</h3>
+                        {{-- Headline --}}
+                        <h1
+                            class="font-heading text-5xl sm:text-6xl lg:text-[58px] xl:text-[68px] text-brand leading-[1.0] tracking-tight mb-5">
+                            Taste the<br>Finest of<br>
+                            <span class="text-primary">Bangladesh</span>
+                        </h1>
+
+                        {{-- Divider --}}
+                        <div class="flex items-center gap-3 justify-center lg:justify-start mb-5">
+                            <div class="h-px w-10 bg-champagne"></div>
+                            <span class="text-primary text-xs">✦</span>
+                            <div class="h-px w-10 bg-champagne"></div>
                         </div>
-                    @endforeach
-                </div>
-            </section>
 
-            <!-- Founder Section (Cinematic Split but Light/Brand Colored) -->
-            <section>
-                <div class="grid lg:grid-cols-12 gap-0 border border-champagne bg-white shadow-xl">
-                    <div class="lg:col-span-6 p-8 md:p-12 lg:p-16 flex flex-col justify-center">
-                        <p class="text-sm font-semibold uppercase tracking-[0.3em] text-primary mb-6">The Visionary</p>
-                        <h2 class="text-4xl md:text-5xl font-playfair text-brand mb-4 leading-tight tracking-tight">
-                            {{ $data['founder']['name'] }}</h2>
-                        <p class="text-xl text-muted italic font-playfair mb-8 tracking-wide">
-                            {{ $data['founder']['short_name'] }}</p>
-
-                        <p class="text-lg leading-relaxed text-muted font-light mb-10 max-w-lg">
-                            {{ $data['founder']['bio'] }}
+                        {{-- Sub-copy --}}
+                        <p class="text-base text-muted font-light leading-relaxed mb-7 max-w-xs mx-auto lg:mx-0">
+                            Small-batch, chef-grade, beautifully presented. LaLaDia celebrates rare ingredients and
+                            time-honored methods of Bangladesh.
                         </p>
 
-                        <div class="flex flex-wrap gap-3 mb-12">
-                            @foreach ($data['founder']['expertise'] as $skill)
+                        {{-- Pills --}}
+                        <div class="flex flex-wrap gap-2 justify-center lg:justify-start mb-8">
+                            @foreach (['Affordable Premium', 'Toxin-Free', 'Nature-Driven'] as $pill)
                                 <span
-                                    class="px-5 py-2.5 border border-champagne text-sm font-medium uppercase tracking-widest text-muted hover:border-primary hover:text-primary transition-all duration-300">
-                                    {{ $skill }}
+                                    class="px-4 py-1.5 rounded-full bg-cream border border-champagne text-xs font-bold uppercase tracking-widest text-brown">
+                                    {{ $pill }}
                                 </span>
                             @endforeach
                         </div>
 
-                        <div class="mt-auto pt-8 border-t border-champagne">
-                            <p class="text-sm font-medium uppercase tracking-[0.2em] text-taupe mb-2">Designation</p>
-                            <p class="text-base font-bold text-brown uppercase tracking-widest">
-                                {{ $data['founder']['designation'] }}</p>
+                        {{-- CTAs --}}
+                        <div class="flex items-center gap-4 justify-center lg:justify-start mb-8">
+                            <a href="{{ route('product.index') }}"
+                                class="inline-flex items-center gap-2.5 bg-primary text-white font-bold px-7 py-3.5 rounded-full hover:bg-secondary transition-colors shadow-lg shadow-primary/20 text-sm">
+                                Shop All Products
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </a>
+                            <a href="#our-story"
+                                class="text-sm font-semibold text-muted hover:text-primary transition-colors flex items-center gap-1.5">
+                                Our Story
+                                <i class="fa-solid fa-arrow-down text-xs"></i>
+                            </a>
+                        </div>
+
+                        {{-- Pillars tagline --}}
+                        <div class="flex items-center gap-3 justify-center lg:justify-start">
+                            <div class="h-px w-6 bg-champagne flex-shrink-0"></div>
+                            <p class="text-[9px] font-bold uppercase tracking-[0.25em] text-taupe">
+                                Heritage · Craftsmanship · Provenance · Integrity
+                            </p>
                         </div>
                     </div>
 
-                    <div class="lg:col-span-6 aspect-3/4 lg:aspect-auto relative overflow-hidden group">
-                        <img src="{{ asset('assets/images/cmmoin.jpg') }}" loading="lazy"
-                            class="w-full h-full object-cover object-center grayscale contrast-125 opacity-90 group-hover:scale-105 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-[3s]"
-                            alt="{{ $data['founder']['name'] }}">
+                    {{-- ── Panel 3: Tall portrait (desktop right, mobile top) ── --}}
+                    <div class="lg:col-span-4 order-first lg:order-none">
+
+                        {{-- Mobile: fixed aspect so it doesn't go full-screen-tall --}}
                         <div
-                            class="absolute inset-0 bg-linear-to-t from-slate-900/60 via-transparent to-transparent lg:hidden">
+                            class="aspect-[3/4] lg:aspect-auto lg:h-full rounded-3xl border border-champagne bg-cream flex flex-col items-center justify-center gap-2.5 group hover:border-primary/30 transition-colors">
+                            <svg class="w-8 h-8 text-black-ghost group-hover:text-primary/50 transition-colors"
+                                fill="none" viewBox="0 0 24 24" stroke-width="1.2" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z" />
+                            </svg>
+                            <p class="font-mono text-[11px] text-muted">about-hero.jpg</p>
+                            <p class="text-[10px] text-taupe tracking-widest font-semibold">3 : 4</p>
                         </div>
+
+                    </div>
+
+                </div>
+
+                {{-- Mobile only: two accent squares side by side below text --}}
+                <div class="grid grid-cols-2 gap-4 mt-4 lg:hidden">
+                    <div
+                        class="aspect-square rounded-3xl border border-champagne bg-cream flex flex-col items-center justify-center gap-2">
+                        <p class="font-mono text-[11px] text-muted">about-accent-1.jpg</p>
+                        <p class="text-[10px] text-taupe tracking-widest font-semibold">1 : 1</p>
+                    </div>
+                    <div
+                        class="aspect-square rounded-3xl border border-champagne bg-cream flex flex-col items-center justify-center gap-2">
+                        <p class="font-mono text-[11px] text-muted">about-accent-2.jpg</p>
+                        <p class="text-[10px] text-taupe tracking-widest font-semibold">1 : 1</p>
                     </div>
                 </div>
-            </section>
 
-            <!-- Video Gallery (3 per row, aspect-video) -->
-            <section>
-                <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-8">
+            </div>
+        </section>
+
+        {{-- ── BRAND STORY ──────────────────────────────────────────────────── --}}
+        <section id="our-story" class="py-16 md:py-24 px-4 lg:px-8">
+            <div class="max-w-8xl mx-auto">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+
+                    {{-- Left: narrative --}}
                     <div>
-                        <p class="text-sm font-semibold uppercase tracking-[0.3em] text-primary mb-4">Our Visual Journey</p>
-                        <h2 class="text-3xl md:text-4xl font-playfair text-brand tracking-wide">Cinematic Archives</h2>
+                        <span class="text-xs font-bold uppercase tracking-[0.35em] text-primary mb-4 block">Who We
+                            Are</span>
+                        <h2 class="font-heading text-3xl md:text-4xl text-brand leading-tight mb-6">
+                            Luxury Artisanal Foods,<br>Rooted in Tradition
+                        </h2>
+                        <div class="space-y-4 text-muted font-light leading-relaxed text-base">
+                            <p>
+                                LaLaDia was born from a simple belief: the finest foods deserve the finest ingredients,
+                                prepared with patience and deep respect for tradition. We bring you the rare, the authentic,
+                                and the extraordinary — sourced directly from the best origins across Bangladesh.
+                            </p>
+                            <p>
+                                From the wild heart of the Sundarbans to coastal drying yards and family kitchen traditions,
+                                every LaLaDia product carries a story of place, people, and craft. Our small-batch approach
+                                ensures nothing is rushed and nothing is compromised.
+                            </p>
+                            <p>
+                                Designed for discerning customers and premium gifting, LaLaDia elevates everyday staples
+                                into
+                                curated experiences — free from toxins, rich in provenance, and presented with pride.
+                            </p>
+                        </div>
                     </div>
-                    <div class="hidden md:block w-48 h-px bg-champagne mb-4"></div>
+
+                    {{-- Right: stat cards --}}
+                    <div class="grid grid-cols-2 gap-4">
+                        @php
+                            $stats = [
+                                [
+                                    'value' => '100%',
+                                    'label' => 'Natural Ingredients',
+                                    'sub' => 'No artificial additives',
+                                ],
+                                ['value' => 'Small', 'label' => 'Batch Crafted', 'sub' => 'Hands-on, never rushed'],
+                                [
+                                    'value' => '6+',
+                                    'label' => 'Product Categories',
+                                    'sub' => 'Honey, Ghee, Pickle & more',
+                                ],
+                                ['value' => 'Zero', 'label' => 'Artificial Additives', 'sub' => 'Clean label, always'],
+                            ];
+                        @endphp
+                        @foreach ($stats as $stat)
+                            <div
+                                class="bg-white rounded-3xl p-6 border border-champagne hover:border-primary/40 hover:shadow-md transition-all duration-300">
+                                <p class="font-heading text-3xl font-bold text-primary mb-1">{{ $stat['value'] }}</p>
+                                <p class="text-sm font-semibold text-brand mb-0.5">{{ $stat['label'] }}</p>
+                                <p class="text-xs text-taupe font-light">{{ $stat['sub'] }}</p>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        {{-- ── WHAT WE OFFER ────────────────────────────────────────────────── --}}
+        <section class="py-16 md:py-24 px-4 lg:px-8 bg-cream">
+            <div class="max-w-8xl mx-auto">
+
+                {{-- Section header --}}
+                <div class="text-center mb-14">
+                    <span class="text-xs font-bold uppercase tracking-[0.35em] text-primary mb-3 block">What We Offer</span>
+                    <h2 class="font-heading text-3xl md:text-4xl text-brand">The LaLaDia Artisanal Range</h2>
                 </div>
 
-                <!-- 3 Columns -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    @foreach ($data['videos'] as $video)
+                {{-- 3-column offer cards --}}
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    @php
+                        $offerings = [
+                            [
+                                'icon' => '🍯',
+                                'title' => 'Artisanal Range',
+                                'description' =>
+                                    'Our core collection spans the finest natural foods — each product selected for its cultural depth and flavour integrity.',
+                                'items' => [
+                                    'Single-Origin Honeys',
+                                    'Clarified Ghee',
+                                    'Heritage Pickles',
+                                    'Premium Dry Fish',
+                                    'Limited Editions',
+                                ],
+                            ],
+                            [
+                                'icon' => '🌾',
+                                'title' => 'Craft & Provenance',
+                                'description' =>
+                                    'Made using time-honored methods, sourced from trusted origins, and finished with the careful attention it deserves.',
+                                'items' => [
+                                    'Family-style recipes',
+                                    'Careful sourcing',
+                                    'Refined finishing',
+                                    'Small-batch production',
+                                    'Zero artificial shortcuts',
+                                ],
+                            ],
+                            [
+                                'icon' => '🎁',
+                                'title' => 'Premium Presentation',
+                                'description' =>
+                                    'Packaging that honours what\'s inside. Suitable for gifting, premium retail, and making every delivery feel like an occasion.',
+                                'items' => [
+                                    'Elevated packaging',
+                                    'Gift-ready finishes',
+                                    'Premium retail quality',
+                                    'Thoughtful design',
+                                    'Brand integrity',
+                                ],
+                            ],
+                        ];
+                    @endphp
+                    @foreach ($offerings as $offer)
                         <div
-                            class="group relative bg-white border border-champagne shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden rounded-xl">
-                            <div class="aspect-video w-full border-b border-champagne" data-video
-                                data-video-type="{{ $video['type'] }}" data-video-src="{{ $video['src'] }}"
-                                data-video-thumbnail="{{ $video['thumbnail'] }}" data-video-title="{{ $video['title'] }}"
-                                data-video-badge="{{ $video['badge'] }}">
-                            </div>
-                            <div class="p-6">
-                                <div class="flex items-center gap-4 mb-3">
-                                    <span class="w-4 h-px bg-primary/50"></span>
-                                    <p class="text-xs font-bold uppercase tracking-[0.2em] text-primary">
-                                        {{ $video['badge'] }}</p>
-                                </div>
-                                <h3
-                                    class="text-lg font-playfair text-brand tracking-wide group-hover:text-primary transition-colors duration-300">
-                                    {{ $video['title'] }}</h3>
-                            </div>
+                            class="bg-white rounded-3xl p-8 border border-champagne group hover:shadow-xl hover:border-primary/30 transition-all duration-300 flex flex-col">
+                            <div class="text-4xl mb-6">{{ $offer['icon'] }}</div>
+                            <h3 class="font-heading text-xl text-brand mb-2">{{ $offer['title'] }}</h3>
+                            <p class="text-sm text-muted font-light leading-relaxed mb-6">{{ $offer['description'] }}</p>
+                            <ul class="space-y-2.5 mt-auto">
+                                @foreach ($offer['items'] as $item)
+                                    <li class="flex items-center gap-2.5 text-sm text-brown">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0"></span>
+                                        {{ $item }}
+                                    </li>
+                                @endforeach
+                            </ul>
                         </div>
                     @endforeach
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <!-- Gallery CTA -->
-            <section
-                class="relative py-24 border border-champagne overflow-hidden flex items-center justify-center text-center group bg-primary rounded-xl">
-                <div class="absolute inset-0 z-0 opacity-20 group-hover:opacity-40 transition-opacity duration-[2s]">
-                    <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&q=80&w=2000"
-                        loading="lazy"
-                        class="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-[5s]"
-                        alt="Background">
-                    <div class="absolute inset-0 bg-primary/60"></div>
+        {{-- ── OUR FOUR PILLARS ─────────────────────────────────────────────── --}}
+        <section class="py-16 md:py-24 px-4 lg:px-8">
+            <div class="max-w-8xl mx-auto">
+                <div class="text-center mb-14">
+                    <span class="text-xs font-bold uppercase tracking-[0.35em] text-primary mb-3 block">What We Stand
+                        For</span>
+                    <h2 class="font-heading text-3xl md:text-4xl text-brand">Our Four Pillars</h2>
                 </div>
-                <div class="relative z-10 max-w-2xl px-4">
-                    <h2 class="text-4xl md:text-5xl font-playfair text-white mb-6 tracking-wide">Enter the Gallery</h2>
-                    <p class="text-lg text-ivory font-light mb-10 leading-relaxed max-w-lg mx-auto">
-                        A curated collection of imagery, documentaries, and literature that define our legacy.
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    @php
+                        $pillars = [
+                            [
+                                'number' => '01',
+                                'title' => 'Heritage',
+                                'description' =>
+                                    'Rooted in Bangladeshi culinary tradition. Every recipe honours generations of flavour wisdom passed down through families.',
+                            ],
+                            [
+                                'number' => '02',
+                                'title' => 'Craftsmanship',
+                                'description' =>
+                                    'Produced in small batches with hands-on care. No mass production lines, no shortcuts, no compromise on quality.',
+                            ],
+                            [
+                                'number' => '03',
+                                'title' => 'Provenance',
+                                'description' =>
+                                    'We know exactly where every ingredient comes from — the Sundarbans, coastal yards, heritage farms and trusted growers.',
+                            ],
+                            [
+                                'number' => '04',
+                                'title' => 'Indulgence with Integrity',
+                                'description' =>
+                                    'Premium without compromise. Toxin-free, nature-driven, and honest about every single ingredient in every single product.',
+                            ],
+                        ];
+                    @endphp
+                    @foreach ($pillars as $pillar)
+                        <div
+                            class="relative bg-white rounded-3xl p-8 border border-champagne group hover:border-primary/40 hover:shadow-lg transition-all duration-300 overflow-hidden">
+                            {{-- Ghost background number --}}
+                            <span
+                                class="absolute -bottom-2 -right-1 font-heading text-8xl font-bold leading-none select-none text-primary/[0.06]">
+                                {{ $pillar['number'] }}
+                            </span>
+                            {{-- Gold accent line --}}
+                            <div class="w-8 h-0.5 bg-primary mb-6 group-hover:w-16 transition-all duration-500"></div>
+                            <p class="text-xs font-bold uppercase tracking-[0.3em] text-taupe mb-2">{{ $pillar['number'] }}
+                            </p>
+                            <h3 class="font-heading text-xl text-brand mb-3">{{ $pillar['title'] }}</h3>
+                            <p class="text-sm text-muted font-light leading-relaxed relative z-10">
+                                {{ $pillar['description'] }}</p>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+
+        {{-- ── PRODUCT SPOTLIGHT ────────────────────────────────────────────── --}}
+        <section class="py-16 md:py-24 px-4 lg:px-8 bg-cream">
+            <div class="max-w-8xl mx-auto">
+                <div class="text-center mb-14">
+                    <span class="text-xs font-bold uppercase tracking-[0.35em] text-primary mb-3 block">Our Range</span>
+                    <h2 class="font-heading text-3xl md:text-4xl text-brand">Crafted for Every Table</h2>
+                    <p class="mt-3 text-muted font-light max-w-xl mx-auto text-sm leading-relaxed">
+                        From the Sundarbans to your kitchen — every category is a tribute to Bangladesh's richest food
+                        traditions.
                     </p>
-                    <a href="{{ $data['gallery_link'] }}"
-                        class="inline-block border border-white/40 text-sm font-bold uppercase tracking-[0.2em] text-white px-10 py-4 hover:bg-white hover:text-primary transition-colors duration-500 rounded-sm">
-                        Discover More
-                    </a>
                 </div>
-            </section>
 
-        </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                    @php
+                        $spotlight = [
+                            [
+                                'icon' => '🍯',
+                                'name' => 'Single-Origin Honey',
+                                'origin' => 'Sundarbans Mangrove Forest',
+                                'note' =>
+                                    'Raw, unfiltered, and wild-harvested from the world\'s largest mangrove. No heat, no additives — pure nature.',
+                                'tag' => 'Bestseller',
+                            ],
+                            [
+                                'icon' => '🥛',
+                                'name' => 'Clarified Ghee',
+                                'origin' => 'Traditional Slow-Cook Method',
+                                'note' =>
+                                    'Pure cow milk cream rendered in small batches for deep aroma. Free from MSG and artificial additives.',
+                                'tag' => 'Heritage',
+                            ],
+                            [
+                                'icon' => '🫙',
+                                'name' => 'Heritage Pickles',
+                                'origin' => 'Cold-Pressed Mustard Oil',
+                                'note' =>
+                                    'Hilsa fish and premium beef — bold authentic spices, naturally preserved without chemical shortcuts.',
+                                'tag' => 'Artisanal',
+                            ],
+                            [
+                                'icon' => '🐟',
+                                'name' => 'Premium Dry Fish',
+                                'origin' => 'Coastal Drying Yards',
+                                'note' =>
+                                    'Sun-dried naturally. Loitta, Churi, Modhu Faisa, Mowrala Kachki — pure coastal provenance.',
+                                'tag' => 'Traditional',
+                            ],
+                            [
+                                'icon' => '🥭',
+                                'name' => 'Heritage Mangoes',
+                                'origin' => 'Satkhira, Rajshahi & Rangpur',
+                                'note' =>
+                                    'Carbide-free Himsagar, Harivanga, Langra, Amrapali, Banana Mango, and Gourmati varieties.',
+                                'tag' => 'Seasonal',
+                            ],
+                            [
+                                'icon' => '✦',
+                                'name' => 'Limited Editions',
+                                'origin' => 'Special Occasions & Gifting',
+                                'note' =>
+                                    'Curated seasonal releases and premium gift collections — for moments that deserve something extraordinary.',
+                                'tag' => 'Exclusive',
+                            ],
+                        ];
+                    @endphp
+                    @foreach ($spotlight as $cat)
+                        <div
+                            class="bg-white rounded-3xl p-6 border border-champagne hover:border-primary/40 hover:shadow-md transition-all duration-300">
+                            <div class="flex items-start justify-between mb-5">
+                                <span class="text-3xl">{{ $cat['icon'] }}</span>
+                                <span
+                                    class="text-[10px] font-bold uppercase tracking-widest text-primary bg-primary/10 px-3 py-1 rounded-full">
+                                    {{ $cat['tag'] }}
+                                </span>
+                            </div>
+                            <h3 class="font-heading text-lg text-brand mb-1">{{ $cat['name'] }}</h3>
+                            <p class="text-[11px] font-semibold text-taupe uppercase tracking-wider mb-3">
+                                {{ $cat['origin'] }}</p>
+                            <p class="text-sm text-muted font-light leading-relaxed">{{ $cat['note'] }}</p>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+
+        {{-- ── OUR PROMISE ──────────────────────────────────────────────────── --}}
+        <section class="py-16 md:py-24 px-4 lg:px-8">
+            <div class="max-w-8xl mx-auto">
+                <div class="bg-white rounded-3xl border border-champagne p-10 md:p-16">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+
+                        {{-- Left: promise copy --}}
+                        <div>
+                            <span class="text-xs font-bold uppercase tracking-[0.35em] text-primary mb-3 block">Our
+                                Promise</span>
+                            <h2 class="font-heading text-3xl md:text-4xl text-brand mb-5 leading-tight">
+                                Premium, without<br>the Compromise
+                            </h2>
+                            <p class="text-muted font-light leading-relaxed text-base">
+                                At LaLaDia, luxury is not about price alone — it's about integrity.
+                                Every product is free from artificial additives, MSG, and hidden chemicals.
+                                We believe you deserve to know exactly what you're eating and exactly where it came from.
+                            </p>
+                        </div>
+
+                        {{-- Right: commitment list --}}
+                        <div class="space-y-4">
+                            @php
+                                $commitments = [
+                                    [
+                                        'label' => 'Affordable Premium',
+                                        'detail' =>
+                                            'Chef-grade quality at honest prices — luxury should never be exclusive.',
+                                        'icon' => '💎',
+                                    ],
+                                    [
+                                        'label' => 'Toxin-Free',
+                                        'detail' =>
+                                            'No preservatives, MSG, artificial colours, or hidden additives — ever.',
+                                        'icon' => '🛡️',
+                                    ],
+                                    [
+                                        'label' => 'Nature-Driven',
+                                        'detail' =>
+                                            'Sourced from natural habitats and processed as minimally as possible.',
+                                        'icon' => '🌿',
+                                    ],
+                                ];
+                            @endphp
+                            @foreach ($commitments as $c)
+                                <div
+                                    class="flex items-start gap-4 p-5 rounded-2xl bg-cream border border-champagne hover:border-primary/30 transition-colors">
+                                    <span class="text-2xl flex-shrink-0 mt-0.5">{{ $c['icon'] }}</span>
+                                    <div>
+                                        <p class="text-sm font-bold text-brand mb-1">{{ $c['label'] }}</p>
+                                        <p class="text-xs text-muted font-light leading-relaxed">{{ $c['detail'] }}</p>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        {{-- ── CTA ──────────────────────────────────────────────────────────── --}}
+        <section class="py-16 md:py-24 px-4 lg:px-8 bg-cream">
+            <div class="max-w-8xl mx-auto">
+                <div class="relative bg-primary rounded-3xl p-12 md:p-20 text-center overflow-hidden">
+                    {{-- Background orbs --}}
+                    <div class="absolute -top-12 -right-12 w-64 h-64 rounded-full bg-white/5 pointer-events-none"></div>
+                    <div class="absolute -bottom-12 -left-12 w-48 h-48 rounded-full bg-white/5 pointer-events-none"></div>
+
+                    <div class="relative z-10">
+                        <span class="text-[10px] font-bold uppercase tracking-[0.5em] text-white/60 mb-5 block">
+                            Discover LaLaDia
+                        </span>
+                        <h2 class="font-heading text-4xl md:text-5xl lg:text-6xl text-white mb-4 leading-tight">
+                            Taste the Heritage
+                        </h2>
+                        <p class="text-white/75 font-light max-w-md mx-auto mb-10 leading-relaxed">
+                            Explore our full range of artisanal foods — crafted with care, delivered with pride.
+                        </p>
+                        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                            <a href="{{ route('product.index') }}"
+                                class="inline-flex items-center justify-center gap-2.5 bg-white text-primary font-bold px-8 py-4 rounded-full hover:bg-ivory transition-colors shadow-lg text-sm">
+                                Shop All Products
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </a>
+                            <a href="{{ route('home') }}"
+                                class="inline-flex items-center justify-center gap-2.5 bg-transparent text-white font-semibold px-8 py-4 rounded-full border border-white/40 hover:bg-white/10 transition-colors text-sm">
+                                Back to Home
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </div>
 @endsection
-
-
-
-
-
-
-
-
-
-

@@ -108,7 +108,7 @@
                                         @can('landing-pages.update')
                                             <button @click="toggleActive(page)"
                                                 class="relative inline-flex h-5 w-9 items-center rounded-full transition-colors cursor-pointer"
-                                                :class="page.is_active ? 'bg-ivory' : 'bg-gray-300'">
+                                                :class="page.is_active ? 'bg-green-500' : 'bg-red-600'">
                                                 <span
                                                     class="inline-block h-3.5 w-3.5 transform rounded-full bg-white transition-transform shadow"
                                                     :class="page.is_active ? 'translate-x-4' : 'translate-x-0.5'"></span>
