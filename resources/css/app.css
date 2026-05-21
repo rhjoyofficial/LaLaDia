@@ -159,6 +159,9 @@
 @theme {
     --font-sans: "Inter", "Noto Sans Bengali", ui-sans-serif, system-ui;
     --font-heading: "Plus Jakarta Sans", sans-serif;
+    --font-bengali: "Noto Sans Bengali", sans-serif;
+    --font-hind: "Hind Siliguri", sans-serif;
+    --font-inter: "Inter", sans-serif;
 
     --max-width-8xl: 88rem;
     --max-width-9xl: 96rem;

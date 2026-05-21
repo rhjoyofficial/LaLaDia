@@ -194,6 +194,8 @@ class ProductSeeder extends Seeder
             'thumbnail' => 'products/pickle-beef.jpg',
             'short_description' => 'Premium beef pickle made with cold-pressed mustard oil and hand-selected spices.',
             'description' => 'Our Royal Beef Pickle is a masterpiece of flavor. We use premium quality beef chunks, authentic spices, and pure cold-pressed mustard oil. Natural vinegar is used for preservation, ensuring a long shelf life without chemical additives. A spicy, tangy delight for any meal.',
+            'is_landing_enabled' => true,
+            'landing_slug' => 'royal-beef-pickle',
             'is_active' => true,
             'is_trending' => true,
         ]);

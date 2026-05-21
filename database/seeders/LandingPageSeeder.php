@@ -121,5 +121,24 @@ class LandingPageSeeder extends Seeder
                 ]
             );
         }
+
+        // ─── 4. PRODUCT TYPE — Royal Beef Pickle ────────
+        $beefPickleProduct = Product::where('slug', 'royal-beef-pickle')->first();
+        if ($beefPickleProduct) {
+            LandingPage::updateOrCreate(
+                ['slug' => 'royal-beef-pickle'],
+                [
+                    'type'             => LandingPage::TYPE_PRODUCT,
+                    'product_id'       => $beefPickleProduct->id,
+                    'title'            => 'রয়্যাল বিফ আচার — মশলার গভীরে ঐতিহ্যের স্বাদ',
+                    'blade_template'   => 'royalbeefpickle',
+                    'content'          => 'প্রিমিয়াম গরুর মাংস, কোল্ড-প্রেসড সরিষার তেল এবং হাতে বাছাই মশলায় তৈরি। কৃত্রিম রং, MSG ও প্রিজারভেটিভমুক্ত।',
+                    'meta_title'       => 'রয়্যাল বিফ আচার | La La Dia',
+                    'meta_description' => 'প্রিমিয়াম গরুর মাংস ও কোল্ড-প্রেসড সরিষার তেলে তৈরি খাঁটি বিফ আচার। কৃত্রিম উপাদানমুক্ত। সারা বাংলাদেশে ডেলিভারি।',
+                    'pixel_event_name' => 'ViewContent',
+                    'is_active'        => true,
+                ]
+            );
+        }
     }
 }

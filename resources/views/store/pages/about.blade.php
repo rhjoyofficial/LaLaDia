@@ -10,7 +10,7 @@
             <div class="max-w-8xl mx-auto">
 
                 {{-- Three-panel grid: [accent squares] | [text] | [tall portrait] --}}
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:h-[660px]">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:h-165">
 
                     {{-- ── Panel 1: Two accent squares (desktop left, mobile bottom) ── --}}
                     <div class="hidden lg:flex lg:col-span-3 flex-col gap-5">
@@ -18,8 +18,8 @@
                         {{-- Square accent 1 --}}
                         <div
                             class="flex-1 rounded-3xl border border-champagne bg-cream flex flex-col items-center justify-center gap-2.5 group hover:border-primary/30 transition-colors">
-                            <svg class="w-7 h-7 text-black-ghost group-hover:text-primary/50 transition-colors"
-                                fill="none" viewBox="0 0 24 24" stroke-width="1.2" stroke="currentColor">
+                            <svg class="w-7 h-7 text-black-ghost group-hover:text-primary/50 transition-colors" fill="none"
+                                viewBox="0 0 24 24" stroke-width="1.2" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" />
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -59,7 +59,7 @@
 
                         {{-- Headline --}}
                         <h1
-                            class="font-heading text-5xl sm:text-6xl lg:text-[58px] xl:text-[68px] text-brand leading-[1.0] tracking-tight mb-5">
+                            class="font-heading text-5xl sm:text-6xl lg:text-[58px] xl:text-[68px] text-brand leading-none tracking-tight mb-5">
                             Taste the<br>Finest of<br>
                             <span class="text-primary">Bangladesh</span>
                         </h1>
@@ -103,7 +103,7 @@
 
                         {{-- Pillars tagline --}}
                         <div class="flex items-center gap-3 justify-center lg:justify-start">
-                            <div class="h-px w-6 bg-champagne flex-shrink-0"></div>
+                            <div class="h-px w-6 bg-champagne shrink-0"></div>
                             <p class="text-[9px] font-bold uppercase tracking-[0.25em] text-taupe">
                                 Heritage · Craftsmanship · Provenance · Integrity
                             </p>
@@ -111,20 +111,13 @@
                     </div>
 
                     {{-- ── Panel 3: Tall portrait (desktop right, mobile top) ── --}}
-                    <div class="lg:col-span-4 order-first lg:order-none">
+                    <div class="lg:col-span-4 order-first lg:order-0">
 
                         {{-- Mobile: fixed aspect so it doesn't go full-screen-tall --}}
                         <div
-                            class="aspect-[3/4] lg:aspect-auto lg:h-full rounded-3xl border border-champagne bg-cream flex flex-col items-center justify-center gap-2.5 group hover:border-primary/30 transition-colors">
-                            <svg class="w-8 h-8 text-black-ghost group-hover:text-primary/50 transition-colors"
-                                fill="none" viewBox="0 0 24 24" stroke-width="1.2" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" />
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z" />
-                            </svg>
-                            <p class="font-mono text-[11px] text-muted">about-hero.jpg</p>
-                            <p class="text-[10px] text-taupe tracking-widest font-semibold">3 : 4</p>
+                            class="aspect-3/4 lg:aspect-auto lg:h-full rounded-3xl border border-champagne bg-cream flex flex-col items-center justify-center gap-2.5 group hover:border-primary/30 transition-colors">
+                            <img src="{{ asset('assets/about/about-hero.jpg') }}" alt="About Us"
+                                class="w-full h-full object-cover rounded-3xl">
                         </div>
 
                     </div>
@@ -274,7 +267,7 @@
                             <ul class="space-y-2.5 mt-auto">
                                 @foreach ($offer['items'] as $item)
                                     <li class="flex items-center gap-2.5 text-sm text-brown">
-                                        <span class="w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0"></span>
+                                        <span class="w-1.5 h-1.5 rounded-full bg-primary shrink-0"></span>
                                         {{ $item }}
                                     </li>
                                 @endforeach
@@ -328,7 +321,7 @@
                             class="relative bg-white rounded-3xl p-8 border border-champagne group hover:border-primary/40 hover:shadow-lg transition-all duration-300 overflow-hidden">
                             {{-- Ghost background number --}}
                             <span
-                                class="absolute -bottom-2 -right-1 font-heading text-8xl font-bold leading-none select-none text-primary/[0.06]">
+                                class="absolute -bottom-2 -right-1 font-heading text-8xl font-bold leading-none select-none text-primary/6">
                                 {{ $pillar['number'] }}
                             </span>
                             {{-- Gold accent line --}}
@@ -476,7 +469,7 @@
                             @foreach ($commitments as $c)
                                 <div
                                     class="flex items-start gap-4 p-5 rounded-2xl bg-cream border border-champagne hover:border-primary/30 transition-colors">
-                                    <span class="text-2xl flex-shrink-0 mt-0.5">{{ $c['icon'] }}</span>
+                                    <span class="text-2xl shrink-0 mt-0.5">{{ $c['icon'] }}</span>
                                     <div>
                                         <p class="text-sm font-bold text-brand mb-1">{{ $c['label'] }}</p>
                                         <p class="text-xs text-muted font-light leading-relaxed">{{ $c['detail'] }}</p>
