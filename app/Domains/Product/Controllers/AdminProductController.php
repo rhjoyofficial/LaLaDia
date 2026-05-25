@@ -130,6 +130,44 @@ class AdminProductController extends Controller
         }
     }
 
+    /**
+     * Search product variants by name or SKU.
+     * Used by the coupon scope picker and gift variant picker.
+     * Returns: [{id, label, sku, final_price}]
+     */
+    public function searchVariants(Request $request)
+    {
+        try {
+            $q = trim($request->get('q', ''));
+
+            if (strlen($q) < 2) {
+                return response()->json(['data' => []]);
+            }
+
+            $variants = \App\Domains\Product\Models\ProductVariant::with('product:id,name')
+                ->where('is_active', true)
+                ->where(function ($query) use ($q) {
+                    $query->where('title', 'like', "%{$q}%")
+                          ->orWhere('sku', 'like', "%{$q}%")
+                          ->orWhereHas('product', fn($p) => $p->where('name', 'like', "%{$q}%"));
+                })
+                ->select('id', 'product_id', 'title', 'sku', 'price', 'discount_type', 'discount_value', 'sale_ends_at')
+                ->limit(20)
+                ->get()
+                ->map(fn($v) => [
+                    'id'          => $v->id,
+                    'label'       => $v->product->name . ' — ' . $v->title,
+                    'sku'         => $v->sku,
+                    'final_price' => $v->final_price,
+                ]);
+
+            return response()->json(['data' => $variants]);
+        } catch (Throwable $e) {
+            Log::error('Variant search error: ' . $e->getMessage());
+            return response()->json(['data' => []], 500);
+        }
+    }
+
     public function toggleActive(Product $product)
     {
         try {

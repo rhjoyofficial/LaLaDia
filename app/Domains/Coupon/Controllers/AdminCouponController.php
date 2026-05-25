@@ -55,7 +55,12 @@ class AdminCouponController extends Controller
         try {
             $coupon->loadCount('usages');
             $coupon->loadSum('usages', 'discount_amount');
-            $coupon->load(['usages' => fn($q) => $q->latest()->limit(20)->with(['user', 'order'])]);
+            $coupon->load([
+                'usages'               => fn($q) => $q->latest()->limit(20)->with(['user', 'order']),
+                'productVariantScopes' => fn($q) => $q->with('product:id,name'),
+                'comboScopes',
+                'giftVariant.product:id,name',
+            ]);
 
             return ApiResponse::success(new CouponResource($coupon));
         } catch (Exception $e) {
@@ -88,9 +93,20 @@ class AdminCouponController extends Controller
             $data         = $request->validated();
             $data['code'] = strtoupper($data['code']);
 
-            $coupon = Coupon::create($data);
+            // Pull out pivot arrays before creating the coupon record
+            $variantIds = $data['variant_ids'] ?? [];
+            $comboIds   = $data['combo_ids'] ?? [];
+            unset($data['variant_ids'], $data['combo_ids']);
+
+            $coupon = DB::transaction(function () use ($data, $variantIds, $comboIds) {
+                $coupon = Coupon::create($data);
+                $this->syncScopes($coupon, $variantIds, $comboIds);
+                return $coupon;
+            });
 
             AdminLogger::log('coupons', "Coupon {$coupon->code} created", $coupon, [], 'created');
+
+            $coupon->load(['productVariantScopes', 'comboScopes']);
 
             return ApiResponse::success(new CouponResource($coupon), 'Coupon created successfully', 201);
         } catch (Exception $e) {
@@ -101,9 +117,28 @@ class AdminCouponController extends Controller
     public function update(UpdateCouponRequest $request, Coupon $coupon): JsonResponse
     {
         try {
-            $coupon->update($request->validated());
+            $data = $request->validated();
+
+            $variantIds = array_key_exists('variant_ids', $data) ? ($data['variant_ids'] ?? []) : null;
+            $comboIds   = array_key_exists('combo_ids',   $data) ? ($data['combo_ids']   ?? []) : null;
+            unset($data['variant_ids'], $data['combo_ids']);
+
+            DB::transaction(function () use ($coupon, $data, $variantIds, $comboIds) {
+                $coupon->update($data);
+
+                // Only sync when the key was present in the request (null = not submitted = no change).
+                // Each sync() call is independent — no need to load the current pivot records first.
+                if ($variantIds !== null) {
+                    $coupon->productVariantScopes()->sync($variantIds);
+                }
+                if ($comboIds !== null) {
+                    $coupon->comboScopes()->sync($comboIds);
+                }
+            });
 
             AdminLogger::log('coupons', "Coupon {$coupon->code} updated", $coupon, [], 'updated');
+
+            $coupon->load(['productVariantScopes', 'comboScopes']);
 
             return ApiResponse::success(new CouponResource($coupon), 'Coupon updated successfully');
         } catch (Exception $e) {
@@ -141,6 +176,8 @@ class AdminCouponController extends Controller
                 'start_date'     => $data['start_date'] ?? null,
                 'end_date'       => $data['end_date'] ?? null,
                 'is_active'      => $data['is_active'] ?? true,
+                // Bulk-generated coupons are always global scope
+                'applies_to'     => 'all',
             ], fn($v) => $v !== null);
 
             $codes    = [];
@@ -149,13 +186,12 @@ class AdminCouponController extends Controller
 
             while (count($codes) < $count && $attempts < $maxTries) {
                 $candidate = $prefix . strtoupper(Str::random(8));
-                if (! in_array($candidate, $codes)) {
+                if (!in_array($candidate, $codes)) {
                     $codes[] = $candidate;
                 }
                 $attempts++;
             }
 
-            // Exclude any that already exist in DB
             $existing = Coupon::whereIn('code', $codes)->pluck('code')->toArray();
             $codes    = array_values(array_diff($codes, $existing));
 
@@ -186,6 +222,14 @@ class AdminCouponController extends Controller
         } catch (Exception $e) {
             return $this->handleError($e, 'Failed to bulk generate coupons');
         }
+    }
+
+    // ── Helpers ─────────────────────────────────────────────────────────────
+
+    private function syncScopes(Coupon $coupon, array $variantIds, array $comboIds): void
+    {
+        $coupon->productVariantScopes()->sync($variantIds);
+        $coupon->comboScopes()->sync($comboIds);
     }
 
     private function handleError(Exception $e, string $msg, int $code = 500): JsonResponse

@@ -23,7 +23,49 @@ class CouponResource extends JsonResource
             'is_valid'       => $this->isValid(),
             'created_at'     => $this->created_at?->toDateTimeString(),
 
-            // Loaded via withCount('usages') + withSum('usages','discount_amount')
+            // Scope
+            'applies_to'             => $this->applies_to ?? 'all',
+            // List view: just IDs (loaded via withCount/paginate, no relations)
+            'variant_ids'            => $this->when(
+                $this->relationLoaded('productVariantScopes'),
+                fn() => $this->productVariantScopes->pluck('id')
+            ),
+            'combo_ids'              => $this->when(
+                $this->relationLoaded('comboScopes'),
+                fn() => $this->comboScopes->pluck('id')
+            ),
+            // Detail view: rich objects with display labels (loaded via show())
+            'product_variant_scopes' => $this->when(
+                $this->relationLoaded('productVariantScopes') && $this->productVariantScopes->first()?->relationLoaded('product'),
+                fn() => $this->productVariantScopes->map(fn($v) => [
+                    'id'    => $v->id,
+                    'label' => ($v->product->name ?? 'Unknown') . ' — ' . $v->title,
+                    'sku'   => $v->sku,
+                ])
+            ),
+            'combo_scopes'           => $this->when(
+                $this->relationLoaded('comboScopes'),
+                fn() => $this->comboScopes->map(fn($c) => [
+                    'id'    => $c->id,
+                    'label' => $c->title,
+                ])
+            ),
+
+            // Benefits
+            'is_free_delivery'        => (bool) $this->is_free_delivery,
+            'gift_product_variant_id' => $this->gift_product_variant_id,
+            'gift_quantity'           => (int) ($this->gift_quantity ?? 1),
+            // Detail view: gift variant label (loaded via show())
+            'gift_variant'            => $this->when(
+                $this->relationLoaded('giftVariant') && $this->giftVariant !== null,
+                fn() => [
+                    'id'    => $this->giftVariant->id,
+                    'label' => ($this->giftVariant->product->name ?? 'Unknown') . ' — ' . $this->giftVariant->title,
+                    'sku'   => $this->giftVariant->sku,
+                ]
+            ),
+
+            // Aggregates — loaded via withCount/withSum
             'usages_count'   => $this->when(
                 isset($this->usages_count),
                 $this->usages_count
@@ -33,7 +75,7 @@ class CouponResource extends JsonResource
                 fn() => (float) ($this->usages_sum_discount_amount ?? 0)
             ),
 
-            // Recent usage history — loaded via with('usages.user','usages.order')
+            // Recent usage history — loaded via show() with('usages.user','usages.order')
             'recent_usages'  => $this->when(
                 $this->relationLoaded('usages'),
                 fn() => $this->usages->map(fn($u) => [

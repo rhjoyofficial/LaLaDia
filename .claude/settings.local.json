@@ -47,7 +47,15 @@
       "Bash(find \"d:\\\\\\\\WORK\\\\\\\\LALADIA\\\\\\\\LaLaDia\\\\\\\\resources\" -name \"*tier*\" -o -name \"*TierPrice*\")",
       "Bash(ls -la \"d:\\\\\\\\WORK\\\\\\\\LALADIA\\\\\\\\LaLaDia\\\\\\\\resources\")",
       "Bash(find \"d:\\\\\\\\WORK\\\\\\\\LALADIA\\\\\\\\LaLaDia\\\\\\\\resources\\\\\\\\views\" -type d -name \"*admin*\")",
-      "Bash(grep -r \"use App\\\\\\\\Domains\\\\\\\\ActivityLog\" 'd:\\\\WORK\\\\LALADIA\\\\LaLaDia\\\\app' --include=\"*.php\")"
+      "Bash(grep -r \"use App\\\\\\\\Domains\\\\\\\\ActivityLog\" 'd:\\\\WORK\\\\LALADIA\\\\LaLaDia\\\\app' --include=\"*.php\")",
+      "Bash(php -l app/Domains/Coupon/Models/Coupon.php)",
+      "Bash(php -l app/Domains/Coupon/Services/CouponValidationService.php)",
+      "Bash(php -l app/Domains/Coupon/Requests/StoreCouponRequest.php)",
+      "Bash(php -l app/Domains/Coupon/Requests/UpdateCouponRequest.php)",
+      "Bash(php -l app/Domains/Coupon/Resources/CouponResource.php)",
+      "Bash(php vendor/bin/phpunit --stop-on-failure)",
+      "Bash(php -r \"require 'vendor/autoload.php'; echo 'Autoloader OK' . PHP_EOL;\")",
+      "Bash(findstr -i coupon)"
     ]
   }
 }

@@ -179,10 +179,10 @@ class ProductSeeder extends Seeder
         // ---------------------------------------------------------------------
         // Shutki Tier Assignments
         // ---------------------------------------------------------------------
-        $vLoitta1k->tierPrices()->create(['min_quantity' => 1, 'discount_type' => 'fixed', 'discount_value' => 0, 'gift_product_variant_id' => $vChuri125->id, 'gift_quantity' => 1]);
-        $vChuri1k->tierPrices()->create(['min_quantity' => 1, 'discount_type' => 'fixed', 'discount_value' => 0, 'gift_product_variant_id' => $vFaisa125->id, 'gift_quantity' => 1]);
-        $vFaisa1k->tierPrices()->create(['min_quantity' => 1, 'discount_type' => 'fixed', 'discount_value' => 0, 'gift_product_variant_id' => $vKachki125->id, 'gift_quantity' => 1]);
-        $vKachki1k->tierPrices()->create(['min_quantity' => 1, 'discount_type' => 'fixed', 'discount_value' => 0, 'gift_product_variant_id' => $vLoitta125->id, 'gift_quantity' => 1]);
+        // $vLoitta1k->tierPrices()->create(['min_quantity' => 1, 'discount_type' => 'fixed', 'discount_value' => 0, 'gift_product_variant_id' => $vChuri125->id, 'gift_quantity' => 1]);
+        // $vChuri1k->tierPrices()->create(['min_quantity' => 1, 'discount_type' => 'fixed', 'discount_value' => 0, 'gift_product_variant_id' => $vFaisa125->id, 'gift_quantity' => 1]);
+        // $vFaisa1k->tierPrices()->create(['min_quantity' => 1, 'discount_type' => 'fixed', 'discount_value' => 0, 'gift_product_variant_id' => $vKachki125->id, 'gift_quantity' => 1]);
+        // $vKachki1k->tierPrices()->create(['min_quantity' => 1, 'discount_type' => 'fixed', 'discount_value' => 0, 'gift_product_variant_id' => $vLoitta125->id, 'gift_quantity' => 1]);
 
         // 4. Royal Beef Pickle
         $beefPickle = Product::create([
@@ -254,7 +254,7 @@ class ProductSeeder extends Seeder
             'category_id' => $getCatId('fruits'),
             'name' => 'Himsagar Mango (হিমসাগর আম)',
             'slug' => 'himsagar-mango',
-            'base_price' => 100,
+            'base_price' => 160,
             'thumbnail' => 'products/himsagar.jpg',
             'short_description' => 'The king of Bengal mangoes, famous for its sweet aroma.',
             'description' => 'Sourced directly from Satkhira/Rajshahi. Carbide-free.',
@@ -262,9 +262,9 @@ class ProductSeeder extends Seeder
             'is_featured' => true,
             'is_trending' => true,
         ]);
-        $vHim1k = $himsagar->variants()->create(['title' => '1KG', 'sku' => 'HIM-1KG', 'price' => 100, 'stock' => 5000, 'weight_grams' => 1000, 'is_active' => true]);
-        $vHim5k = $himsagar->variants()->create(['title' => '5KG', 'sku' => 'HIM-5KG', 'price' => 475, 'stock' => 1000, 'weight_grams' => 5000, 'is_active' => true]);
-        $vHim10k = $himsagar->variants()->create(['title' => '10KG', 'sku' => 'HIM-10KG', 'price' => 900, 'stock' => 500, 'weight_grams' => 10000, 'is_active' => true]);
+        $vHim1k = $himsagar->variants()->create(['title' => '1KG', 'sku' => 'HIM-1KG', 'price' => 160, 'stock' => 5000, 'weight_grams' => 1000, 'is_active' => true]);
+        $vHim10k = $himsagar->variants()->create(['title' => '10KG', 'sku' => 'HIM-10KG', 'price' => 1600, 'stock' => 1000, 'weight_grams' => 5000, 'is_active' => true]);
+        $vHim25k = $himsagar->variants()->create(['title' => '22-26KG', 'sku' => 'HIM-25KG', 'price' => 4000, 'stock' => 5000, 'weight_grams' => 10000, 'is_active' => true]);
 
         // 6b. Harivanga
         $harivanga = Product::create([
@@ -355,12 +355,12 @@ class ProductSeeder extends Seeder
         // Mango Tier Assignments (Buy 15+ 1KG units -> Get different variety gift)
         // ---------------------------------------------------------------------
         // No Free Delivery as per request
-        $vHim1k->tierPrices()->create(['min_quantity' => 15, 'discount_type' => 'fixed', 'discount_value' => 0, 'gift_product_variant_id' => $vHar1k->id, 'gift_quantity' => 1]);
-        $vHar1k->tierPrices()->create(['min_quantity' => 15, 'discount_type' => 'fixed', 'discount_value' => 0, 'gift_product_variant_id' => $vLan1k->id, 'gift_quantity' => 1]);
-        $vLan1k->tierPrices()->create(['min_quantity' => 15, 'discount_type' => 'fixed', 'discount_value' => 0, 'gift_product_variant_id' => $vAmr1k->id, 'gift_quantity' => 1]);
-        $vAmr1k->tierPrices()->create(['min_quantity' => 15, 'discount_type' => 'fixed', 'discount_value' => 0, 'gift_product_variant_id' => $vBan1k->id, 'gift_quantity' => 1]);
-        $vBan1k->tierPrices()->create(['min_quantity' => 15, 'discount_type' => 'fixed', 'discount_value' => 0, 'gift_product_variant_id' => $vGou1k->id, 'gift_quantity' => 1]);
-        $vGou1k->tierPrices()->create(['min_quantity' => 15, 'discount_type' => 'fixed', 'discount_value' => 0, 'gift_product_variant_id' => $vHim1k->id, 'gift_quantity' => 1]);
+        // $vHim1k->tierPrices()->create(['min_quantity' => 15, 'discount_type' => 'fixed', 'discount_value' => 0, 'gift_product_variant_id' => $vHar1k->id, 'gift_quantity' => 1]);
+        // $vHar1k->tierPrices()->create(['min_quantity' => 15, 'discount_type' => 'fixed', 'discount_value' => 0, 'gift_product_variant_id' => $vLan1k->id, 'gift_quantity' => 1]);
+        // $vLan1k->tierPrices()->create(['min_quantity' => 15, 'discount_type' => 'fixed', 'discount_value' => 0, 'gift_product_variant_id' => $vAmr1k->id, 'gift_quantity' => 1]);
+        // $vAmr1k->tierPrices()->create(['min_quantity' => 15, 'discount_type' => 'fixed', 'discount_value' => 0, 'gift_product_variant_id' => $vBan1k->id, 'gift_quantity' => 1]);
+        // $vBan1k->tierPrices()->create(['min_quantity' => 15, 'discount_type' => 'fixed', 'discount_value' => 0, 'gift_product_variant_id' => $vGou1k->id, 'gift_quantity' => 1]);
+        // $vGou1k->tierPrices()->create(['min_quantity' => 15, 'discount_type' => 'fixed', 'discount_value' => 0, 'gift_product_variant_id' => $vHim1k->id, 'gift_quantity' => 1]);
 
         // Attach certifications
         foreach ([$himsagar, $harivanga, $langra, $amrapali, $banana, $gourmati] as $mProd) {
