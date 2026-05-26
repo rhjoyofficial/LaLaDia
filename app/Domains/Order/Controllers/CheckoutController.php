@@ -13,6 +13,7 @@ use App\Http\Controllers\Controller;
 use App\Helpers\ApiResponse;
 use App\Models\User;
 use Exception;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -197,6 +198,7 @@ class CheckoutController extends Controller
         return match (true) {
             $e instanceof ValidationException      => 422,
             $e instanceof ModelNotFoundException   => 404,
+            $e instanceof AuthenticationException  => 401,
             default                                => 500,
         };
     }

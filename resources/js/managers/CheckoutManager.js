@@ -561,6 +561,14 @@ export default class CheckoutManager {
             });
 
             const json = await res.json();
+
+            if (res.status === 401) {
+                // Coupon requires an account — send to login and come back here after
+                const returnTo = encodeURIComponent(window.location.pathname + window.location.search);
+                window.location.href = `/login?redirect=${returnTo}`;
+                return;
+            }
+
             if (!res.ok) throw new Error(json.message || "Order failed");
 
             // Rotate checkout token so the next visit gets a fresh idempotency key

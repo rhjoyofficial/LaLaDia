@@ -258,9 +258,9 @@ export default class AuthManager {
                     localStorage.removeItem("bionic_cart_token");
                     // Session was regenerated server-side — update CSRF meta tag.
                     this._refreshCsrfMeta(res);
-                    // Redirect to home so the page reloads with @auth active.
+                    const intended = new URLSearchParams(window.location.search).get("redirect");
                     setTimeout(() => {
-                        window.location.href = "/";
+                        window.location.href = intended || "/";
                     }, 1500);
                 } else {
                     const errors = data.errors

@@ -11,6 +11,7 @@ use App\Domains\Order\Models\Order;
 use App\Events\OrderCreated;
 use App\Models\User;
 use Exception;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -36,7 +37,7 @@ class OrderService
         // Checked BEFORE the DB transaction so no resources are acquired for
         // a request that is destined to fail.
         if (!empty($data['coupon_code']) && !$user) {
-            throw new Exception('Please log in to apply a coupon code.');
+            throw new AuthenticationException('Please log in to apply a coupon code.');
         }
 
         $itemCount = count($data['items']);
