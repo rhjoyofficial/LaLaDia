@@ -13,6 +13,7 @@ class Product extends Model
         'name',
         'slug',
         'short_description',
+        'note',
         'description',
         'category_id',
         'base_price',

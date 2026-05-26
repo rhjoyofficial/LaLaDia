@@ -51,5 +51,29 @@ class CouponSeeder extends Seeder
                 $coupon
             );
         }
+
+        // HM25 — 6% off Himsagar Mango 22-26KG (SKU: HIM-25KG) only
+        $himsagarVariant = \App\Domains\Product\Models\ProductVariant::where('sku', 'HIM-25KG')->first();
+
+        if ($himsagarVariant) {
+            $hm25 = Coupon::updateOrCreate(
+                ['code' => 'HM25'],
+                [
+                    'type'           => 'percentage',
+                    'value'          => 6,
+                    'min_purchase'   => null,
+                    'usage_limit'    => null,
+                    'limit_per_user' => 1,
+                    'start_date'     => '2026-05-25 00:00:00',
+                    'end_date'       => '2026-06-03 23:59:00',
+                    'is_active'      => true,
+                    'applies_to'     => 'products',
+                ]
+            );
+
+            $hm25->productVariantScopes()->syncWithoutDetaching([$himsagarVariant->id]);
+        } else {
+            $this->command->warn('HM25 coupon skipped: Himsagar Mango 25kg variant not found.');
+        }
     }
 }

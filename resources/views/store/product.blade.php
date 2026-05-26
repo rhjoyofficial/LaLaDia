@@ -33,24 +33,77 @@
             background: var(--color-surface);
             color: var(--color-text-muted);
         }
-        .variant-btn:hover { border-color: var(--color-primary); color: var(--color-primary); }
-        .variant-btn.active { border-color: var(--color-primary); color: var(--color-primary); background: var(--color-bg-soft); }
-        .tab-btn { border-bottom: 2px solid transparent; color: var(--color-text-muted); }
-        .tab-btn.active { border-color: var(--color-primary); color: var(--color-primary); font-weight: 600; }
-        .thumbBtn.active { border-color: var(--color-primary) !important; }
+
+        .variant-btn:hover {
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+        }
+
+        .variant-btn.active {
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+            background: var(--color-bg-soft);
+        }
+
+        .tab-btn {
+            border-bottom: 2px solid transparent;
+            color: var(--color-text-muted);
+        }
+
+        .tab-btn.active {
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+            font-weight: 600;
+        }
+
+        .thumbBtn.active {
+            border-color: var(--color-primary) !important;
+        }
+
         .qty-btn {
-            width: 2.25rem; height: 2.25rem;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; font-size: 1.1rem; font-weight: 700;
+            width: 2.25rem;
+            height: 2.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 700;
             border-right: 1px solid var(--color-border);
             transition: background 0.15s;
         }
-        .qty-btn:last-of-type { border-right: none; border-left: 1px solid var(--color-border); }
-        .qty-btn:hover { background: var(--color-bg-soft); color: var(--color-text-secondary); }
-        .btn-dark { background: var(--color-text); color: white; border-radius: 12px; transition: all 0.3s ease; }
-        .btn-dark:hover { opacity: 0.88; }
-        .nutrition-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--color-border); }
-        .nutrition-row:last-child { border-bottom: none; }
+
+        .qty-btn:last-of-type {
+            border-right: none;
+            border-left: 1px solid var(--color-border);
+        }
+
+        .qty-btn:hover {
+            background: var(--color-bg-soft);
+            color: var(--color-text-secondary);
+        }
+
+        .btn-dark {
+            background: var(--color-text);
+            color: white;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-dark:hover {
+            opacity: 0.88;
+        }
+
+        .nutrition-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .nutrition-row:last-child {
+            border-bottom: none;
+        }
     </style>
 @endpush
 
@@ -89,10 +142,10 @@
                 {{-- ─── LEFT: IMAGE GALLERY ─── --}}
                 <div class="space-y-4">
                     {{-- Main image --}}
-                    <div class="aspect-square rounded-2xl overflow-hidden shadow-sm"
+                    <div class="aspect-square rounded-2xl overflow-hidden shadow-sm group"
                         style="background: var(--color-surface); border: 1px solid var(--color-border);">
                         <img id="productMainImage" src="{{ $mainImage }}" alt="{{ $product->name }}"
-                            class="w-full h-full object-contain p-4 transition-opacity duration-300">
+                            class="w-full h-full object-contain p-4 transition-all duration-500 ease-out group-hover:scale-105">
                     </div>
 
                     {{-- Thumbnails --}}
@@ -159,6 +212,19 @@
                         </p>
                     @endif
 
+                    {{-- Product note --}}
+                    @if ($product->note)
+                        <div class="flex items-start gap-2 text-sm px-3 py-2.5 rounded-lg"
+                            style="background: var(--color-bg-soft); border: 1px solid var(--color-border); color: var(--color-text-muted);">
+                            <svg class="w-4 h-4 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                style="color: var(--color-primary);">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span>{{ $product->note }}</span>
+                        </div>
+                    @endif
+
                     {{-- Price row --}}
                     <div class="flex items-center gap-3 flex-wrap">
                         <span id="variantFinalPrice" class="text-2xl font-bold font-bengali"
@@ -177,6 +243,19 @@
                         </span>
                     </div>
 
+                    {{-- Variant note (shown only when selected variant has a note) --}}
+                    <div id="variantNote" class="hidden text-sm px-3 py-2 rounded-lg"
+                        style="background: var(--color-bg-soft); border: 1px solid var(--color-border); color: var(--color-text-muted);">
+                        <span class="inline-flex items-center gap-1.5">
+                            <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                style="color: var(--color-primary);">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span id="variantNoteText"></span>
+                        </span>
+                    </div>
+
                     {{-- Tier pricing chips --}}
                     <div id="tierBox"></div>
 
@@ -186,7 +265,8 @@
                     {{-- Variant selector --}}
                     @if ($product->variants->count() > 1)
                         <div>
-                            <p class="text-sm font-semibold mb-3" style="color: var(--color-text-secondary);">Select Size /
+                            <p class="text-sm font-semibold mb-3" style="color: var(--color-text-secondary);">Select Size
+                                /
                                 Weight:</p>
                             <div class="flex flex-wrap gap-2" id="variantCapsuleContainer">
                                 @foreach ($product->variants as $variant)
@@ -220,11 +300,11 @@
                     {{-- Key values --}}
                     <div class="flex items-center gap-3 text-sm font-semibold flex-wrap"
                         style="color: var(--color-primary);">
+                        <span>No preservative</span>
+                        <span style="color: var(--color-border);">•</span>
+                        <span>No Chemical</span>
+                        <span style="color: var(--color-border);">•</span>
                         <span>100% Natural</span>
-                        <span style="color: var(--color-border);">•</span>
-                        <span>No Preservatives</span>
-                        <span style="color: var(--color-border);">•</span>
-                        <span>Lab Tested</span>
                     </div>
 
                     {{-- Certifications --}}
@@ -449,6 +529,8 @@
                 const discountBadge = document.getElementById('variantDiscountBadge');
                 const stockText = document.getElementById('stockText');
                 const tierBox = document.getElementById('tierBox');
+                const variantNoteBox = document.getElementById('variantNote');
+                const variantNoteText = document.getElementById('variantNoteText');
                 const qtyDisplay = document.getElementById('qtyInput');
                 const addToCartBtn = document.getElementById('addToCartBtn');
                 const buyNowBtn = document.getElementById('buyNowBtn');
@@ -501,9 +583,9 @@
                         if (t.free_delivery) perks.push('<span class="inline-flex items-center gap-0.5 text-[10px] font-bold text-sky-600 bg-sky-50 border border-sky-200 px-1.5 py-0.5 rounded-full">🚚 Free Delivery</span>');
                         if (t.gift_variant_id) perks.push('<span class="inline-flex items-center gap-0.5 text-[10px] font-bold text-violet-600 bg-violet-50 border border-violet-200 px-1.5 py-0.5 rounded-full">🎁 Free Gift</span>');
                         return `<span class="inline-flex flex-wrap items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold font-bengali bg-primary/5 text-primary border border-primary/20">
-                            Buy ${t.qty}+ ${t.value > 0 ? `&rarr; Save ${discount}` : ''}
-                            ${perks.join('')}
-                        </span>`;
+                                                                                    Buy ${t.qty}+ ${t.value > 0 ? `&rarr; Save ${discount}` : ''}
+                                                                                    ${perks.join('')}
+                                                                                </span>`;
                     }).join('')}
                 </div>`;
                 }
@@ -521,17 +603,20 @@
                     let livePrice = parseFloat(v.final_price);
                     if (activeTier) {
                         const base = parseFloat(v.price);
-                        livePrice = activeTier.type === 'percentage' ? base * (1 - activeTier.value / 100) : Math.max(0, base - activeTier.value);
+                        livePrice = activeTier.type === 'percentage' ? base * (1 - activeTier.value / 100) : Math.max(0,
+                            base - activeTier.value);
                     }
                     finalPrice.textContent = `৳${livePrice.toFixed(2)}`;
                     if (mobileStickyPrice) mobileStickyPrice.textContent = `৳${livePrice.toFixed(2)}`;
                     let nudgeHtml = '';
                     if (activeTier) {
                         const saving = ((parseFloat(v.price) - livePrice) * qty).toFixed(2);
-                        nudgeHtml = `<div class="mt-2 text-xs font-bold text-emerald-600 bg-emerald-50 p-2 rounded">Bulk deal active — saved ৳${saving} total</div>`;
+                        nudgeHtml =
+                            `<div class="mt-2 text-xs font-bold text-emerald-600 bg-emerald-50 p-2 rounded">Bulk deal active — saved ৳${saving} total</div>`;
                     } else if (nextTier) {
                         const need = nextTier.qty - qty;
-                        nudgeHtml = `<div class="mt-2 text-xs text-amber-600 bg-amber-50 p-2 rounded">Add ${need} more to unlock better pricing!</div>`;
+                        nudgeHtml =
+                            `<div class="mt-2 text-xs text-amber-600 bg-amber-50 p-2 rounded">Add ${need} more to unlock better pricing!</div>`;
                     }
                     if (tierNudge) tierNudge.innerHTML = nudgeHtml;
                 }
@@ -542,6 +627,15 @@
                     finalPrice.textContent = `৳${Number(v.final_price).toFixed(2)}`;
                     originalPrice.textContent = `৳${Number(v.price).toFixed(2)}`;
                     stockText.textContent = `${v.available_stock} units`;
+
+                    // Variant note
+                    if (v.note) {
+                        variantNoteText.textContent = v.note;
+                        variantNoteBox.classList.remove('hidden');
+                    } else {
+                        variantNoteBox.classList.add('hidden');
+                    }
+
                     addToCartBtn.dataset.variant = v.id;
                     if (mobileStickyCartBtn) mobileStickyCartBtn.dataset.variant = v.id;
 
@@ -603,7 +697,7 @@
                     // Sort ascending — find best qualifying tier
                     const sortedTiers = [...v.tiers].sort((a, b) => a.qty - b.qty);
                     const activeTier = sortedTiers.filter(t => t.qty <= qty).pop() || null;
-                    const nextTier   = sortedTiers.find(t => t.qty > qty) || null;
+                    const nextTier = sortedTiers.find(t => t.qty > qty) || null;
 
                     // Calculate live price
                     let livePrice = parseFloat(v.final_price);
@@ -642,7 +736,8 @@
                             </div>`;
                     } else if (nextTier) {
                         const need = nextTier.qty - qty;
-                        const reward = nextTier.type === 'percentage' ? `${nextTier.value}% off` : `৳${nextTier.value} off/unit`;
+                        const reward = nextTier.type === 'percentage' ? `${nextTier.value}% off` :
+                            `৳${nextTier.value} off/unit`;
                         const perks = [];
                         if (nextTier.free_delivery) perks.push('🚚 Free Delivery');
                         if (nextTier.gift_variant_id) perks.push('🎁 Free Gift');

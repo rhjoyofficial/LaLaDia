@@ -15,7 +15,9 @@ class StoreProductRequest extends FormRequest
     {
         return [
             'name'               => 'required|string|max:255',
+            'slug'               => 'nullable|string|max:255',
             'short_description'  => 'nullable|string',
+            'note'               => 'nullable|string|max:1000',
             'description'        => 'nullable|string',
             'category_id'        => 'required|exists:categories,id',
             'base_price'         => 'required|numeric|min:0',
@@ -35,6 +37,7 @@ class StoreProductRequest extends FormRequest
             'variants.*.discount_type'       => 'nullable|in:percentage,fixed',
             'variants.*.discount_value'      => 'nullable|numeric|min:0',
             'variants.*.sale_ends_at'        => 'nullable|date',
+            'variants.*.note'                => 'nullable|string|max:500',
             'variants.*.is_active'           => 'boolean',
 
             'landing_slug'        => 'nullable|string|unique:products,landing_slug',

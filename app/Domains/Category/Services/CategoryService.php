@@ -12,7 +12,8 @@ class CategoryService
 
     public function create(array $data): Category
     {
-        $data['slug'] = $this->generateUniqueSlug($data['name']);
+        $slugBase = !empty($data['slug']) ? $data['slug'] : $data['name'];
+        $data['slug'] = $this->generateUniqueSlug($slugBase);
 
         if (isset($data['image']) && $data['image'] instanceof \Illuminate\Http\UploadedFile) {
             $data['image'] = $data['image']->store($this->path, 'public');
@@ -23,8 +24,12 @@ class CategoryService
 
     public function update(Category $category, array $data): Category
     {
-        if (isset($data['name']) && $data['name'] !== $category->name) {
+        if (!empty($data['slug'])) {
+            $data['slug'] = $this->generateUniqueSlug($data['slug'], $category->id);
+        } elseif (isset($data['name']) && $data['name'] !== $category->name) {
             $data['slug'] = $this->generateUniqueSlug($data['name'], $category->id);
+        } else {
+            unset($data['slug']);
         }
 
         if (isset($data['image']) && $data['image'] instanceof \Illuminate\Http\UploadedFile) {

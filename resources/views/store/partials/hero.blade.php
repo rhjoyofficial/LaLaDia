@@ -177,7 +177,7 @@
                             </h4>
                         </div>
 
-                        <a href="{{ route('product.show', 'himsagar-mango') }}"
+                        <a href="{{ route('product.show', 'himsagar') }}"
                             class="w-9 h-9 rounded-full bg-cream flex items-center justify-center transition-all duration-300 group-hover:bg-primary group-hover:text-white cursor-pointer shadow-sm">
                             <svg class="w-5 h-5 group-hover:text-white" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg" fill="currentColor">

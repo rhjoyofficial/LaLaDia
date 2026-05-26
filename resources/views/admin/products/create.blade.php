@@ -37,7 +37,7 @@
 
                     <div>
                         <label class="block text-sm font-medium text-brown mb-1">Product Name <span class="text-red-500">*</span></label>
-                        <input type="text" x-model="form.name"
+                        <input type="text" x-model="form.name" @input.debounce.300ms="autoSlug()"
                             class="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-gold-antique"
                             :class="errors.name ? 'border-red-400' : 'border-champagne'"
                             placeholder="e.g. Mangrove Gold Honey (ম্যানগ্রোভ গোল্ড হানি) 500gm">
@@ -45,10 +45,35 @@
                     </div>
 
                     <div>
+                        <label class="block text-sm font-medium text-brown mb-1">Slug</label>
+                        <div class="flex items-center gap-2">
+                            <span class="text-sm text-taupe shrink-0">/products/</span>
+                            <input type="text" x-model="form.slug" @input="slugEdited = true"
+                                class="flex-1 border rounded-lg px-3 py-2 text-sm font-mono outline-none focus:ring-2 focus:ring-gold-antique"
+                                :class="errors.slug ? 'border-red-400' : 'border-champagne'"
+                                placeholder="auto-generated from name">
+                            <button type="button" @click="slugEdited = false; autoSlug()"
+                                class="shrink-0 text-xs text-taupe hover:text-gold-antique transition cursor-pointer" title="Reset to auto">
+                                <i class="fa-solid fa-rotate-left"></i>
+                            </button>
+                        </div>
+                        <p class="mt-1 text-xs text-taupe">Leave blank to auto-generate from name. Letters, numbers, and hyphens only.</p>
+                        <p x-show="errors.slug" class="mt-1 text-xs text-red-600" x-text="errors.slug?.[0]"></p>
+                    </div>
+
+                    <div>
                         <label class="block text-sm font-medium text-brown mb-1">Short Description</label>
                         <input type="text" x-model="form.short_description"
                             class="w-full border border-champagne rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-gold-antique"
                             placeholder="One-liner for product cards">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-brown mb-1">Product Note <span class="text-taupe text-xs font-normal">(shown on product page near the price)</span></label>
+                        <textarea x-model="form.note" rows="2"
+                            class="w-full border border-champagne rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-gold-antique resize-none"
+                            placeholder="e.g. Seasonal product — available May to June only."></textarea>
+                        <p x-show="errors.note" class="mt-1 text-xs text-red-600" x-text="errors.note?.[0]"></p>
                     </div>
 
                     <div>
@@ -150,6 +175,14 @@
                                                 class="w-full border border-champagne rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-gold-antique">
                                         </div>
                                     </template>
+                                </div>
+
+                                {{-- Variant note --}}
+                                <div class="sm:col-span-2">
+                                    <label class="block text-xs font-medium text-muted mb-1">Variant Note <span class="text-taupe">(shown on product page)</span></label>
+                                    <textarea x-model="variant.note" rows="2"
+                                        class="w-full border border-champagne rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-gold-antique resize-none"
+                                        placeholder="e.g. Weight may vary slightly based on mango size."></textarea>
                                 </div>
 
                                 {{-- Variant active toggle --}}
@@ -383,7 +416,9 @@ function productForm(productId) {
 
         form: {
             name: '',
+            slug: '',
             short_description: '',
+            note: '',
             description: '',
             category_id: '',
             base_price: '',
@@ -397,6 +432,7 @@ function productForm(productId) {
             is_landing_enabled: false,
             certifications: [],
         },
+        slugEdited: false,
         availableCertifications: [],
 
         thumbnail: null,
@@ -436,6 +472,15 @@ function productForm(productId) {
             } catch (e) { console.error(e); }
         },
 
+        autoSlug() {
+            if (this.slugEdited) return;
+            const s = this.form.name
+                .toLowerCase()
+                .replace(/[^\p{L}\p{N}]+/gu, '-')
+                .replace(/(^-|-$)/g, '');
+            this.form.slug = s;
+        },
+
         addVariant() {
             this.variants.push({
                 id: null,
@@ -444,6 +489,7 @@ function productForm(productId) {
                 price: '',
                 stock: 0,
                 weight_grams: '',
+                note: '',
                 discount_type: '',
                 discount_value: '',
                 sale_ends_at: '',
@@ -512,6 +558,7 @@ function productForm(productId) {
                 fd.append(`variants[${i}][stock]`, v.stock ?? 0);
                 fd.append(`variants[${i}][is_active]`, v.is_active ? '1' : '0');
                 if (v.weight_grams) fd.append(`variants[${i}][weight_grams]`, v.weight_grams);
+                if (v.note) fd.append(`variants[${i}][note]`, v.note);
                 if (v.discount_type) fd.append(`variants[${i}][discount_type]`, v.discount_type);
                 if (v.discount_value) fd.append(`variants[${i}][discount_value]`, v.discount_value);
                 if (v.sale_ends_at) fd.append(`variants[${i}][sale_ends_at]`, v.sale_ends_at);

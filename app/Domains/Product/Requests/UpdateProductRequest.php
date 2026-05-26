@@ -19,7 +19,9 @@ class UpdateProductRequest extends FormRequest
 
         $rules = [
             'name'               => 'sometimes|string|max:255',
+            'slug'               => 'nullable|string|max:255',
             'short_description'  => 'nullable|string',
+            'note'               => 'nullable|string|max:1000',
             'description'        => 'nullable|string',
             'category_id'        => 'sometimes|exists:categories,id',
             'base_price'         => 'sometimes|numeric|min:0',
@@ -40,6 +42,7 @@ class UpdateProductRequest extends FormRequest
             'variants.*.discount_type'       => 'nullable|in:percentage,fixed',
             'variants.*.discount_value'      => 'nullable|numeric|min:0',
             'variants.*.sale_ends_at'        => 'nullable|date',
+            'variants.*.note'                => 'nullable|string|max:500',
             'variants.*.is_active'           => 'boolean',
 
             'landing_slug' => [

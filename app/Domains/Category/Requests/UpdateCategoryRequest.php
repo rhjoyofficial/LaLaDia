@@ -16,6 +16,7 @@ class UpdateCategoryRequest extends FormRequest
         $categoryId = $this->category->id;
         return [
             'name'        => 'sometimes|string|max:150|unique:categories,name,' . $categoryId,
+            'slug'        => 'nullable|string|max:255',
             'description' => 'nullable|string',
             'image'       => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'is_active'   => 'boolean',

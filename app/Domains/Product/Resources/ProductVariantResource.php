@@ -11,6 +11,7 @@ class ProductVariantResource extends JsonResource
         return [
             'id'               => $this->id,
             'title'            => $this->title,
+            'note'             => $this->note,
             'sku'              => $this->sku,
             'price'            => (float) $this->price,
             'final_price'      => (float) $this->final_price,

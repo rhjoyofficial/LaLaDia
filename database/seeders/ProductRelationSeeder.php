@@ -17,7 +17,7 @@ class ProductRelationSeeder extends Seeder
         Schema::enableForeignKeyConstraints();
 
         $products = Product::query()
-            ->whereIn('slug', collect($this->relations())->flatMap(fn ($relation) => [
+            ->whereIn('slug', collect($this->relations())->flatMap(fn($relation) => [
                 $relation['product'],
                 $relation['related'],
             ])->unique())
@@ -62,13 +62,13 @@ class ProductRelationSeeder extends Seeder
             ['product' => 'modhu-faisa', 'related' => 'loitta-shutki', 'type' => 'cross_sell'],
             ['product' => 'mowrala-kachki', 'related' => 'churi-shutki', 'type' => 'cross_sell'],
 
-            ['product' => 'himsagar-mango', 'related' => 'harivanga-mango', 'type' => 'cross_sell'],
+            // ['product' => 'himsagar', 'related' => 'harivanga-mango', 'type' => 'cross_sell'],
             ['product' => 'harivanga-mango', 'related' => 'langra-mango', 'type' => 'cross_sell'],
             ['product' => 'langra-mango', 'related' => 'amrapali-mango', 'type' => 'cross_sell'],
             ['product' => 'amrapali-mango', 'related' => 'banana-mango', 'type' => 'cross_sell'],
             ['product' => 'banana-mango', 'related' => 'gourmati-mango', 'type' => 'cross_sell'],
-            ['product' => 'gourmati-mango', 'related' => 'himsagar-mango', 'type' => 'cross_sell'],
-            ['product' => 'himsagar-mango', 'related' => 'banana-mango', 'type' => 'upsell'],
+            ['product' => 'gourmati-mango', 'related' => 'himsagar', 'type' => 'cross_sell'],
+            // ['product' => 'himsagar', 'related' => 'banana-mango', 'type' => 'upsell'],
             ['product' => 'harivanga-mango', 'related' => 'gourmati-mango', 'type' => 'upsell'],
         ];
     }

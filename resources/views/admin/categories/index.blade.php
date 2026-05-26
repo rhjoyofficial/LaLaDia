@@ -185,11 +185,28 @@
                 {{-- Name --}}
                 <div>
                     <label class="block text-sm font-medium text-brown mb-1">Name <span class="text-red-500">*</span></label>
-                    <input type="text" x-model="form.name"
+                    <input type="text" x-model="form.name" @input.debounce.300ms="autoSlug()"
                         class="w-full border border-champagne rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-gold-antique"
                         :class="errors.name ? 'border-red-400' : ''"
                         placeholder="e.g. Supplements">
                     <p x-show="errors.name" class="mt-1 text-xs text-red-600" x-text="errors.name?.[0]"></p>
+                </div>
+
+                {{-- Slug --}}
+                <div>
+                    <label class="block text-sm font-medium text-brown mb-1">Slug</label>
+                    <div class="flex items-center gap-2">
+                        <span class="text-sm text-taupe shrink-0">/categories/</span>
+                        <input type="text" x-model="form.slug" @input="slugEdited = true"
+                            class="flex-1 border border-champagne rounded-lg px-3 py-2 text-sm font-mono outline-none focus:ring-2 focus:ring-gold-antique"
+                            :class="errors.slug ? 'border-red-400' : ''"
+                            placeholder="auto-generated from name">
+                        <button type="button" @click="slugEdited = false; autoSlug()"
+                            class="shrink-0 text-xs text-taupe hover:text-gold-antique transition cursor-pointer" title="Reset to auto">
+                            <i class="fa-solid fa-rotate-left"></i>
+                        </button>
+                    </div>
+                    <p x-show="errors.slug" class="mt-1 text-xs text-red-600" x-text="errors.slug?.[0]"></p>
                 </div>
 
                 {{-- Description --}}
@@ -305,10 +322,12 @@ function categoryManager() {
         form: {
             id: null,
             name: '',
+            slug: '',
             description: '',
             is_active: true,
             sort_order: 0,
         },
+        slugEdited: false,
         imageFile: null,
         imagePreview: null,
 
@@ -335,9 +354,19 @@ function categoryManager() {
             }
         },
 
+        autoSlug() {
+            if (this.slugEdited) return;
+            const s = this.form.name
+                .toLowerCase()
+                .replace(/[^\p{L}\p{N}]+/gu, '-')
+                .replace(/(^-|-$)/g, '');
+            this.form.slug = s;
+        },
+
         openCreate() {
             this.isEditing = false;
-            this.form = { id: null, name: '', description: '', is_active: true, sort_order: 0 };
+            this.slugEdited = false;
+            this.form = { id: null, name: '', slug: '', description: '', is_active: true, sort_order: 0 };
             this.imageFile = null;
             this.imagePreview = null;
             this.errors = {};
@@ -346,9 +375,11 @@ function categoryManager() {
 
         openEdit(category) {
             this.isEditing = true;
+            this.slugEdited = true;
             this.form = {
                 id: category.id,
                 name: category.name,
+                slug: category.slug ?? '',
                 description: category.description ?? '',
                 is_active: category.is_active,
                 sort_order: category.sort_order ?? 0,
@@ -374,6 +405,7 @@ function categoryManager() {
 
             const fd = new FormData();
             fd.append('name', this.form.name);
+            if (this.form.slug) fd.append('slug', this.form.slug);
             fd.append('description', this.form.description ?? '');
             fd.append('is_active', this.form.is_active ? '1' : '0');
             fd.append('sort_order', this.form.sort_order ?? 0);

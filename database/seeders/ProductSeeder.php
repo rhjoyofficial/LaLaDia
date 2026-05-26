@@ -252,19 +252,50 @@ class ProductSeeder extends Seeder
         // 6a. Himsagar
         $himsagar = Product::create([
             'category_id' => $getCatId('fruits'),
-            'name' => 'Himsagar Mango (হিমসাগর আম)',
-            'slug' => 'himsagar-mango',
+            'name' => 'Himsagar/Khirsapat Mango (হিমসাগর/খিরসাপাত আম)',
+            'slug' => 'himsagar',
             'base_price' => 160,
             'thumbnail' => 'products/himsagar.jpg',
-            'short_description' => 'The king of Bengal mangoes, famous for its sweet aroma.',
-            'description' => 'Sourced directly from Satkhira/Rajshahi. Carbide-free.',
+            'short_description' => 'The king of Bengal mangoes, famous for its intoxicating aroma, silky pulp, and natural sweetness.',
+            'note' => 'সাধারণত বড় সাইজের একটি ক্যারেটে প্রায় ২৫ কেজি আম থাকে। তবে আমের সাইজ তুলনামূলক বড় হলে ওজন কিছুটা কমে ২২–২৩ কেজির মধ্যে হতে পারে। আবার সাইজ মাঝারি হলে একটি ক্যারেটে ২৫–২৬ কেজি পর্যন্তও হতে পারে।',
+            'description' => <<<'DESC'
+<p>Himsagar/Khirsapat  (হিমসাগর/খিরসাপাত) is widely regarded as the king of Bangladeshi and West Bengali mangoes and for good reason. Grown predominantly in the fertile orchards of Satkhira, Meherpur, and Chapainawabganj, this legendary variety is distinguished by its thin golden-yellow skin, almost entirely fiber-free pulp, and an aroma so intoxicating that it fills the room the moment the skin is broken.</p>
+
+<p>Unlike many commercial mango varieties, Himsagar is harvested entirely naturally. Our fruits are sourced directly from trusted family orchards where zero chemical ripening agents (carbide or ethylene-based) are used. Mangoes are tree-ripened or orchard-ripened in traditional hay-bed clusters, preserving the full depth of flavor that has made Himsagar a cultural icon across Bengal for generations.</p>
+
+<p><strong>Flavor Profile:</strong> The taste is unmistakably rich a perfect balance of deep sweetness and mild, refined tartness. The pulp is dense, smooth, and almost custard-like in texture. Brix (sugar) content typically measures between 18°–22°, among the highest of any Bangladeshi mango variety. Every bite delivers a flood of sweet juice with warm floral undertones that linger long after the fruit is finished.</p>
+
+<p><strong>Origins & Heritage:</strong> Himsagar is a centuries-old heirloom variety, believed to have originated in Murshidabad, West Bengal, and gradually naturalized across the southwestern districts of Bangladesh. The name itself "Hima" (snow) and "Sagar" (ocean) is a poetic reference to the cool, white sweetness of the pulp. Local farmers have cultivated Himsagar without hybridization for over 200 years, and the variety remains true to its original character.</p>
+
+<p><strong>Sourcing Commitment:</strong> Every batch we supply is hand-picked by experienced orchard workers at the peak of maturity. Fruits are individually inspected, sorted by size and ripeness consistency, and packed in ventilated crates lined with dry rice straw the same traditional packing method that has protected Himsagar through transport for decades. We do not wash, wax, or apply any post-harvest chemical treatment.</p>
+
+<p><strong>Best Enjoyed:</strong> Himsagar is best eaten fresh and chilled simply cut, slice, and serve. It is equally exceptional as a base for aam pora sherbet (roasted mango drink), mango lassi, or Bengali mango mishti (sweetened mango dessert). Due to its extremely high juice content and soft skin, it is not ideal for pickling or long-term storage, but it freezes well as pulp.</p>
+
+<p>Whether you are a mango enthusiast, a Bangladeshi family sending back home-quality fruit to loved ones, or simply someone who has never experienced the real Himsagar this is as authentic as it gets.</p>
+DESC,
             'is_active' => true,
             'is_featured' => true,
             'is_trending' => true,
+            'nutritional_info' => [
+                'serving_size'     => '100g (fresh pulp)',
+                'energy'           => '65 kcal',
+                'carbohydrates'    => '16.7g',
+                'sugars'           => '14.5g',
+                'dietary_fiber'    => '1.6g',
+                'protein'          => '0.8g',
+                'total_fat'        => '0.4g',
+                'saturated_fat'    => '0.1g',
+                'vitamin_c'        => '36mg (40% DV)',
+                'vitamin_a'        => '765 IU (beta-carotene)',
+                'potassium'        => '168mg',
+                'calcium'          => '10mg',
+                'magnesium'        => '10mg',
+                'iron'             => '0.16mg',
+                'water'            => '81g',
+            ],
         ]);
-        $vHim1k = $himsagar->variants()->create(['title' => '1KG', 'sku' => 'HIM-1KG', 'price' => 160, 'stock' => 5000, 'weight_grams' => 1000, 'is_active' => true]);
-        $vHim10k = $himsagar->variants()->create(['title' => '10KG', 'sku' => 'HIM-10KG', 'price' => 1600, 'stock' => 1000, 'weight_grams' => 5000, 'is_active' => true]);
-        $vHim25k = $himsagar->variants()->create(['title' => '22-26KG', 'sku' => 'HIM-25KG', 'price' => 4000, 'stock' => 5000, 'weight_grams' => 10000, 'is_active' => true]);
+        $vHim10k = $himsagar->variants()->create(['title' => '10KG', 'sku' => 'HIM-10KG', 'price' => 1600, 'stock' => 1000, 'weight_grams' => 5000, 'is_active' => true, 'note' => 'আমের সাথে অন্যান্য প্রোডাক্ট একসাথে অর্ডার না করার অনুরোধ রইল, কারণ আম সরাসরি বাগান থেকে সংগ্রহ করে পাঠানো হয়।']);
+        $vHim25k = $himsagar->variants()->create(['title' => '25Kg (22-26KG)', 'sku' => 'HIM-25KG', 'price' => 4000, 'stock' => 5000, 'weight_grams' => 10000, 'is_active' => true, 'note' => 'আমের সাথে অন্যান্য প্রোডাক্ট একসাথে অর্ডার না করার অনুরোধ রইল, কারণ আম সরাসরি বাগান থেকে সংগ্রহ করে পাঠানো হয়।']);
 
         // 6b. Harivanga
         $harivanga = Product::create([
@@ -275,6 +306,7 @@ class ProductSeeder extends Seeder
             'thumbnail' => 'products/harivanga.jpg',
             'short_description' => 'A specialty of Rangpur, known for its distinct fiber-less texture.',
             'description' => 'Exceptionally sweet and deep orange in color.',
+            'note' => 'আমের সাথে অন্যান্য প্রোডাক্ট একসাথে অর্ডার না করার অনুরোধ রইল, কারণ আম সরাসরি বাগান থেকে সংগ্রহ করে পাঠানো হয়।',
             'is_active' => true,
             'is_featured' => true,
             'is_trending' => true,
@@ -292,6 +324,7 @@ class ProductSeeder extends Seeder
             'thumbnail' => 'products/langra.jpg',
             'short_description' => 'Famous for its unique aroma, thin skin, and melt-in-the-mouth texture.',
             'description' => 'A favorite aromatic variety.',
+            'note' => 'আমের সাথে অন্যান্য প্রোডাক্ট একসাথে অর্ডার না করার অনুরোধ রইল, কারণ আম সরাসরি বাগান থেকে সংগ্রহ করে পাঠানো হয়।',
             'is_active' => true,
             'is_featured' => true,
             'is_trending' => true,
@@ -309,6 +342,7 @@ class ProductSeeder extends Seeder
             'thumbnail' => 'products/amrapali.jpg',
             'short_description' => 'Exceptionally sweet and deep orange in color.',
             'description' => 'High in pulp and rich in flavor.',
+            'note' => 'আমের সাথে অন্যান্য প্রোডাক্ট একসাথে অর্ডার না করার অনুরোধ রইল, কারণ আম সরাসরি বাগান থেকে সংগ্রহ করে পাঠানো হয়।',
             'is_active' => true,
             'is_featured' => true,
             'is_trending' => true,
@@ -326,6 +360,7 @@ class ProductSeeder extends Seeder
             'thumbnail' => 'products/banana-mango.jpg',
             'short_description' => 'A premium elongated variety that looks like a banana.',
             'description' => 'Tiny seed and thick, sweet pulp.',
+            'note' => 'আমের সাথে অন্যান্য প্রোডাক্ট একসাথে অর্ডার না করার অনুরোধ রইল, কারণ আম সরাসরি বাগান থেকে সংগ্রহ করে পাঠানো হয়।',
             'is_active' => true,
             'is_featured' => true,
             'is_trending' => true,
@@ -343,6 +378,7 @@ class ProductSeeder extends Seeder
             'thumbnail' => 'products/gourmati.jpg',
             'short_description' => 'A late-season premium variety.',
             'description' => 'Extremely sweet, long shelf life.',
+            'note' => 'আমের সাথে অন্যান্য প্রোডাক্ট একসাথে অর্ডার না করার অনুরোধ রইল, কারণ আম সরাসরি বাগান থেকে সংগ্রহ করে পাঠানো হয়।',
             'is_active' => true,
             'is_featured' => true,
             'is_trending' => true,

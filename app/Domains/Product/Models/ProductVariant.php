@@ -20,6 +20,7 @@ class ProductVariant extends Model
         'stock',
         'reserved_stock',
         'weight_grams',
+        'note',
         'is_active'
     ];
 
@@ -87,6 +88,7 @@ class ProductVariant extends Model
         return [
             'id' => $this->id,
             'title' => $this->title,
+            'note' => $this->note,
             'price' => (float)$this->price,
             'final_price' => (float)$this->final_price,
             'discount_percent' => $this->discount_percent,

@@ -16,7 +16,8 @@ class ProductService
     public function create(array $data): Product
     {
         return DB::transaction(function () use ($data) {
-            $data['slug'] = $this->generateUniqueSlug($data['name']);
+            $slugBase = !empty($data['slug']) ? $data['slug'] : $data['name'];
+            $data['slug'] = $this->generateUniqueSlug($slugBase);
 
             if (isset($data['thumbnail']) && $data['thumbnail'] instanceof UploadedFile) {
                 $data['thumbnail'] = $data['thumbnail']->store($this->path, 'public');
@@ -45,8 +46,12 @@ class ProductService
     public function update(Product $product, array $data): Product
     {
         return DB::transaction(function () use ($product, $data) {
-            if (isset($data['name']) && $data['name'] !== $product->name) {
+            if (!empty($data['slug'])) {
+                $data['slug'] = $this->generateUniqueSlug($data['slug'], $product->id);
+            } elseif (isset($data['name']) && $data['name'] !== $product->name) {
                 $data['slug'] = $this->generateUniqueSlug($data['name'], $product->id);
+            } else {
+                unset($data['slug']);
             }
 
             if (isset($data['thumbnail']) && $data['thumbnail'] instanceof UploadedFile) {
